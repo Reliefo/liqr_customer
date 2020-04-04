@@ -1,0 +1,409 @@
+@import "./base";
+
+nav {
+  height: 44px;
+  // letter-spacing: 0.08rem;
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 600;
+  position: sticky;
+  padding: 0.5rem;
+  top: 0;
+  z-index: 1;
+  background-color: $bg-clr;
+  color: $brand-clr;
+  // border-bottom: 1px solid rgba(0,0,0,.05);
+  box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+}
+
+.hamburger-container {
+  position: absolute;
+  left: 1rem;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.bar1,
+.bar2,
+.bar3 {
+  width: 27px;
+  height: 2px;
+  background-color: #262626;
+  margin: 6px 0;
+  transition: 0.4s;
+}
+
+/* Rotate first bar */
+.change .bar1 {
+  transform: rotate(-45deg) translate(-4px, 2px);
+}
+
+/* Fade out the second bar */
+.change .bar2 {
+  opacity: 0;
+}
+
+/* Rotate last bar */
+.change .bar3 {
+  transform: rotate(45deg) translate(-9px, -8px);
+}
+
+.nav-search-bar {
+  width: 95%;
+  position: absolute;
+  z-index: 1;
+  transition: opacity 0.3s ease;
+  & input {
+    width: 90%;
+    background-color: $bg-clr;
+    color: $brand-clr;
+    border: none;
+    outline: none;
+    text-align: center;
+    border-bottom: 1px solid;
+  }
+}
+
+.search-svg {
+  float: right;
+  height: 22px;
+  margin-top: 4px;
+  fill: #262626;
+}
+.footer-nav {
+  position: relative;
+  font-size: 0.8rem;
+  width: 100vw;
+  display: flex;
+  justify-content: space-evenly;
+  position: fixed;
+  bottom: -7px;
+  z-index: 9000;
+  background-color: $bg-clr;
+  box-shadow: 0px -4px 4px -8px rgba(0, 0, 0, 0.4);
+  color: white;
+
+  & .styled-link > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0.5rem 1rem 0.5rem 1rem;
+    color: #262626;
+    & svg.icon {
+      height: 1.2rem;
+      width: 1.2rem;
+
+      &.menu {
+        height: 20px;
+        width: 20px;
+      }
+    }
+  }
+
+  .FAB {
+    width: 3rem;
+    height: 3rem;
+    background: $brand-clr;
+    color: white;
+    box-shadow: 0 8px 6px -6px black;
+    border-radius: 50%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .floating-container {
+    position: absolute;
+    right: 0;
+    bottom: 100%;
+    margin-bottom: 0.5rem;
+    margin-right: 1rem;
+    font-size: 2rem;
+    transition: transform 0.3s ease;
+
+    [class^="floating-action"] {
+      position: absolute;
+      font-size: 1rem;
+      line-height: 3rem;
+      opacity: 0;
+      right: 0;
+      top: 0;
+      z-index: -1;
+      transition: right 0.3s ease, top 0.3s ease;
+      background: #c4c4c2;
+      padding: 0.75rem;
+    }
+    // .floating-action-1 {
+
+    // }
+    &.rotate-fab {
+      .plus_cross {
+        transform: rotate(45deg);
+      }
+      [class^="floating-action"] {
+        opacity: 1;
+        z-index: unset;
+      }
+      .floating-action-1 {
+        right: 6rem;
+      }
+      .floating-action-2 {
+        top: -6rem;
+      }
+      .floating-action-3 {
+        top: -4rem;
+        right: 4rem;
+      }
+      .floating-action-4 {
+        top: -4rem;
+        right: -4rem;
+      }
+      .floating-action-5 {
+        right: -6rem;
+      }
+    }
+  }
+}
+// .fab-actions{
+//   position: absolute;
+//   right: 0;
+//   bottom: calc(100% + 10px);
+//   background-color: #adb5bd40;
+//   border-radius: 5px;
+//   padding: .6rem;
+
+//   & ul {
+//     list-style-type: none;
+//     color: #262626;
+//     font-size: 14px;
+//   }
+// }
+.category {
+  padding: 1rem;
+  margin-bottom: 66px;
+  .category-card {
+    border: none;
+    margin-bottom: 1rem;
+    // background-color:#f8f9fa;
+    // background-color:#f0efef;
+
+    & > :first-child {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0;
+      margin-top: 1rem;
+      padding-left: 1rem;
+      padding-right: 1rem;
+      color: darkslategrey;
+      display: flex;
+      justify-content: space-between;
+      & p {
+        margin: 0;
+      }
+    }
+    & ul {
+      list-style-type: none;
+    }
+
+    & .category-body {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    & .Menu-body {
+      color: grey;
+      display: flex;
+      justify-content: space-between;
+
+      & p {
+        margin-bottom: 0;
+        line-height: 2rem;
+      }
+      & span {
+        font-size: 2rem;
+        line-height: 2rem;
+      }
+    }
+  }
+}
+
+.icon-plus {
+  fill: darkslategray;
+  width: 30px;
+  height: 30px;
+}
+.styled-link {
+  text-decoration: none;
+  color: inherit;
+  &:focus,
+  &:hover,
+  &:visited,
+  &:link,
+  &:active {
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
+.cart-wrapper {
+  padding: 1rem;
+  margin-bottom: 66px;
+  .cart-card {
+    border: none;
+    // background-color: $cart-bg;
+    margin-bottom: 1rem;
+    font-weight: 500;
+    & .body {
+      padding-right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      & > p.name {
+        width: 46%;
+      }
+      & p {
+        margin: 0;
+      }
+      & span {
+        font-size: 2rem;
+        line-height: 2rem;
+      }
+    }
+  }
+  .icon-delete {
+    border-radius: 1rem;
+    width: 2rem;
+    height: 2rem;
+    padding: 10px;
+    fill: red;
+    background-color: #ff2c2c29;
+  }
+
+  .empty-cart {
+    text-align: center;
+    margin: auto;
+    & svg {
+      width: 150px;
+    }
+    & p {
+      color: #3b3b3b;
+      font-size: 1.2rem;
+      font-weight: 500;
+    }
+  }
+}
+
+.icon {
+  cursor: pointer;
+  margin: 0 1rem;
+  height: 14px;
+  & svg {
+    height: 12px;
+    width: 14px;
+  }
+}
+
+.menu-btn {
+  //ul
+  list-style: none;
+  display: flex;
+  padding: 1rem;
+  position: sticky;
+  top: 44px; //height of navbar
+  z-index: 1;
+  background-color: $bg-clr;
+
+  font-size: 1.2rem;
+  font-weight: 500;
+
+  cursor: pointer;
+  & li {
+    color: grey;
+    margin-right: 1rem;
+
+    .cart-menu {
+      border-bottom: 1.5px solid $bg-clr;
+      transition: all 0.2s ease-in-out;
+      padding-bottom: 3px;
+      & svg {
+        fill: #808080;
+      }
+      &.active {
+        color: $brand-clr;
+        border-bottom: 1.5px solid $brand-clr;
+
+        & svg {
+          fill: #ff424d;
+        }
+      }
+    }
+  }
+}
+
+.cart-bill {
+  border: none;
+}
+
+.bill-btn {
+  display: flex;
+  justify-content: space-evenly;
+  //background:rgb(70, 233, 10);//#6ad01c;// #34a810;//$brand-clr;
+  border: 1px solid $brand-clr;
+  padding: 0.6rem;
+  border-radius: 13px;
+  cursor: pointer;
+  font-weight: 600;
+  color: $brand-clr;
+  align-items: center;
+
+  &:active {
+    background-color: $cart-bg;
+    color: black;
+    border: none;
+    & svg {
+      fill: black;
+    }
+  }
+  & p {
+    margin-bottom: 0;
+  }
+  & svg {
+    fill: $brand-clr;
+  }
+}
+.category-subs {
+  position: sticky;
+  top: 5.6875rem;
+  background: #f4f4f2;
+  font-size: 1.2rem;
+  font-weight: 500;
+  padding: 1rem 0;
+  color: $brand-clr;
+}
+
+.cart-plus-minus-svg {
+  fill: darkslategrey;
+  & path {
+    stroke: darkslategrey;
+  }
+}
+
+.sideDrawer {
+  //width will be set by js,  width grows to 50%
+  position: fixed;
+  left: 0;
+  top: 43px;
+  height: 100%;
+  z-index: 200;
+  overflow-x: hidden; //even when width is 0, elements are showing. this fixes the issue
+  background-color: $brand-clr;
+  color: white;
+  transition: all 0.3s;
+  text-align: center;
+}
+
+.table-thead {
+  & th {
+    font-weight: 600;
+  }
+}
