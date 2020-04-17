@@ -19,14 +19,13 @@ const Store = props => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
   const getData = async () => {
-    // try {
-    //   const resp = await axios.get();
-    //   return resp.data;
-    // }catch(err){
-    //   return {success: false};
-    // }
+    try {
+      const resp = await axios.get('http://ec2-13-232-202-63.ap-south-1.compute.amazonaws.com:5050/rest');
+      return resp.data;
+    }catch(err){
+      return {success: false};
+    }
     
-    return tempData;
   };
   React.useEffect(() => {
     console.log("store mounted");
