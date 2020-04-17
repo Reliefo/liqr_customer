@@ -25,6 +25,7 @@ const Store = props => {
     // }catch(err){
     //   return {success: false};
     // }
+    
     return tempData;
   };
   React.useEffect(() => {
@@ -36,14 +37,15 @@ const Store = props => {
         //segregating the food items and storign for search
         // console.log({ resp });
         let justFoodItems = [];
-        const Menu = resp.menu;
+        const Menu = resp.food_menu;
         for (let i = 0; i < Menu.length; ++i) {
-          const Sub = resp.menu[i].sub_category;
-          for (let j = 0; j < Sub.length; ++j) {
-            const FoodList = Sub[j].foodlist;
-            for (let k = 0; k < FoodList.length; ++k) {
-              justFoodItems.push(FoodList[k]);
-            }
+          const Sub = resp.food_menu[i].name;
+          for (let j = 0; j < resp.food_menu[i].food_list.length; ++j) {
+            justFoodItems.push(resp.food_menu[i].food_list[j])
+            // const FoodList = Sub[j].foodlist;
+            // for (let k = 0; k < FoodList.length; ++k) {
+            //   justFoodItems.push(FoodList[k]);
+            // }
           }
         }
         dispatch({

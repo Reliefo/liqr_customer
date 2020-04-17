@@ -22,6 +22,7 @@ const Cart = () => {
     activeCart: 0 //0: Personal cart, 1: Table cart
   });
 
+
   React.useEffect(() => {
     console.log("Cart screen");
     //handling refresh issue
