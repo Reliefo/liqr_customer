@@ -2,7 +2,6 @@ import React from "react";
 import PlusWithAddRemove from "components/PlusWithAddRemove";
 import { Card, Accordion, Button } from "react-bootstrap";
 import * as TYPES from "Store/actionTypes.js";
-import dummyPic from "assets/300.png";
 import { StoreContext } from "Store";
 
 const FoodItem = ({ foodItem, index, subsIndex, subs }) => {
@@ -29,7 +28,7 @@ const FoodItem = ({ foodItem, index, subsIndex, subs }) => {
     });
     dispatch({ type: TYPES.UPDATE_FOOD_MENU, payload: state.food_item });
   };
-
+  // console.log('NODDY--->', foodItem)
   let desc = foodItem.description.substring(0, 20) + "...";
   return (
     <Accordion defaultActiveKey="0">
@@ -39,22 +38,22 @@ const FoodItem = ({ foodItem, index, subsIndex, subs }) => {
           variant="link"
           eventKey={index}
         >
-          <Card.Title style= {{width: "100%"}}>
-              <div>
+          <Card.Title style={{ width: "100%" }}>
+            <div>
               <p style={{ float: "left" }}>{foodItem.name}</p>
               <p style={{ float: "right" }}>&#8377; {foodItem.price}</p>
-              </div>
+            </div>
           </Card.Title>
         </Accordion.Toggle>
         {foodItem.open && foodItem.open === true ? (
           ""
         ) : (
-          <Card.Body className="Menu-body">
-            <p style={{ width: "69%", fontSize: ".9rem" }}>
-              {desc}
-            </p>
-            <PlusWithAddRemove item={foodItem} />
-          </Card.Body>
+          <div>
+            <Card.Body className="Menu-body">
+              <p style={{ width: "69%", fontSize: ".9rem" }}>{desc}</p>
+              <PlusWithAddRemove item={foodItem} />
+            </Card.Body>
+          </div>
         )}
         <Accordion.Collapse eventKey={index}>
           <Card.Body className="Menu-body">

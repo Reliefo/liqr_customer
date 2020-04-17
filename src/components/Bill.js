@@ -1,8 +1,8 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 
-const Bill = ({orderTotal = 999}) => (
-  <Card className="cart-bill">
+const Bill = ({orderTotal }) => (
+  <Card className="cart-bill cart-styling">
     <Card.Title className="pl-3 pt-3 brand-clr" style={{ fontWeight: 600 }}>
       Bill
     </Card.Title>

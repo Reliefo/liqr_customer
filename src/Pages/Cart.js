@@ -39,11 +39,11 @@ const Cart = () => {
   const renderPersonalCart = () => (
     <>
       {cart.map((item, idx) => (
-        <Card className="cart-card" key={`cart-card-${idx}`}>
+        <Card className="cart-card cart-styling" key={`cart-card-${idx}`}>
           <Card.Body className="body">
             <p className="name">{item.name}</p>
-            <AddRemoveItem count={item.count} id={item._id.$oid} />
-            <p style={{ margin: 0, width: "20%" }}>
+            <AddRemoveItem className= "trial" count={item.count} id={item._id.$oid} />
+            <p style={{ margin: 0, width: "15%" }}>
               &#8377; {item.price * item.count}
             </p>
             <div
@@ -146,7 +146,7 @@ const Cart = () => {
         {state.activeCart === 1 && renderTableCart()}
         {cart.length !== 0 && (
           <>
-            <Bill />
+            <Bill orderTotal={orderTotal} />
             {state.activeCart === 0 && (
               <Row>
                 <Col style={{ marginTop: "1rem" }}>
