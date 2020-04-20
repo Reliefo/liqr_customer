@@ -10,6 +10,7 @@ const initialState = {
   searchClicked: false,
   searchValue: "",
   cart: [],
+  orderStatus: [],
   rawData: {}
 };
 
@@ -25,7 +26,6 @@ const Store = props => {
     }catch(err){
       return {success: false};
     }
-    
   };
   React.useEffect(() => {
     console.log("store mounted");

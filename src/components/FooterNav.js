@@ -90,10 +90,10 @@ const FooterNav = () => {
           <span className="icon-text">Cart</span>
         </div>
       </Link>
-      <Link to="/table" className="styled-link">
+      <Link to="/order" className="styled-link">
         <div style={{ marginTop: "calc(.7rem - 3px)" }}>
-          <img src={order} alt="Table" className={fillSvg("Table")} />
-          <span className="icon-text">Table</span>
+          <img src={order} alt="Table" className={fillSvg("Order")} />
+          <span className="icon-text">Order</span>
         </div>
       </Link>
     </div>

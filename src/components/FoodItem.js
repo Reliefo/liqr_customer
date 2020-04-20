@@ -51,7 +51,7 @@ const FoodItem = ({ foodItem, index, subsIndex, subs }) => {
           <div>
             <Card.Body className="Menu-body">
               <p style={{ width: "69%", fontSize: ".9rem" }}>{desc}</p>
-              <PlusWithAddRemove item={foodItem} />
+              
             </Card.Body>
           </div>
         )}

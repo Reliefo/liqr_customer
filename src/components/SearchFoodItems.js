@@ -8,7 +8,7 @@ const SearchFoodItems = () => {
     dispatch,
     state: { searchValue, justMenuItems }
   } = React.useContext(StoreContext);
-
+  
   return (
     <div className="category">
       <ul style={{ listStyleType: "none" }}>

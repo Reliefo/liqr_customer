@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./App.scss";
 import { BrowserRouter, Route } from "react-router-dom";
 import Home from "./Pages/Home";
@@ -10,21 +10,70 @@ import { Store } from "Store";
 import NavBar from "components/NavBar";
 import FooterNav from "components/FooterNav";
 import io from "socket.io-client";
+import * as TYPES from "Store/actionTypes.js";
+import { StoreContext } from "Store";
 
+// const socket = io(
+//   "'http://ec2-13-232-202-63.ap-south-1.compute.amazonaws.com:5050/reliefo'",
+//   {
+//     transportOptions: {
+//       polling: {
+//         extraHeaders: {
+//           Authorization:
+//             "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODcxMTY2MTksIm5iZiI6MTU4NzExNjYxOSwianRpIjoiNDlmMzRiMGItODkxOC00ZWJiLWI1ODQtYmRhZWMyZjUyMzMzIiwiZXhwIjoxNTg3MTMxNjE5LCJpZGVudGl0eSI6IktJRDAwMSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.HObY0Nx5jGs4XjiOhIiUFZ8Jl318ojq1CHdYDBEiNFY",
+//             jwt:  "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODcxMTY2MTksIm5iZiI6MTU4NzExNjYxOSwianRpIjoiNDlmMzRiMGItODkxOC00ZWJiLWI1ODQtYmRhZWMyZjUyMzMzIiwiZXhwIjoxNTg3MTMxNjE5LCJpZGVudGl0eSI6IktJRDAwMSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.HObY0Nx5jGs4XjiOhIiUFZ8Jl318ojq1CHdYDBEiNFY",
+//         }
+//       }
+//     }
+//   }
+// );
 
-const App = () => {
+export default function AppWrapper() {
   return (
     <BrowserRouter>
       <Store>
         <NavBar outerContainerId={"App"} />
+        <App />
         <Route path="/" children={<Home />} exact />
         <Route path="/menu" children={<Menu />} exact />
         <Route path="/cart" children={<Cart />} exact />
-        <Route path="/table" children={<Table />} />
+        <Route path="/order" children={<Table />} />
         <FooterNav />
       </Store>
     </BrowserRouter>
   );
-};
+}
 
-export default App;
+export function App() {
+  const socket = io(
+    "http://ec2-13-232-202-63.ap-south-1.compute.amazonaws.com:5050/reliefo",
+    {
+      transportOptions: {
+        polling: {
+          extraHeaders: {
+            Authorization:
+              "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODczOTc1OTAsIm5iZiI6MTU4NzM5NzU5MCwianRpIjoiZGU3OWFkNGQtN2JmZi00NTUwLTk0OTEtOGIxYWRlMjFmNzBmIiwiZXhwIjoxNTg3NDEyNTkwLCJpZGVudGl0eSI6IktJRDAwMSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.3AdPx1rwo6FMQuuuywV9wJL_VBkJI_M_t6PgBUbZIVE"
+          }
+        }
+      }
+    }
+  );
+  const {
+    dispatch,
+    state: { orderStatus }
+  } = React.useContext(StoreContext);
+
+  
+  socket.on("order_updates", msg => {
+
+    dispatch({ type: TYPES.UPDATE_ORDER_STATUS, payload: JSON.parse(msg) });
+  });
+
+  socket.on("new_orders", msg => {
+    console.log("GOT A NEW ORDER", msg);
+  });
+
+
+
+  return <div></div>;
+}
