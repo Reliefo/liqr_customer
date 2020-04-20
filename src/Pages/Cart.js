@@ -8,6 +8,7 @@ import { ReactComponent as FoodTraySVG } from "assets/food-tray.svg";
 import { ReactComponent as TableSVG } from "assets/table.svg";
 import { ReactComponent as EmptyCartSadIMG } from "assets/empty-card-sad.svg";
 import CloseSVG from "components/CloseSVG.js";
+import io from "socket.io-client";
 import { Table as RBTable } from "react-bootstrap";
 import Bill from "components/Bill.js";
 import { ReactComponent as TableFilledIMG } from "assets/Table-Filled.svg";
@@ -22,7 +23,6 @@ const Cart = () => {
     activeCart: 0 //0: Personal cart, 1: Table cart
   });
 
-
   React.useEffect(() => {
     console.log("Cart screen");
     //handling refresh issue
@@ -33,8 +33,26 @@ const Cart = () => {
     dispatch({ type: TYPES.DEL_ITEM, payload: item._id.$oid });
   };
 
-  const setCart = () =>
-    setState(state => ({ ...state, activeCart: 1 - state.activeCart }));
+  const setCart = () => {
+    const socket = io(
+      "http://ec2-13-232-202-63.ap-south-1.compute.amazonaws.com:5050/reliefo",
+      {
+        transportOptions: {
+          polling: {
+            extraHeaders: {
+              Authorization:
+                "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODczOTc1OTAsIm5iZiI6MTU4NzM5NzU5MCwianRpIjoiZGU3OWFkNGQtN2JmZi00NTUwLTk0OTEtOGIxYWRlMjFmNzBmIiwiZXhwIjoxNTg3NDEyNTkwLCJpZGVudGl0eSI6IktJRDAwMSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.3AdPx1rwo6FMQuuuywV9wJL_VBkJI_M_t6PgBUbZIVE"
+            }
+          }
+        }
+      }
+    );
+
+    const body = {"table": "5e9d3a2bde2d4753a970a537", "orders": [{"placed_by": "5e9d3a2bde2d4753a970a546", "food_list": cart }]}
+    socket.emit('place_order', JSON.stringify(body), function (answer) {console.log('ORDER SUBMITTED--->', answer)});
+  }
+  
+    // setState(state => ({ ...state, activeCart: 1 - state.activeCart }));
 
   const renderPersonalCart = () => (
     <>
@@ -150,7 +168,7 @@ const Cart = () => {
             {state.activeCart === 0 && (
               <Row>
                 <Col style={{ marginTop: "1rem" }}>
-                  <div className="bill-btn">
+                  <div className="bill-btn" onClick={setCart}>
                     <FoodTraySVG height="25px" width="25px" />
                     <p>Place Order</p>
                   </div>
