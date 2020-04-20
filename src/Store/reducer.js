@@ -5,6 +5,9 @@ function reducer(state, action) {
   const { payload } = action;
   let idx;
   switch (action.type) {
+    case TYPES.UPDATE_FOOD_MENU:
+      st.rawData.food_menu = payload;
+      return st;
     case TYPES.ADD_DATA:
       st.rawData = payload;
       return st;

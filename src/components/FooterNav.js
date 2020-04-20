@@ -2,6 +2,11 @@ import React from "react";
 import { ReactComponent as CartSVG } from "assets/cart.svg";
 // import { ReactComponent as MenuSVG } from "assets/menu.svg";
 import { ReactComponent as HomeSVG } from "assets/home.svg";
+import home from "../assets/home.png";
+import menu from "../assets/menu.png";
+import cart from "../assets/cart.png";
+import order from "../assets/order.png";
+
 import { ReactComponent as TableFilledIMG } from "assets/Table-Filled.svg";
 import { ReactComponent as MenuSVG } from "assets/meal.svg";
 import { Link } from "react-router-dom";
@@ -17,7 +22,8 @@ const FooterNav = () => {
     dispatch
   } = React.useContext(StoreContext);
 
-  const fillSvg = name => (activeNav === name ? "#FF424D" : "#c4c4c2");
+  const fillSvg = name =>
+    activeNav === name ? "icon-active" : "icon-inactive";
   const [deg, setDeg] = React.useState(0);
   const [state, setState] = React.useState({
     fabClicked: false
@@ -67,29 +73,27 @@ const FooterNav = () => {
       </div>
 
       <Link to="/" className="styled-link">
-        <div>
-          <HomeSVG fill={fillSvg("Home")} className="icon" /> <span>Home</span>
+        <div style={{ marginTop: "calc(.7rem - 3px)" }}>
+          <img src={home} alt="Home" className={fillSvg("Home")} />
+          <span className="icon-text">Home</span>
         </div>
       </Link>
       <Link to="/menu" className="styled-link">
-        <div style={{ marginTop: "calc(.5rem - 3px)" }}>
-          <MenuSVG fill={fillSvg("Menu")} className="icon menu" />
-          <span>Menu</span>
+        <div style={{ marginTop: "calc(.7rem - 3px)" }}>
+          <img src={menu} alt="Menu" className={fillSvg("Menu")} />
+          <span className="icon-text">Menu</span>
         </div>
       </Link>
       <Link to="/cart" className="styled-link">
-        <div>
-          <CartSVG fill={fillSvg("Cart")} className="icon" /> <span>Cart</span>
+        <div style={{ marginTop: "calc(.7rem - 3px)" }}>
+          <img src={cart} alt="Cart" className={fillSvg("Cart")} />
+          <span className="icon-text">Cart</span>
         </div>
       </Link>
       <Link to="/table" className="styled-link">
-        <div>
-          <TableFilledIMG
-            fill={fillSvg("Table")}
-            height="25px"
-            className="icon"
-          />
-          <span>Table</span>
+        <div style={{ marginTop: "calc(.7rem - 3px)" }}>
+          <img src={order} alt="Table" className={fillSvg("Table")} />
+          <span className="icon-text">Table</span>
         </div>
       </Link>
     </div>

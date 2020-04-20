@@ -19,13 +19,13 @@ const Store = props => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
   const getData = async () => {
-    // try {
-    //   const resp = await axios.get();
-    //   return resp.data;
-    // }catch(err){
-    //   return {success: false};
-    // }
-    return tempData;
+    try {
+      const resp = await axios.get('http://ec2-13-232-202-63.ap-south-1.compute.amazonaws.com:5050/rest');
+      return resp.data;
+    }catch(err){
+      return {success: false};
+    }
+    
   };
   React.useEffect(() => {
     console.log("store mounted");
@@ -36,14 +36,15 @@ const Store = props => {
         //segregating the food items and storign for search
         // console.log({ resp });
         let justFoodItems = [];
-        const Menu = resp.menu;
+        const Menu = resp.food_menu;
         for (let i = 0; i < Menu.length; ++i) {
-          const Sub = resp.menu[i].sub_category;
-          for (let j = 0; j < Sub.length; ++j) {
-            const FoodList = Sub[j].foodlist;
-            for (let k = 0; k < FoodList.length; ++k) {
-              justFoodItems.push(FoodList[k]);
-            }
+          const Sub = resp.food_menu[i].name;
+          for (let j = 0; j < resp.food_menu[i].food_list.length; ++j) {
+            justFoodItems.push(resp.food_menu[i].food_list[j])
+            // const FoodList = Sub[j].foodlist;
+            // for (let k = 0; k < FoodList.length; ++k) {
+            //   justFoodItems.push(FoodList[k]);
+            // }
           }
         }
         dispatch({
