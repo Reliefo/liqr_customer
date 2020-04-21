@@ -22,7 +22,7 @@ const PlusWithAddRemove = ({ item }) => {
     if (cart.length > 0 && idx !== -1) {
       setState(state => ({
         ...state,
-        count: cart[idx].count,
+        quantity: cart[idx].quantity,
         showAddRemove: true
       }));
     }
@@ -30,25 +30,25 @@ const PlusWithAddRemove = ({ item }) => {
 
   //if count is 0, then we show plus button.
   React.useEffect(() => {
-    if (state.count === 0) {
+    if (state.quantity === 0) {
       setState(state => ({ ...state, showAddRemove: false }));
       dispatch({ type: TYPES.DEL_ITEM, payload: item._id.$oid });
     }
-  }, [state.count]);
+  }, [state.quantity]);
 
   /*For Internally */
   const decHndlr = () => {
-    setState(state => ({ ...state, count: --state.count }));
+    setState(state => ({ ...state, quantity: --state.quantity }));
   };
   const incHndlr = () => {
-    setState(state => ({ ...state, count: ++state.count }));
+    setState(state => ({ ...state, quantity: ++state.quantity }));
   };
 
   //adds the item to the Store
   //displays the AddRemoveItem
   const onClickPlus = () => {
     dispatch({ type: TYPES.ADD_ITEM, payload: item }); //dispatcing the whole item
-    setState(state => ({ ...state, showAddRemove: true, count: 1 }));
+    setState(state => ({ ...state, showAddRemove: true, quantity: 1 }));
   };
 
   return (
@@ -57,7 +57,7 @@ const PlusWithAddRemove = ({ item }) => {
         <div style={{ marginRight: "-1rem", float:"right" }}>
           <AddRemoveItem
             id={item._id.$oid}
-            count={state.count}
+            count={state.quantity}
             decHndlr={decHndlr}
             incHndlr={incHndlr}
             wrapperStyles={{color:'darkslategrey'}}

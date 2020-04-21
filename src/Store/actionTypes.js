@@ -8,3 +8,5 @@ export const ADD_COLLECTIVE_FOODITEMS = 7;
 export const SET_GENERAL_DATA = 8; //doesn't servers for nested data tho.
 export const UPDATE_FOOD_MENU = 9
 export const UPDATE_ORDER_STATUS = 10
+export const SET_TABLE_ID = 11
+export const SET_PLACEORDER_ID = 12

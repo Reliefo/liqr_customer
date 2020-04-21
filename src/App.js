@@ -9,7 +9,7 @@ import "./styles.css";
 import { Store } from "Store";
 import NavBar from "components/NavBar";
 import FooterNav from "components/FooterNav";
-import io from "socket.io-client";
+import socket from './socket';
 import * as TYPES from "Store/actionTypes.js";
 import { StoreContext } from "Store";
 
@@ -44,20 +44,9 @@ export default function AppWrapper() {
   );
 }
 
+
+
 export function App() {
-  const socket = io(
-    "http://ec2-13-232-202-63.ap-south-1.compute.amazonaws.com:5050/reliefo",
-    {
-      transportOptions: {
-        polling: {
-          extraHeaders: {
-            Authorization:
-              "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODczOTc1OTAsIm5iZiI6MTU4NzM5NzU5MCwianRpIjoiZGU3OWFkNGQtN2JmZi00NTUwLTk0OTEtOGIxYWRlMjFmNzBmIiwiZXhwIjoxNTg3NDEyNTkwLCJpZGVudGl0eSI6IktJRDAwMSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.3AdPx1rwo6FMQuuuywV9wJL_VBkJI_M_t6PgBUbZIVE"
-          }
-        }
-      }
-    }
-  );
   const {
     dispatch,
     state: { orderStatus }
@@ -65,7 +54,6 @@ export function App() {
 
   
   socket.on("order_updates", msg => {
-
     dispatch({ type: TYPES.UPDATE_ORDER_STATUS, payload: JSON.parse(msg) });
   });
 
