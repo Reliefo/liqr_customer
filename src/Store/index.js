@@ -10,14 +10,24 @@ const initialState = {
   searchClicked: false,
   searchValue: "",
   cart: [],
+  tableId : "",
+  placeOrderById : "",
   orderStatus: [],
   rawData: {}
 };
 
+const localState = JSON.parse(localStorage.getItem("relief"));
+
 const StoreContext = React.createContext(null);
 
 const Store = props => {
-  const [state, dispatch] = React.useReducer(reducer, initialState);
+  const [state, dispatch] = React.useReducer(reducer, localState || initialState);
+
+
+  React.useEffect(() => {
+    localStorage.setItem("relief", JSON.stringify(state));
+  }, [state]);
+
 
   const getData = async () => {
     try {
@@ -35,6 +45,22 @@ const Store = props => {
         dispatch({ type: TYPES.ADD_DATA, payload: resp });
         //segregating the food items and storign for search
         // console.log({ resp });
+    
+        resp.tables.forEach(item => {
+           if(item.no_of_users > 0) {
+            dispatch({
+              type: TYPES.SET_TABLE_ID,
+              payload: item
+            });
+
+            dispatch({
+              type: TYPES.SET_PLACEORDER_ID,
+              payload: item
+            });
+           }
+        })
+  
+
         let justFoodItems = [];
         const Menu = resp.food_menu;
         for (let i = 0; i < Menu.length; ++i) {

@@ -7,7 +7,10 @@ import * as TYPES from "Store/actionTypes.js";
 const Table = () => {
   const {
     dispatch,
-    state: { orderStatus }
+    state: {
+      rawData: { food_menu = [] },
+      orderStatus
+    }
   } = React.useContext(StoreContext);
 
   React.useEffect(() => {
@@ -17,13 +20,21 @@ const Table = () => {
   }, []);
 
   return (
-    <div>
-      {orderStatus.map((item, idx) => {
-        return (
-          <Card key={idx} className="category-card food-item">
-            <Card.Title style={{ width: "100%" }}>{item.payload.food_id}</Card.Title>
-          </Card>
-        );
+    <div className="order-status-styling">
+      {food_menu.map((menuItem, index) => {
+        return menuItem.food_list.map(foodItem => {
+         return orderStatus.map((item, idx) => {
+            if (foodItem._id.$oid === item.payload.food_id) {
+              return (
+                <Card key={idx} className="cart-card cart-styling margin-styling">
+                  <Card.Body className="body">
+                    {foodItem.name} - {item.payload.type}
+                  </Card.Body>
+                </Card>
+              );
+            }
+          });
+        });
       })}
     </div>
   );

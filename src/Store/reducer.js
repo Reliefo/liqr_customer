@@ -5,10 +5,25 @@ function reducer(state, action) {
   const { payload } = action;
   let idx;
   switch (action.type) {
+    case TYPES.SET_PLACEORDER_ID:
+      st.placeOrderById = payload.users;
+      return st;
+
+    case TYPES.SET_TABLE_ID:
+      st.tableId = payload._id.$oid;
+      return st;
     case TYPES.UPDATE_ORDER_STATUS:
-      st.orderStatus.push({
-        payload
-      });
+      st.orderStatus.forEach(item => {
+        if(item.table_order_id === payload.table_order_id) {
+        item.orderStatus = payload;
+        }
+        else{
+          st.orderStatus.push({
+            payload
+          });
+        }
+      })
+     
       return st;
     case TYPES.UPDATE_FOOD_MENU:
       st.rawData.food_menu = payload;
@@ -21,20 +36,19 @@ function reducer(state, action) {
       if (idx === -1) {
         st.cart.push({
           ...payload, //payload is the id
-          count: 1,
           quantity: 1
         });
       }
       return st;
     case TYPES.INC_ITEM:
       st.cart = st.cart.map(item => {
-        if (item._id.$oid === payload) ++item.count; ++item.quantity
+        if (item._id.$oid === payload) ++item.quantity;
         return item;
       });
       return st;
     case TYPES.DEC_ITEM:
       st.cart = st.cart.map(item => {
-        if (item._id.$oid === action.payload) --item.count; --item.quantity
+        if (item._id.$oid === action.payload) --item.quantity;
         return item;
       });
       return st;

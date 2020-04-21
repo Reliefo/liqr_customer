@@ -28,7 +28,7 @@ const FoodItem = ({ foodItem, index, subsIndex, subs }) => {
     });
     dispatch({ type: TYPES.UPDATE_FOOD_MENU, payload: state.food_item });
   };
-  // console.log('NODDY--->', foodItem)
+
   let desc = foodItem.description.substring(0, 20) + "...";
   return (
     <Accordion defaultActiveKey="0">

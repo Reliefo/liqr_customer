@@ -9,14 +9,21 @@ import { ReactComponent as TableSVG } from "assets/table.svg";
 import { ReactComponent as EmptyCartSadIMG } from "assets/empty-card-sad.svg";
 import CloseSVG from "components/CloseSVG.js";
 import io from "socket.io-client";
+import _ from 'lodash'
 import { Table as RBTable } from "react-bootstrap";
 import Bill from "components/Bill.js";
 import { ReactComponent as TableFilledIMG } from "assets/Table-Filled.svg";
 import { ReactComponent as PersonalSVG } from "assets/personal.svg";
+import socket from '../socket';
+
 const Cart = () => {
   const {
     dispatch,
-    state: { cart }
+    state: { 
+      cart,
+      tableId,
+      placeOrderById 
+    }
   } = React.useContext(StoreContext);
 
   const [state, setState] = React.useState({
@@ -30,26 +37,27 @@ const Cart = () => {
   }, []);
 
   const DeleteItemHndlr = item => {
-    dispatch({ type: TYPES.DEL_ITEM, payload: item._id.$oid });
+    dispatch({ type: TYPES.DEL_ITEM, payload: item._id.$oid});
   };
 
+ 
   const setCart = () => {
-    const socket = io(
-      "http://ec2-13-232-202-63.ap-south-1.compute.amazonaws.com:5050/reliefo",
-      {
-        transportOptions: {
-          polling: {
-            extraHeaders: {
-              Authorization:
-                "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODczOTc1OTAsIm5iZiI6MTU4NzM5NzU5MCwianRpIjoiZGU3OWFkNGQtN2JmZi00NTUwLTk0OTEtOGIxYWRlMjFmNzBmIiwiZXhwIjoxNTg3NDEyNTkwLCJpZGVudGl0eSI6IktJRDAwMSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.3AdPx1rwo6FMQuuuywV9wJL_VBkJI_M_t6PgBUbZIVE"
-            }
-          }
-        }
-      }
-    );
 
-    const body = {"table": "5e9dceb965d6ecc5fd2e114b", "orders": [{"placed_by": "5e9d3a2bde2d4753a970a546", "food_list": cart }]}
-    socket.emit('place_order', JSON.stringify(body), function (answer) {console.log('ORDER SUBMITTED--->', answer)});
+    const cartClone = _.cloneDeep(cart);;
+
+
+    cartClone.forEach(item => {
+         item.food_id = item._id.$oid;
+         delete item.open;
+         delete item.restaurant
+         delete item.tags;
+         delete item._id
+    });
+
+ 
+   const body = {"table": tableId, "orders": [{"placed_by": placeOrderById[0].$oid, "food_list": cartClone }]}
+    
+   socket.emit('place_order', JSON.stringify(body), function (answer) {console.log('ORDER SUBMITTED--->', answer)});
   }
   
     // setState(state => ({ ...state, activeCart: 1 - state.activeCart }));
@@ -60,9 +68,9 @@ const Cart = () => {
         <Card className="cart-card cart-styling" key={`cart-card-${idx}`}>
           <Card.Body className="body">
             <p className="name">{item.name}</p>
-            <AddRemoveItem className= "trial" count={item.count} id={item._id.$oid} />
-            <p style={{ margin: 0, width: "15%" }}>
-              &#8377; {item.price * item.count}
+            <AddRemoveItem className= "trial" count={item.quantity} id={item._id.$oid} />
+            <p style={{ margin: 0, width: "15%" }}> 
+              &#8377; {item.price * item.quantity}
             </p>
             <div
               style={{ padding: ".5rem" }}
@@ -122,7 +130,7 @@ const Cart = () => {
   //TODO: useEffect for this
   const orderTotal =
     cart.length !== 0
-      ? cart.reduce((total, item) => total + item.price * item.count, 0)
+      ? cart.reduce((total, item) => total + item.price * item.quantity, 0)
       : "";
   const isEmpty = () => {
     if (state.activeCart === 0 && cart.length === 0) return true;
