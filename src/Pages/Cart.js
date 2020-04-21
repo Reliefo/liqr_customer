@@ -48,7 +48,7 @@ const Cart = () => {
       }
     );
 
-    const body = {"table": "5e9d3a2bde2d4753a970a537", "orders": [{"placed_by": "5e9d3a2bde2d4753a970a546", "food_list": cart }]}
+    const body = {"table": "5e9dceb965d6ecc5fd2e114b", "orders": [{"placed_by": "5e9d3a2bde2d4753a970a546", "food_list": cart }]}
     socket.emit('place_order', JSON.stringify(body), function (answer) {console.log('ORDER SUBMITTED--->', answer)});
   }
   
