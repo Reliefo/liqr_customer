@@ -139,7 +139,7 @@ const Cart = () => {
   return (
     <>
       <ul className="menu-btn" style={{ justifyContent: "space-evenly" }}>
-        <li onClick={setCart}>
+        <li>
           <div
             className={
               state.activeCart === 0 ? "cart-menu active" : "cart-menu"
@@ -149,7 +149,7 @@ const Cart = () => {
             &nbsp;&nbsp;Personal
           </div>
         </li>
-        <li onClick={setCart}>
+        <li>
           <div
             className={
               state.activeCart === 1 ? "cart-menu active" : "cart-menu"
