@@ -13,17 +13,10 @@ function reducer(state, action) {
       st.tableId = payload._id.$oid;
       return st;
     case TYPES.UPDATE_ORDER_STATUS:
-      st.orderStatus.forEach(item => {
-        if(item.table_order_id === payload.table_order_id) {
-        item.orderStatus = payload;
-        }
-        else{
-          st.orderStatus.push({
-            payload
-          });
-        }
-      })
-     
+      st.orderStatus.push({
+        payload
+      });
+
       return st;
     case TYPES.UPDATE_FOOD_MENU:
       st.rawData.food_menu = payload;
