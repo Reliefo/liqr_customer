@@ -1,15 +1,16 @@
 import React from "react";
 import { StoreContext } from "Store";
 import { Card, Accordion, Button } from "react-bootstrap";
+import SocketContext from "../socket-context";
 
 import * as TYPES from "Store/actionTypes.js";
 
-const Table = () => {
+const Table = props => {
   const {
     dispatch,
     state: {
       rawData: { food_menu = [] },
-      orderStatus
+      orderSuccess
     }
   } = React.useContext(StoreContext);
 
@@ -20,24 +21,37 @@ const Table = () => {
   }, []);
 
   return (
-    <div className="order-status-styling">
-      {food_menu.map((menuItem, index) => {
-        return menuItem.food_list.map(foodItem => {
-         return orderStatus.map((item, idx) => {
-            if (foodItem._id.$oid === item.payload.food_id) {
-              return (
-                <Card key={idx} className="cart-card cart-styling margin-styling">
-                  <Card.Body className="body">
-                    {foodItem.name} - {item.payload.type}
-                  </Card.Body>
-                </Card>
-              );
-            }
+    <>
+      <div className="order-status-styling">
+        {food_menu.map((menuItem, index) => {
+          return menuItem.food_list.map(foodItem => {
+            return orderSuccess.map((item, idx) => {
+              return item.payload.orders.map(item2 => {
+                return item2.food_list.map(item3 => {
+                  if (item3.food_id === foodItem._id.$oid) {
+                    return (
+                      <Card
+                        key={idx}
+                        className="cart-card cart-styling margin-styling"
+                      >
+                        <Card.Body className="body">{foodItem.name} - {item3.status}</Card.Body>
+                      </Card>
+                    );
+                  }
+                });
+              });
+            });
           });
-        });
-      })}
-    </div>
+        })}
+      </div>
+    </>
   );
 };
 
-export default Table;
+const tableWthSocket = props => (
+  <SocketContext.Consumer>
+    {socket => <Table {...props} socket={socket} />}
+  </SocketContext.Consumer>
+);
+
+export default tableWthSocket;

@@ -12,6 +12,7 @@ const initialState = {
   cart: [],
   tableId : "",
   placeOrderById : "",
+  orderSuccess : [],
   orderStatus: [],
   rawData: {}
 };

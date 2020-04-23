@@ -9,7 +9,7 @@ import io from "socket.io-client";
         polling: {
           extraHeaders: {
             Authorization:
-              "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODc0Mzk5ODcsIm5iZiI6MTU4NzQzOTk4NywianRpIjoiMjc2M2M3YmEtMzE5YS00ZWQwLWI5OWItOWMxNjI4MGI3NGRlIiwiZXhwIjoxNTg3NDU0OTg3LCJpZGVudGl0eSI6IktJRDAwMSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.0cWzad0BJaIlYcHduzi-75CmeRxtQ2fRX9nUxRsQA4I"
+              "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODc1NzAxNjcsIm5iZiI6MTU4NzU3MDE2NywianRpIjoiNTU2ZmU4NTEtOTBhOS00NzJmLWIxNTctMzRmMTJkNjUzZDM1IiwiZXhwIjoxNTg3NTg1MTY3LCJpZGVudGl0eSI6IktJRDAwMSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.B_Z0tOnHj0fHOwP6o1TsNsMPxkF0mi8NQXz6hPKRm_E"
           }
         }
       }

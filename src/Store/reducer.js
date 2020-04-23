@@ -5,6 +5,11 @@ function reducer(state, action) {
   const { payload } = action;
   let idx;
   switch (action.type) {
+    case TYPES.UPDATE_SUCCESS_ORDER:
+    st.orderSuccess.push({
+      payload
+    });
+    return st;
     case TYPES.SET_PLACEORDER_ID:
       st.placeOrderById = payload.users;
       return st;
@@ -13,9 +18,20 @@ function reducer(state, action) {
       st.tableId = payload._id.$oid;
       return st;
     case TYPES.UPDATE_ORDER_STATUS:
-      st.orderStatus.push({
-        payload
-      });
+      st.orderSuccess.forEach((item, index) => {
+        if(item.payload._id.$oid === payload.table_order_id){
+          item.payload.orders.forEach(item1 => {
+              if(item1._id.$oid === payload.order_id) {
+                item1.food_list.forEach(item2 => {
+                  if(item2.food_id === payload.food_id){
+                    item2.status = payload.type;
+                    st.orderSuccess[index] = item;
+                  }
+                })
+              }
+          })
+        }
+      })
 
       return st;
     case TYPES.UPDATE_FOOD_MENU:

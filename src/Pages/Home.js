@@ -2,15 +2,19 @@ import React from "react";
 import { Card, Image } from "react-bootstrap";
 import dummyPic from "assets/dummypic.jpeg";
 import vodkaPic from "assets/vodka.jpg";
+import SocketContext from "../socket-context";
 import { StoreContext } from "Store";
 import * as TYPES from "Store/actionTypes.js";
 
-const Home = () => {
+const Home = (props) => {
   const { dispatch, state } = React.useContext(StoreContext);
 
   React.useEffect(() => {
     console.log("home screen");
     dispatch({ type: TYPES.SET_NAV, payload: "Home" });
+    props.socket.off('order_updates').on('order_updates', (msg) => {
+      dispatch({ type: TYPES.UPDATE_ORDER_STATUS, payload: JSON.parse(msg) });
+    } );
   }, []);
 
   return (
@@ -42,4 +46,10 @@ const Home = () => {
   );
 };
 
-export default Home;
+const homeWithSocket = props => (
+  <SocketContext.Consumer>
+    {socket => <Home {...props} socket={socket} />}
+  </SocketContext.Consumer>
+)
+
+export default homeWithSocket;

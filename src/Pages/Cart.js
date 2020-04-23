@@ -3,20 +3,19 @@ import { Link } from "react-router-dom";
 import { Card, Row, Col } from "react-bootstrap";
 import AddRemoveItem from "components/AddRemoveItem.js";
 import { StoreContext } from "Store";
+import SocketContext from "../socket-context";
 import * as TYPES from "Store/actionTypes.js";
 import { ReactComponent as FoodTraySVG } from "assets/food-tray.svg";
 import { ReactComponent as TableSVG } from "assets/table.svg";
 import { ReactComponent as EmptyCartSadIMG } from "assets/empty-card-sad.svg";
 import CloseSVG from "components/CloseSVG.js";
-import io from "socket.io-client";
 import _ from 'lodash'
 import { Table as RBTable } from "react-bootstrap";
 import Bill from "components/Bill.js";
 import { ReactComponent as TableFilledIMG } from "assets/Table-Filled.svg";
 import { ReactComponent as PersonalSVG } from "assets/personal.svg";
-import socket from '../socket';
 
-const Cart = () => {
+const Cart = (props) => {
   const {
     dispatch,
     state: { 
@@ -57,7 +56,13 @@ const Cart = () => {
  
    const body = {"table": tableId, "orders": [{"placed_by": placeOrderById[0].$oid, "food_list": cartClone }]}
     
-   socket.emit('place_order', JSON.stringify(body), function (answer) {console.log('ORDER SUBMITTED--->', answer)});
+   props.socket.emit('place_order', JSON.stringify(body));
+
+   props.socket.off('new_orders').on('new_orders', (msg) => {
+    dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
+  } );
+
+   
   }
   
     // setState(state => ({ ...state, activeCart: 1 - state.activeCart }));
@@ -207,4 +212,10 @@ const Cart = () => {
   );
 };
 
-export default Cart;
+const cartWithSocket = props => (
+  <SocketContext.Consumer>
+    {socket => <Cart {...props} socket={socket} />}
+  </SocketContext.Consumer>
+)
+
+export default cartWithSocket;
