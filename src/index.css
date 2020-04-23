@@ -8,7 +8,7 @@
 
 body {
   margin: 0;
-  color:  #2d2d2d;
+  color: #2d2d2d;
   /* background-color: #f8f9fa!important; */
   background-color: #f4f4f2;
   font-family: "Montserrat", "Roboto", "Raleway", sans-serif;
@@ -29,4 +29,14 @@ code {
 .card {
   background-color: rgb(240, 239, 239);
   box-shadow: 0 4px 6px -6px rgba(0, 0, 0, 0.5098039215686274);
+}
+
+.Login {
+  padding: 11%;
+}
+
+.signup-button {
+  padding: 10%;
+  text-align: center;
+
 }

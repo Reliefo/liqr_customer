@@ -3,65 +3,50 @@ import "./App.scss";
 import { BrowserRouter, Route } from "react-router-dom";
 import Home from "./Pages/Home";
 import Menu from "./Pages/Menu";
+import Login from "./components/Login";
+import SignUp from "./components/SignUp";
 import Cart from "./Pages/Cart";
 import Table from "./Pages/Table";
 import "./styles.css";
+import "./components/Login.css";
 import { Store } from "Store";
 import NavBar from "components/NavBar";
 import FooterNav from "components/FooterNav";
-import socket from './socket';
 import * as TYPES from "Store/actionTypes.js";
+import SocketContext from "./socket-context";
 import { StoreContext } from "Store";
+import io from "socket.io-client";
 
-// const socket = io(
-//   "'http://ec2-13-232-202-63.ap-south-1.compute.amazonaws.com:5050/reliefo'",
-//   {
-//     transportOptions: {
-//       polling: {
-//         extraHeaders: {
-//           Authorization:
-//             "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODcxMTY2MTksIm5iZiI6MTU4NzExNjYxOSwianRpIjoiNDlmMzRiMGItODkxOC00ZWJiLWI1ODQtYmRhZWMyZjUyMzMzIiwiZXhwIjoxNTg3MTMxNjE5LCJpZGVudGl0eSI6IktJRDAwMSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.HObY0Nx5jGs4XjiOhIiUFZ8Jl318ojq1CHdYDBEiNFY",
-//             jwt:  "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODcxMTY2MTksIm5iZiI6MTU4NzExNjYxOSwianRpIjoiNDlmMzRiMGItODkxOC00ZWJiLWI1ODQtYmRhZWMyZjUyMzMzIiwiZXhwIjoxNTg3MTMxNjE5LCJpZGVudGl0eSI6IktJRDAwMSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.HObY0Nx5jGs4XjiOhIiUFZ8Jl318ojq1CHdYDBEiNFY",
-//         }
-//       }
-//     }
-//   }
-// );
+const socket = io(
+  "http://ec2-13-232-202-63.ap-south-1.compute.amazonaws.com:5050/reliefo",
+  {
+    transportOptions: {
+      polling: {
+        extraHeaders: {
+          Authorization:
+            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODc2MjAxNjgsIm5iZiI6MTU4NzYyMDE2OCwianRpIjoiNWViYzI3NjctMmNiYy00NjdjLWE1NTQtZTFhNDAyNTBmMmViIiwiZXhwIjoxNTg3NjM1MTY4LCJpZGVudGl0eSI6IktJRDAwMSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.2urFv3op_ogS4U_nARn1yNfz7G_PWqxiJTzcLOvbbE8"
+        }
+      }
+    }
+  }
+);
 
 export default function AppWrapper() {
   return (
+    <SocketContext.Provider value={socket}>
     <BrowserRouter>
       <Store>
         <NavBar outerContainerId={"App"} />
-        <App />
         <Route path="/" children={<Home />} exact />
         <Route path="/menu" children={<Menu />} exact />
+        <Route path="/login" children={<Login />} exact />
+        <Route path="/register" children={<SignUp />} exact />
         <Route path="/cart" children={<Cart />} exact />
+        <Route path="/table" children={<Table />} />
         <Route path="/order" children={<Table />} />
         <FooterNav />
       </Store>
     </BrowserRouter>
+    </SocketContext.Provider>
   );
-}
-
-
-
-export function App() {
-  const {
-    dispatch,
-    state: { orderStatus }
-  } = React.useContext(StoreContext);
-
-  
-  socket.on("order_updates", msg => {
-    dispatch({ type: TYPES.UPDATE_ORDER_STATUS, payload: JSON.parse(msg) });
-  });
-
-  socket.on("new_orders", msg => {
-    console.log("GOT A NEW ORDER", msg);
-  });
-
-
-
-  return <div></div>;
 }

@@ -10,3 +10,4 @@ export const UPDATE_FOOD_MENU = 9
 export const UPDATE_ORDER_STATUS = 10
 export const SET_TABLE_ID = 11
 export const SET_PLACEORDER_ID = 12
+export const UPDATE_SUCCESS_ORDER = 13

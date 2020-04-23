@@ -57,7 +57,7 @@ export default props => {
           </span>
         </div>
         <Menu disableAutoFocus width={"55%"}>
-          <a className="menu-item shadow-menu" href="/menu">
+          <a className="menu-item shadow-menu" href="/login">
             <img className="navbar-menu-icon" src={login} alt="Login" /> Login/
             SignUp
           </a>
