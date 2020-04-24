@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import React from "react";
 import { Link } from "react-router-dom";
 import { Card, Row, Col } from "react-bootstrap";
@@ -40,7 +41,7 @@ const Cart = props => {
   };
 
   const setOrderTable = () => {
-    const body = {table_id:tableId};
+    const body = { table_id: tableId };
     props.socket.emit("place_table_order", JSON.stringify(body));
     props.socket.off("new_orders").on("new_orders", msg => {
       dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
@@ -157,15 +158,17 @@ const Cart = props => {
       : "";
 
   let sum = 0;
-  Object.entries(tableOrders).forEach(item => {
-    if (item[0] === "orders") {
-      item[1].forEach(item2 => {
-        item2.food_list.forEach(item3 => {
-          sum += parseInt(item3.price * item3.quantity);
-        });
-      });
-    }
-  });
+  tableOrders.length !== 0
+    ? Object.entries(tableOrders).forEach(item => {
+        if (item[0] === "orders") {
+          item[1].forEach(item2 => {
+            item2.food_list.forEach(item3 => {
+              sum += parseInt(item3.price * item3.quantity);
+            });
+          });
+        }
+      })
+    : "";
 
   const isEmpty = () => {
     if (state.activeCart === 0 && cart.length === 0) return true;
