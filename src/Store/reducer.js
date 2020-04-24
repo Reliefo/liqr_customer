@@ -5,6 +5,9 @@ function reducer(state, action) {
   const { payload } = action;
   let idx;
   switch (action.type) {
+    case TYPES.UPDATE_TABLE_ORDER:
+    st.tableOrders = payload
+    return st;
     case TYPES.UPDATE_SUCCESS_ORDER:
     st.orderSuccess.push({
       payload

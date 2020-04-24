@@ -9,11 +9,15 @@ import io from "socket.io-client";
         polling: {
           extraHeaders: {
             Authorization:
-              "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODc2NjMxNjYsIm5iZiI6MTU4NzY2MzE2NiwianRpIjoiNDA4ZThhOGItYmUwMy00ZGMyLWJhYTQtZTUyZWNmYzM0NTYyIiwiZXhwIjoxNTg3Njc4MTY2LCJpZGVudGl0eSI6IktJRDAwMSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.mRjiK9qbvPVKlsrVhwF8dCFJApyjWtnEe8J4qer6l60"
+              "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODc3MjE4OTEsIm5iZiI6MTU4NzcyMTg5MSwianRpIjoiOTdjZWZmZmQtOTI2YS00MGNkLWJkNmUtZjkwOThkYzA3ZWY4IiwiZXhwIjoxNTg3NzM2ODkxLCJpZGVudGl0eSI6IktJRDAwMSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.5nm33ZbJcRQRJI7_F35AdbZhumnEzKXAILG2BiNEX5k"
           }
         }
       }
     }
   );
+<<<<<<< HEAD
 
 export default socket;
+=======
+export default socket;
+>>>>>>> 0fa80e8752b998ff1578d78029dd18ee9b1c1e4f
