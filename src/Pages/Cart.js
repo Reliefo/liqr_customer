@@ -9,20 +9,16 @@ import { ReactComponent as FoodTraySVG } from "assets/food-tray.svg";
 import { ReactComponent as TableSVG } from "assets/table.svg";
 import { ReactComponent as EmptyCartSadIMG } from "assets/empty-card-sad.svg";
 import CloseSVG from "components/CloseSVG.js";
-import _ from 'lodash'
+import _ from "lodash";
 import { Table as RBTable } from "react-bootstrap";
 import Bill from "components/Bill.js";
 import { ReactComponent as TableFilledIMG } from "assets/Table-Filled.svg";
 import { ReactComponent as PersonalSVG } from "assets/personal.svg";
 
-const Cart = (props) => {
+const Cart = props => {
   const {
     dispatch,
-    state: { 
-      cart,
-      tableId,
-      placeOrderById 
-    }
+    state: { cart, tableId, tableOrders, placeOrderById }
   } = React.useContext(StoreContext);
 
   const [state, setState] = React.useState({
@@ -36,36 +32,64 @@ const Cart = (props) => {
   }, []);
 
   const DeleteItemHndlr = item => {
-    dispatch({ type: TYPES.DEL_ITEM, payload: item._id.$oid});
+    dispatch({ type: TYPES.DEL_ITEM, payload: item._id.$oid });
   };
 
- 
-  const setCart = () => {
+  const pushToCart = () => {
+    setState(state => ({ ...state, activeCart: 1 - state.activeCart }));
+  };
 
-    const cartClone = _.cloneDeep(cart);;
+  const setOrderTable = () => {
+    const body = {table_id:tableId};
+    props.socket.emit("place_table_order", JSON.stringify(body));
+    props.socket.off("new_orders").on("new_orders", msg => {
+      dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
+    });
+  };
 
+  const setCartPlaceOrder = () => {
+    const cartClone = _.cloneDeep(cart);
 
     cartClone.forEach(item => {
-         item.food_id = item._id.$oid;
-         delete item.open;
-         delete item.restaurant
-         delete item.tags;
-         delete item._id
+      item.food_id = item._id.$oid;
+      delete item.open;
+      delete item.restaurant;
+      delete item.tags;
+      delete item._id;
     });
 
- 
-   const body = {"table": tableId, "orders": [{"placed_by": placeOrderById[0].$oid, "food_list": cartClone }]}
-    
-   props.socket.emit('place_order', JSON.stringify(body));
+    const body = {
+      table: tableId,
+      orders: [{ placed_by: placeOrderById[0].$oid, food_list: cartClone }]
+    };
 
-   props.socket.off('new_orders').on('new_orders', (msg) => {
-    dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
-  } );
+    props.socket.emit("place_personal_order", JSON.stringify(body));
+    props.socket.off("new_orders").on("new_orders", msg => {
+      dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
+    });
+  };
 
-   
-  }
-  
-    // setState(state => ({ ...state, activeCart: 1 - state.activeCart }));
+  const setCart = () => {
+    const cartClone = _.cloneDeep(cart);
+    cartClone.forEach(item => {
+      item.food_id = item._id.$oid;
+      delete item.open;
+      delete item.restaurant;
+      delete item.tags;
+      delete item._id;
+    });
+
+    const body = {
+      table: tableId,
+      orders: [{ placed_by: placeOrderById[0].$oid, food_list: cartClone }]
+    };
+    props.socket.emit("push_to_table_cart", JSON.stringify(body));
+    props.socket.off("table_cart_orders").on("table_cart_orders", msg => {
+      dispatch({ type: TYPES.UPDATE_TABLE_ORDER, payload: JSON.parse(msg) });
+    });
+  };
+
+  // setState(state => ({ ...state, activeCart: 1 - state.activeCart }));
 
   const renderPersonalCart = () => (
     <>
@@ -73,8 +97,12 @@ const Cart = (props) => {
         <Card className="cart-card cart-styling" key={`cart-card-${idx}`}>
           <Card.Body className="body">
             <p className="name">{item.name}</p>
-            <AddRemoveItem className= "trial" count={item.quantity} id={item._id.$oid} />
-            <p style={{ margin: 0, width: "15%" }}> 
+            <AddRemoveItem
+              className="trial"
+              count={item.quantity}
+              id={item._id.$oid}
+            />
+            <p style={{ margin: 0, width: "15%" }}>
               &#8377; {item.price * item.quantity}
             </p>
             <div
@@ -90,46 +118,36 @@ const Cart = (props) => {
   );
   const renderTableCart = () => (
     <>
-      {["Mr. Naveen", "Mr. Akshay"].map((item, idx) => (
-        <React.Fragment key={`table-${idx}`}>
-          <p
-            className="pl-3 pt-3 brand-clr"
-            style={{ fontWeight: 600, textTransform: "capitalize" }}
-          >
-            {item}
-          </p>
-          <RBTable striped bordered hover>
-            <thead className="table-thead">
-              <tr>
-                <th>Name</th>
-                <th>Qty</th>
-                <th>Price</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Paul Molive</td>
-                <td>3</td>
-                <td>234</td>
-              </tr>
-              <tr>
-                <td>Jacob</td>
-                <td>2</td>
-                <td>399</td>
-              </tr>
-              <tr>
-                <td>Anna Mull</td>
-                <td>2</td>
-                <td>399</td>
-              </tr>
-              <tr>
-                <td colSpan="2">Total</td>
-                <td>&#8377; 999</td>
-              </tr>
-            </tbody>
-          </RBTable>
-        </React.Fragment>
-      ))}
+      {Object.entries(tableOrders).map((item2, idx) => {
+        if (item2[0] === "orders") {
+          return item2[1].map((order_list, index) => {
+            return (
+              <React.Fragment key={`table-${index}`}>
+                <RBTable striped bordered hover>
+                  <thead className="table-thead">
+                    <tr>
+                      <th>Name</th>
+                      <th>Qty</th>
+                      <th>Price</th>
+                    </tr>
+                  </thead>
+                  {order_list.food_list.map((food, ix) => {
+                    return (
+                      <tbody>
+                        <tr>
+                          <td>{food.name}</td>
+                          <td>{food.quantity}</td>
+                          <td>{food.price}</td>
+                        </tr>
+                      </tbody>
+                    );
+                  })}
+                </RBTable>
+              </React.Fragment>
+            );
+          });
+        }
+      })}
     </>
   );
   //TODO: useEffect for this
@@ -137,6 +155,18 @@ const Cart = (props) => {
     cart.length !== 0
       ? cart.reduce((total, item) => total + item.price * item.quantity, 0)
       : "";
+
+  let sum = 0;
+  Object.entries(tableOrders).forEach(item => {
+    if (item[0] === "orders") {
+      item[1].forEach(item2 => {
+        item2.food_list.forEach(item3 => {
+          sum += parseInt(item3.price * item3.quantity);
+        });
+      });
+    }
+  });
+
   const isEmpty = () => {
     if (state.activeCart === 0 && cart.length === 0) return true;
     if (state.activeCart === 1) return false; //TODO: figure this out
@@ -144,7 +174,7 @@ const Cart = (props) => {
   return (
     <>
       <ul className="menu-btn" style={{ justifyContent: "space-evenly" }}>
-        <li>
+        <li onClick={pushToCart}>
           <div
             className={
               state.activeCart === 0 ? "cart-menu active" : "cart-menu"
@@ -154,7 +184,7 @@ const Cart = (props) => {
             &nbsp;&nbsp;Personal
           </div>
         </li>
-        <li>
+        <li onClick={pushToCart}>
           <div
             className={
               state.activeCart === 1 ? "cart-menu active" : "cart-menu"
@@ -175,13 +205,13 @@ const Cart = (props) => {
         )}
         {cart.length !== 0 && state.activeCart === 0 && renderPersonalCart()}
         {state.activeCart === 1 && renderTableCart()}
-        {cart.length !== 0 && (
+        {state.activeCart === 0 && cart.length !== 0 && (
           <>
             <Bill orderTotal={orderTotal} />
             {state.activeCart === 0 && (
               <Row>
                 <Col style={{ marginTop: "1rem" }}>
-                  <div className="bill-btn" onClick={setCart}>
+                  <div className="bill-btn" onClick={setCartPlaceOrder}>
                     <FoodTraySVG height="25px" width="25px" />
                     <p>Place Order</p>
                   </div>
@@ -198,8 +228,8 @@ const Cart = (props) => {
         )}
         {state.activeCart === 1 && (
           <>
-            <Bill />
-            <div className="bill-btn mt-3">
+            <Bill orderTotal={sum} />
+            <div onClick={setOrderTable} className="bill-btn mt-3">
               <div className="d-flex">
                 <FoodTraySVG height="25px" width="25px" />
                 <p className="ml-3">Confirm Order</p>
@@ -216,6 +246,6 @@ const cartWithSocket = props => (
   <SocketContext.Consumer>
     {socket => <Cart {...props} socket={socket} />}
   </SocketContext.Consumer>
-)
+);
 
 export default cartWithSocket;

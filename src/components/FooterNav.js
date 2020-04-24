@@ -1,14 +1,8 @@
 import React from "react";
-import { ReactComponent as CartSVG } from "assets/cart.svg";
-// import { ReactComponent as MenuSVG } from "assets/menu.svg";
-import { ReactComponent as HomeSVG } from "assets/home.svg";
 import home from "../assets/home.png";
 import menu from "../assets/menu.png";
 import cart from "../assets/cart.png";
 import order from "../assets/order.png";
-
-import { ReactComponent as TableFilledIMG } from "assets/Table-Filled.svg";
-import { ReactComponent as MenuSVG } from "assets/meal.svg";
 import { Link } from "react-router-dom";
 import { StoreContext } from "Store";
 import { ReactComponent as WaterSVG } from "assets/water.svg";
