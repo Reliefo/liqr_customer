@@ -76,6 +76,7 @@ code {
 }
 
 .home-item {
+  border-radius:8px;
   text-transform: capitalize;
   background: white;
   border: none !important;
