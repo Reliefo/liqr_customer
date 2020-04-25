@@ -13,6 +13,7 @@ const initialState = {
   tableId : "",
   placeOrderById : "",
   tableOrders: [],
+  homeItems: [],
   orderSuccess : [],
   orderStatus: [],
   rawData: {}

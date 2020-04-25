@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import AppWrapper from './App';
 import * as serviceWorker from './serviceWorker';
 import Amplify from "aws-amplify";
