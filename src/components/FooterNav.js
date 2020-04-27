@@ -24,7 +24,7 @@ const FooterNav = props => {
       const message = JSON.parse(ms);
       const { msg } = message;
 
-      toast(msg, {
+      toast.info(msg, {
         position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,
@@ -63,6 +63,7 @@ const FooterNav = props => {
   return (
     <>
       <ToastContainer
+        toastClassName="dark-toast"
         position="top-center"
         autoClose={5000}
         hideProgressBar={false}
