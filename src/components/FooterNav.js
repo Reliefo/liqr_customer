@@ -58,11 +58,13 @@ const FooterNav = (props) => {
           </div>
           {state.fabClicked && <div className="floating-container">
           <div className="floating-menu">
-          <div onClick={() => sendAssistance('help')}>Call for assistance</div>
-          <div onClick={() => sendAssistance('water')}>Ask for water</div>
-          <div onClick={() => sendAssistance('help')}>Chat with the Captain</div>
-          <div onClick={() => sendAssistance('help')}>Other Neccessities</div>
-          <div onClick={() => sendAssistance('menu')}>Get Physical Menu</div>         
+          <div onClick={() => sendAssistance('water')}>Ask for Water</div>
+          <div onClick={() => sendAssistance('help')}>Call for Assistance</div>
+          <div onClick={() => sendAssistance('cutlery')}>Call for Cutlery</div>
+          <div onClick={() => sendAssistance('tissue')}>Ask for Tissue</div>
+          <div onClick={() => sendAssistance('cleaning')}>Ask for Cleaning</div>  
+          <div onClick={() => sendAssistance('menu')}>Ask for Physical Menu</div>      
+          <div onClick={() => sendAssistance('ketchup')}>Ask for Ketchup</div>         
           </div>
           </div>}
         </div>
