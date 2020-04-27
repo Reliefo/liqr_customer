@@ -24,7 +24,7 @@ const socket = io(
       polling: {
         extraHeaders: {
           Authorization:
-            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODc3OTQxMTYsIm5iZiI6MTU4Nzc5NDExNiwianRpIjoiOWI4NzNiZGUtNmNkYS00MjQ0LWE1NGMtMTIyOWQ5YTRlZTNmIiwiZXhwIjoxNTg3ODA5MTE2LCJpZGVudGl0eSI6IktJRDAwMSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.XcSlEvV7TbE4EO6U9hfeGidXkffk_9nAWJ7ImzKuEA4"
+            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODc5NTkxODQsIm5iZiI6MTU4Nzk1OTE4NCwianRpIjoiOGZjZDFmNDktN2FlNi00MDM0LWE3ZjctMmM2MjFiZGMxYmJhIiwiZXhwIjoxNTg3OTc0MTg0LCJpZGVudGl0eSI6IktJRDAwMiIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.pwp0VUHzuhXlZRNpTHk4rTgjF4VLad2qeBRZD8vsEno"
         }
       }
     }
