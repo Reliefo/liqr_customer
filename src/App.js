@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./App.scss";
 import { BrowserRouter, Route } from "react-router-dom";
 import Home from "./Pages/Home";
+import SubMenu from "./Pages/SubMenu";
 import Menu from "./Pages/Menu";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
@@ -24,7 +25,7 @@ const socket = io(
       polling: {
         extraHeaders: {
           Authorization:
-            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODc3OTQxMTYsIm5iZiI6MTU4Nzc5NDExNiwianRpIjoiOWI4NzNiZGUtNmNkYS00MjQ0LWE1NGMtMTIyOWQ5YTRlZTNmIiwiZXhwIjoxNTg3ODA5MTE2LCJpZGVudGl0eSI6IktJRDAwMSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.XcSlEvV7TbE4EO6U9hfeGidXkffk_9nAWJ7ImzKuEA4"
+            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODc5NjA1NjAsIm5iZiI6MTU4Nzk2MDU2MCwianRpIjoiOWE0MTU0Y2UtZGI2NC00ZTk0LWFhNDgtYTkyY2QxMzc4OTU5IiwiZXhwIjoxNTg3OTc1NTYwLCJpZGVudGl0eSI6IktJRDAwMSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.deLvskLfQe91E0ECWMRPLwvqr_6WU1QKr6Lo3tvvZeA"
         }
       }
     }
@@ -34,19 +35,25 @@ const socket = io(
 export default function AppWrapper() {
   return (
     <SocketContext.Provider value={socket}>
-    <BrowserRouter>
-      <Store>
-        <NavBar outerContainerId={"App"} />
-        <Route path="/" children={<Home />} exact />
-        <Route path="/menu" children={<Menu />} exact />
-        <Route path="/login" children={<Login />} exact />
-        <Route path="/register" children={<SignUp />} exact />
-        <Route path="/cart" children={<Cart />} exact />
-        <Route path="/table" children={<Table />} />
-        <Route path="/order" children={<Table />} />
-        <FooterNav />
-      </Store>
-    </BrowserRouter>
+      <BrowserRouter>
+        <Store>
+          <NavBar outerContainerId={"App"} />
+
+          <Route path="/" render={props => <Home {...props} />} exact />
+          <Route path="/menu" render={props => <Menu {...props} />} exact />
+          <Route path="/login" render={props => <Login {...props} />} exact />
+          <Route
+            path="/register"
+            render={props => <SignUp {...props} />}
+            exact
+          />
+          <Route path="/cart" render={props => <Cart {...props} />} exact />
+          <Route path="/table" render={props => <Table {...props} />} />
+          <Route path="/subMenu" render={props => <SubMenu {...props} />} />
+          <Route path="/order" render={props => <Table {...props} />} />
+          <FooterNav />
+        </Store>
+      </BrowserRouter>
     </SocketContext.Provider>
   );
 }
