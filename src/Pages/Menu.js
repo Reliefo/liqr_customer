@@ -23,6 +23,7 @@ const Menu = () => {
   }, []);
 
   const setMenu = name => setState(state => ({ ...state, activeMenu: name }));
+  
 
 
   return (
@@ -69,7 +70,7 @@ export default Menu;
 
 const SubCategory = ({ subs, categories }) => (
   <>
-    <p style={{ fontSize: "1.1rem", color: "#334252", fontWeight: 600 }}>
+    <p id={`menu-${categories}`} style={{ fontSize: "1.1rem", color: "#334252", fontWeight: 600 }}>
       {subs.name}
      </p>
      {subs.food_list.map((foodItem, idx3) => (
