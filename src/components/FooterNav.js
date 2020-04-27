@@ -4,17 +4,26 @@ import menu from "../assets/menu.png";
 import cart from "../assets/cart.png";
 import order from "../assets/order.png";
 import { Link } from "react-router-dom";
+import SocketContext from '../socket-context'
 import { StoreContext } from "Store";
 import { ReactComponent as WaterSVG } from "assets/water.svg";
 import { ReactComponent as TissueSVG } from "assets/tissue.svg";
 // import { ReactComponent as HelpSVG } from "assets/help.svg";
 import { ReactComponent as DoubleArrow } from "assets/double-arrow.svg";
 import * as TYPES from "Store/actionTypes.js";
-const FooterNav = () => {
+const FooterNav = (props) => {
   const {
-    state: { activeNav },
+    state: { activeNav, tableId, placeOrderById },
     dispatch
   } = React.useContext(StoreContext);
+
+
+  React.useEffect(() => {
+   
+    props.socket.off("assist").on("assist", msg => {
+   console.log('Assistance--->', msg)
+    });
+  }, []);
 
   const fillSvg = name =>
     activeNav === name ? "icon-active" : "icon-inactive";
@@ -29,72 +38,64 @@ const FooterNav = () => {
     console.log("clicked...");
     setState(state => ({ ...state, fabClicked: !state.fabClicked }));
   };
-  return (
-    <div className="footer-nav">
-      <div
-        className={`floating-container ${state.fabClicked ? "rotate-fab" : ""}`}
-        style={{ transform: trfm }} //this rotation takes care of all other rotations.
-      >
-        <div className="FAB" onClick={FABClick} style={{ transform: revtrfm }}>
-          <span className="plus_cross">+</span>
-        </div>
-        <div className="floating-action-1 FAB" style={{ transform: revtrfm }}>
-          <WaterSVG height="1.5rem" />
-        </div>
-        <div
-          className="floating-action-2 FAB"
-          onClick={() => setDeg(state => -state - 100)}
-          style={{ transform: revtrfm }}
-        >
-          <DoubleArrow
-            height="1.5rem"
-            width="1.5rem"
-            style={{ transform: revtrfm }}
-          />
-        </div>
-        <div className="floating-action-3 FAB" style={{ transform: revtrfm }}>
-          <TissueSVG height="1.5rem" width="1.5rem" />
-        </div>
-        <div className="floating-action-4 FAB" style={{ transform: revtrfm }}>
-          <TissueSVG height="1.5rem" width="1.5rem" />
-        </div>
-        <div className="floating-action-5 FAB" style={{ transform: revtrfm }}>
-          <TissueSVG height="1.5rem" width="1.5rem" />
-        </div>
-        <div className="floating-action-3 FAB" style={{ transform: revtrfm }}>
-          <TissueSVG height="1.5rem" width="1.5rem" />
-        </div>
-      </div>
 
-      <Link to="/" className="styled-link">
-        <div style={{ marginTop: "calc(.7rem - 3px)" }}>
-          <img src={home} alt="Home" className={fillSvg("Home")} />
-          <span className="icon-text">Home</span>
+  const sendAssistance = (name) => {
+    const body = {"table": tableId, "user": placeOrderById[0].$oid, "assistance_type": name}
+    console.log(body)
+    props.socket.emit("assistance_requests", JSON.stringify(body));
+  }
+  return (
+    <>
+      <div className="footer-nav">
+        <div
+          className={`floating-container ${
+            state.fabClicked ? "rotate-fab" : ""
+          }`}
+          style={{ transform: trfm }} //this rotation takes care of all other rotations.
+        >
+          <div className="FAB" onClick={FABClick}>
+            <span>Assist</span>
+          </div>
+          {state.fabClicked && <div className="floating-container">
+          <div className="floating-menu">
+          <div onClick={() => sendAssistance('help')}>Call for assistance</div>
+          <div onClick={() => sendAssistance('water')}>Ask for water</div>
+          <div onClick={() => sendAssistance('help')}>Chat with the Captain</div>
+          <div onClick={() => sendAssistance('help')}>Other Neccessities</div>
+          <div onClick={() => sendAssistance('menu')}>Get Physical Menu</div>         
+          </div>
+          </div>}
         </div>
-      </Link>
-      <Link to="/menu" className="styled-link">
-        <div style={{ marginTop: "calc(.7rem - 3px)" }}>
-          <img src={menu} alt="Menu" className={fillSvg("Menu")} />
-          <span className="icon-text">Menu</span>
-        </div>
-      </Link>
-      <Link to="/cart" className="styled-link">
-        <div style={{ marginTop: "calc(.7rem - 3px)" }}>
-          <img src={cart} alt="Cart" className={fillSvg("Cart")} />
-          <span className="icon-text">Cart</span>
-        </div>
-      </Link>
-      <Link to="/order" className="styled-link">
-        <div style={{ marginTop: "calc(.7rem - 3px)" }}>
-          <img src={order} alt="Table" className={fillSvg("Order")} />
-          <span className="icon-text">Order</span>
-        </div>
-      </Link>
-    </div>
+
+        <Link to="/" className="styled-link">
+          <div style={{ marginTop: "calc(.7rem - 3px)" }}>
+            <img src={home} alt="Home" className={fillSvg("Home")} />
+            <span className="icon-text">Home</span>
+          </div>
+        </Link>
+        <Link to="/menu" className="styled-link">
+          <div style={{ marginTop: "calc(.7rem - 3px)" }}>
+            <img src={menu} alt="Menu" className={fillSvg("Menu")} />
+            <span className="icon-text">Menu</span>
+          </div>
+        </Link>
+        <Link to="/cart" className="styled-link">
+          <div style={{ marginTop: "calc(.7rem - 3px)" }}>
+            <img src={cart} alt="Cart" className={fillSvg("Cart")} />
+            <span className="icon-text">Cart</span>
+          </div>
+        </Link>
+        <Link to="/order" className="styled-link">
+          <div style={{ marginTop: "calc(.7rem - 3px)" }}>
+            <img src={order} alt="Table" className={fillSvg("Order")} />
+            <span className="icon-text">Order</span>
+          </div>
+        </Link>
+      </div>
+    </>
   );
 };
 
-export default FooterNav;
 
 /*
 
@@ -113,3 +114,11 @@ export default FooterNav;
         </div>
       </div>
 */
+
+const FooterNavSocket = props => (
+  <SocketContext.Consumer>
+    {socket => <FooterNav {...props} socket={socket} />}
+  </SocketContext.Consumer>
+);
+
+export default FooterNavSocket;
