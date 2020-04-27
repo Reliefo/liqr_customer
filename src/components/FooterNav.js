@@ -1,27 +1,38 @@
 import React from "react";
 import home from "../assets/home.png";
 import menu from "../assets/menu.png";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import cart from "../assets/cart.png";
 import order from "../assets/order.png";
 import { Link } from "react-router-dom";
-import SocketContext from '../socket-context'
+import SocketContext from "../socket-context";
 import { StoreContext } from "Store";
 import { ReactComponent as WaterSVG } from "assets/water.svg";
 import { ReactComponent as TissueSVG } from "assets/tissue.svg";
 // import { ReactComponent as HelpSVG } from "assets/help.svg";
 import { ReactComponent as DoubleArrow } from "assets/double-arrow.svg";
 import * as TYPES from "Store/actionTypes.js";
-const FooterNav = (props) => {
+const FooterNav = props => {
   const {
     state: { activeNav, tableId, placeOrderById },
     dispatch
   } = React.useContext(StoreContext);
 
-
   React.useEffect(() => {
-   
-    props.socket.off("assist").on("assist", msg => {
-   console.log('Assistance--->', msg)
+    props.socket.off("assist").on("assist", ms => {
+      const message = JSON.parse(ms);
+      const { msg } = message;
+
+      toast(msg, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined
+      });
     });
   }, []);
 
@@ -31,6 +42,7 @@ const FooterNav = (props) => {
   const [state, setState] = React.useState({
     fabClicked: false
   });
+  const [show, setShow] = React.useState(0);
   const trfm = `rotate(${deg}deg)`;
   const revtrfm = `rotate(${-deg}deg)`;
 
@@ -39,13 +51,28 @@ const FooterNav = (props) => {
     setState(state => ({ ...state, fabClicked: !state.fabClicked }));
   };
 
-  const sendAssistance = (name) => {
-    const body = {"table": tableId, "user": placeOrderById[0].$oid, "assistance_type": name}
-    console.log(body)
+  const sendAssistance = name => {
+    const body = {
+      table: tableId,
+      user: placeOrderById[0].$oid,
+      assistance_type: name
+    };
+    console.log(body);
     props.socket.emit("assistance_requests", JSON.stringify(body));
-  }
+  };
   return (
     <>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <div className="footer-nav">
         <div
           className={`floating-container ${
@@ -56,19 +83,32 @@ const FooterNav = (props) => {
           <div className="FAB" onClick={FABClick}>
             <span>Assist</span>
           </div>
-          {state.fabClicked && <div className="floating-container">
-          <div className="floating-menu">
-          <div onClick={() => sendAssistance('water')}>Ask for Water</div>
-          <div onClick={() => sendAssistance('help')}>Call for Assistance</div>
-          <div onClick={() => sendAssistance('cutlery')}>Call for Cutlery</div>
-          <div onClick={() => sendAssistance('tissue')}>Ask for Tissue</div>
-          <div onClick={() => sendAssistance('cleaning')}>Ask for Cleaning</div>  
-          <div onClick={() => sendAssistance('menu')}>Ask for Physical Menu</div>      
-          <div onClick={() => sendAssistance('ketchup')}>Ask for Ketchup</div>         
-          </div>
-          </div>}
+          {state.fabClicked && (
+            <div className="floating-container">
+              <div className="floating-menu">
+                <div onClick={() => sendAssistance("water")}>Ask for Water</div>
+                <div onClick={() => sendAssistance("help")}>
+                  Call for Assistance
+                </div>
+                <div onClick={() => sendAssistance("cutlery")}>
+                  Call for Cutlery
+                </div>
+                <div onClick={() => sendAssistance("tissue")}>
+                  Ask for Tissue
+                </div>
+                <div onClick={() => sendAssistance("cleaning")}>
+                  Ask for Cleaning
+                </div>
+                <div onClick={() => sendAssistance("menu")}>
+                  Ask for Physical Menu
+                </div>
+                <div onClick={() => sendAssistance("ketchup")}>
+                  Ask for Ketchup
+                </div>
+              </div>
+            </div>
+          )}
         </div>
-
         <Link to="/" className="styled-link">
           <div style={{ marginTop: "calc(.7rem - 3px)" }}>
             <img src={home} alt="Home" className={fillSvg("Home")} />
@@ -97,7 +137,6 @@ const FooterNav = (props) => {
     </>
   );
 };
-
 
 /*
 

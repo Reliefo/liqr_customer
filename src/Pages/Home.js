@@ -3,6 +3,7 @@ import { Card, CardDeck, Image } from "react-bootstrap";
 import PlusWithAddRemove from "components/PlusWithAddRemove";
 import dummyPic from "assets/dummypic.jpeg";
 import HomeItem from "components/HomeItem";
+import { Toast } from "react-bootstrap";
 import vodkaPic from "assets/vodka.jpg";
 import SocketContext from "../socket-context";
 import Slider from "react-slick";
