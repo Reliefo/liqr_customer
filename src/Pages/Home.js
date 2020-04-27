@@ -2,6 +2,7 @@ import React from "react";
 import { Card, CardDeck, Image } from "react-bootstrap";
 import PlusWithAddRemove from "components/PlusWithAddRemove";
 import dummyPic from "assets/dummypic.jpeg";
+import HomeItem from "components/HomeItem";
 import vodkaPic from "assets/vodka.jpg";
 import SocketContext from "../socket-context";
 import Slider from "react-slick";
@@ -51,12 +52,18 @@ const Home = props => {
     ]
   };
 
+  const [state, setState] = React.useState({
+    active: false,
+    subMenu: [] //0: Personal cart, 1: Table cart
+  });
+
   React.useEffect(() => {
     console.log("home screen");
     dispatch({ type: TYPES.SET_NAV, payload: "Home" });
     props.socket.off("order_updates").on("order_updates", msg => {
       dispatch({ type: TYPES.UPDATE_ORDER_STATUS, payload: JSON.parse(msg) });
     });
+    console.log(props.socket);
 
     props.socket.emit("fetch_rest_customer", "BNGHSR0001");
     props.socket.off("home_screen_lists").on("home_screen_lists", msg => {
@@ -64,6 +71,7 @@ const Home = props => {
     });
   }, []);
 
+  
   return (
     <>
       {/* <div style={{height:"100vh", background:'#004A77'}}>
@@ -80,6 +88,27 @@ const Home = props => {
                 <Card.Title className="home-title">{data[0]}</Card.Title>
                 <Slider {...settings}>
                   {Object.values(data[1]).map((item, index) => {
+                    if (typeof item === "object") {
+                      return Object.entries(data[1]).map((subMenu, sbx) => {
+                        return (
+                          <Card
+                            onClick={() =>
+                              props.history.push("/submenu", {
+                                data: subMenu,
+                                sbx: sbx,
+                                foodMenu: food_menu
+                              })
+                            }
+                            className="category card home-item"
+                            key={`category-cards-${sbx}`}
+                          >
+                            <Card.Title className="category-body home-title-font">
+                              {subMenu[0]}
+                            </Card.Title>
+                          </Card>
+                        );
+                      });
+                    }
                     return Object.values(food_menu).map((food, idx) => {
                       return Object.values(food.food_list).map((list, ix) => {
                         let desc = list.description.substring(0, 40) + "...";
@@ -93,9 +122,7 @@ const Home = props => {
                                 {list.name.toLowerCase()}
                               </Card.Title>
                               <Card.Body>
-                                <p className="desc-home-body">
-                                  {desc}
-                                </p>
+                                <p className="desc-home-body">{desc}</p>
                                 <PlusWithAddRemove item={list} />
                               </Card.Body>
                             </Card>
@@ -121,3 +148,4 @@ const homeWithSocket = props => (
 );
 
 export default homeWithSocket;
+
