@@ -51,6 +51,7 @@ const Menu = () => {
               food_menu.map((item, idx) => (
                 <React.Fragment key={`Category-${idx}`}>
                   <p className="category-subs" style={{ zIndex: idx + 1 }}>
+                    {item.name}
                   </p>
                   
                   <SubCategory subs={item} categories = {idx} key={`category-cards-${idx}`} />
@@ -71,7 +72,6 @@ export default Menu;
 const SubCategory = ({ subs, categories }) => (
   <>
     <p id={`menu-${categories}`} style={{ fontSize: "1.1rem", color: "#334252", fontWeight: 600 }}>
-      {subs.name}
      </p>
      {subs.food_list.map((foodItem, idx3) => (
        <FoodItem foodItem={foodItem} subs = {subs} subsIndex = {categories} index ={idx3} key={`food-item-${idx3}`}   />

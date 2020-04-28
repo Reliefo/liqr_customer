@@ -152,7 +152,7 @@ const FooterNav = props => {
           to="/"
           className="styled-link"
           onClick={() =>
-            setState(state => ({ ...state, menuClick: !state.menuClick }))
+            setState(state => ({ ...state, menuClick: false }))
           }
         >
           <div style={{ marginTop: "calc(.7rem - 3px)" }}>
@@ -170,7 +170,7 @@ const FooterNav = props => {
           to="/cart"
           className="styled-link"
           onClick={() =>
-            setState(state => ({ ...state, menuClick: !state.menuClick }))
+            setState(state => ({ ...state, menuClick: false }))
           }
         >
           <div style={{ marginTop: "calc(.7rem - 3px)" }}>
@@ -180,7 +180,7 @@ const FooterNav = props => {
         </Link>
         <Link to="/order" className="styled-link"
         onClick={() =>
-          setState(state => ({ ...state, menuClick: !state.menuClick }))
+          setState(state => ({ ...state, menuClick: false }))
         }>
           <div style={{ marginTop: "calc(.7rem - 3px)" }}>
             <img src={order} alt="Table" className={fillSvg("Order")} />
