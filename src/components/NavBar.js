@@ -40,7 +40,6 @@ export default props => {
   };
   return (
     <div>
-      <header>
         <SearchSVG onClick={searchIconClick} className="search-svg" />
         <div
           className="nav-search-bar"
@@ -98,7 +97,6 @@ export default props => {
             <hr />
           </a>
         </Menu>
-      </header>
     </div>
   );
 };

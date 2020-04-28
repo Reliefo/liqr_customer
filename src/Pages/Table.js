@@ -2,6 +2,7 @@ import React from "react";
 import { StoreContext } from "Store";
 import { Card, Accordion, Button } from "react-bootstrap";
 import SocketContext from "../socket-context";
+import SearchFoodItems from "components/SearchFoodItems.js";
 
 import * as TYPES from "Store/actionTypes.js";
 
@@ -10,7 +11,8 @@ const Table = props => {
     dispatch,
     state: {
       rawData: { food_menu = [] },
-      orderSuccess
+      orderSuccess,
+      searchClicked
     }
   } = React.useContext(StoreContext);
 
@@ -22,6 +24,9 @@ const Table = props => {
 
   return (
     <>
+     {searchClicked === true ? (
+     <SearchFoodItems /> )
+    : (
       <div className="order-status-styling">
         {food_menu.map((menuItem, index) => {
           return menuItem.food_list.map(foodItem => {
@@ -44,6 +49,7 @@ const Table = props => {
           });
         })}
       </div>
+    )}
     </>
   );
 };
