@@ -17,6 +17,7 @@ const initialState = {
   homeItems: [],
   orderSuccess : [],
   orderStatus: [],
+  activeData: {},
   rawData: {}
 };
 
@@ -47,6 +48,7 @@ const Store = props => {
     getData().then(resp => {
       if (!resp.success) {
         dispatch({ type: TYPES.ADD_DATA, payload: resp });
+        dispatch({ type: TYPES.ADD_SELECT_DATA, payload: resp.bar_menu });
         //segregating the food items and storign for search
         // console.log({ resp });
     
@@ -66,12 +68,12 @@ const Store = props => {
   
 
         let justBarItems = [];
-
+        let justFoodItems = [];
         const barMenu = resp.bar_menu;
         for (let i = 0; i < barMenu.length; ++i) {
           const Sub = resp.food_menu[i].name;
           for (let j = 0; j < resp.bar_menu[i].food_list.length; ++j) {
-            justBarItems.push(resp.bar_menu[i].food_list[j])
+            justFoodItems.push(resp.bar_menu[i].food_list[j])
             // const FoodList = Sub[j].foodlist;
             // for (let k = 0; k < FoodList.length; ++k) {
             //   justFoodItems.push(FoodList[k]);
@@ -79,14 +81,7 @@ const Store = props => {
           }
         }
 
-        dispatch({
-          type: TYPES.ADD_COLLECTIVE_BARITEMS,
-          payload: justBarItems
-        });
-
-
-
-        let justFoodItems = [];
+  
         const Menu = resp.food_menu;
         for (let i = 0; i < Menu.length; ++i) {
           const Sub = resp.food_menu[i].name;

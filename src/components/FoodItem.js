@@ -4,20 +4,23 @@ import { Card, Accordion, Button } from "react-bootstrap";
 import * as TYPES from "Store/actionTypes.js";
 import { StoreContext } from "Store";
 
-const FoodItem = ({ foodItem, index, subsIndex, subs }) => {
+const FoodItem = ({  stateData, foodItem, index, subsIndex, subs }) => {
   const {
     dispatch,
     state: {
-      rawData: { food_menu = [] }
+      rawData: { food_menu = [], bar_menu = [] },
+      activeData
     }
   } = React.useContext(StoreContext);
 
-  const [state] = React.useState({
-    food_item: food_menu //0: Personal cart, 1: Table cart
+  const [state, setState] = React.useState({
+    food_item: activeData //0: Personal cart, 1: Table cart
   });
 
+
+
   const setIndex = (foodItem, index, subsIndex) => {
-    state.food_item.forEach((item, index3) => {
+    activeData.forEach((item, index3) => {
       if (index3 === subsIndex) {
         item.food_list.forEach((item1, idx2) => {
           if (idx2 === index) {
@@ -26,7 +29,8 @@ const FoodItem = ({ foodItem, index, subsIndex, subs }) => {
         });
       }
     });
-    dispatch({ type: TYPES.UPDATE_FOOD_MENU, payload: state.food_item });
+    dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
+    
   };
 
   let desc = foodItem.description.substring(0, 20) + "...";
@@ -51,7 +55,6 @@ const FoodItem = ({ foodItem, index, subsIndex, subs }) => {
           <div>
             <Card.Body className="Menu-body">
               <p style={{ width: "69%", fontSize: ".9rem" }}>{desc}</p>
-              
             </Card.Body>
           </div>
         )}
