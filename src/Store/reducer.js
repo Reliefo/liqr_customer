@@ -77,6 +77,9 @@ function reducer(state, action) {
     case TYPES.ADD_COLLECTIVE_FOODITEMS:
       st.justMenuItems = payload;
       return st;
+      case TYPES.ADD_COLLECTIVE_BARITEMS:
+        st.justBarItems = payload;
+        return st;  
     case TYPES.SET_GENERAL_DATA:
       return { ...st, ...payload };
     default:

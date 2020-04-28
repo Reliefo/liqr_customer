@@ -13,6 +13,7 @@ const initialState = {
   tableId : "",
   placeOrderById : "",
   tableOrders: [],
+  justBarItems: [],
   homeItems: [],
   orderSuccess : [],
   orderStatus: [],
@@ -64,6 +65,27 @@ const Store = props => {
         })
   
 
+        let justBarItems = [];
+
+        const barMenu = resp.bar_menu;
+        for (let i = 0; i < barMenu.length; ++i) {
+          const Sub = resp.food_menu[i].name;
+          for (let j = 0; j < resp.bar_menu[i].food_list.length; ++j) {
+            justBarItems.push(resp.bar_menu[i].food_list[j])
+            // const FoodList = Sub[j].foodlist;
+            // for (let k = 0; k < FoodList.length; ++k) {
+            //   justFoodItems.push(FoodList[k]);
+            // }
+          }
+        }
+
+        dispatch({
+          type: TYPES.ADD_COLLECTIVE_BARITEMS,
+          payload: justBarItems
+        });
+
+
+
         let justFoodItems = [];
         const Menu = resp.food_menu;
         for (let i = 0; i < Menu.length; ++i) {
@@ -80,6 +102,7 @@ const Store = props => {
           type: TYPES.ADD_COLLECTIVE_FOODITEMS,
           payload: justFoodItems
         });
+
       }
     });
   }, []);
