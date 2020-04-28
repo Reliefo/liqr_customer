@@ -7,13 +7,14 @@ const Menu = () => {
   const {
     dispatch,
     state: {
-      rawData: { food_menu = [] },
+      rawData: { food_menu = [], bar_menu = [] },
       searchClicked
     }
   } = React.useContext(StoreContext);
 
   const [state, setState] = React.useState({
-    activeMenu: "bar"
+    activeMenu: "bar",
+    activeData: bar_menu
   });
 
   React.useEffect(() => {
@@ -22,9 +23,11 @@ const Menu = () => {
     dispatch({ type: TYPES.SET_NAV, payload: "Menu" });
   }, []);
 
-  const setMenu = name => setState(state => ({ ...state, activeMenu: name }));
+  const setMenu = (name,type) => {
+    setState(state => ({ ...state, activeMenu: name }))
+    setState(state => ({ ...state, activeData: type }))
+  }
   
-
 
   return (
     <>
@@ -32,23 +35,24 @@ const Menu = () => {
         <SearchFoodItems />
       ) : (
         <>
+         <div>
           <ul className="menu-btn">
             <li
               className={state.activeMenu === "bar" ? "active" : null}
-              onClick={() => setMenu("bar")}
+              onClick={() => setMenu("bar", bar_menu)}
             >
               <div>Bar</div>
             </li>
             <li
               className={state.activeMenu === "food" ? "active" : null}
-              onClick={() => setMenu("food")}
+              onClick={() => setMenu("food",food_menu)}
             >
               <div>Food</div>
             </li>
           </ul>
           <div className="category">
-            {food_menu.length &&
-              food_menu.map((item, idx) => (
+            {[state.activeData].length &&
+              state.activeData.map((item, idx) => (
                 <React.Fragment key={`Category-${idx}`}>
                   <p className="category-subs" style={{ zIndex: idx + 1 }}>
                     {item.name}
@@ -57,6 +61,7 @@ const Menu = () => {
                   <SubCategory subs={item} categories = {idx} key={`category-cards-${idx}`} />
                 </React.Fragment>
               ))}
+          </div>
           </div>
         </>
       )}
