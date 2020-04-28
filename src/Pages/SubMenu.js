@@ -1,6 +1,7 @@
 import React from "react";
 import { Card, CardDeck, Image } from "react-bootstrap";
 import PlusWithAddRemove from "components/PlusWithAddRemove";
+import FoodItem from "../components/FoodItem";
 import dummyPic from "assets/dummypic.jpeg";
 import HomeItem from "components/HomeItem";
 import vodkaPic from "assets/vodka.jpg";
@@ -61,34 +62,24 @@ const SubMenu = props => {
   return (
     <>
       <div className="category">
-        <Card className="category-card main-home-card" key={`category-cards-1`}>
-          <Card.Title>{props.location.state.data[0]}</Card.Title>
-          <Slider {...settings}>
-                  {Object.values(props.location.state.data[1]).map((item, index) => {
-                    return Object.values(props.location.state.foodMenu).map((food, idx) => {
-                      return Object.values(food.food_list).map((list, ix) => {
-                        let desc = list.description.substring(0, 40) + "...";
-                        if (list._id.$oid === item) {
-                          return (
-                            <Card
-                              className="category card home-item"
-                              key={`category-cards-${ix}`}
-                            >
-                              <Card.Title className="category-body home-title-font">
-                                {list.name.toLowerCase()}
-                              </Card.Title>
-                              <Card.Body>
-                                <p className="desc-home-body">{desc}</p>
-                                <PlusWithAddRemove item={list} />
-                              </Card.Body>
-                            </Card>
-                          );
-                        }
-                      });
-                    });
-                  })}
-                </Slider>
-        </Card>
+        {Object.values(props.location.state.data[1]).map((item, index) => {
+          return Object.values(props.location.state.foodMenu).map(
+            (food, idx) => {
+              return Object.values(food.food_list).map((list, ix) => {
+                let desc = list.description.substring(0, 40) + "...";
+                if (list._id.$oid === item) {
+                  return (
+                    <FoodItem
+                      foodItem={list}
+                      subs={index}
+                      key={`food-item-${index}`}
+                    />
+                  );
+                }
+              });
+            }
+          );
+        })}
       </div>
     </>
   );

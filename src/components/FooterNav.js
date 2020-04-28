@@ -15,7 +15,12 @@ import { ReactComponent as DoubleArrow } from "assets/double-arrow.svg";
 import * as TYPES from "Store/actionTypes.js";
 const FooterNav = props => {
   const {
-    state: { activeNav, tableId, placeOrderById },
+    state: {
+      activeNav,
+      tableId,
+      placeOrderById,
+      rawData: { food_menu = [] }
+    },
     dispatch
   } = React.useContext(StoreContext);
 
@@ -24,7 +29,7 @@ const FooterNav = props => {
       const message = JSON.parse(ms);
       const { msg } = message;
 
-      toast(msg, {
+      toast.info(msg, {
         position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,
@@ -40,9 +45,10 @@ const FooterNav = props => {
     activeNav === name ? "icon-active" : "icon-inactive";
   const [deg, setDeg] = React.useState(0);
   const [state, setState] = React.useState({
-    fabClicked: false
+    fabClicked: false,
+    menuClick: false
   });
-  const [show, setShow] = React.useState(0);
+
   const trfm = `rotate(${deg}deg)`;
   const revtrfm = `rotate(${-deg}deg)`;
 
@@ -50,6 +56,15 @@ const FooterNav = props => {
     console.log("clicked...");
     setState(state => ({ ...state, fabClicked: !state.fabClicked }));
   };
+
+  const MenuClick = () => {
+    console.log("clicked...");
+    setState(state => ({ ...state, menuClick: !state.menuClick }));
+  };
+
+  const myRef = React.useRef();
+  const scrollToRef = ref => window.scrollTo(0, ref.current.offsetTop);
+  const executeScroll = () => scrollToRef(myRef);
 
   const sendAssistance = name => {
     const body = {
@@ -63,6 +78,7 @@ const FooterNav = props => {
   return (
     <>
       <ToastContainer
+        toastClassName="dark-toast"
         position="top-center"
         autoClose={5000}
         hideProgressBar={false}
@@ -74,6 +90,29 @@ const FooterNav = props => {
         pauseOnHover
       />
       <div className="footer-nav">
+        {activeNav === "Menu" && (
+          <div className="floating-container-menu">
+            <div className="menu-button-footer" onClick={MenuClick}>
+              <span>Menu</span>
+            </div>
+          </div>
+        )}
+        {state.menuClick && (
+          <div className="floating-container-menu">
+            <div
+              className="floating-container menu-button"
+              style={{ marginBottom: "2.5rem" }}
+            >
+              {food_menu.map((item, idx) => {
+                return (
+                  <div key={idx}>
+                    <a href={`#menu-${idx}`}> {item.name}</a>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
         <div
           className={`floating-container ${
             state.fabClicked ? "rotate-fab" : ""
@@ -109,7 +148,13 @@ const FooterNav = props => {
             </div>
           )}
         </div>
-        <Link to="/" className="styled-link">
+        <Link
+          to="/"
+          className="styled-link"
+          onClick={() =>
+            setState(state => ({ ...state, menuClick: !state.menuClick }))
+          }
+        >
           <div style={{ marginTop: "calc(.7rem - 3px)" }}>
             <img src={home} alt="Home" className={fillSvg("Home")} />
             <span className="icon-text">Home</span>
@@ -121,13 +166,22 @@ const FooterNav = props => {
             <span className="icon-text">Menu</span>
           </div>
         </Link>
-        <Link to="/cart" className="styled-link">
+        <Link
+          to="/cart"
+          className="styled-link"
+          onClick={() =>
+            setState(state => ({ ...state, menuClick: !state.menuClick }))
+          }
+        >
           <div style={{ marginTop: "calc(.7rem - 3px)" }}>
             <img src={cart} alt="Cart" className={fillSvg("Cart")} />
             <span className="icon-text">Cart</span>
           </div>
         </Link>
-        <Link to="/order" className="styled-link">
+        <Link to="/order" className="styled-link"
+        onClick={() =>
+          setState(state => ({ ...state, menuClick: !state.menuClick }))
+        }>
           <div style={{ marginTop: "calc(.7rem - 3px)" }}>
             <img src={order} alt="Table" className={fillSvg("Order")} />
             <span className="icon-text">Order</span>
