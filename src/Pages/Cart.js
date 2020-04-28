@@ -6,6 +6,7 @@ import AddRemoveItem from "components/AddRemoveItem.js";
 import { StoreContext } from "Store";
 import SocketContext from "../socket-context";
 import * as TYPES from "Store/actionTypes.js";
+import SearchFoodItems from "components/SearchFoodItems.js";
 import { ReactComponent as FoodTraySVG } from "assets/food-tray.svg";
 import { ReactComponent as TableSVG } from "assets/table.svg";
 import { ReactComponent as EmptyCartSadIMG } from "assets/empty-card-sad.svg";
@@ -19,7 +20,7 @@ import { ReactComponent as PersonalSVG } from "assets/personal.svg";
 const Cart = props => {
   const {
     dispatch,
-    state: { cart, tableId, tableOrders, placeOrderById }
+    state: { cart, tableId, tableOrders, placeOrderById, searchClicked }
   } = React.useContext(StoreContext);
 
   const [state, setState] = React.useState({
@@ -176,6 +177,10 @@ const Cart = props => {
   };
   return (
     <>
+     {searchClicked === true ? (
+     <SearchFoodItems /> )
+    : (
+      <div>
       <ul className="menu-btn" style={{ justifyContent: "space-evenly" }}>
         <li onClick={pushToCart}>
           <div
@@ -241,6 +246,8 @@ const Cart = props => {
           </>
         )}
       </div>
+      </div>
+    )}
     </>
   );
 };

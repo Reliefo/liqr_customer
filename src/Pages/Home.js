@@ -5,6 +5,7 @@ import dummyPic from "assets/dummypic.jpeg";
 import HomeItem from "components/HomeItem";
 import { Toast } from "react-bootstrap";
 import vodkaPic from "assets/vodka.jpg";
+import SearchFoodItems from "components/SearchFoodItems.js";
 import SocketContext from "../socket-context";
 import Slider from "react-slick";
 import { StoreContext } from "Store";
@@ -15,7 +16,8 @@ const Home = props => {
     dispatch,
     state: {
       homeItems,
-      rawData: { food_menu = [] }
+      rawData: { food_menu = [] },
+      searchClicked
     }
   } = React.useContext(StoreContext);
 
@@ -75,9 +77,9 @@ const Home = props => {
   
   return (
     <>
-      {/* <div style={{height:"100vh", background:'#004A77'}}>
-      <input type="text" />
-    </div> */}
+     {searchClicked === true ? (
+     <SearchFoodItems /> )
+    : (
       <div className="category">
         {Object.entries(homeItems).map((data, idx) => {
           if (idx !== 0) {
@@ -138,6 +140,7 @@ const Home = props => {
           }
         })}
       </div>
+    )}
     </>
   );
 };

@@ -92,7 +92,7 @@ const FooterNav = props => {
       <div className="footer-nav">
         {activeNav === "Menu" && (
           <div className="floating-container-menu">
-            <div className="menu-button-footer" onClick={MenuClick}>
+            <div className="menu-button-footer" onClick={!state.fabClicked ? MenuClick : null}>
               <span>Menu</span>
             </div>
           </div>
@@ -119,7 +119,7 @@ const FooterNav = props => {
           }`}
           style={{ transform: trfm }} //this rotation takes care of all other rotations.
         >
-          <div className="FAB" onClick={FABClick}>
+          <div className="FAB" onClick={!state.menuClick ? FABClick : null}>
             <span>Assist</span>
           </div>
           {state.fabClicked && (
