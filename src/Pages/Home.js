@@ -62,6 +62,11 @@ const Home = props => {
 
   React.useEffect(() => {
     console.log("home screen");
+    dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: '' } });
+    dispatch({
+      type: TYPES.SET_GENERAL_DATA,
+      payload: { searchClicked: false }
+    });
     dispatch({ type: TYPES.SET_NAV, payload: "Home" });
     props.socket.off("order_updates").on("order_updates", msg => {
       dispatch({ type: TYPES.UPDATE_ORDER_STATUS, payload: JSON.parse(msg) });
@@ -74,73 +79,72 @@ const Home = props => {
     });
   }, []);
 
-  
   return (
     <>
-     {searchClicked === true ? (
-     <SearchFoodItems /> )
-    : (
-      <div className="category">
-        {Object.entries(homeItems).map((data, idx) => {
-          if (idx !== 0) {
-            return (
-              <Card
-                className="category-card main-home-card"
-                key={`category-cards-${idx}`}
-              >
-                <Card.Title className="home-title">{data[0]}</Card.Title>
-                <Slider {...settings}>
-                  {Object.values(data[1]).map((item, index) => {
-                    if (typeof item === "object") {
-                      return Object.entries(data[1]).map((subMenu, sbx) => {
-                        return (
-                          <Card
-                            onClick={() =>
-                              props.history.push("/submenu", {
-                                data: subMenu,
-                                sbx: sbx,
-                                foodMenu: food_menu
-                              })
-                            }
-                            className="category card home-item"
-                            key={`category-cards-${sbx}`}
-                          >
-                            <Card.Title className="category-body home-title-font">
-                              {subMenu[0]}
-                            </Card.Title>
-                          </Card>
-                        );
-                      });
-                    }
-                    return Object.values(food_menu).map((food, idx) => {
-                      return Object.values(food.food_list).map((list, ix) => {
-                        let desc = list.description.substring(0, 40) + "...";
-                        if (list._id.$oid === item) {
+      {searchClicked === true ? (
+        <SearchFoodItems />
+      ) : (
+        <div className="category">
+          {Object.entries(homeItems).map((data, idx) => {
+            if (idx !== 0) {
+              return (
+                <Card
+                  className="category-card main-home-card"
+                  key={`category-cards-${idx}`}
+                >
+                  <Card.Title className="home-title">{data[0]}</Card.Title>
+                  <Slider {...settings}>
+                    {Object.values(data[1]).map((item, index) => {
+                      if (typeof item === "object") {
+                        return Object.entries(data[1]).map((subMenu, sbx) => {
                           return (
                             <Card
+                              onClick={() =>
+                                props.history.push("/submenu", {
+                                  data: subMenu,
+                                  sbx: sbx,
+                                  foodMenu: food_menu
+                                })
+                              }
                               className="category card home-item"
-                              key={`category-cards-${ix}`}
+                              key={`category-cards-${sbx}`}
                             >
                               <Card.Title className="category-body home-title-font">
-                                {list.name.toLowerCase()}
+                                {subMenu[0]}
                               </Card.Title>
-                              <Card.Body>
-                                <p className="desc-home-body">{desc}</p>
-                                <PlusWithAddRemove item={list} />
-                              </Card.Body>
                             </Card>
                           );
-                        }
+                        });
+                      }
+                      return Object.values(food_menu).map((food, idx) => {
+                        return Object.values(food.food_list).map((list, ix) => {
+                          let desc = list.description.substring(0, 40) + "...";
+                          if (list._id.$oid === item) {
+                            return (
+                              <Card
+                                className="category card home-item"
+                                key={`category-cards-${ix}`}
+                              >
+                                <Card.Title className="category-body home-title-font">
+                                  {list.name.toLowerCase()}
+                                </Card.Title>
+                                <Card.Body>
+                                  <p className="desc-home-body">{desc}</p>
+                                  <PlusWithAddRemove item={list} />
+                                </Card.Body>
+                              </Card>
+                            );
+                          }
+                        });
                       });
-                    });
-                  })}
-                </Slider>
-              </Card>
-            );
-          }
-        })}
-      </div>
-    )}
+                    })}
+                  </Slider>
+                </Card>
+              );
+            }
+          })}
+        </div>
+      )}
     </>
   );
 };
@@ -152,4 +156,3 @@ const homeWithSocket = props => (
 );
 
 export default homeWithSocket;
-

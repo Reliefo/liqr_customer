@@ -17,39 +17,46 @@ const Table = props => {
   } = React.useContext(StoreContext);
 
   React.useEffect(() => {
+    dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: '' } });
     console.log("Table screen");
     //handling refresh issue
+    dispatch({
+      type: TYPES.SET_GENERAL_DATA,
+      payload: { searchClicked: false }
+    });
     dispatch({ type: TYPES.SET_NAV, payload: "Order" });
   }, []);
 
   return (
     <>
-     {searchClicked === true ? (
-     <SearchFoodItems /> )
-    : (
-      <div className="order-status-styling">
-        {food_menu.map((menuItem, index) => {
-          return menuItem.food_list.map(foodItem => {
-            return orderSuccess.map((item, idx) => {
-              return item.payload.orders.map(item2 => {
-                return item2.food_list.map(item3 => {
-                  if (item3.food_id === foodItem._id.$oid) {
-                    return (
-                      <Card
-                        key={idx}
-                        className="cart-card cart-styling margin-styling"
-                      >
-                        <Card.Body className="body">{foodItem.name} - {item3.status}</Card.Body>
-                      </Card>
-                    );
-                  }
+      {searchClicked === true ? (
+        <SearchFoodItems />
+      ) : (
+        <div className="order-status-styling">
+          {food_menu.map((menuItem, index) => {
+            return menuItem.food_list.map(foodItem => {
+              return orderSuccess.map((item, idx) => {
+                return item.payload.orders.map(item2 => {
+                  return item2.food_list.map(item3 => {
+                    if (item3.food_id === foodItem._id.$oid) {
+                      return (
+                        <Card
+                          key={idx}
+                          className="cart-card cart-styling margin-styling"
+                        >
+                          <Card.Body className="body">
+                            {foodItem.name} - {item3.status}
+                          </Card.Body>
+                        </Card>
+                      );
+                    }
+                  });
                 });
               });
             });
-          });
-        })}
-      </div>
-    )}
+          })}
+        </div>
+      )}
     </>
   );
 };

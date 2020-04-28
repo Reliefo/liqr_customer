@@ -12,13 +12,13 @@ const SearchFoodItems = () => {
   return (
     <div className="category">
       <ul style={{ listStyleType: "none" }}>
-        {justMenuItems.map(foodItem => {
+        {justMenuItems.map((foodItem,idx) => {
           //to make it case insensitive
           const name = foodItem.name.toLowerCase();
           const mathingValue = searchValue.toLowerCase();
           const isMatch = name.indexOf(mathingValue) !== -1;
           return (
-            <li style={{ display: isMatch ? "" : "none" }}>
+            <li key={idx} style={{ display: isMatch ? "" : "none" }}>
               <FoodItem foodItem={foodItem} />
             </li>
           );

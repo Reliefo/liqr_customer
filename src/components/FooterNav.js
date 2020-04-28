@@ -65,9 +65,6 @@ const FooterNav = props => {
     setState(state => ({ ...state, menuClick: !state.menuClick }));
   };
 
-  const myRef = React.useRef();
-  const scrollToRef = ref => window.scrollTo(0, ref.current.offsetTop);
-  const executeScroll = () => scrollToRef(myRef);
 
   const sendAssistance = name => {
     const body = {
@@ -75,7 +72,6 @@ const FooterNav = props => {
       user: placeOrderById[0].$oid,
       assistance_type: name
     };
-    console.log(body);
     props.socket.emit("assistance_requests", JSON.stringify(body));
   };
   return (

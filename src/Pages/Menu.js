@@ -19,6 +19,11 @@ const Menu = () => {
 
   React.useEffect(() => {
     console.log("Menu screen");
+    dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: '' } });
+    dispatch({
+      type: TYPES.SET_GENERAL_DATA,
+      payload: { searchClicked: false }
+    });
     //handling refresh issue
     dispatch({ type: TYPES.SET_NAV, payload: "Menu" });
   }, []);
