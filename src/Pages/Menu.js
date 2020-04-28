@@ -8,13 +8,13 @@ const Menu = () => {
     dispatch,
     state: {
       rawData: { food_menu = [], bar_menu = [] },
-      searchClicked
+      searchClicked,
+      activeData,
     }
   } = React.useContext(StoreContext);
 
   const [state, setState] = React.useState({
     activeMenu: "bar",
-    activeData: bar_menu
   });
 
   React.useEffect(() => {
@@ -25,7 +25,8 @@ const Menu = () => {
 
   const setMenu = (name,type) => {
     setState(state => ({ ...state, activeMenu: name }))
-    setState(state => ({ ...state, activeData: type }))
+    dispatch({ type: TYPES.ADD_SELECT_DATA, payload: type });
+    
   }
   
 
@@ -51,14 +52,14 @@ const Menu = () => {
             </li>
           </ul>
           <div className="category">
-            {[state.activeData].length &&
-              state.activeData.map((item, idx) => (
+            {activeData.length &&
+              activeData.map((item, idx) => (
                 <React.Fragment key={`Category-${idx}`}>
                   <p className="category-subs" style={{ zIndex: idx + 1 }}>
                     {item.name}
                   </p>
                   
-                  <SubCategory subs={item} categories = {idx} key={`category-cards-${idx}`} />
+                  <SubCategory activeData={state.activeData} subs={item} categories = {idx} key={`category-cards-${idx}`} />
                 </React.Fragment>
               ))}
           </div>
@@ -74,12 +75,12 @@ export default Menu;
 
 
 
-const SubCategory = ({ subs, categories }) => (
+const SubCategory = ({ subs, categories, activeData }) => (
   <>
     <p id={`menu-${categories}`} style={{ fontSize: "1.1rem", color: "#334252", fontWeight: 600 }}>
      </p>
      {subs.food_list.map((foodItem, idx3) => (
-       <FoodItem foodItem={foodItem} subs = {subs} subsIndex = {categories} index ={idx3} key={`food-item-${idx3}`}   />
+       <FoodItem stateData = {activeData} foodItem={foodItem} subs = {subs} subsIndex = {categories} index ={idx3} key={`food-item-${idx3}`}   />
      ))}
   </>
 );

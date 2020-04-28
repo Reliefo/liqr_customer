@@ -18,6 +18,7 @@ const FooterNav = props => {
     state: {
       activeNav,
       tableId,
+      activeData,
       placeOrderById,
       rawData: { food_menu = [] }
     },
@@ -105,7 +106,7 @@ const FooterNav = props => {
               className="floating-container menu-button"
               style={{ marginBottom: "2.5rem" }}
             >
-              {food_menu.map((item, idx) => {
+              {activeData.map((item, idx) => {
                 return (
                   <div key={idx}>
                     <a href={`#menu-${idx}`}> {item.name}</a>

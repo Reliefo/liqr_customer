@@ -40,12 +40,18 @@ function reducer(state, action) {
       });
 
       return st;
-    case TYPES.UPDATE_FOOD_MENU:
+  case TYPES.UPDATE_FOOD_MENU:
       st.rawData.food_menu = payload;
       return st;
     case TYPES.ADD_DATA:
+
       st.rawData = payload;
       return st;
+      case TYPES.ADD_SELECT_DATA:
+      return {
+        ...st,
+        activeData: payload
+     };
     case TYPES.ADD_ITEM:
       idx = st.cart.findIndex(item => item._id.$oid === payload._id.$oid);
       if (idx === -1) {
