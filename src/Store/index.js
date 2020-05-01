@@ -29,6 +29,8 @@ const StoreContext = React.createContext(null);
 const Store = props => {
   const [state, dispatch] = React.useReducer(reducer, localState || initialState);
 
+  let parm = window.location.href;
+  parm = parm.split('=')
 
   React.useEffect(() => {
     localStorage.setItem("relief", JSON.stringify(state));
@@ -52,7 +54,7 @@ const Store = props => {
     bodyFormData.set('unique_id', uniqueId);
     bodyFormData.set('password', 'wask');
     bodyFormData.set('email_id', 'dud');
-    bodyFormData.set('table_id', '5ea941ac7310f4cd2da4e21e');
+    bodyFormData.set('table_id', parm[1]);
     axios({
       method: 'post',
       url: 'http://ec2-13-232-202-63.ap-south-1.compute.amazonaws.com:5050/user_login',
