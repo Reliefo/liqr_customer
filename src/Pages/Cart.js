@@ -39,7 +39,7 @@ const Cart = props => {
   }, []);
 
   const DeleteItemHndlr = item => {
-    dispatch({ type: TYPES.DEL_ITEM, payload: item._id.$oid });
+    dispatch({ type: TYPES.DEL_ITEM, payload: item });
   };
 
   const pushToCart = () => {
@@ -107,10 +107,11 @@ const Cart = props => {
             <AddRemoveItem
               className="trial"
               count={item.quantity}
-              id={item._id.$oid}
+              id={item}
+              allData={item}
             />
             <p style={{ margin: 0, width: "15%" }}>
-              &#8377; {item.price * item.quantity}
+              &#8377; {item.options ? parseInt(item.options.option_price * item.quantity) : item.price * item.quantity}
             </p>
             <div
               style={{ padding: ".5rem" }}
@@ -160,8 +161,11 @@ const Cart = props => {
   //TODO: useEffect for this
   const orderTotal =
     cart.length !== 0
-      ? cart.reduce((total, item) => total + item.price * item.quantity, 0)
+      ? cart.reduce((total, item) => total + (item.options ? parseInt(item.options.option_price) * item.quantity: item.price * item.quantity), 0)
       : "";
+
+ 
+ 
 
   let sum = 0;
   tableOrders.length !== 0

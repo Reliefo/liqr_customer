@@ -6,6 +6,7 @@ import * as TYPES from "Store/actionTypes.js";
 
 //decHndlr and incHndlr are for parent.(we are using it in case of plusWithAddRemove COmponent)
 const AddRemoveItem = ({
+  allData,
   id,
   count,
   decHndlr,
