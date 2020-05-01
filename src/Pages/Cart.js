@@ -29,6 +29,11 @@ const Cart = props => {
 
   React.useEffect(() => {
     console.log("Cart screen");
+    dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: '' } });
+    dispatch({
+      type: TYPES.SET_GENERAL_DATA,
+      payload: { searchClicked: false }
+    });
     //handling refresh issue
     dispatch({ type: TYPES.SET_NAV, payload: "Cart" });
   }, []);
@@ -177,77 +182,79 @@ const Cart = props => {
   };
   return (
     <>
-     {searchClicked === true ? (
-     <SearchFoodItems /> )
-    : (
-      <div>
-      <ul className="menu-btn" style={{ justifyContent: "space-evenly" }}>
-        <li onClick={pushToCart}>
-          <div
-            className={
-              state.activeCart === 0 ? "cart-menu active" : "cart-menu"
-            }
-          >
-            <PersonalSVG height="19px" />
-            &nbsp;&nbsp;Personal
-          </div>
-        </li>
-        <li onClick={pushToCart}>
-          <div
-            className={
-              state.activeCart === 1 ? "cart-menu active" : "cart-menu"
-            }
-          >
-            <TableSVG height="19px" />
-            &nbsp;&nbsp;Table
-          </div>
-        </li>
-      </ul>
-      <div className="cart-wrapper">
-        {isEmpty() && (
-          <div className="empty-cart">
-            <EmptyCartSadIMG />
-            <p style={{ margin: 0 }}>Who likes rumbling tummy ?</p>
-            <p>Neither me.</p>
-          </div>
-        )}
-        {cart.length !== 0 && state.activeCart === 0 && renderPersonalCart()}
-        {state.activeCart === 1 && renderTableCart()}
-        {state.activeCart === 0 && cart.length !== 0 && (
-          <>
-            <Bill orderTotal={orderTotal} />
-            {state.activeCart === 0 && (
-              <Row>
-                <Col style={{ marginTop: "1rem" }}>
-                  <div className="bill-btn" onClick={setCartPlaceOrder}>
-                    <FoodTraySVG height="25px" width="25px" />
-                    <p>Place Order</p>
-                  </div>
-                </Col>
-                <Col style={{ marginTop: "1rem" }}>
-                  <div className="bill-btn" onClick={setCart}>
-                    <TableSVG height="25px" width="25px" />
-                    <p>Push To Table</p>
-                  </div>
-                </Col>
-              </Row>
-            )}
-          </>
-        )}
-        {state.activeCart === 1 && (
-          <>
-            <Bill orderTotal={sum} />
-            <div onClick={setOrderTable} className="bill-btn mt-3">
-              <div className="d-flex">
-                <FoodTraySVG height="25px" width="25px" />
-                <p className="ml-3">Confirm Order</p>
+      {searchClicked === true ? (
+        <SearchFoodItems />
+      ) : (
+        <div>
+          <ul className="menu-btn" style={{ justifyContent: "space-evenly" }}>
+            <li onClick={pushToCart}>
+              <div
+                className={
+                  state.activeCart === 0 ? "cart-menu active" : "cart-menu"
+                }
+              >
+                <PersonalSVG height="19px" />
+                &nbsp;&nbsp;Personal
               </div>
-            </div>
-          </>
-        )}
-      </div>
-      </div>
-    )}
+            </li>
+            <li onClick={pushToCart}>
+              <div
+                className={
+                  state.activeCart === 1 ? "cart-menu active" : "cart-menu"
+                }
+              >
+                <TableSVG height="19px" />
+                &nbsp;&nbsp;Table
+              </div>
+            </li>
+          </ul>
+          <div className="cart-wrapper">
+            {isEmpty() && (
+              <div className="empty-cart">
+                <EmptyCartSadIMG />
+                <p style={{ margin: 0 }}>Who likes rumbling tummy ?</p>
+                <p>Neither me.</p>
+              </div>
+            )}
+            {cart.length !== 0 &&
+              state.activeCart === 0 &&
+              renderPersonalCart()}
+            {state.activeCart === 1 && renderTableCart()}
+            {state.activeCart === 0 && cart.length !== 0 && (
+              <>
+                <Bill orderTotal={orderTotal} />
+                {state.activeCart === 0 && (
+                  <Row>
+                    <Col style={{ marginTop: "1rem" }}>
+                      <div className="bill-btn" onClick={setCartPlaceOrder}>
+                        <FoodTraySVG height="25px" width="25px" />
+                        <p>Place Order</p>
+                      </div>
+                    </Col>
+                    <Col style={{ marginTop: "1rem" }}>
+                      <div className="bill-btn" onClick={setCart}>
+                        <TableSVG height="25px" width="25px" />
+                        <p>Push To Table</p>
+                      </div>
+                    </Col>
+                  </Row>
+                )}
+              </>
+            )}
+            {state.activeCart === 1 && (
+              <>
+                <Bill orderTotal={sum} />
+                <div onClick={setOrderTable} className="bill-btn mt-3">
+                  <div className="d-flex">
+                    <FoodTraySVG height="25px" width="25px" />
+                    <p className="ml-3">Confirm Order</p>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </>
   );
 };
