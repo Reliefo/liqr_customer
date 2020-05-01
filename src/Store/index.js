@@ -2,8 +2,9 @@ import React from "react";
 import reducer from "./reducer.js";
 import axios from "axios";
 import * as TYPES from "./actionTypes";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 import tempData from "json_with_class.json";
+import io from "socket.io-client";
 
 const initialState = {
   activeNav: "",
@@ -11,12 +12,12 @@ const initialState = {
   searchClicked: false,
   searchValue: "",
   cart: [],
-  tableId : "",
-  placeOrderById : "",
+  tableId: "",
+  placeOrderById: "",
   tableOrders: [],
   justBarItems: [],
   homeItems: [],
-  orderSuccess : [],
+  orderSuccess: [],
   orderStatus: [],
   activeData: {},
   rawData: {}
@@ -25,55 +26,32 @@ const initialState = {
 const localState = JSON.parse(localStorage.getItem("relief"));
 
 const StoreContext = React.createContext(null);
-
 const Store = props => {
-  const [state, dispatch] = React.useReducer(reducer, localState || initialState);
+  const [state, dispatch] = React.useReducer(
+    reducer,
+    localState || initialState
+  );
 
   let parm = window.location.href;
-  parm = parm.split('=')
+  parm = parm.split("=");
 
   React.useEffect(() => {
     localStorage.setItem("relief", JSON.stringify(state));
   }, [state]);
 
-
   const getData = async () => {
     try {
-      const resp = await axios.get('http://ec2-13-232-202-63.ap-south-1.compute.amazonaws.com:5050/rest');
+      const resp = await axios.get(
+        "http://ec2-13-232-202-63.ap-south-1.compute.amazonaws.com:5050/rest"
+      );
       return resp.data;
-    }catch(err){
-      return {success: false};
+    } catch (err) {
+      return { success: false };
     }
   };
   React.useEffect(() => {
     console.log("store mounted");
-
-    const uniqueId =`${uuidv4().substring(0, 15)}`
-
-    let bodyFormData = new FormData();
-    bodyFormData.set('unique_id', uniqueId);
-    bodyFormData.set('password', 'wask');
-    bodyFormData.set('email_id', 'dud');
-    bodyFormData.set('table_id', parm[1]);
-    axios({
-      method: 'post',
-      url: 'http://ec2-13-232-202-63.ap-south-1.compute.amazonaws.com:5050/user_login',
-      data: bodyFormData,
-      })
-      .then(function (response) {
-          //handle success
-          const { data } = response;
-
-          localStorage.setItem("jwt", data.jwt);
-          localStorage.setItem("refreshToken", data.refresh_token)
-          localStorage.setItem("uniqueId", data.unique_id)
-          localStorage.setItem("name", data.name)
-      })
-      .catch(function (response) {
-          //handle error
-          console.log(response);
-      });
-  
+   
 
     getData().then(resp => {
       if (!resp.success) {
@@ -81,9 +59,9 @@ const Store = props => {
         dispatch({ type: TYPES.ADD_SELECT_DATA, payload: resp.bar_menu });
         //segregating the food items and storign for search
         // console.log({ resp });
-    
+
         resp.tables.forEach(item => {
-           if(item.users.length > 0) {
+          if (item.users.length > 0) {
             dispatch({
               type: TYPES.SET_TABLE_ID,
               payload: item
@@ -93,9 +71,8 @@ const Store = props => {
               type: TYPES.SET_PLACEORDER_ID,
               payload: item
             });
-           }
-        })
-  
+          }
+        });
 
         let justBarItems = [];
         let justFoodItems = [];
@@ -103,7 +80,7 @@ const Store = props => {
         for (let i = 0; i < barMenu.length; ++i) {
           const Sub = resp.food_menu[i].name;
           for (let j = 0; j < resp.bar_menu[i].food_list.length; ++j) {
-            justFoodItems.push(resp.bar_menu[i].food_list[j])
+            justFoodItems.push(resp.bar_menu[i].food_list[j]);
             // const FoodList = Sub[j].foodlist;
             // for (let k = 0; k < FoodList.length; ++k) {
             //   justFoodItems.push(FoodList[k]);
@@ -111,12 +88,11 @@ const Store = props => {
           }
         }
 
-  
         const Menu = resp.food_menu;
         for (let i = 0; i < Menu.length; ++i) {
           const Sub = resp.food_menu[i].name;
           for (let j = 0; j < resp.food_menu[i].food_list.length; ++j) {
-            justFoodItems.push(resp.food_menu[i].food_list[j])
+            justFoodItems.push(resp.food_menu[i].food_list[j]);
             // const FoodList = Sub[j].foodlist;
             // for (let k = 0; k < FoodList.length; ++k) {
             //   justFoodItems.push(FoodList[k]);
@@ -127,7 +103,6 @@ const Store = props => {
           type: TYPES.ADD_COLLECTIVE_FOODITEMS,
           payload: justFoodItems
         });
-
       }
     });
   }, []);
@@ -142,5 +117,4 @@ const Store = props => {
     </StoreContext.Provider>
   );
 };
-
 export { StoreContext, Store };
