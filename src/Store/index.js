@@ -2,6 +2,7 @@ import React from "react";
 import reducer from "./reducer.js";
 import axios from "axios";
 import * as TYPES from "./actionTypes";
+import { v4 as uuidv4 } from 'uuid';
 import tempData from "json_with_class.json";
 
 const initialState = {
@@ -44,6 +45,33 @@ const Store = props => {
   };
   React.useEffect(() => {
     console.log("store mounted");
+
+    const uniqueId =`${uuidv4().substring(0, 15)}`
+
+    let bodyFormData = new FormData();
+    bodyFormData.set('unique_id', uniqueId);
+    bodyFormData.set('password', 'wask');
+    bodyFormData.set('email_id', 'dud');
+    bodyFormData.set('table_id', '5ea941ac7310f4cd2da4e21e');
+    axios({
+      method: 'post',
+      url: 'http://ec2-13-232-202-63.ap-south-1.compute.amazonaws.com:5050/user_login',
+      data: bodyFormData,
+      })
+      .then(function (response) {
+          //handle success
+          const { data } = response;
+
+          localStorage.setItem("jwt", data.jwt);
+          localStorage.setItem("refreshToken", data.refresh_token)
+          localStorage.setItem("uniqueId", data.unique_id)
+          localStorage.setItem("name", data.name)
+      })
+      .catch(function (response) {
+          //handle error
+          console.log(response);
+      });
+  
 
     getData().then(resp => {
       if (!resp.success) {
