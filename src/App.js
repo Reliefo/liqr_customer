@@ -25,7 +25,7 @@ const socket = io(
       polling: {
         extraHeaders: {
           Authorization:
-            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODgzMTEyNzEsIm5iZiI6MTU4ODMxMTI3MSwianRpIjoiMjNmY2RiZWItZWJmYy00YzdhLWJjZDgtNTllYWRlYzgyZWViIiwiZXhwIjoxNTg4MzI2MjcxLCJpZGVudGl0eSI6IktJRDAwMiIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.aff4N1DdTL2OpiCwYNkNRAf8LeBvfEC3bJG7424XZDA"
+            `Bearer ${localStorage.getItem('jwt')}`
         }
       }
     }
