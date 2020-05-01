@@ -53,7 +53,7 @@ const Store = props => {
         // console.log({ resp });
     
         resp.tables.forEach(item => {
-           if(item.no_of_users > 0) {
+           if(item.users.length> 0) {
             dispatch({
               type: TYPES.SET_TABLE_ID,
               payload: item
