@@ -18,21 +18,20 @@ import SocketContext from "./socket-context";
 import { StoreContext } from "Store";
 import io from "socket.io-client";
 
-const socket = io(
-  "http://ec2-13-232-202-63.ap-south-1.compute.amazonaws.com:5050/reliefo",
-  {
-    transportOptions: {
-      polling: {
-        extraHeaders: {
-          Authorization:
-            `Bearer ${localStorage.getItem('jwt')}`
+export default function AppWrapper() {
+
+  const socket = io(
+    "http://ec2-13-232-202-63.ap-south-1.compute.amazonaws.com:5050/reliefo",
+    {
+      transportOptions: {
+        polling: {
+          extraHeaders: {
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`
+          }
         }
       }
     }
-  }
-);
-
-export default function AppWrapper() {
+  );
   return (
     <SocketContext.Provider value={socket}>
       <BrowserRouter>
