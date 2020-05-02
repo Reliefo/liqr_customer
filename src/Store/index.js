@@ -23,7 +23,7 @@ const initialState = {
   rawData: {}
 };
 
-const localState = JSON.parse(localStorage.getItem("relief"));
+const localState = JSON.parse(sessionStorage.getItem("relief"));
 
 const StoreContext = React.createContext(null);
 const Store = props => {
@@ -36,7 +36,7 @@ const Store = props => {
   parm = parm.split("=");
 
   React.useEffect(() => {
-    localStorage.setItem("relief", JSON.stringify(state));
+    sessionStorage.setItem("relief", JSON.stringify(state));
   }, [state]);
 
   const getData = async () => {
