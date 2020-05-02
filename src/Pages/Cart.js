@@ -47,7 +47,7 @@ const Cart = props => {
   };
 
   const setOrderTable = () => {
-    const body = { table_id: tableId };
+    const body = { table_id: localStorage.getItem('table_id') };
     props.socket.emit("place_table_order", JSON.stringify(body));
     props.socket.off("new_orders").on("new_orders", msg => {
       dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
@@ -67,7 +67,7 @@ const Cart = props => {
 
     const body = {
       table: tableId,
-      orders: [{ placed_by: placeOrderById[0].$oid, food_list: cartClone }]
+      orders: [{ placed_by: localStorage.getItem('uniqueId'), food_list: cartClone }]
     };
 
     props.socket.emit("place_personal_order", JSON.stringify(body));
@@ -88,7 +88,7 @@ const Cart = props => {
 
     const body = {
       table: tableId,
-      orders: [{ placed_by: placeOrderById[0].$oid, food_list: cartClone }]
+      orders: [{ placed_by: localStorage.getItem('uniqueId'), food_list: cartClone }]
     };
     props.socket.emit("push_to_table_cart", JSON.stringify(body));
     props.socket.off("table_cart_orders").on("table_cart_orders", msg => {

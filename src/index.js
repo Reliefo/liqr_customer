@@ -17,10 +17,10 @@ parm = parm.split("=");
 const uniqueId = `${uuidv4().substring(0, 15)}`;
 
 let bodyFormData = new FormData();
-bodyFormData.set("unique_id", uniqueId);
+bodyFormData.set("unique_id", localStorage.getItem('uniqueId') !==null ? localStorage.getItem('uniqueId') : uniqueId);
 bodyFormData.set("password", "wask");
 bodyFormData.set("email_id", "dud");
-bodyFormData.set("table_id", parm[1]);
+bodyFormData.set("table_id", localStorage.getItem('table_id') !==null ? localStorage.getItem('table_id') : parm[1]);
 axios({
   method: "post",
   url:
@@ -33,6 +33,7 @@ axios({
     jwt = data.jwt;
     localStorage.setItem("jwt", data.jwt);
     localStorage.setItem("refreshToken", data.refresh_token);
+    localStorage.setItem('table_id', parm[1])
     localStorage.setItem("uniqueId", data.unique_id);
     localStorage.setItem("name", data.name);
     ReactDOM.render(<AppWrapper />, document.getElementById("root"));
