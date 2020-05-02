@@ -64,8 +64,8 @@ const Cart = props => {
       delete item.restaurant;
       delete item.showCustomize;
       delete item.showPopup;
-      delete item.foodOptions;
       item.food_options = `options:[${item.options}]`
+      delete item.foodOptions;
       delete item.options;
       delete item.food_option;
       delete item.tags;
@@ -92,8 +92,8 @@ const Cart = props => {
       delete item.food_options
       delete item.showCustomize;
       delete item.restaurant;
-      delete item.options;
       item.food_options = `options:[${item.options}]`
+      delete item.options;
       delete item.foodOptions;
       delete item.food_option;
       delete item.tags;
