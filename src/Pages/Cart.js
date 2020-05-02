@@ -67,7 +67,7 @@ const Cart = props => {
 
     const body = {
       table: tableId,
-      orders: [{ placed_by: localStorage.getItem('uniqueId'), food_list: cartClone }]
+      orders: [{ placed_by: localStorage.getItem('user_id'), food_list: cartClone }]
     };
 
     props.socket.emit("place_personal_order", JSON.stringify(body));
@@ -88,7 +88,7 @@ const Cart = props => {
 
     const body = {
       table: tableId,
-      orders: [{ placed_by: localStorage.getItem('uniqueId'), food_list: cartClone }]
+      orders: [{ placed_by: localStorage.getItem('user_id'), food_list: cartClone }]
     };
     props.socket.emit("push_to_table_cart", JSON.stringify(body));
     props.socket.off("table_cart_orders").on("table_cart_orders", msg => {
