@@ -60,10 +60,12 @@ const Cart = props => {
     cartClone.forEach(item => {
       item.food_id = item._id.$oid;
       delete item.open;
+      delete item.food_options;
       delete item.restaurant;
       delete item.showCustomize;
       delete item.showPopup;
       delete item.foodOptions;
+      item.food_options = `options:[${item.options}]`
       delete item.options;
       delete item.food_option;
       delete item.tags;
@@ -87,9 +89,11 @@ const Cart = props => {
       item.food_id = item._id.$oid;
       delete item.open;
       delete item.showPopup;
+      delete item.food_options
       delete item.showCustomize;
       delete item.restaurant;
       delete item.options;
+      item.food_options = `options:[${item.options}]`
       delete item.foodOptions;
       delete item.food_option;
       delete item.tags;
