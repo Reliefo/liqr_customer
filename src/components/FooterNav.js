@@ -68,8 +68,8 @@ const FooterNav = props => {
 
   const sendAssistance = name => {
     const body = {
-      table: tableId,
-      user: placeOrderById[0].$oid,
+      table: localStorage.getItem('table_id'),
+      user: localStorage.getItem('user_id'),
       assistance_type: name
     };
     props.socket.emit("assistance_requests", JSON.stringify(body));
