@@ -5,6 +5,7 @@ import * as TYPES from "Store/actionTypes.js";
 import { StoreContext } from "Store";
 
 const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
+
   const {
     dispatch,
     state: {
