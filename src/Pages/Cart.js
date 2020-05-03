@@ -61,10 +61,13 @@ const Cart = props => {
       item.food_id = item._id.$oid;
       delete item.open;
       delete item.food_options;
+      item.food_options = {};
+      item.food_options.options = [];
       delete item.restaurant;
       delete item.showCustomize;
       delete item.showPopup;
-      item.food_options = `options:[${item.options}]`
+      delete item.showOptionsAgain;
+      item.food_options.options.push(item.options)
       delete item.foodOptions;
       delete item.options;
       delete item.food_option;
@@ -92,7 +95,9 @@ const Cart = props => {
       delete item.food_options
       delete item.showCustomize;
       delete item.restaurant;
-      item.food_options = `options:[${item.options}]`
+      item.food_options = {};
+      item.food_options.options = [];
+      item.food_options.options.push(item.options)
       delete item.options;
       delete item.foodOptions;
       delete item.food_option;

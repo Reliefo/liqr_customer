@@ -56,7 +56,7 @@ const Store = props => {
     getData().then(resp => {
       if (!resp.success) {
         dispatch({ type: TYPES.ADD_DATA, payload: resp });
-        dispatch({ type: TYPES.ADD_SELECT_DATA, payload: resp.bar_menu });
+        dispatch({ type: TYPES.ADD_SELECT_DATA, payload: resp.food_menu });
         //segregating the food items and storign for search
         // console.log({ resp });
 

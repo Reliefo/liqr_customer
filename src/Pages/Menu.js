@@ -14,7 +14,7 @@ const Menu = () => {
   } = React.useContext(StoreContext);
 
   const [state, setState] = React.useState({
-    activeMenu: "bar",
+    activeMenu: "food",
   });
 
   React.useEffect(() => {

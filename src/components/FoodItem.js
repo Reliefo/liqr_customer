@@ -26,7 +26,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
   const addItem = (item, index, subsIndex) => {
     if (item["options"] === undefined) {
       item["options"] = {};
-    }
+    } 
     item["options"] = item.food_option;
     dispatch({ type: TYPES.ADD_ITEM, payload: item }); //dispatcing the whole item
 
@@ -86,7 +86,6 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
     dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
   };
   let desc = foodItem.description.substring(0, 20) + "...";
-  console.log('NIDS--->', foodItem)
   return (
     <Accordion defaultActiveKey="0">
       <Card className="category-card food-item">
