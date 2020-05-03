@@ -98,6 +98,7 @@ const Cart = props => {
       item.food_options = {};
       item.food_options.options = [];
       item.food_options.options.push(item.options)
+      delete item.showOptionsAgain;
       delete item.options;
       delete item.foodOptions;
       delete item.food_option;

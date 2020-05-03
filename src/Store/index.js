@@ -60,19 +60,19 @@ const Store = props => {
         //segregating the food items and storign for search
         // console.log({ resp });
 
-        resp.tables.forEach(item => {
-          if (item.users.length > 0) {
-            dispatch({
-              type: TYPES.SET_TABLE_ID,
-              payload: item
-            });
+        // resp.tables.forEach(item => {
+        //   if (item.users.length > 0) {
+        //     dispatch({
+        //       type: TYPES.SET_TABLE_ID,
+        //       payload: item
+        //     });
 
-            dispatch({
-              type: TYPES.SET_PLACEORDER_ID,
-              payload: item
-            });
-          }
-        });
+        //     dispatch({
+        //       type: TYPES.SET_PLACEORDER_ID,
+        //       payload: item
+        //     });
+        //   }
+        // });
 
         let justBarItems = [];
         let justFoodItems = [];

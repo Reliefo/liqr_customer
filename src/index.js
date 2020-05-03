@@ -33,7 +33,7 @@ axios({
     jwt = data.jwt;
     localStorage.setItem("jwt", data.jwt);
     localStorage.setItem("refreshToken", data.refresh_token);
-    localStorage.setItem('table_id', parm[1])
+    localStorage.setItem('table_id', parm[1] !== undefined ? parm[1] : localStorage.getItem('table_id'))
     localStorage.setItem('user_id', data.user_id)
     localStorage.setItem("uniqueId", data.unique_id);
     localStorage.setItem("name", data.name);

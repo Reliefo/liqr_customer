@@ -130,7 +130,7 @@ const Home = props => {
                                 </Card.Title>
                                 <Card.Body>
                                   <p className="desc-home-body">{desc}</p>
-                                  <PlusWithAddRemove item={list} />
+                                  <PlusWithAddRemove item={list} idx={ix} subs={idx} />
                                 </Card.Body>
                               </Card>
                             );
