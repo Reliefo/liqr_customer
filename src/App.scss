@@ -464,7 +464,8 @@
   display: block;
   /* top: 6%; */
   /* float: none; */
-  margin-top: 10%;
+  bottom: 0;
+  position: absolute;
   text-align: center;
 }
 

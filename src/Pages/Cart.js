@@ -71,6 +71,15 @@ const Cart = props => {
         item.food_options.options = [];
         item.food_options.options.push(item.options);
       }
+      if (item.choices) {
+        if (item.food_options === undefined) {
+          item.food_options = {};
+        }
+        item.food_options.choices = [];
+        item.food_options.choices.push(item.choices);
+      }
+      delete item.choices;
+      delete item.choice;
       delete item.options;
       delete item.food_option;
       delete item.tags;
@@ -86,7 +95,6 @@ const Cart = props => {
 
     props.socket.emit("place_personal_order", JSON.stringify(body));
     props.socket.off("new_orders").on("new_orders", msg => {
-      console.log('NIDS--->', JSON.parse(msg))
       dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
     });
   };
@@ -105,6 +113,15 @@ const Cart = props => {
         item.food_options.options = [];
         item.food_options.options.push(item.options);
       }
+      if (item.choices) {
+        if (item.food_options === undefined) {
+          item.food_options = {};
+        }
+        item.food_options.choices = [];
+        item.food_options.choices.push(item.choices);
+      }
+      delete item.choices;
+      delete item.choice;
       delete item.showOptionsAgain;
       delete item.options;
       delete item.foodOptions;
@@ -211,9 +228,8 @@ const Cart = props => {
             item2.food_list.forEach(item3 => {
               if (item.options) {
                 sum += parseInt(item3.options.option_price) * item3.quantity;
-              }
-              else {
-              sum += parseInt(item3.price * item3.quantity);
+              } else {
+                sum += parseInt(item3.price * item3.quantity);
               }
             });
           });
