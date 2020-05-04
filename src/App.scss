@@ -478,3 +478,19 @@
   text-transform: capitalize;
   opacity: 1;
 }
+
+.restaurant-header {
+  position: fixed;
+    left: 15%;
+    z-index: 2;
+    margin-top: 4px;
+    display: block;
+}
+
+.username {
+  position: fixed;
+  float: right;
+  right: 50px;
+  z-index: 2;
+  margin-top: 4px;
+}

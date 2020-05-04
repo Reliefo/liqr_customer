@@ -96,6 +96,12 @@ const Home = props => {
 
     props.socket.off("table_details").on("table_details", msg => {
       const data = JSON.parse(msg);
+      
+      dispatch({
+        type: TYPES.UPDATE_TABLE_NAME,
+        payload: data.name
+      });
+
       dispatch({
         type: TYPES.UPDATE_TABLE_ORDER,
         payload: data.table_cart || []

@@ -41,75 +41,92 @@ function reducer(state, action) {
       });
 
       return st;
-  case TYPES.UPDATE_FOOD_MENU:
+    case TYPES.UPDATE_FOOD_MENU:
       st.rawData.food_menu = payload;
       return st;
+    case TYPES.UPDATE_TABLE_NAME:
+      st.tableName = payload;
+      return st;
     case TYPES.ADD_DATA:
-
       st.rawData = payload;
       return st;
-      case TYPES.ADD_SELECT_DATA:
+    case TYPES.ADD_SELECT_DATA:
       return {
         ...st,
         activeData: payload
-     };
+      };
     case TYPES.ADD_ITEM:
-      if(payload.options) {   
-        idx = st.cart.findIndex(item => item._id.$oid === payload._id.$oid && item.options.option_name === payload.options.option_name);
-      }
-      else {
-      idx = st.cart.findIndex(item => item._id.$oid === payload._id.$oid);
+      if (payload.options) {
+        idx = st.cart.findIndex(
+          item =>
+            item._id.$oid === payload._id.$oid &&
+            item.options.option_name === payload.options.option_name
+        );
+      } else {
+        idx = st.cart.findIndex(item => item._id.$oid === payload._id.$oid);
       }
       if (idx === -1) {
         st.cart.push({
           ...payload, //payload is the id
           quantity: 1
         });
-      }
-      else {
+      } else {
         st.cart = st.cart.map(item => {
-          if (item._id.$oid === payload._id.$oid && item.options.option_name === payload.options.option_name) ++item.quantity;
+          if (
+            item._id.$oid === payload._id.$oid &&
+            item.options.option_name === payload.options.option_name
+          )
+            ++item.quantity;
           return item;
         });
       }
       return st;
     case TYPES.INC_ITEM:
-      if(payload.options) {
+      if (payload.options) {
         st.cart = st.cart.map(item => {
-          if (item._id.$oid === payload._id.$oid && item.options.option_name === payload.options.option_name) ++item.quantity;
+          if (
+            item._id.$oid === payload._id.$oid &&
+            item.options.option_name === payload.options.option_name
+          )
+            ++item.quantity;
           return item;
         });
-      }
-      else {
+      } else {
         st.cart = st.cart.map(item => {
           if (item._id.$oid === payload._id.$oid) ++item.quantity;
           return item;
         });
       }
-    
+
       return st;
     case TYPES.DEC_ITEM:
-        if(payload.options) {
-          st.cart = st.cart.map(item => {
-            if (item._id.$oid === payload._id.$oid && item.options.option_name === payload.options.option_name) --item.quantity;
-            return item;
-          });
-        }
-        else {
-          st.cart = st.cart.map(item => {
-            if (item._id.$oid === payload._id.$oid) --item.quantity;
-            return item;
-          });
-        }
+      if (payload.options) {
+        st.cart = st.cart.map(item => {
+          if (
+            item._id.$oid === payload._id.$oid &&
+            item.options.option_name === payload.options.option_name
+          )
+            --item.quantity;
+          return item;
+        });
+      } else {
+        st.cart = st.cart.map(item => {
+          if (item._id.$oid === payload._id.$oid) --item.quantity;
+          return item;
+        });
+      }
       return st;
     case TYPES.DEL_ITEM:
-      if(payload.options){
-        idx = st.cart.findIndex(item => item._id.$oid === payload._id.$oid && item.options.option_name === payload.options.option_name);
-      }
-      else {
+      if (payload.options) {
+        idx = st.cart.findIndex(
+          item =>
+            item._id.$oid === payload._id.$oid &&
+            item.options.option_name === payload.options.option_name
+        );
+      } else {
         idx = st.cart.findIndex(item => item._id.$oid === payload);
       }
-      
+
       st.cart.splice(idx, 1);
       return st;
     case TYPES.SET_NAV:
@@ -118,9 +135,9 @@ function reducer(state, action) {
     case TYPES.ADD_COLLECTIVE_FOODITEMS:
       st.justMenuItems = payload;
       return st;
-      case TYPES.ADD_COLLECTIVE_BARITEMS:
-        st.justBarItems = payload;
-        return st;  
+    case TYPES.ADD_COLLECTIVE_BARITEMS:
+      st.justBarItems = payload;
+      return st;
     case TYPES.SET_GENERAL_DATA:
       return { ...st, ...payload };
     default:

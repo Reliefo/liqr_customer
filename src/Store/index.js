@@ -10,6 +10,7 @@ const initialState = {
   activeNav: "",
   justMenuItems: [], //for search
   searchClicked: false,
+  tableName: "",
   searchValue: "",
   cart: [],
   tableId: "",
