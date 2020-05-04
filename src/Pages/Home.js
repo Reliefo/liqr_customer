@@ -83,7 +83,30 @@ const Home = props => {
     });
     console.log(props.socket);
 
-    props.socket.emit("fetch_rest_customer", "BNGHSR0001");
+
+    const body = {
+      user_id: localStorage.getItem("user_id"),
+      restaurant_id: 'BNGHSR0001'
+    };
+
+
+    props.socket.emit("fetch_rest_customer", JSON.stringify(body));
+    
+    props.socket.off("user_details").on("user_details", msg => {
+      console.log('USER DETAILS--->', msg)
+    });
+
+  
+    props.socket.off("table_details").on("table_details", msg => {
+      const data = JSON.parse(msg);
+      console.log('TABLE DETAILS--->', data.table_cart)
+      dispatch({ type: TYPES.UPDATE_TABLE_ORDER, payload: (data.table_cart || []) });
+   });
+   
+   props.socket.off("restaurant_object").on("restaurant_object", msg => {
+    console.log('Restaurant DETAILS --->' ,msg)
+ });
+
     props.socket.off("home_screen_lists").on("home_screen_lists", msg => {
       dispatch({ type: TYPES.UPDATE_HOME_ITEMS, payload: JSON.parse(msg) });
     });

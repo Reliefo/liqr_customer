@@ -208,7 +208,12 @@ const Cart = props => {
         if (item[0] === "orders") {
           item[1].forEach(item2 => {
             item2.food_list.forEach(item3 => {
+              if (item.options) {
+                sum += parseInt(item3.options.option_price) * item3.quantity;
+              }
+              else {
               sum += parseInt(item3.price * item3.quantity);
+              }
             });
           });
         }
