@@ -14,14 +14,11 @@ RUN npm install
 RUN npm install react-scripts@3.4.1 -g --silent
 
 # add app
-COPY . ./
-
 RUN npm run build
+RUN npm install serve -g
 
-### STAGE 2: Production Environment ###
-FROM nginx:1.13.12-alpine
-COPY --from=build /usr/src/app/build /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+COPY /app/build
+
+CMD ["serve", "-p", "80", "-s", "."]
 
 
