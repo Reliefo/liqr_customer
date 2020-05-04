@@ -153,8 +153,8 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
                             Rs {item.options.option_price} <br />
                             Option:
                             {item.options.option_name} <br />
-                            {item.choices ? "Choice:" : ""}{" "}
-                            {item.choices ? item.choices : ""}
+                            {item.choices ? "Choice:" : ""} <br />
+                            {item.choices ? item.choices : ""} <br />
                           </p>
                           <PlusWithAddRemove
                             item={foodItem}
@@ -172,18 +172,23 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
               ? ""
               : Object.entries(foodItem.food_options).map((item, index) => {
                   if (item[0] === "options")
-                    return Object.values(item[1]).map((item1, idx) => {
-                      return (
-                        <div key={idx}>
-                          <Form.Check
-                            onClick={() => selectOption(foodItem, item1)}
-                            type="radio"
-                            label={item1.option_name}
-                            name="test"
-                          />
-                        </div>
-                      );
-                    });
+                    return (
+                      <div className="radio-div">
+                        {Object.values(item[1]).map((item1, idx) => {
+                          return (
+                            <div key={idx}>
+                              <Form.Check
+                                onClick={() => selectOption(foodItem, item1)}
+                                type="radio"
+                                label={item1.option_name}
+                                name="test"
+                              />
+                            </div>
+                          );
+                        })}
+                      </div>
+                    );
+
                   if (item[0] === "choices" && item[1].length > 0)
                     return (
                       <div>
@@ -217,7 +222,10 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
             {foodItem.showOptionsAgain
               ? Object.entries(foodItem.food_options).map((item, index) => {
                   if (item[0] === "options") {
-                    return Object.values(item[1]).map((item1, idx) => {
+                    return (
+                      <div className="radio-div">
+                    
+                    {Object.values(item[1]).map((item1, idx) => {
                       return (
                         <div key={idx}>
                           <Form.Check
@@ -228,7 +236,9 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
                           />
                         </div>
                       );
-                    });
+                    })}
+                      </div>
+                    )
                   }
                   if (item[0] === "choices" && item[1].length > 0)
                     return (
