@@ -39,72 +39,44 @@ const Store = props => {
     sessionStorage.setItem("relief", JSON.stringify(state));
   }, [state]);
 
-  const getData = async () => {
-    try {
-      const resp = await axios.get(
-        "http://ec2-13-232-202-63.ap-south-1.compute.amazonaws.com:5050/rest"
-      );
-      return resp.data;
-    } catch (err) {
-      return { success: false };
-    }
-  };
+  // const getData = async () => {
+  //   try {
+  //     const resp = await axios.get(
+  //       "http://ec2-13-232-202-63.ap-south-1.compute.amazonaws.com:5050/rest"
+  //     );
+  //     return resp.data;
+  //   } catch (err) {
+  //     return { success: false };
+  //   }
+  // };
   React.useEffect(() => {
     console.log("store mounted");
    
 
-    getData().then(resp => {
-      if (!resp.success) {
-        dispatch({ type: TYPES.ADD_DATA, payload: resp });
-        dispatch({ type: TYPES.ADD_SELECT_DATA, payload: resp.food_menu });
-        //segregating the food items and storign for search
-        // console.log({ resp });
+    // getData().then(resp => {
+    //   if (!resp.success) {
+    //     // dispatch({ type: TYPES.ADD_DATA, payload: resp });
+    //     // dispatch({ type: TYPES.ADD_SELECT_DATA, payload: resp.food_menu });
+    //     //segregating the food items and storign for search
+    //     // console.log({ resp });
 
-        // resp.tables.forEach(item => {
-        //   if (item.users.length > 0) {
-        //     dispatch({
-        //       type: TYPES.SET_TABLE_ID,
-        //       payload: item
-        //     });
+    //     // resp.tables.forEach(item => {
+    //     //   if (item.users.length > 0) {
+    //     //     dispatch({
+    //     //       type: TYPES.SET_TABLE_ID,
+    //     //       payload: item
+    //     //     });
 
-        //     dispatch({
-        //       type: TYPES.SET_PLACEORDER_ID,
-        //       payload: item
-        //     });
-        //   }
-        // });
+    //     //     dispatch({
+    //     //       type: TYPES.SET_PLACEORDER_ID,
+    //     //       payload: item
+    //     //     });
+    //     //   }
+    //     // });
 
-        let justBarItems = [];
-        let justFoodItems = [];
-        const barMenu = resp.bar_menu;
-        for (let i = 0; i < barMenu.length; ++i) {
-          const Sub = resp.food_menu[i].name;
-          for (let j = 0; j < resp.bar_menu[i].food_list.length; ++j) {
-            justFoodItems.push(resp.bar_menu[i].food_list[j]);
-            // const FoodList = Sub[j].foodlist;
-            // for (let k = 0; k < FoodList.length; ++k) {
-            //   justFoodItems.push(FoodList[k]);
-            // }
-          }
-        }
-
-        const Menu = resp.food_menu;
-        for (let i = 0; i < Menu.length; ++i) {
-          const Sub = resp.food_menu[i].name;
-          for (let j = 0; j < resp.food_menu[i].food_list.length; ++j) {
-            justFoodItems.push(resp.food_menu[i].food_list[j]);
-            // const FoodList = Sub[j].foodlist;
-            // for (let k = 0; k < FoodList.length; ++k) {
-            //   justFoodItems.push(FoodList[k]);
-            // }
-          }
-        }
-        dispatch({
-          type: TYPES.ADD_COLLECTIVE_FOODITEMS,
-          payload: justFoodItems
-        });
-      }
-    });
+        
+    //   }
+    // });
   }, []);
 
   const value = {

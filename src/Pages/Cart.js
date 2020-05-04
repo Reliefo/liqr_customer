@@ -86,6 +86,7 @@ const Cart = props => {
 
     props.socket.emit("place_personal_order", JSON.stringify(body));
     props.socket.off("new_orders").on("new_orders", msg => {
+      console.log('NIDS--->', JSON.parse(msg))
       dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
     });
   };

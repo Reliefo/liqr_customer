@@ -83,29 +83,60 @@ const Home = props => {
     });
     console.log(props.socket);
 
-
     const body = {
       user_id: localStorage.getItem("user_id"),
-      restaurant_id: 'BNGHSR0001'
+      restaurant_id: "BNGHSR0001"
     };
 
-
     props.socket.emit("fetch_rest_customer", JSON.stringify(body));
-    
+
     props.socket.off("user_details").on("user_details", msg => {
-      console.log('USER DETAILS--->', msg)
+      console.log("USER DETAILS--->", msg);
     });
 
-  
     props.socket.off("table_details").on("table_details", msg => {
       const data = JSON.parse(msg);
-      console.log('TABLE DETAILS--->', data.table_cart)
-      dispatch({ type: TYPES.UPDATE_TABLE_ORDER, payload: (data.table_cart || []) });
-   });
-   
-   props.socket.off("restaurant_object").on("restaurant_object", msg => {
-    console.log('Restaurant DETAILS --->' ,msg)
- });
+      dispatch({
+        type: TYPES.UPDATE_TABLE_ORDER,
+        payload: data.table_cart || []
+      });
+    });
+
+    props.socket.off("restaurant_object").on("restaurant_object", msg => {
+      const resp = JSON.parse(msg);
+      dispatch({ type: TYPES.ADD_DATA, payload: resp });
+      dispatch({ type: TYPES.ADD_SELECT_DATA, payload: resp.food_menu });
+
+      let justBarItems = [];
+      let justFoodItems = [];
+      const barMenu = resp.bar_menu;
+      for (let i = 0; i < barMenu.length; ++i) {
+        const Sub = resp.food_menu[i].name;
+        for (let j = 0; j < resp.bar_menu[i].food_list.length; ++j) {
+          justFoodItems.push(resp.bar_menu[i].food_list[j]);
+          // const FoodList = Sub[j].foodlist;
+          // for (let k = 0; k < FoodList.length; ++k) {
+          //   justFoodItems.push(FoodList[k]);
+          // }
+        }
+      }
+
+      const Menu = resp.food_menu;
+      for (let i = 0; i < Menu.length; ++i) {
+        const Sub = resp.food_menu[i].name;
+        for (let j = 0; j < resp.food_menu[i].food_list.length; ++j) {
+          justFoodItems.push(resp.food_menu[i].food_list[j]);
+          // const FoodList = Sub[j].foodlist;
+          // for (let k = 0; k < FoodList.length; ++k) {
+          //   justFoodItems.push(FoodList[k]);
+          // }
+        }
+      }
+      dispatch({
+        type: TYPES.ADD_COLLECTIVE_FOODITEMS,
+        payload: justFoodItems
+      });
+    });
 
     props.socket.off("home_screen_lists").on("home_screen_lists", msg => {
       dispatch({ type: TYPES.UPDATE_HOME_ITEMS, payload: JSON.parse(msg) });
@@ -254,8 +285,7 @@ const Home = props => {
                                       {cart.length
                                         ? cart.map(item => {
                                             if (
-                                              list._id.$oid ===
-                                              item._id.$oid
+                                              list._id.$oid === item._id.$oid
                                             ) {
                                               return (
                                                 <div>
@@ -293,38 +323,36 @@ const Home = props => {
                                         : ""}
                                       {list.options
                                         ? ""
-                                        : Object.entries(
-                                          list.food_options
-                                          ).map((item, index) => {
-                                            return Object.values(item[1]).map(
-                                              (item1, idx) => {
-                                                return (
-                                                  <div key={idx}>
-                                                    <Form.Check
-                                                      onClick={() =>
-                                                        selectOption(
-                                                          list,
-                                                          item1
-                                                        )
-                                                      }
-                                                      type="radio"
-                                                      label={item1.option_name}
-                                                      name="test"
-                                                    />
-                                                  </div>
-                                                );
-                                              }
-                                            );
-                                          })}
+                                        : Object.entries(list.food_options).map(
+                                            (item, index) => {
+                                              return Object.values(item[1]).map(
+                                                (item1, idx) => {
+                                                  return (
+                                                    <div key={idx}>
+                                                      <Form.Check
+                                                        onClick={() =>
+                                                          selectOption(
+                                                            list,
+                                                            item1
+                                                          )
+                                                        }
+                                                        type="radio"
+                                                        label={
+                                                          item1.option_name
+                                                        }
+                                                        name="test"
+                                                      />
+                                                    </div>
+                                                  );
+                                                }
+                                              );
+                                            }
+                                          )}
                                       {list.showCustomize ? (
                                         <div
                                           className="modal-customization"
                                           onClick={() =>
-                                            showOptions(
-                                              list,
-                                              ix,
-                                              idx
-                                            )
+                                            showOptions(list, ix, idx)
                                           }
                                         >
                                           Add More Customization
@@ -333,29 +361,31 @@ const Home = props => {
                                         ""
                                       )}
                                       {list.showOptionsAgain
-                                        ? Object.entries(
-                                          list.food_options
-                                          ).map((item, index) => {
-                                            return Object.values(item[1]).map(
-                                              (item1, idx) => {
-                                                return (
-                                                  <div key={idx}>
-                                                    <Form.Check
-                                                      onClick={() =>
-                                                        selectOption(
-                                                          list,
-                                                          item1
-                                                        )
-                                                      }
-                                                      type="radio"
-                                                      label={item1.option_name}
-                                                      name="test"
-                                                    />
-                                                  </div>
-                                                );
-                                              }
-                                            );
-                                          })
+                                        ? Object.entries(list.food_options).map(
+                                            (item, index) => {
+                                              return Object.values(item[1]).map(
+                                                (item1, idx) => {
+                                                  return (
+                                                    <div key={idx}>
+                                                      <Form.Check
+                                                        onClick={() =>
+                                                          selectOption(
+                                                            list,
+                                                            item1
+                                                          )
+                                                        }
+                                                        type="radio"
+                                                        label={
+                                                          item1.option_name
+                                                        }
+                                                        name="test"
+                                                      />
+                                                    </div>
+                                                  );
+                                                }
+                                              );
+                                            }
+                                          )
                                         : ""}
                                     </Modal.Body>
 
@@ -370,9 +400,7 @@ const Home = props => {
                                       </Button>
                                       <Button
                                         variant="primary"
-                                        onClick={() =>
-                                          addItem(list, ix, idx)
-                                        }
+                                        onClick={() => addItem(list, ix, idx)}
                                       >
                                         Add
                                       </Button>
