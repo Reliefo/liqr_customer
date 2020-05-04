@@ -15,4 +15,9 @@ import io from "socket.io-client";
       }
     }
   );
+<<<<<<< HEAD
+
 export default socket;
+=======
+export default socket;
+>>>>>>> 0fa80e8752b998ff1578d78029dd18ee9b1c1e4f
