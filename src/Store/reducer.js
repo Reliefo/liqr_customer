@@ -140,6 +140,10 @@ function reducer(state, action) {
       return st;
     case TYPES.SET_GENERAL_DATA:
       return { ...st, ...payload };
+
+    case TYPES.RESET_CART:
+      st.cart = [];
+      return st;
     default:
       return state;
   }

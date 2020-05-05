@@ -55,6 +55,20 @@ const Cart = props => {
     props.socket.emit("place_table_order", JSON.stringify(body));
     props.socket.off("new_orders").on("new_orders", msg => {
       dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
+      dispatch({ type: TYPES.RESET_CART });
+      const bodyData = {
+        user_id: localStorage.getItem("user_id"),
+        restaurant_id: "BNGHSR0001"
+      };
+
+      props.socket.emit("fetch_rest_customer", JSON.stringify(bodyData));
+
+      props.socket.off("restaurant_object").on("restaurant_object", data => {
+        const resp = JSON.parse(data);
+        dispatch({ type: TYPES.ADD_DATA, payload: resp });
+        dispatch({ type: TYPES.ADD_SELECT_DATA, payload: resp.food_menu });
+        setState(state => ({ ...state, activeCart: 1 - state.activeCart }));
+      });
     });
   };
 
@@ -99,6 +113,19 @@ const Cart = props => {
 
     props.socket.emit("place_personal_order", JSON.stringify(body));
     props.socket.off("new_orders").on("new_orders", msg => {
+      const body = {
+        user_id: localStorage.getItem("user_id"),
+        restaurant_id: "BNGHSR0001"
+      };
+
+      props.socket.emit("fetch_rest_customer", JSON.stringify(body));
+
+      props.socket.off("restaurant_object").on("restaurant_object", data => {
+        const resp = JSON.parse(data);
+        dispatch({ type: TYPES.ADD_DATA, payload: resp });
+        dispatch({ type: TYPES.ADD_SELECT_DATA, payload: resp.food_menu });
+      });
+      dispatch({ type: TYPES.RESET_CART });
       dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
     });
   };
@@ -141,9 +168,11 @@ const Cart = props => {
       ]
     };
     props.socket.emit("push_to_table_cart", JSON.stringify(body));
+
     props.socket.off("table_cart_orders").on("table_cart_orders", msg => {
       dispatch({ type: TYPES.UPDATE_TABLE_ORDER, payload: JSON.parse(msg) });
     });
+    setState(state => ({ ...state, activeCart: 1 - state.activeCart }));
   };
 
   // setState(state => ({ ...state, activeCart: 1 - state.activeCart }));

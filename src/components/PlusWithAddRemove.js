@@ -57,6 +57,9 @@ const PlusWithAddRemove = ({ item, idx, subs }) => {
     if (data) {
       setState(state => ({ ...state, quantity: --state.quantity }));
     }
+    else {
+      setState(state => ({ ...state, quantity: --state.quantity }));
+    }
   };
   const incHndlr = () => {
     let data = true;
