@@ -67,6 +67,7 @@ const Cart = props => {
         const resp = JSON.parse(data);
         dispatch({ type: TYPES.ADD_DATA, payload: resp });
         dispatch({ type: TYPES.ADD_SELECT_DATA, payload: resp.food_menu });
+        dispatch({ type: TYPES.UPDATE_TABLE_ORDER, payload: [] });
         setState(state => ({ ...state, activeCart: 1 - state.activeCart }));
       });
     });
