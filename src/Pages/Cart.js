@@ -38,6 +38,10 @@ const Cart = props => {
     dispatch({ type: TYPES.SET_NAV, payload: "Cart" });
   }, []);
 
+  props.socket.off("table_cart_orders").on("table_cart_orders", msg => {
+    dispatch({ type: TYPES.UPDATE_TABLE_ORDER, payload: JSON.parse(msg) });
+  });
+
   const DeleteItemHndlr = item => {
     dispatch({ type: TYPES.DEL_ITEM, payload: item });
   };

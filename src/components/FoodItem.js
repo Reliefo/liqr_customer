@@ -191,7 +191,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
 
                   if (item[0] === "choices" && item[1].length > 0)
                     return (
-                      <div className="radio-div">
+                      <div className="radio-div-2">
                         <br />
                         Choices
                         {Object.values(item[1]).map((item1, idx) => {
