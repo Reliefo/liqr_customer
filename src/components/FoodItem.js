@@ -99,7 +99,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
           <Card.Title style={{ width: "100%" }}>
             <div>
               <p style={{ float: "left" }}>{foodItem.name}</p>
-              <p style={{ float: "right" }}>&#8377; {foodItem.price}</p>
+              <p style={{ position: 'absolute', right: "2%" }}>&#8377; {foodItem.price}</p>
             </div>
           </Card.Title>
           <Card.Body className="Menu-body">
