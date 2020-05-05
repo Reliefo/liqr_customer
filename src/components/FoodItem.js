@@ -94,40 +94,20 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
     });
     dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
   };
-  let desc = foodItem.description.substring(0, 20) + "...";
   return (
-    <Accordion defaultActiveKey="0">
       <Card className="category-card food-item">
-        <Accordion.Toggle
-          onClick={() => setIndex(foodItem, index, subsIndex)}
-          variant="link"
-          eventKey={index}
-        >
           <Card.Title style={{ width: "100%" }}>
             <div>
               <p style={{ float: "left" }}>{foodItem.name}</p>
               <p style={{ float: "right" }}>&#8377; {foodItem.price}</p>
             </div>
           </Card.Title>
-        </Accordion.Toggle>
-        {foodItem.open && foodItem.open === true ? (
-          ""
-        ) : (
-          <div>
-            <Card.Body className="Menu-body">
-              <p style={{ width: "69%", fontSize: ".9rem" }}>{desc}</p>
-            </Card.Body>
-          </div>
-        )}
-        <Accordion.Collapse eventKey={index}>
           <Card.Body className="Menu-body">
             <p style={{ width: "69%", fontSize: ".9rem" }}>
               {foodItem.description}
             </p>
             <PlusWithAddRemove item={foodItem} idx={index} subs={subsIndex} />
           </Card.Body>
-        </Accordion.Collapse>
-      </Card>
       {foodItem.foodOptions && foodItem.foodOptions === true ? (
         <Modal show={foodItem.showPopup} onHide={handleClose}>
           <Modal.Header>
@@ -296,7 +276,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
       ) : (
         ""
       )}
-    </Accordion>
+      </Card>
   );
 };
 
