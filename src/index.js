@@ -10,17 +10,25 @@ import config from "./config";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 
-let jwt = '';
+let jwt = "";
 let parm = window.location.href;
 parm = parm.split("=");
 
 const uniqueId = `${uuidv4().substring(0, 15)}`;
 
 let bodyFormData = new FormData();
-bodyFormData.set("unique_id", localStorage.getItem('uniqueId') !==null ? localStorage.getItem('uniqueId') : uniqueId);
+bodyFormData.set(
+  "unique_id",
+  localStorage.getItem("uniqueId") !== null
+    ? localStorage.getItem("uniqueId")
+    : uniqueId
+);
 bodyFormData.set("password", "wask");
 bodyFormData.set("email_id", "dud");
-bodyFormData.set("table_id", localStorage.getItem('table_id') !==null ? localStorage.getItem('table_id') : parm[1]);
+bodyFormData.set(
+  "table_id",
+  parm[1] !== undefined ? parm[1] : localStorage.getItem("table_id")
+);
 axios({
   method: "post",
   url:
@@ -33,8 +41,11 @@ axios({
     jwt = data.jwt;
     localStorage.setItem("jwt", data.jwt);
     localStorage.setItem("refreshToken", data.refresh_token);
-    localStorage.setItem('table_id', parm[1] !== undefined ? parm[1] : localStorage.getItem('table_id'))
-    localStorage.setItem('user_id', data.user_id)
+    localStorage.setItem(
+      "table_id",
+      parm[1] !== undefined ? parm[1] : localStorage.getItem("table_id")
+    );
+    localStorage.setItem("user_id", data.user_id);
     localStorage.setItem("uniqueId", data.unique_id);
     localStorage.setItem("name", data.name);
     ReactDOM.render(<AppWrapper />, document.getElementById("root"));
@@ -52,8 +63,6 @@ Amplify.configure({
     userPoolWebClientId: config.cognito.APP_CLIENT_ID
   }
 });
-
-
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
