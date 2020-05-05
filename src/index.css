@@ -13,6 +13,11 @@ body {
   background-color: #f4f4f2;
   font-family: "Montserrat", "Roboto", "Raleway", sans-serif;
   -webkit-font-smoothing: antialiased;
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer */
+  -khtml-user-select: none; /* KHTML browsers (e.g. Konqueror) */
+  -webkit-user-select: none; /* Chrome, Safari, and Opera */
+  -webkit-touch-callout: none; /* Disable Android and iOS callouts*/
   -moz-osx-font-smoothing: grayscale;
 }
 
@@ -76,7 +81,7 @@ code {
 }
 
 .home-item {
-  border-radius:8px;
+  border-radius: 8px;
   text-transform: capitalize;
   background: white;
   border: none !important;
