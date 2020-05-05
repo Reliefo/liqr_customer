@@ -5,7 +5,6 @@ import * as TYPES from "Store/actionTypes.js";
 import { StoreContext } from "Store";
 
 const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
-
   const {
     dispatch,
     state: {
@@ -24,10 +23,19 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
   const selectOption = (foodItem, item) => {
     foodItem.food_option = item;
   };
+  const selectChoice = (foodItem, item) => {
+    foodItem.choice = item;
+  };
+
   const addItem = (item, index, subsIndex) => {
     if (item["options"] === undefined) {
       item["options"] = {};
-    } 
+    }
+
+    if (item["choices"] === undefined) {
+      item["choices"] = {};
+    }
+    item["choices"] = item.choice;
     item["options"] = item.food_option;
     dispatch({ type: TYPES.ADD_ITEM, payload: item }); //dispatcing the whole item
 
@@ -145,6 +153,8 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
                             Rs {item.options.option_price} <br />
                             Option:
                             {item.options.option_name} <br />
+                            {item.choices ? "Choice:" : ""} <br />
+                            {item.choices ? item.choices : ""} <br />
                           </p>
                           <PlusWithAddRemove
                             item={foodItem}
@@ -157,21 +167,48 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
                     );
                   }
                 })
-              : ''}
-            {foodItem.options ? '' : Object.entries(foodItem.food_options).map((item, index) => {
-                  return Object.values(item[1]).map((item1, idx) => {
+              : ""}
+            {foodItem.options
+              ? ""
+              : Object.entries(foodItem.food_options).map((item, index) => {
+                  if (item[0] === "options")
                     return (
-                      <div key={idx}>
-                        <Form.Check
-                          onClick={() => selectOption(foodItem, item1)}
-                          type="radio"
-                          label={item1.option_name}
-                          name="test"
-                        />
+                      <div className="radio-div">
+                        {Object.values(item[1]).map((item1, idx) => {
+                          return (
+                            <div key={idx}>
+                              <Form.Check
+                                onClick={() => selectOption(foodItem, item1)}
+                                type="radio"
+                                label={item1.option_name}
+                                name="test"
+                              />
+                            </div>
+                          );
+                        })}
                       </div>
                     );
-                  });
-                }) }
+
+                  if (item[0] === "choices" && item[1].length > 0)
+                    return (
+                      <div className="radio-div">
+                        <br />
+                        Choices
+                        {Object.values(item[1]).map((item1, idx) => {
+                          return (
+                            <div key={idx}>
+                              <Form.Check
+                                onClick={() => selectChoice(foodItem, item1)}
+                                type="radio"
+                                label={item1}
+                                name="test1"
+                              />
+                            </div>
+                          );
+                        })}
+                      </div>
+                    );
+                })}
             {foodItem.showCustomize ? (
               <div
                 className="modal-customization"
@@ -184,18 +221,44 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
             )}
             {foodItem.showOptionsAgain
               ? Object.entries(foodItem.food_options).map((item, index) => {
-                  return Object.values(item[1]).map((item1, idx) => {
+                  if (item[0] === "options") {
                     return (
-                      <div key={idx}>
-                        <Form.Check
-                          onClick={() => selectOption(foodItem, item1)}
-                          type="radio"
-                          label={item1.option_name}
-                          name="test"
-                        />
+                      <div className="radio-div">
+                    
+                    {Object.values(item[1]).map((item1, idx) => {
+                      return (
+                        <div key={idx}>
+                          <Form.Check
+                            onClick={() => selectOption(foodItem, item1)}
+                            type="radio"
+                            label={item1.option_name}
+                            name="test"
+                          />
+                        </div>
+                      );
+                    })}
+                      </div>
+                    )
+                  }
+                  if (item[0] === "choices" && item[1].length > 0)
+                    return (
+                      <div className="radio-div-2">
+                        <br />
+                        Choices
+                        {Object.values(item[1]).map((item1, idx) => {
+                          return (
+                            <div key={idx}>
+                              <Form.Check
+                                onClick={() => selectChoice(foodItem, item1)}
+                                type="radio"
+                                label={item1}
+                                name="test1"
+                              />
+                            </div>
+                          );
+                        })}
                       </div>
                     );
-                  });
                 })
               : ""}
             {/* Customizable Options: <br />

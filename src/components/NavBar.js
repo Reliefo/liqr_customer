@@ -18,7 +18,7 @@ export default props => {
 
   const {
     dispatch,
-    state: { searchClicked, searchValue }
+    state: { searchClicked, searchValue, rawData: { name }, tableName }
   } = React.useContext(StoreContext);
 
   const searchValueChange = ({ target: { value } }) => {
@@ -40,6 +40,12 @@ export default props => {
   };
   return (
     <div>
+        <span className="restaurant-header">
+        {name}
+        </span>
+        <span className="username">
+        ${localStorage.getItem('name')}
+        </span>
         <SearchSVG onClick={searchIconClick} className="search-svg" />
         <div
           className="nav-search-bar"
@@ -60,6 +66,13 @@ export default props => {
             <img className="navbar-menu-icon" src={login} alt="Login" /> Login/
             SignUp
           </a>
+          <hr />
+
+          <a className="menu-item" href="/menu">
+          {" "}
+            Current Table: {tableName}
+          </a>
+
           <hr />
 
           <a className="menu-item" href="/menu">
