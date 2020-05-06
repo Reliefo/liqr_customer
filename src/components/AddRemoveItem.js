@@ -24,20 +24,6 @@ const AddRemoveItem =  props => {
         type: TYPES.DEL_ITEM,
         payload: props.id
       });
-  
-      const bodyData = {
-        user_id: localStorage.getItem("user_id"),
-        restaurant_id: "BNGHSR0001"
-      };
-  
-      props.socket.emit("fetch_rest_customer", JSON.stringify(bodyData));
-  
-      props.socket.off("restaurant_object").on("restaurant_object", data => {
-        const resp = JSON.parse(data);
-        dispatch({ type: TYPES.ADD_DATA, payload: resp });
-        dispatch({ type: TYPES.ADD_SELECT_DATA, payload: resp.food_menu });
-  
-      });
 
     };
     dispatch({

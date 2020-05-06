@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import React from "react";
 import { Link } from "react-router-dom";
-import { Card, Row, Col } from "react-bootstrap";
+import { Card, Row, Col, Form } from "react-bootstrap";
 import AddRemoveItem from "components/AddRemoveItem.js";
 import { StoreContext } from "Store";
 import SocketContext from "../socket-context";
@@ -173,6 +173,7 @@ const Cart = props => {
     props.socket.off("table_cart_orders").on("table_cart_orders", msg => {
       dispatch({ type: TYPES.UPDATE_TABLE_ORDER, payload: JSON.parse(msg) });
     });
+    dispatch({ type: TYPES.RESET_CART });
     setState(state => ({ ...state, activeCart: 1 - state.activeCart }));
   };
 
@@ -317,6 +318,13 @@ const Cart = props => {
             {state.activeCart === 1 && renderTableCart()}
             {state.activeCart === 0 && cart.length !== 0 && (
               <>
+                <Form.Group controlId="exampleForm.ControlTextarea1">
+                  <Form.Control
+                    as="textarea"
+                    rows="3"
+                    placeholder="Special Instructions"
+                  />
+                </Form.Group>
                 <Bill orderTotal={orderTotal} />
                 {state.activeCart === 0 && (
                   <Row>

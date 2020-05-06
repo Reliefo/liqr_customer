@@ -95,7 +95,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
     dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
   };
   return (
-      <Card className="category-card food-item">
+      <Card id={foodItem.name} className="category-card food-item">
           <Card.Title style={{ width: "100%" }}>
             <div>
               <p style={{ float: "left" }}>{foodItem.name}</p>
