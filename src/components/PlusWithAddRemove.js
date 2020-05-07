@@ -34,7 +34,8 @@ const PlusWithAddRemove = ({ item, idx, subs }) => {
   React.useEffect(() => {
     if (state.quantity === 0) {
       setState(state => ({ ...state, showAddRemove: false }));
-      dispatch({ type: TYPES.DEL_ITEM, payload: item._id.$oid });
+
+      dispatch({ type: TYPES.DEL_ITEM, payload: item });
     }
   }, [state.quantity]);
 
@@ -55,6 +56,9 @@ const PlusWithAddRemove = ({ item, idx, subs }) => {
       }
     });
     if (data) {
+      setState(state => ({ ...state, quantity: --state.quantity }));
+    }
+    else {
       setState(state => ({ ...state, quantity: --state.quantity }));
     }
   };

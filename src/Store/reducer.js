@@ -118,16 +118,29 @@ function reducer(state, action) {
       return st;
     case TYPES.DEL_ITEM:
       if (payload.options) {
+        st.activeData.forEach(data => {
+          data.food_list.forEach(item => {
+            if(item.name === payload.name) {
+               delete item.choices;
+               delete item.options;
+               delete item.showCustomize;
+               delete item.showPopup;
+               delete item.showOptionsAgain;
+               delete item.foodOptions;
+            }
+          })
+        })
         idx = st.cart.findIndex(
           item =>
             item._id.$oid === payload._id.$oid &&
             item.options.option_name === payload.options.option_name
         );
       } else {
-        idx = st.cart.findIndex(item => item._id.$oid === payload);
+        idx = st.cart.findIndex(item => item._id.$oid === payload._id.$oid);
       }
-
+      if(idx !== -1)
       st.cart.splice(idx, 1);
+
       return st;
     case TYPES.SET_NAV:
       st.activeNav = payload;
@@ -140,6 +153,10 @@ function reducer(state, action) {
       return st;
     case TYPES.SET_GENERAL_DATA:
       return { ...st, ...payload };
+
+    case TYPES.RESET_CART:
+      st.cart = [];
+      return st;
     default:
       return state;
   }

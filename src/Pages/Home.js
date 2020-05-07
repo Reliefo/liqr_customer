@@ -96,7 +96,7 @@ const Home = props => {
 
     props.socket.off("table_details").on("table_details", msg => {
       const data = JSON.parse(msg);
-      
+      console.log("TABLE---->", data.name);
       dispatch({
         type: TYPES.UPDATE_TABLE_NAME,
         payload: data.name
@@ -259,6 +259,11 @@ const Home = props => {
                           if (list._id.$oid === item) {
                             return (
                               <Card
+                                onClick={() =>
+                                  props.history.push("/menu", {
+                                    data: list.name
+                                  })
+                                }
                                 className="category card home-item"
                                 key={`category-cards-${ix}`}
                               >

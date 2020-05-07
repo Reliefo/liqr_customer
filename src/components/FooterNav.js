@@ -3,8 +3,9 @@ import home from "../assets/home.png";
 import menu from "../assets/menu.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import cart from "../assets/cart.png";
+import cartImage from "../assets/cart.png";
 import order from "../assets/order.png";
+import { Badge } from 'react-bootstrap'
 import { Link } from "react-router-dom";
 import SocketContext from "../socket-context";
 import { StoreContext } from "Store";
@@ -18,6 +19,7 @@ const FooterNav = props => {
     state: {
       activeNav,
       tableId,
+      cart,
       activeData,
       placeOrderById,
       rawData: { food_menu = [] }
@@ -50,6 +52,11 @@ const FooterNav = props => {
     menuClick: false
   });
 
+  
+  let cartCount = 0;
+  cart.forEach(item => {
+    cartCount++;
+  });
   const trfm = `rotate(${deg}deg)`;
   const revtrfm = `rotate(${-deg}deg)`;
 
@@ -172,8 +179,9 @@ const FooterNav = props => {
             setState(state => ({ ...state, menuClick: false }))
           }
         >
-          <div style={{ marginTop: "calc(.7rem - 3px)" }}>
-            <img src={cart} alt="Cart" className={fillSvg("Cart")} />
+          <div style={{ marginTop: "calc(.7rem - 15px)" }}>
+            <Badge variant="danger">{cartCount}</Badge>{' '}
+            <img src={cartImage} alt="Cart" className={fillSvg("Cart")} />
             <span className="icon-text">Cart</span>
           </div>
         </Link>

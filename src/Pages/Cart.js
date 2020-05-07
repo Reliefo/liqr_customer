@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import React from "react";
 import { Link } from "react-router-dom";
-import { Card, Row, Col } from "react-bootstrap";
+import { Card, Row, Col, Form } from "react-bootstrap";
 import AddRemoveItem from "components/AddRemoveItem.js";
 import { StoreContext } from "Store";
 import SocketContext from "../socket-context";
@@ -38,6 +38,10 @@ const Cart = props => {
     dispatch({ type: TYPES.SET_NAV, payload: "Cart" });
   }, []);
 
+  props.socket.off("table_cart_orders").on("table_cart_orders", msg => {
+    dispatch({ type: TYPES.UPDATE_TABLE_ORDER, payload: JSON.parse(msg) });
+  });
+
   const DeleteItemHndlr = item => {
     dispatch({ type: TYPES.DEL_ITEM, payload: item });
   };
@@ -51,6 +55,21 @@ const Cart = props => {
     props.socket.emit("place_table_order", JSON.stringify(body));
     props.socket.off("new_orders").on("new_orders", msg => {
       dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
+      dispatch({ type: TYPES.RESET_CART });
+      const bodyData = {
+        user_id: localStorage.getItem("user_id"),
+        restaurant_id: "BNGHSR0001"
+      };
+
+      props.socket.emit("fetch_rest_customer", JSON.stringify(bodyData));
+
+      props.socket.off("restaurant_object").on("restaurant_object", data => {
+        const resp = JSON.parse(data);
+        dispatch({ type: TYPES.ADD_DATA, payload: resp });
+        dispatch({ type: TYPES.ADD_SELECT_DATA, payload: resp.food_menu });
+        dispatch({ type: TYPES.UPDATE_TABLE_ORDER, payload: [] });
+        setState(state => ({ ...state, activeCart: 1 - state.activeCart }));
+      });
     });
   };
 
@@ -95,6 +114,19 @@ const Cart = props => {
 
     props.socket.emit("place_personal_order", JSON.stringify(body));
     props.socket.off("new_orders").on("new_orders", msg => {
+      const body = {
+        user_id: localStorage.getItem("user_id"),
+        restaurant_id: "BNGHSR0001"
+      };
+
+      props.socket.emit("fetch_rest_customer", JSON.stringify(body));
+
+      props.socket.off("restaurant_object").on("restaurant_object", data => {
+        const resp = JSON.parse(data);
+        dispatch({ type: TYPES.ADD_DATA, payload: resp });
+        dispatch({ type: TYPES.ADD_SELECT_DATA, payload: resp.food_menu });
+      });
+      dispatch({ type: TYPES.RESET_CART });
       dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
     });
   };
@@ -137,9 +169,12 @@ const Cart = props => {
       ]
     };
     props.socket.emit("push_to_table_cart", JSON.stringify(body));
+
     props.socket.off("table_cart_orders").on("table_cart_orders", msg => {
       dispatch({ type: TYPES.UPDATE_TABLE_ORDER, payload: JSON.parse(msg) });
     });
+    dispatch({ type: TYPES.RESET_CART });
+    setState(state => ({ ...state, activeCart: 1 - state.activeCart }));
   };
 
   // setState(state => ({ ...state, activeCart: 1 - state.activeCart }));
@@ -283,6 +318,13 @@ const Cart = props => {
             {state.activeCart === 1 && renderTableCart()}
             {state.activeCart === 0 && cart.length !== 0 && (
               <>
+                <Form.Group controlId="exampleForm.ControlTextarea1">
+                  <Form.Control
+                    as="textarea"
+                    rows="3"
+                    placeholder="Special Instructions"
+                  />
+                </Form.Group>
                 <Bill orderTotal={orderTotal} />
                 {state.activeCart === 0 && (
                   <Row>
