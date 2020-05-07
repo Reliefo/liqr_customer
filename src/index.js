@@ -32,7 +32,7 @@ bodyFormData.set(
 axios({
   method: "post",
   url:
-    "http://ec2-13-232-202-63.ap-south-1.compute.amazonaws.com:5050/user_login",
+    "http://13.234.23.179:5050/user_login",
   data: bodyFormData
 })
   .then(function(response) {

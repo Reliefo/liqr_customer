@@ -21,7 +21,7 @@ import io from "socket.io-client";
 export default function AppWrapper() {
 
   const socket = io(
-    "http://ec2-13-232-202-63.ap-south-1.compute.amazonaws.com:5050/reliefo",
+    "http://13.234.23.179:5050/reliefo",
     {
       transportOptions: {
         polling: {
