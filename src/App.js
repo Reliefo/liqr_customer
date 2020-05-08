@@ -21,7 +21,7 @@ import io from "socket.io-client";
 export default function AppWrapper() {
 
   const socket = io(
-    "http://13.234.23.179:5050/reliefo",
+    "https://liqr.cc/reliefo",
     {
       transportOptions: {
         polling: {

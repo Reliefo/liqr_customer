@@ -32,7 +32,7 @@ bodyFormData.set(
 axios({
   method: "post",
   url:
-    "http://13.234.23.179:5050/user_login",
+    "https://liqr.cc/user_login",
   data: bodyFormData
 })
   .then(function(response) {
