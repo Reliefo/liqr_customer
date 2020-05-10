@@ -25,11 +25,13 @@ const Cart = props => {
 
   let orderId = [];
 
-  Object.values(tableOrders.orders).forEach(item => {
-    if (!orderId.includes(item.placed_by.$oid)) {
-      orderId.push(item.placed_by.$oid);
-    }
-  });
+  if (tableOrders && tableOrders.length > 0) {
+    Object.values(tableOrders.orders).forEach(item => {
+      if (!orderId.includes(item.placed_by.$oid)) {
+        orderId.push(item.placed_by.$oid);
+      }
+    });
+  }
 
   const [state, setState] = React.useState({
     activeCart: 0 //0: Personal cart, 1: Table cart
