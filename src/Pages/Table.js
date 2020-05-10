@@ -43,6 +43,10 @@ const Table = props => {
 
       dispatch({ type: TYPES.REFRESH_ORDER_CLOUD, payload: data.table_orders });
     });
+
+    props.socket.off("order_updates").on("order_updates", msg => {
+      dispatch({ type: TYPES.UPDATE_ORDER_STATUS, payload: JSON.parse(msg) });
+    });
   }, []);
   let orderId = [];
 
