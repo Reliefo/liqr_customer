@@ -6,22 +6,32 @@ import FoodItem from "components/FoodItem";
 const SearchFoodItems = () => {
   const {
     dispatch,
-    state: { searchValue, justMenuItems }
+    state: { searchValue, justMenuItems, activeData }
   } = React.useContext(StoreContext);
-  
+
   return (
     <div className="category">
       <ul style={{ listStyleType: "none" }}>
-        {justMenuItems.map((foodItem,idx) => {
+        {activeData.map((foodItem, idx) => {
+        
           //to make it case insensitive
-          const name = foodItem.name.toLowerCase();
+          return foodItem.food_list.map((data, idx3) => {
+          const name = data.name.toLowerCase();
           const mathingValue = searchValue.toLowerCase();
           const isMatch = name.indexOf(mathingValue) !== -1;
           return (
-            <li key={idx} style={{ display: isMatch ? "" : "none" }}>
-              <FoodItem foodItem={foodItem} />
+            <li key={idx3} style={{ display: isMatch ? "" : "none" }}>
+              <FoodItem
+                stateData={activeData}
+                foodItem={data}
+                subs={foodItem}
+                subsIndex={idx}
+                index={idx3}
+                key={`food-item-${idx3}`}
+              />
             </li>
           );
+          })
         })}
       </ul>
     </div>

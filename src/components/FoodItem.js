@@ -1,6 +1,7 @@
 import React from "react";
 import PlusWithAddRemove from "components/PlusWithAddRemove";
 import { Card, Accordion, Modal, Button, Form } from "react-bootstrap";
+import sampleImage from "../assets/300.png";
 import * as TYPES from "Store/actionTypes.js";
 import { StoreContext } from "Store";
 
@@ -82,6 +83,32 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
     dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
   };
 
+  const closeDetails = (foodItem, index, subsIndex) => {
+    activeData.forEach((item, index3) => {
+      if (index3 === subsIndex) {
+        item.food_list.forEach((item1, idx2) => {
+          if (idx2 === index) {
+            delete item1.showDetails;
+          }
+        });
+      }
+    });
+    dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
+  };
+
+  const selectDetails = (foodItem, index, subsIndex) => {
+    activeData.forEach((item, index3) => {
+      if (index3 === subsIndex) {
+        item.food_list.forEach((item1, idx2) => {
+          if (idx2 === index) {
+            item1.showDetails = true;
+          }
+        });
+      }
+    });
+    dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
+  };
+
   const showOptions = (foodItem, index, subsIndex) => {
     activeData.forEach((item, index3) => {
       if (index3 === subsIndex) {
@@ -95,19 +122,21 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
     dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
   };
   return (
-      <Card id={foodItem.name} className="category-card food-item">
-          <Card.Title style={{ width: "100%" }}>
-            <div>
-              <p style={{ float: "left" }}>{foodItem.name}</p>
-              <p style={{ position: 'absolute', right: "2%" }}>&#8377; {foodItem.price}</p>
-            </div>
-          </Card.Title>
-          <Card.Body className="Menu-body">
-            <p style={{ width: "69%", fontSize: ".9rem" }}>
-              {foodItem.description}
-            </p>
-            <PlusWithAddRemove item={foodItem} idx={index} subs={subsIndex} />
-          </Card.Body>
+    <Card id={foodItem.name} className="category-card food-item">
+      <Card.Title style={{ width: "100%" }}>
+        <div>
+          <p style={{ float: "left" }}>{foodItem.name}</p>
+          <p style={{ position: "absolute", right: "2%" }}>
+            &#8377; {foodItem.price}
+          </p>
+        </div>
+      </Card.Title>
+      <Card.Body className="Menu-body">
+        <p style={{ width: "69%", fontSize: ".9rem" }}>
+          {foodItem.description}
+        </p>
+        <PlusWithAddRemove item={foodItem} idx={index} subs={subsIndex} />
+      </Card.Body>
       {foodItem.foodOptions && foodItem.foodOptions === true ? (
         <Modal show={foodItem.showPopup} onHide={handleClose}>
           <Modal.Header>
@@ -153,7 +182,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
               : Object.entries(foodItem.food_options).map((item, index) => {
                   if (item[0] === "options")
                     return (
-                      <div className="radio-div">
+                      <div className="radio-div" key={index}>
                         {Object.values(item[1]).map((item1, idx) => {
                           return (
                             <div key={idx}>
@@ -204,21 +233,20 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
                   if (item[0] === "options") {
                     return (
                       <div className="radio-div">
-                    
-                    {Object.values(item[1]).map((item1, idx) => {
-                      return (
-                        <div key={idx}>
-                          <Form.Check
-                            onClick={() => selectOption(foodItem, item1)}
-                            type="radio"
-                            label={item1.option_name}
-                            name="test"
-                          />
-                        </div>
-                      );
-                    })}
+                        {Object.values(item[1]).map((item1, idx) => {
+                          return (
+                            <div key={idx}>
+                              <Form.Check
+                                onClick={() => selectOption(foodItem, item1)}
+                                type="radio"
+                                label={item1.option_name}
+                                name="test"
+                              />
+                            </div>
+                          );
+                        })}
                       </div>
-                    )
+                    );
                   }
                   if (item[0] === "choices" && item[1].length > 0)
                     return (
@@ -276,7 +304,41 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
       ) : (
         ""
       )}
-      </Card>
+      <p
+        style={{
+          width: "69%",
+          fontSize: ".9rem",
+          paddingLeft: "3%",
+          textDecoration: "underline"
+        }}
+        onClick={() => selectDetails(foodItem, index, subsIndex)}
+      >
+        Details
+      </p>
+      {foodItem.showDetails && foodItem.showDetails === true ? (
+        <Modal show={foodItem.showDetails} onHide={handleClose}>
+          <Modal.Header>
+            <Modal.Title className="details-title">
+              <img className="detailsImage" src={sampleImage} alt="img" />
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {foodItem.name} <br />{" "}
+            <div className="options-modal">{foodItem.description}</div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              variant="secondary"
+              onClick={() => closeDetails(foodItem, index, subsIndex)}
+            >
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      ) : (
+        ""
+      )}
+    </Card>
   );
 };
 

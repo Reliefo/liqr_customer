@@ -75,7 +75,7 @@ const Table = props => {
         <div className="order-status-styling">
           {orderId.map((id, name) => {
             return (
-              <div>
+              <div key={id}>
                 {orderNames[name]}
             
             {orderSuccess.map((item, idx) => {
