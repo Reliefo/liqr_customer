@@ -32,8 +32,8 @@ function reducer(state, action) {
       return st;
     case TYPES.UPDATE_ORDER_STATUS:
       st.orderSuccess.forEach((item, index) => {
-        if (item.payload._id.$oid === payload.table_order_id) {
-          item.payload.orders.forEach(item1 => {
+        if (item._id.$oid === payload.table_order_id) {
+          item.orders.forEach(item1 => {
             if (item1._id.$oid === payload.order_id) {
               item1.food_list.forEach(item2 => {
                 if (item2.food_id === payload.food_id) {
