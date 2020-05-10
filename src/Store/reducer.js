@@ -13,10 +13,16 @@ function reducer(state, action) {
       st.tableOrders = payload;
       return st;
     case TYPES.UPDATE_SUCCESS_ORDER:
-      st.orderSuccess.push({
+      st.orderSuccess.push(
         payload
-      });
+      );
       return st;
+
+    case TYPES.REFRESH_ORDER_CLOUD:
+      st.orderSuccess = [];
+      st.orderSuccess = payload;
+      return st;
+
     case TYPES.SET_PLACEORDER_ID:
       st.placeOrderById = payload.users;
       return st;
@@ -120,16 +126,16 @@ function reducer(state, action) {
       if (payload.options) {
         st.activeData.forEach(data => {
           data.food_list.forEach(item => {
-            if(item.name === payload.name) {
-               delete item.choices;
-               delete item.options;
-               delete item.showCustomize;
-               delete item.showPopup;
-               delete item.showOptionsAgain;
-               delete item.foodOptions;
+            if (item.name === payload.name) {
+              delete item.choices;
+              delete item.options;
+              delete item.showCustomize;
+              delete item.showPopup;
+              delete item.showOptionsAgain;
+              delete item.foodOptions;
             }
-          })
-        })
+          });
+        });
         idx = st.cart.findIndex(
           item =>
             item._id.$oid === payload._id.$oid &&
@@ -138,8 +144,7 @@ function reducer(state, action) {
       } else {
         idx = st.cart.findIndex(item => item._id.$oid === payload._id.$oid);
       }
-      if(idx !== -1)
-      st.cart.splice(idx, 1);
+      if (idx !== -1) st.cart.splice(idx, 1);
 
       return st;
     case TYPES.SET_NAV:

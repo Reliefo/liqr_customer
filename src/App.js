@@ -32,6 +32,7 @@ export default function AppWrapper() {
       }
     }
   );
+
   return (
     <SocketContext.Provider value={socket}>
       <BrowserRouter>

@@ -96,11 +96,13 @@ const Home = props => {
 
     props.socket.off("table_details").on("table_details", msg => {
       const data = JSON.parse(msg);
-      console.log("TABLE---->", data.name);
+      console.log("TABLE---->", data);
       dispatch({
         type: TYPES.UPDATE_TABLE_NAME,
         payload: data.name
       });
+      dispatch({ type: TYPES.REFRESH_ORDER_CLOUD, payload: data.table_orders });
+      
 
       dispatch({
         type: TYPES.UPDATE_TABLE_ORDER,

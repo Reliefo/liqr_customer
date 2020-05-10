@@ -12,6 +12,7 @@ export const UPDATE_ORDER_STATUS = 10;
 export const SET_TABLE_ID = 11;
 export const SET_PLACEORDER_ID = 12;
 export const UPDATE_SUCCESS_ORDER = 13;
+export const REFRESH_ORDER_CLOUD = 22;
 export const UPDATE_TABLE_ORDER = 14;
 export const UPDATE_TABLE_NAME = 20;
 export const ADD_SELECT_DATA = 17;

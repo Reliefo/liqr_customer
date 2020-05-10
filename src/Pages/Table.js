@@ -15,9 +15,9 @@ const Table = props => {
       searchClicked
     }
   } = React.useContext(StoreContext);
-
+  let nidhi = [];
   React.useEffect(() => {
-    dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: '' } });
+    dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: "" } });
     console.log("Table screen");
     //handling refresh issue
     dispatch({
@@ -25,7 +25,32 @@ const Table = props => {
       payload: { searchClicked: false }
     });
     dispatch({ type: TYPES.SET_NAV, payload: "Order" });
+
+    props.socket.off("new_orders").on("new_orders", msg => {
+      dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
+    });
+
+    const body = {
+      user_id: localStorage.getItem("user_id"),
+      restaurant_id: "BNGHSR0001"
+    };
+
+    props.socket.emit("fetch_rest_customer", JSON.stringify(body));
+
+
+    props.socket.off("table_details").on("table_details", msg => {
+      const data = JSON.parse(msg);
+
+      dispatch({ type: TYPES.REFRESH_ORDER_CLOUD, payload: data.table_orders });
+    });
   }, []);
+  let orderId = [];
+
+  orderSuccess.forEach(item => {
+    if (!orderId.includes(item.orders[0].placed_by.$oid)) {
+      orderId.push(item.orders[0].placed_by.$oid);
+    }
+  });
 
   return (
     <>
@@ -33,25 +58,23 @@ const Table = props => {
         <SearchFoodItems />
       ) : (
         <div className="order-status-styling">
-          {food_menu.map((menuItem, index) => {
-            return menuItem.food_list.map(foodItem => {
-              return orderSuccess.map((item, idx) => {
-                return item.payload.orders.map(item2 => {
-                  return item2.food_list.map(item3 => {
-                    if (item3.food_id === foodItem._id.$oid) {
-                      return (
-                        <Card
-                          key={idx}
-                          className="cart-card cart-styling margin-styling"
-                        >
-                          <Card.Body className="body">
-                            {foodItem.name} - {item3.status}
-                          </Card.Body>
-                        </Card>
-                      );
-                    }
+          {orderId.map(id => {
+            return orderSuccess.map((item, idx) => {
+              return item.orders.map(item2 => {
+                if (item2.placed_by.$oid === id) {
+                  return item2.food_list.map((item3, index) => {
+                    return (
+                      <Card
+                        key={index}
+                        className="cart-card cart-styling margin-styling"
+                      >
+                        <Card.Body className="body">
+                          {item3.name} - {item3.status}
+                        </Card.Body>
+                      </Card>
+                    );
                   });
-                });
+                }
               });
             });
           })}
