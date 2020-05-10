@@ -23,6 +23,14 @@ const Cart = props => {
     state: { cart, tableId, tableOrders, placeOrderById, searchClicked }
   } = React.useContext(StoreContext);
 
+  let orderId = [];
+
+  Object.values(tableOrders.orders).forEach(item => {
+    if (!orderId.includes(item.placed_by.$oid)) {
+      orderId.push(item.placed_by.$oid);
+    }
+  });
+
   const [state, setState] = React.useState({
     activeCart: 0 //0: Personal cart, 1: Table cart
   });
@@ -210,35 +218,39 @@ const Cart = props => {
   );
   const renderTableCart = () => (
     <>
-      {Object.entries(tableOrders).map((item2, idx) => {
-        if (item2[0] === "orders") {
-          return item2[1].map((order_list, index) => {
-            return (
-              <React.Fragment key={`table-${index}`}>
-                <RBTable striped bordered hover>
-                  <thead className="table-thead">
-                    <tr>
-                      <th>Name</th>
-                      <th>Qty</th>
-                      <th>Price</th>
-                    </tr>
-                  </thead>
-                  {order_list.food_list.map((food, ix) => {
-                    return (
-                      <tbody>
+      {orderId.map(id => {
+        return Object.entries(tableOrders).map((item2, idx) => {
+          if (item2[0] === "orders") {
+            return item2[1].map((order_list, index) => {
+              if (order_list.placed_by.$oid === id) {
+                return (
+                  <React.Fragment key={`table-${index}`}>
+                    <RBTable striped bordered hover>
+                      <thead className="table-thead">
                         <tr>
-                          <td>{food.name}</td>
-                          <td>{food.quantity}</td>
-                          <td>{food.price}</td>
+                          <th>Name</th>
+                          <th>Qty</th>
+                          <th>Price</th>
                         </tr>
-                      </tbody>
-                    );
-                  })}
-                </RBTable>
-              </React.Fragment>
-            );
-          });
-        }
+                      </thead>
+                      {order_list.food_list.map((food, ix) => {
+                        return (
+                          <tbody>
+                            <tr>
+                              <td>{food.name}</td>
+                              <td>{food.quantity}</td>
+                              <td>{food.price}</td>
+                            </tr>
+                          </tbody>
+                        );
+                      })}
+                    </RBTable>
+                  </React.Fragment>
+                );
+              }
+            });
+          }
+        });
       })}
     </>
   );

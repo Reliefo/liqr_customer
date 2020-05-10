@@ -16,6 +16,7 @@ const initialState = {
   tableId: "",
   placeOrderById: "",
   tableOrders: [],
+  tableUsers: [],
   justBarItems: [],
   homeItems: [],
   orderSuccess: [],

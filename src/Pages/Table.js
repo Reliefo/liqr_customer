@@ -12,7 +12,8 @@ const Table = props => {
     state: {
       rawData: { food_menu = [] },
       orderSuccess,
-      searchClicked
+      searchClicked,
+      tableUsers
     }
   } = React.useContext(StoreContext);
   let nidhi = [];
@@ -46,7 +47,7 @@ const Table = props => {
 
     props.socket.off("order_updates").on("order_updates", msg => {
       dispatch({ type: TYPES.UPDATE_ORDER_STATUS, payload: JSON.parse(msg) });
-    });
+    }); 
   }, []);
   let orderId = [];
 
@@ -56,14 +57,28 @@ const Table = props => {
     }
   });
 
+  let orderNames = [];
+  tableUsers.forEach(item => {
+     orderId.forEach(order => {
+       if(order === item.id.$oid) {
+        orderNames.push(item.name)
+       }
+     })
+  })
+  
+
   return (
     <>
       {searchClicked === true ? (
         <SearchFoodItems />
       ) : (
         <div className="order-status-styling">
-          {orderId.map(id => {
-            return orderSuccess.map((item, idx) => {
+          {orderId.map((id, name) => {
+            return (
+              <div>
+                {orderNames[name]}
+            
+            {orderSuccess.map((item, idx) => {
               return item.orders.map(item2 => {
                 if (item2.placed_by.$oid === id) {
                   return item2.food_list.map((item3, index) => {
@@ -80,7 +95,9 @@ const Table = props => {
                   });
                 }
               });
-            });
+            })}
+            </div>
+            )
           })}
         </div>
       )}

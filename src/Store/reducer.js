@@ -13,9 +13,7 @@ function reducer(state, action) {
       st.tableOrders = payload;
       return st;
     case TYPES.UPDATE_SUCCESS_ORDER:
-      st.orderSuccess.push(
-        payload
-      );
+      st.orderSuccess.push(payload);
       return st;
 
     case TYPES.REFRESH_ORDER_CLOUD:
@@ -23,6 +21,9 @@ function reducer(state, action) {
       st.orderSuccess = payload;
       return st;
 
+    case TYPES.UPDATE_TABLE_USERS:
+      st.tableUsers = payload;
+      return st;
     case TYPES.SET_PLACEORDER_ID:
       st.placeOrderById = payload.users;
       return st;
