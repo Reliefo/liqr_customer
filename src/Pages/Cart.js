@@ -25,7 +25,7 @@ const Cart = props => {
 
   let orderId = [];
 
-  if (tableOrders && tableOrders.length > 0) {
+  if (tableOrders.length !== 0) {
     Object.values(tableOrders.orders).forEach(item => {
       if (!orderId.includes(item.placed_by.$oid)) {
         orderId.push(item.placed_by.$oid);
@@ -49,7 +49,9 @@ const Cart = props => {
   }, []);
 
   props.socket.off("table_cart_orders").on("table_cart_orders", msg => {
-    dispatch({ type: TYPES.UPDATE_TABLE_ORDER, payload: JSON.parse(msg) });
+    if (msg !== undefined) {
+      dispatch({ type: TYPES.UPDATE_TABLE_ORDER, payload: JSON.parse(msg) });
+    }
   });
 
   const DeleteItemHndlr = item => {
@@ -77,7 +79,6 @@ const Cart = props => {
         const resp = JSON.parse(data);
         dispatch({ type: TYPES.ADD_DATA, payload: resp });
         dispatch({ type: TYPES.ADD_SELECT_DATA, payload: resp.food_menu });
-        dispatch({ type: TYPES.UPDATE_TABLE_ORDER, payload: [] });
         setState(state => ({ ...state, activeCart: 1 - state.activeCart }));
       });
     });
@@ -179,7 +180,6 @@ const Cart = props => {
       ]
     };
     props.socket.emit("push_to_table_cart", JSON.stringify(body));
-
     props.socket.off("table_cart_orders").on("table_cart_orders", msg => {
       dispatch({ type: TYPES.UPDATE_TABLE_ORDER, payload: JSON.parse(msg) });
     });
