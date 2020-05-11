@@ -58,7 +58,7 @@ const Table = props => {
           {orderSuccess.map((item, idx) => {
             return (
               <div>
-              <p style={{ textTransform: "capitalize"}}>{item.table} - {item.timestamp}</p>
+              <p style={{ textTransform: "capitalize"}}>Table Order {idx+1} - {item.timestamp}</p>
  
               <Card className="cart-card cart-styling margin-styling">
                 {item.orders.map(item2 => {
