@@ -52,11 +52,12 @@ const Table = props => {
   let orderId = [];
 
   orderSuccess.forEach(item => {
-    if (!orderId.includes(item.orders[0].placed_by.$oid)) {
-      orderId.push(item.orders[0].placed_by.$oid);
+    if (!orderId.includes(item.orders[0].placed_by.id)) {
+      orderId.push(item.orders[0].placed_by.id);
     }
   });
-
+  
+  
   let orderNames = [];
   tableUsers.forEach(item => {
      orderId.forEach(order => {
@@ -65,7 +66,6 @@ const Table = props => {
        }
      })
   })
-  
 
   return (
     <>
@@ -80,7 +80,7 @@ const Table = props => {
             
             {orderSuccess.map((item, idx) => {
               return item.orders.map(item2 => {
-                if (item2.placed_by.$oid === id) {
+                if (item2.placed_by.id === id) {
                   return item2.food_list.map((item3, index) => {
                     return (
                       <Card
