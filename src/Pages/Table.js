@@ -16,7 +16,6 @@ const Table = props => {
       tableUsers
     }
   } = React.useContext(StoreContext);
-  let nidhi = [];
   React.useEffect(() => {
     dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: "" } });
     console.log("Table screen");
@@ -38,7 +37,6 @@ const Table = props => {
 
     props.socket.emit("fetch_rest_customer", JSON.stringify(body));
 
-
     props.socket.off("table_details").on("table_details", msg => {
       const data = JSON.parse(msg);
 
@@ -47,25 +45,8 @@ const Table = props => {
 
     props.socket.off("order_updates").on("order_updates", msg => {
       dispatch({ type: TYPES.UPDATE_ORDER_STATUS, payload: JSON.parse(msg) });
-    }); 
+    });
   }, []);
-  let orderId = [];
-
-  orderSuccess.forEach(item => {
-    if (!orderId.includes(item.orders[0].placed_by.id)) {
-      orderId.push(item.orders[0].placed_by.id);
-    }
-  });
-  
-  
-  let orderNames = [];
-  tableUsers.forEach(item => {
-     orderId.forEach(order => {
-       if(order === item.id.$oid) {
-        orderNames.push(item.name)
-       }
-     })
-  })
 
   return (
     <>
@@ -73,31 +54,28 @@ const Table = props => {
         <SearchFoodItems />
       ) : (
         <div className="order-status-styling">
-          {orderId.map((id, name) => {
+          {orderSuccess.map((item, idx) => {
             return (
-              <div key={id}>
-                {orderNames[name]}
-            
-            {orderSuccess.map((item, idx) => {
-              return item.orders.map(item2 => {
-                if (item2.placed_by.id === id) {
+              <Card className="cart-card cart-styling margin-styling">
+                {item.orders.map(item2 => {
                   return item2.food_list.map((item3, index) => {
                     return (
-                      <Card
-                        key={index}
-                        className="cart-card cart-styling margin-styling"
-                      >
+                      <div>
+                        <Card.Title
+                          style={{ padding: "1.25rem", fontSize: "14px" }}
+                          className="body"
+                        >
+                          {item2.placed_by.name}
+                        </Card.Title>
                         <Card.Body className="body">
                           {item3.name} - {item3.status}
                         </Card.Body>
-                      </Card>
+                      </div>
                     );
                   });
-                }
-              });
-            })}
-            </div>
-            )
+                })}
+              </Card>
+            );
           })}
         </div>
       )}

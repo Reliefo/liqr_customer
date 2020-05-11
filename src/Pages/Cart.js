@@ -25,13 +25,15 @@ const Cart = props => {
 
   let orderId = [];
 
-  if (tableOrders.length !== 0) {
+  if (tableOrders && Object.keys(tableOrders).length > 0) {
+    console.log('DID IT COME HERE')
     Object.values(tableOrders.orders).forEach(item => {
       if (!orderId.includes(item.placed_by.$oid)) {
         orderId.push(item.placed_by.$oid);
       }
     });
   }
+
 
   const [state, setState] = React.useState({
     activeCart: 0 //0: Personal cart, 1: Table cart
@@ -65,6 +67,7 @@ const Cart = props => {
   const setOrderTable = () => {
     const body = { table_id: localStorage.getItem("table_id") };
     props.socket.emit("place_table_order", JSON.stringify(body));
+    dispatch({ type: TYPES.UPDATE_TABLE_ORDER, payload: [] });
     props.socket.off("new_orders").on("new_orders", msg => {
       dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
       dispatch({ type: TYPES.RESET_CART });
@@ -81,6 +84,8 @@ const Cart = props => {
         dispatch({ type: TYPES.ADD_SELECT_DATA, payload: resp.food_menu });
         setState(state => ({ ...state, activeCart: 1 - state.activeCart }));
       });
+
+   
     });
   };
 
@@ -179,10 +184,25 @@ const Cart = props => {
         { placed_by: localStorage.getItem("user_id"), food_list: cartClone }
       ]
     };
+
+    const body1 = {
+      user_id: localStorage.getItem("user_id"),
+      restaurant_id: "BNGHSR0001"
+    };
+
     props.socket.emit("push_to_table_cart", JSON.stringify(body));
-    props.socket.off("table_cart_orders").on("table_cart_orders", msg => {
-      dispatch({ type: TYPES.UPDATE_TABLE_ORDER, payload: JSON.parse(msg) });
+
+    props.socket.emit("fetch_rest_customer", JSON.stringify(body1));
+
+  
+    props.socket.off("table_details").on("table_details", msg => {
+      const data = JSON.parse(msg);
+      dispatch({ type: TYPES.UPDATE_TABLE_ORDER, payload: data.table_cart });
     });
+
+
+
+   
     dispatch({ type: TYPES.RESET_CART });
     setState(state => ({ ...state, activeCart: 1 - state.activeCart }));
   };
@@ -270,7 +290,7 @@ const Cart = props => {
       : "";
 
   let sum = 0;
-  tableOrders.length !== 0
+  tableOrders && Object.keys(tableOrders).length > 0
     ? Object.entries(tableOrders).forEach(item => {
         if (item[0] === "orders") {
           item[1].forEach(item2 => {
