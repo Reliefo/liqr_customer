@@ -65,7 +65,7 @@ const Table = props => {
                           style={{ padding: "1.25rem", fontSize: "14px" }}
                           className="body"
                         >
-                          {item2.placed_by.name}
+                          {item2.placed_by.name} - {item.timestamp}
                         </Card.Title>
                         <Card.Body className="body">
                           {item3.name} - {item3.status}
