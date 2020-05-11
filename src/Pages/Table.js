@@ -17,6 +17,7 @@ const Table = props => {
     }
   } = React.useContext(StoreContext);
   React.useEffect(() => {
+    console.log('NIDS--->', orderSuccess)
     dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: "" } });
     console.log("Table screen");
     //handling refresh issue
@@ -56,6 +57,9 @@ const Table = props => {
         <div className="order-status-styling">
           {orderSuccess.map((item, idx) => {
             return (
+              <div>
+              <p style={{ textTransform: "capitalize"}}>{item.table} - {item.timestamp}</p>
+ 
               <Card className="cart-card cart-styling margin-styling">
                 {item.orders.map(item2 => {
                   return item2.food_list.map((item3, index) => {
@@ -65,7 +69,7 @@ const Table = props => {
                           style={{ padding: "1.25rem", fontSize: "14px" }}
                           className="body"
                         >
-                          {item2.placed_by.name} - {item.timestamp}
+                          {item2.placed_by.name}
                         </Card.Title>
                         <Card.Body className="body">
                           {item3.name} - {item3.status}
@@ -75,6 +79,7 @@ const Table = props => {
                   });
                 })}
               </Card>
+              </div>
             );
           })}
         </div>
