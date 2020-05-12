@@ -601,3 +601,20 @@
     color: rgb(255, 176, 35);
     margin-left: 20%;
 }
+
+.cart-menu {
+      border-bottom: 1.5px solid $bg-clr;
+      transition: all 0.2s ease-in-out;
+      padding-bottom: 3px;
+      & svg {
+        fill: #808080;
+      }
+      &.active {
+        color: $brand-clr;
+        border-bottom: 1.5px solid $brand-clr;
+
+        & svg {
+          fill: #ff424d;
+        }
+      }
+    }
