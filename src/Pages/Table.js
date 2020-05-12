@@ -17,7 +17,7 @@ const Table = props => {
     }
   } = React.useContext(StoreContext);
   React.useEffect(() => {
-    console.log('NIDS--->', orderSuccess)
+    console.log("NIDS--->", orderSuccess);
     dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: "" } });
     console.log("Table screen");
     //handling refresh issue
@@ -58,27 +58,41 @@ const Table = props => {
           {orderSuccess.map((item, idx) => {
             return (
               <div>
-              <p style={{ textTransform: "capitalize"}}>Table Order {idx+1} - {item.timestamp}</p>
- 
-              <Card className="cart-card cart-styling margin-styling">
-                {item.orders.map(item2 => {
-                  return item2.food_list.map((item3, index) => {
-                    return (
-                      <div>
-                        <Card.Title
-                          style={{ padding: "1.25rem", fontSize: "14px" }}
-                          className="body"
-                        >
-                          {item2.placed_by.name}
-                        </Card.Title>
-                        <Card.Body className="body">
-                          {item3.name} - {item3.status}
-                        </Card.Body>
-                      </div>
-                    );
-                  });
-                })}
-              </Card>
+                <p style={{ textTransform: "capitalize" }}>
+                  Table Order {idx + 1} - {item.timestamp}
+                </p>
+
+                <Card className="cart-card cart-styling margin-styling">
+                  {item.orders.map(item2 => {
+                    let placedBy = [];
+                    return item2.food_list.map((item3, index) => {
+                      let flag = false;
+                      if (!placedBy.includes(item2.placed_by.id)) {
+                        placedBy.push(item2.placed_by.id);
+                        flag = true;
+                      } else {
+                        flag = false;
+                      }
+                      return (
+                        <div>
+                          {flag === true ? (
+                            <Card.Title
+                              style={{ padding: "1.25rem", fontSize: "14px" }}
+                              className="body"
+                            >
+                              {item2.placed_by.name}
+                            </Card.Title>
+                          ) : (
+                            ""
+                          )}
+                          <Card.Body className="body">
+                            {item3.name} - {item3.status}
+                          </Card.Body>
+                        </div>
+                      );
+                    });
+                  })}
+                </Card>
               </div>
             );
           })}
