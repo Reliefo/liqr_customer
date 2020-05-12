@@ -40,7 +40,7 @@ export default props => {
   };
   return (
     <div>
-        <span className="restaurant-header">
+        {/* <span className="restaurant-header">
         {name}
         </span>
         <span className="username">
@@ -60,7 +60,7 @@ export default props => {
           <span className="ml-3" onClick={closeSearchHndlr}>
             X
           </span>
-        </div>
+        </div> */}
         <Menu disableAutoFocus width={"55%"}>
           <a className="menu-item shadow-menu" href="/login">
             <img className="navbar-menu-icon" src={login} alt="Login" /> Login/

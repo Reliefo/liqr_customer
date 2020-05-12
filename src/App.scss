@@ -316,6 +316,25 @@
   cursor: pointer;
 }
 
+.menu-btn-cart {
+  //ul
+  border-radius: 6px;
+  opacity: 1;
+  
+  list-style: none;
+  display: flex;
+  padding: 1rem;
+  position: sticky;
+  margin-top: 6%;
+  z-index: 1;
+  font-size: 1.2rem;
+  font-weight: 500;
+  cursor: pointer;
+  width: 100%;
+
+  cursor: pointer;
+}
+
 .cart-bill {
   border: none;
 }

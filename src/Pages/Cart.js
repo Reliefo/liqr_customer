@@ -316,7 +316,7 @@ const Cart = props => {
         <SearchFoodItems />
       ) : (
         <div>
-          <ul className="menu-btn" style={{ justifyContent: "space-evenly" }}>
+          <ul className="menu-btn-cart" style={{ justifyContent: "space-evenly" }}>
             <li onClick={pushToCart}>
               <div
                 className={
