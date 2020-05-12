@@ -50,16 +50,16 @@ const Menu = props => {
           <div>
             <ul className="menu-btn">
               <li
-                className={state.activeMenu === "bar" ? "active" : null}
+                className={state.activeMenu === "bar" ? "menu-active bar-active" : "menu-inactive bar-inactive"}
                 onClick={() => setMenu("bar", bar_menu)}
               >
-                <div>Bar</div>
+                <div className="menu-item-names">Bar Menu</div>
               </li>
               <li
-                className={state.activeMenu === "food" ? "active" : null}
+                className={state.activeMenu === "food" ? "menu-active food-active" : "food-inactive menu-inactive"}
                 onClick={() => setMenu("food", food_menu)}
               >
-                <div>Food</div>
+                <div className="menu-item-names">Food Menu</div>
               </li>
             </ul>
             <div className="category">
@@ -95,14 +95,16 @@ const SubCategory = ({ subs, categories, activeData }) => (
       style={{ fontSize: "1.1rem", color: "#334252", fontWeight: 600 }}
     ></p>
     {subs.food_list.map((foodItem, idx3) => (
-      <FoodItem
-        stateData={activeData}
-        foodItem={foodItem}
-        subs={subs}
-        subsIndex={categories}
-        index={idx3}
-        key={`food-item-${idx3}`}
-      />
+      <div>
+        <FoodItem
+          stateData={activeData}
+          foodItem={foodItem}
+          subs={subs}
+          subsIndex={categories}
+          index={idx3}
+          key={`food-item-${idx3}`}
+        />
+      </div>
     ))}
   </>
 );

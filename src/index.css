@@ -32,8 +32,10 @@ code {
   }
 }
 .card {
-  background-color: rgb(240, 239, 239);
-  box-shadow: 0 4px 6px -6px rgba(0, 0, 0, 0.5098039215686274);
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border: 1px solid #efefef;
+  border-radius: 6px;
+  opacity: 1;
 }
 
 .Login {

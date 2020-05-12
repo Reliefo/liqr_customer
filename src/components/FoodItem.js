@@ -123,20 +123,26 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
   };
   return (
     <Card id={foodItem.name} className="category-card food-item">
-      <Card.Title style={{ width: "100%" }}>
+      <div>
         <div>
-          <p style={{ float: "left" }}>{foodItem.name}</p>
-          <p style={{ position: "absolute", right: "2%" }}>
-            &#8377; {foodItem.price}
-          </p>
+        <img className="card-image" src={sampleImage} alt="sample" />
         </div>
-      </Card.Title>
-      <Card.Body className="Menu-body">
+        <div style={{lineHeight:'210%', marginLeft: '2%'}}>
+        <p className="item-name">{foodItem.name}</p>
+        <div className="options-modal">{foodItem.description}</div>
+        <div>
+        <p className="item-price">₹ {foodItem.price}</p>
+        <PlusWithAddRemove item={foodItem} idx={index} subs={subsIndex} />
+        {/* <PlusWithAddRemove item={foodItem} idx={index} subs={subsIndex} /> */}
+        </div>
+        </div>
+      </div>
+      {/* <Card.Body className="Menu-body">
         <p style={{ width: "69%", fontSize: ".9rem" }}>
           {foodItem.description}
         </p>
         <PlusWithAddRemove item={foodItem} idx={index} subs={subsIndex} />
-      </Card.Body>
+      </Card.Body> */}
       {foodItem.foodOptions && foodItem.foodOptions === true ? (
         <Modal show={foodItem.showPopup} onHide={handleClose}>
           <Modal.Header>

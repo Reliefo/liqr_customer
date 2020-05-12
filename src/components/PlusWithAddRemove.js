@@ -123,20 +123,20 @@ const PlusWithAddRemove = ({ item, idx, subs }) => {
   return (
     <>
       {state.showAddRemove ? (
-        <div style={{ marginRight: "-1rem", float: "right" }}>
+        <div className="dynamic-button">
           <AddRemoveItem
             id={item}
             allData={item}
             count={state.quantity}
             decHndlr={decHndlr}
             incHndlr={incHndlr}
-            wrapperStyles={{ color: "darkslategrey" }}
+            wrapperStyles={{ color: '#ffb023'  }}
             svgClassName="cart-plus-minus-svg"
           />
         </div>
       ) : (
         <div>
-          <PlusSVG className="icon-plus " onClick={onClickPlus} />
+          <button className="add-button-item" onClick={onClickPlus}>Add</button>
         </div>
       )}
     </>
