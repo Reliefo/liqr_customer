@@ -21,6 +21,10 @@ function reducer(state, action) {
       st.orderSuccess = payload;
       return st;
 
+    case TYPES.SET_RESTAURANT_NAME:
+      st.restName = payload;
+      return st;
+
     case TYPES.UPDATE_TABLE_USERS:
       st.tableUsers = payload;
       return st;

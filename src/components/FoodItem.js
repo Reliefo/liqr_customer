@@ -1,7 +1,7 @@
 import React from "react";
 import PlusWithAddRemove from "components/PlusWithAddRemove";
 import { Card, Accordion, Modal, Button, Form } from "react-bootstrap";
-import sampleImage from "../assets/300.png";
+import sampleImage from "../assets/300.png"; 
 import * as TYPES from "Store/actionTypes.js";
 import { StoreContext } from "Store";
 

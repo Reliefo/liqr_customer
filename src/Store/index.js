@@ -11,6 +11,7 @@ const initialState = {
   justMenuItems: [], //for search
   searchClicked: false,
   tableName: "",
+  restName:"",
   searchValue: "",
   cart: [],
   tableId: "",

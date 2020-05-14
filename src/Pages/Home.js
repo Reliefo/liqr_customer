@@ -8,6 +8,8 @@ import {
   Button,
   Form
 } from "react-bootstrap";
+import sampleImage from "../assets/300.png";
+import sample from '../assets/sample.png'
 import PlusWithAddRemove from "components/PlusWithAddRemove";
 import dummyPic from "assets/dummypic.jpeg";
 import HomeItem from "components/HomeItem";
@@ -26,6 +28,7 @@ const Home = props => {
       homeItems,
       rawData: { food_menu = [] },
       activeData,
+      restName,
       cart,
       searchClicked
     }
@@ -33,32 +36,31 @@ const Home = props => {
 
   let settings = {
     dots: false,
-    infinite: true,
+    infinite: false,
     speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 3,
+    slidesToShow: 1.5,
+    slidesToScroll: 1,
     responsive: [
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-          infinite: true,
+          slidesToShow: 1.5,
+          slidesToScroll: 1,
+          infinite: false,
           dots: false
         }
       },
       {
         breakpoint: 600,
         settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          initialSlide: 2
+          slidesToShow: 1.5,
+          slidesToScroll: 1
         }
       },
       {
         breakpoint: 480,
         settings: {
-          slidesToShow: 1,
+          slidesToShow: 1.5,
           slidesToScroll: 1
         }
       }
@@ -106,7 +108,6 @@ const Home = props => {
         payload: data.name
       });
       dispatch({ type: TYPES.REFRESH_ORDER_CLOUD, payload: data.table_orders });
-      
 
       dispatch({
         type: TYPES.UPDATE_TABLE_ORDER,
@@ -116,6 +117,8 @@ const Home = props => {
 
     props.socket.off("restaurant_object").on("restaurant_object", msg => {
       const resp = JSON.parse(msg);
+
+      dispatch({ type: TYPES.SET_RESTAURANT_NAME, payload: resp.name });
       dispatch({ type: TYPES.ADD_DATA, payload: resp });
       dispatch({ type: TYPES.ADD_SELECT_DATA, payload: resp.food_menu });
 
@@ -227,9 +230,52 @@ const Home = props => {
       {searchClicked === true ? (
         <SearchFoodItems />
       ) : (
-        <div className="category">
+        <div className="category home-category">
+          <Card>
+            <Card.Title className="rest-card-home">
+              {" "}
+              Welcome to {restName}
+            </Card.Title>
+            <Card.Body>HSR Layout,Bangalore</Card.Body>
+          </Card>
           {Object.entries(homeItems).map((data, idx) => {
-            if (idx !== 0) {
+            if (idx === 1) {
+              return (
+                <div>
+                  <span className="home-title">{data[0]}</span>
+                  <div>
+                  {Object.entries(data[1]).map((item, index) => {
+                    return (
+                      <Card
+                        onClick={() =>
+                          props.history.push("/submenu", {
+                            data: item[1],
+                            sbx: index,
+                            foodMenu: activeData
+                          })
+                        }
+                      
+                        className="nidhi"
+                        key={`category-cards-${index}`}
+                      >
+                      
+                        <div class="bg-image"
+                          style = {{backgroundImage: `url(${sample})`, height:'100%'}}
+                        >
+                        
+                        </div>
+                        <p class="main-items">{item[0]}</p>
+                    
+                      </Card>
+                    );
+                  })}
+                </div>
+                </div>
+              );
+            }
+          })}
+          {Object.entries(homeItems).map((data, idx) => {
+            if (idx !== 0 && idx !== 1) {
               return (
                 <Card
                   className="category-card main-home-card"
@@ -239,25 +285,6 @@ const Home = props => {
                   <Slider {...settings}>
                     {Object.values(data[1]).map((item, index) => {
                       if (typeof item === "object") {
-                        return Object.entries(data[1]).map((subMenu, sbx) => {
-                          return (
-                            <Card
-                              onClick={() =>
-                                props.history.push("/submenu", {
-                                  data: subMenu,
-                                  sbx: sbx,
-                                  foodMenu: activeData
-                                })
-                              }
-                              className="category card home-item"
-                              key={`category-cards-${sbx}`}
-                            >
-                              <Card.Title className="category-body home-title-font">
-                                {subMenu[0]}
-                              </Card.Title>
-                            </Card>
-                          );
-                        });
                       }
                       return Object.values(activeData).map((food, idx) => {
                         return Object.values(food.food_list).map((list, ix) => {
@@ -265,25 +292,46 @@ const Home = props => {
                           if (list._id.$oid === item) {
                             return (
                               <Card
-                                onClick={() =>
-                                  props.history.push("/menu", {
-                                    data: list.name
-                                  })
-                                }
                                 className="category card home-item"
                                 key={`category-cards-${ix}`}
                               >
-                                <Card.Title className="category-body home-title-font">
-                                  {list.name.toLowerCase()}
-                                </Card.Title>
-                                <Card.Body>
-                                  <p className="desc-home-body">{desc}</p>
-                                  <PlusWithAddRemove
-                                    item={list}
-                                    idx={ix}
-                                    subs={idx}
-                                  />
-                                </Card.Body>
+                                <div>
+                                  <div>
+                                    <img
+                                      onClick={() =>
+                                        props.history.push("/menu", {
+                                          data: list.name
+                                        })
+                                      }
+                                      style={{ float: "left" }}
+                                      className="card-image card-home-image"
+                                      src={sampleImage}
+                                      alt="sample"
+                                    />
+                                  </div>
+                                  <div
+                                    style={{
+                                      marginLeft: "35%"
+                                    }}
+                                  >
+                                    <p className="item-name item-home">
+                                      {list.name}
+                                    </p>
+                                    <div className="options-modal options-home">
+                                      {desc}
+                                    </div>
+                                    <div>
+                                      <p className="item-price">
+                                        ₹ {list.price}
+                                      </p>
+                                      <PlusWithAddRemove
+                                        item={list}
+                                        idx={ix}
+                                        subs={idx}
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
                                 {list.foodOptions &&
                                 list.foodOptions === true ? (
                                   <Modal
