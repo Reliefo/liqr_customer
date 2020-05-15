@@ -1,5 +1,5 @@
 import React from "react";
-import home from "../assets/Home.png";
+import home from "../assets/home.png";
 import menu from "../assets/menu.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
