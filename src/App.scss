@@ -556,7 +556,7 @@
 }
 
 .add-button-item {
-  margin-left: 15%;
+  float:right;
   width: 30%;
   background: #ffb023 0% 0% no-repeat padding-box;
   border-radius: 6px;
@@ -613,8 +613,9 @@
 }
 
 .dynamic-button {
+  float:right;
   color: rgb(255, 176, 35);
-  margin-left: 20%;
+  
 }
 
 .cart-menu {

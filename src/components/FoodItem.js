@@ -127,7 +127,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
         <div>
         <img className="card-image" src={sampleImage} alt="sample" />
         </div>
-        <div style={{lineHeight:'210%', marginLeft: '2%'}}>
+        <div style={{lineHeight:'210%', marginLeft: '2%', width: '80%'}}>
         <p className="item-name">{foodItem.name}</p>
         <div className="options-modal">{foodItem.description}</div>
         <div>
