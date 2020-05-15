@@ -48,7 +48,7 @@ code {
 }
 
 .main-home-card {
-  margin-bottom: 5%;
+  margin-bottom: -4rem !important;
   margin-right: 2%;
   margin-left: 2%;
   background: transparent;
