@@ -11,6 +11,7 @@ import {
 import sampleImage from "../assets/300.png";
 import sample from "../assets/sample.png";
 import PlusWithAddRemove from "components/PlusWithAddRemove";
+import Search from "./Search"
 import dummyPic from "assets/dummypic.jpeg";
 import HomeItem from "components/HomeItem";
 import { Carousel } from "react-bootstrap";
@@ -268,9 +269,10 @@ const Home = props => {
     <>
       {searchClicked === true ? (
         <SearchFoodItems />
+        
       ) : (
         <div className="category home-category">
-          <div>
+          <div style = {{ minHeight: '400px'}}>
             <Carousel>
               <Carousel.Item>
                 <img
@@ -302,8 +304,9 @@ const Home = props => {
               <Card.Body>HSR Layout,Bangalore</Card.Body>
             </Card>
           </div>
+          <Search />
           {Object.entries(homeItems).map((data, idx) => {
-            if (idx === 1) {
+            if (idx === 0) {
               return (
                 <div style= {{marginTop: '15%'}}>
                   <span className="home-title">{data[0]}</span>
@@ -340,7 +343,7 @@ const Home = props => {
             }
           })}
           {Object.entries(homeItems).map((data, idx) => {
-            if (idx !== 0 && idx !== 1) {
+            if (idx !== 0 ) {
               return (
                 <Card
                   className="category-card main-home-card"

@@ -1,8 +1,11 @@
 import React from "react";
 import { StoreContext } from "Store";
+import { ReactComponent as SearchSVG } from "assets/searchIcon.svg";
 import smoothScroll from "smoothscroll";
+import Search from './Search.js'
 import * as TYPES from "Store/actionTypes.js";
 import FoodItem from "components/FoodItem";
+import { InputGroup, FormControl } from "react-bootstrap";
 import SearchFoodItems from "components/SearchFoodItems.js";
 const Menu = props => {
   const {
@@ -50,18 +53,27 @@ const Menu = props => {
           <div>
             <ul className="menu-btn">
               <li
-                className={state.activeMenu === "bar" ? "menu-active bar-active" : "menu-inactive bar-inactive"}
+                className={
+                  state.activeMenu === "bar"
+                    ? "menu-active bar-active"
+                    : "menu-inactive bar-inactive"
+                }
                 onClick={() => setMenu("bar", bar_menu)}
               >
                 <div className="menu-item-names">Bar Menu</div>
               </li>
               <li
-                className={state.activeMenu === "food" ? "menu-active food-active" : "food-inactive menu-inactive"}
+                className={
+                  state.activeMenu === "food"
+                    ? "menu-active food-active"
+                    : "food-inactive menu-inactive"
+                }
                 onClick={() => setMenu("food", food_menu)}
               >
                 <div className="menu-item-names">Food Menu</div>
               </li>
             </ul>
+            <Search />
             <div className="category">
               {activeData.length &&
                 activeData.map((item, idx) => (

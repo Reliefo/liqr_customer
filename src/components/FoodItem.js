@@ -1,7 +1,7 @@
 import React from "react";
 import PlusWithAddRemove from "components/PlusWithAddRemove";
 import { Card, Accordion, Modal, Button, Form } from "react-bootstrap";
-import sampleImage from "../assets/300.png"; 
+import sampleImage from "../assets/300.png";
 import * as TYPES from "Store/actionTypes.js";
 import { StoreContext } from "Store";
 
@@ -125,16 +125,32 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
     <Card id={foodItem.name} className="category-card food-item">
       <div>
         <div>
-        <img className="card-image" src={sampleImage} alt="sample" />
+          <img className="card-image" src={sampleImage} alt="sample" />
         </div>
-        <div style={{lineHeight:'210%', marginLeft: '2%', width: '80%'}}>
-        <p className="item-name">{foodItem.name}</p>
-        <div className="options-modal">{foodItem.description}</div>
-        <div>
-        <p className="item-price">₹ {foodItem.price}</p>
-        <PlusWithAddRemove item={foodItem} idx={index} subs={subsIndex} />
-        {/* <PlusWithAddRemove item={foodItem} idx={index} subs={subsIndex} /> */}
-        </div>
+        <div style={{ lineHeight: "210%", marginLeft: "2%", width: "80%" }}>
+          <p className="item-name">{foodItem.name}</p>
+          <div className="options-modal">{foodItem.description}</div>
+          <div>
+            <p className="item-price">₹ {foodItem.price}</p>
+            <PlusWithAddRemove item={foodItem} idx={index} subs={subsIndex} />
+            {/* <PlusWithAddRemove item={foodItem} idx={index} subs={subsIndex} /> */}
+          </div>
+          <div
+            style={{
+              width: "100%",
+              float: "left"
+            }}
+          >
+            <p
+              style={{
+                fontSize: ".9rem",
+                textDecoration: "underline"
+              }}
+              onClick={() => selectDetails(foodItem, index, subsIndex)}
+            >
+              Details
+            </p>
+          </div>
         </div>
       </div>
       {/* <Card.Body className="Menu-body">
@@ -310,17 +326,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
       ) : (
         ""
       )}
-      <p
-        style={{
-          width: "69%",
-          fontSize: ".9rem",
-          paddingLeft: "3%",
-          textDecoration: "underline"
-        }}
-        onClick={() => selectDetails(foodItem, index, subsIndex)}
-      >
-        Details
-      </p>
+
       {foodItem.showDetails && foodItem.showDetails === true ? (
         <Modal show={foodItem.showDetails} onHide={handleClose}>
           <Modal.Header>
