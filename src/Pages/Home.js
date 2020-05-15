@@ -306,7 +306,7 @@ const Home = props => {
           </div>
           <Search />
           {Object.entries(homeItems).map((data, idx) => {
-            if (idx === 1) {
+            if (idx === 0) {
               return (
                 <div style= {{marginTop: '15%'}}>
                   <span className="home-title">{data[0]}</span>
@@ -343,7 +343,7 @@ const Home = props => {
             }
           })}
           {Object.entries(homeItems).map((data, idx) => {
-            if (idx !== 0 && idx !== 1) {
+            if (idx !== 0 ) {
               return (
                 <Card
                   className="category-card main-home-card"
