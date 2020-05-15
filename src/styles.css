@@ -114,9 +114,16 @@ body {
 }
 
 .icon-text {
-  font: Bold 8px/10px 'Roboto';
   letter-spacing: 0.01px;
-  color: #030303;
-  text-transform: uppercase;
-  opacity: 0.4;
+  color: #000000;
+  text-transform: capitalize;
+  opacity: 1;
+  font-size: 12px;
+  font-family: "Poppins";
+}
+
+.active-icon-select {
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border-radius: 19px;
+  opacity: 0.15;
 }

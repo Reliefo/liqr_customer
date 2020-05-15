@@ -1,11 +1,12 @@
 import React from "react";
-import home from "../assets/home.png";
+import home from "../assets/Home.png";
 import menu from "../assets/menu.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import cartImage from "../assets/cart.png";
 import order from "../assets/order.png";
-import { Badge } from 'react-bootstrap'
+import homeBlack from "../assets/home-black.png";
+import { Badge } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import SocketContext from "../socket-context";
 import { StoreContext } from "Store";
@@ -52,7 +53,9 @@ const FooterNav = props => {
     menuClick: false
   });
 
-  
+  const fillDiv = name =>
+  activeNav === name ? "active-icon-select" : "";
+
   let cartCount = 0;
   cart.forEach(item => {
     cartCount++;
@@ -72,11 +75,10 @@ const FooterNav = props => {
     setState(state => ({ ...state, menuClick: !state.menuClick }));
   };
 
-
   const sendAssistance = name => {
     const body = {
-      table: localStorage.getItem('table_id'),
-      user: localStorage.getItem('user_id'),
+      table: localStorage.getItem("table_id"),
+      user: localStorage.getItem("user_id"),
       assistance_type: name
     };
     props.socket.emit("assistance_requests", JSON.stringify(body));
@@ -157,17 +159,15 @@ const FooterNav = props => {
         <Link
           to="/"
           className="styled-link"
-          onClick={() =>
-            setState(state => ({ ...state, menuClick: false }))
-          }
+          onClick={() => setState(state => ({ ...state, menuClick: false }))}
         >
-          <div style={{ marginTop: "calc(.7rem - 3px)" }}>
+          <div  className={fillDiv("Home")} style={{ marginTop: "calc(.7rem - 3px)" }}>
             <img src={home} alt="Home" className={fillSvg("Home")} />
             <span className="icon-text">Home</span>
           </div>
         </Link>
         <Link to="/menu" className="styled-link">
-          <div style={{ marginTop: "calc(.7rem - 3px)" }}>
+          <div className={fillDiv("Menu")} style={{ marginTop: "calc(.7rem - 3px)" }}>
             <img src={menu} alt="Menu" className={fillSvg("Menu")} />
             <span className="icon-text">Menu</span>
           </div>
@@ -175,21 +175,20 @@ const FooterNav = props => {
         <Link
           to="/cart"
           className="styled-link"
-          onClick={() =>
-            setState(state => ({ ...state, menuClick: false }))
-          }
+          onClick={() => setState(state => ({ ...state, menuClick: false }))}
         >
-          <div style={{ marginTop: "calc(.7rem - 15px)" }}>
-            <Badge variant="danger">{cartCount}</Badge>{' '}
+          <div className={fillDiv("Cart")} style={{ marginTop: "calc(.7rem - 15px)" }}>
+            <Badge variant="danger">{cartCount}</Badge>{" "}
             <img src={cartImage} alt="Cart" className={fillSvg("Cart")} />
             <span className="icon-text">Cart</span>
           </div>
         </Link>
-        <Link to="/order" className="styled-link"
-        onClick={() =>
-          setState(state => ({ ...state, menuClick: false }))
-        }>
-          <div style={{ marginTop: "calc(.7rem - 3px)" }}>
+        <Link
+          to="/order"
+          className="styled-link"
+          onClick={() => setState(state => ({ ...state, menuClick: false }))}
+        >
+          <div className={fillDiv("Order")} style={{ marginTop: "calc(.7rem - 3px)" }}>
             <img src={order} alt="Table" className={fillSvg("Order")} />
             <span className="icon-text">Order</span>
           </div>

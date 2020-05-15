@@ -12,8 +12,9 @@ import { ReactComponent as TableSVG } from "assets/table.svg";
 import { ReactComponent as EmptyCartSadIMG } from "assets/empty-card-sad.svg";
 import CloseSVG from "components/CloseSVG.js";
 import _ from "lodash";
-import { Table as RBTable } from "react-bootstrap";
+import { Table as RBTable, Button, Collapse } from "react-bootstrap";
 import Bill from "components/Bill.js";
+import CollapseDetails from "./Collapse.js";
 import { ReactComponent as TableFilledIMG } from "assets/Table-Filled.svg";
 import { ReactComponent as PersonalSVG } from "assets/personal.svg";
 
@@ -26,14 +27,13 @@ const Cart = props => {
   let orderId = [];
 
   if (tableOrders && Object.keys(tableOrders).length > 0) {
-    console.log('DID IT COME HERE')
+    console.log("DID IT COME HERE");
     Object.values(tableOrders.orders).forEach(item => {
       if (!orderId.includes(item.placed_by.$oid)) {
         orderId.push(item.placed_by.$oid);
       }
     });
   }
-
 
   const [state, setState] = React.useState({
     activeCart: 0 //0: Personal cart, 1: Table cart
@@ -84,8 +84,6 @@ const Cart = props => {
         dispatch({ type: TYPES.ADD_SELECT_DATA, payload: resp.food_menu });
         setState(state => ({ ...state, activeCart: 1 - state.activeCart }));
       });
-
-   
     });
   };
 
@@ -194,15 +192,11 @@ const Cart = props => {
 
     props.socket.emit("fetch_rest_customer", JSON.stringify(body1));
 
-  
     props.socket.off("table_details").on("table_details", msg => {
       const data = JSON.parse(msg);
       dispatch({ type: TYPES.UPDATE_TABLE_ORDER, payload: data.table_cart });
     });
 
-
-
-   
     dispatch({ type: TYPES.RESET_CART });
     setState(state => ({ ...state, activeCart: 1 - state.activeCart }));
   };
@@ -221,7 +215,7 @@ const Cart = props => {
               id={item}
               allData={item}
             />
-            <p style={{ margin: 0, width: "15%" }}>
+            <p style={{ fontFamily: "Poppins", margin: 0, width: "15%" }}>
               &#8377;{" "}
               {item.options
                 ? parseInt(item.options.option_price * item.quantity)
@@ -234,6 +228,12 @@ const Cart = props => {
               <CloseSVG />
             </div>
           </Card.Body>
+          <span className="detail-instructions">
+            {" "}
+            Add Cooking Instructions <CollapseDetails />
+          </span>
+
+          <hr className="cart-hr" />
         </Card>
       ))}
     </>
@@ -316,7 +316,29 @@ const Cart = props => {
         <SearchFoodItems />
       ) : (
         <div>
-          <ul className="menu-btn-cart" style={{ justifyContent: "space-evenly" }}>
+          <ul className="menu-btn">
+            <li
+              className={
+                state.activeCart === 0
+                  ? "menu-active bar-active"
+                  : "menu-inactive bar-inactive"
+              }
+              onClick={pushToCart}
+            >
+              <div className="menu-item-names">Personal</div>
+            </li>
+            <li
+              className={
+                state.activeCart === 1
+                  ? "menu-active food-active"
+                  : "food-inactive menu-inactive"
+              }
+              onClick={pushToCart}
+            >
+              <div className="menu-item-names">Table</div>
+            </li>
+          </ul>
+          {/* <ul className="menu-btn-cart" style={{ justifyContent: "space-evenly" }}>
             <li onClick={pushToCart}>
               <div
                 className={
@@ -337,7 +359,7 @@ const Cart = props => {
                 &nbsp;&nbsp;Table
               </div>
             </li>
-          </ul>
+          </ul> */}
           <div className="cart-wrapper">
             {isEmpty() && (
               <div className="empty-cart">
@@ -352,25 +374,18 @@ const Cart = props => {
             {state.activeCart === 1 && renderTableCart()}
             {state.activeCart === 0 && cart.length !== 0 && (
               <>
-                <Form.Group controlId="exampleForm.ControlTextarea1">
-                  <Form.Control
-                    as="textarea"
-                    rows="3"
-                    placeholder="Special Instructions"
-                  />
-                </Form.Group>
                 <Bill orderTotal={orderTotal} />
                 {state.activeCart === 0 && (
                   <Row>
                     <Col style={{ marginTop: "1rem" }}>
                       <div className="bill-btn" onClick={setCartPlaceOrder}>
-                        <FoodTraySVG height="25px" width="25px" />
+                        
                         <p>Place Order</p>
                       </div>
                     </Col>
                     <Col style={{ marginTop: "1rem" }}>
-                      <div className="bill-btn" onClick={setCart}>
-                        <TableSVG height="25px" width="25px" />
+                      <div className="bill-btn table-btn" onClick={setCart}>
+                        
                         <p>Push To Table</p>
                       </div>
                     </Col>
@@ -383,7 +398,7 @@ const Cart = props => {
                 <Bill orderTotal={sum} />
                 <div onClick={setOrderTable} className="bill-btn mt-3">
                   <div className="d-flex">
-                    <FoodTraySVG height="25px" width="25px" />
+                
                     <p className="ml-3">Confirm Order</p>
                   </div>
                 </div>
