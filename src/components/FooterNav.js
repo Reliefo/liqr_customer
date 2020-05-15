@@ -5,7 +5,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import cartImage from "../assets/cart.png";
 import order from "../assets/order.png";
-import homeBlack from "../assets/home-black.png";
 import { Badge } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import SocketContext from "../socket-context";

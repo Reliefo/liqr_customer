@@ -33,7 +33,7 @@ const Table = props => {
 
     const body = {
       user_id: localStorage.getItem("user_id"),
-      restaurant_id: "BNGHSR0001"
+      restaurant_id: localStorage.getItem('restaurant_id')
     };
 
     props.socket.emit("fetch_rest_customer", JSON.stringify(body));

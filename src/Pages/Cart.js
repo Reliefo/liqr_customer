@@ -73,7 +73,7 @@ const Cart = props => {
       dispatch({ type: TYPES.RESET_CART });
       const bodyData = {
         user_id: localStorage.getItem("user_id"),
-        restaurant_id: "BNGHSR0001"
+        restaurant_id: localStorage.getItem('restaurant_id')
       };
 
       props.socket.emit("fetch_rest_customer", JSON.stringify(bodyData));
@@ -130,7 +130,7 @@ const Cart = props => {
     props.socket.off("new_orders").on("new_orders", msg => {
       const body = {
         user_id: localStorage.getItem("user_id"),
-        restaurant_id: "BNGHSR0001"
+        restaurant_id: localStorage.getItem('restaurant_id')
       };
 
       props.socket.emit("fetch_rest_customer", JSON.stringify(body));
@@ -185,7 +185,7 @@ const Cart = props => {
 
     const body1 = {
       user_id: localStorage.getItem("user_id"),
-      restaurant_id: "BNGHSR0001"
+      restaurant_id: localStorage.getItem('restaurant_id')
     };
 
     props.socket.emit("push_to_table_cart", JSON.stringify(body));
