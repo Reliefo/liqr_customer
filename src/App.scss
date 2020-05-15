@@ -661,10 +661,11 @@
   text-align: left;
 }
 
-.nidhi {
+.available-items {
   height: 120px;
   display: inline-block;
   width: 36%;
+  width:85% !important;
   margin: 2% 6% 2% 6%;
 }
 
@@ -717,16 +718,12 @@
   font-family: "Poppins";
 }
 
-
-.sticky-wrapper {
-  position: relative;
-  height: 3rem; /* We need to change this value */
-}
-
-.sticky .sticky-inner {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1;
+.home-title-card-carousel {
+  left: 50%;
+  transform: translateX(-50%);
+  /* left: 5rem; */
+  position: absolute;
+  top: 15rem;
+  /* transform: translateY(-50%); */
+  width: 80%;
 }

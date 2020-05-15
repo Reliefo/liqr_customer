@@ -11,7 +11,6 @@ import { StoreContext } from "Store";
 import * as TYPES from "Store/actionTypes.js";
 
 const SubMenu = props => {
-  console.log("TEST", props);
   const {
     dispatch,
     state: {
@@ -62,7 +61,7 @@ const SubMenu = props => {
   return (
     <>
       <div className="category">
-        {Object.values(props.location.state.data[1]).map((item, index) => {
+        {Object.values(props.location.state.data).map((item, index) => {
           return Object.values(props.location.state.foodMenu).map(
             (food, idx) => {
               return Object.values(food.food_list).map((list, ix) => {

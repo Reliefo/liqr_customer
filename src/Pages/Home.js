@@ -9,11 +9,11 @@ import {
   Form
 } from "react-bootstrap";
 import sampleImage from "../assets/300.png";
-import sample from '../assets/sample.png'
+import sample from "../assets/sample.png";
 import PlusWithAddRemove from "components/PlusWithAddRemove";
 import dummyPic from "assets/dummypic.jpeg";
 import HomeItem from "components/HomeItem";
-import { Toast } from "react-bootstrap";
+import { Carousel } from "react-bootstrap";
 import vodkaPic from "assets/vodka.jpg";
 import SearchFoodItems from "components/SearchFoodItems.js";
 import SocketContext from "../socket-context";
@@ -67,10 +67,49 @@ const Home = props => {
     ]
   };
 
+
+  let settings2 = {
+    dots: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 2.5,
+    slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2.5,
+          slidesToScroll: 1,
+          infinite: false,
+          dots: false
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2.5,
+          slidesToScroll: 1
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 2.5,
+          slidesToScroll: 1
+        }
+      }
+    ]
+  };
   const [state, setState] = React.useState({
     active: false,
     subMenu: [] //0: Personal cart, 1: Table cart
   });
+
+  const [index, setIndex1] = React.useState(0);
+
+  const handleSelect = (selectedIndex, e) => {
+    setIndex1(selectedIndex);
+  };
 
   React.useEffect(() => {
     console.log("home screen");
@@ -231,46 +270,72 @@ const Home = props => {
         <SearchFoodItems />
       ) : (
         <div className="category home-category">
-          <Card>
-            <Card.Title className="rest-card-home">
-              {" "}
-              Welcome to {restName}
-            </Card.Title>
-            <Card.Body>HSR Layout,Bangalore</Card.Body>
-          </Card>
+          <div>
+            <Carousel>
+              <Carousel.Item>
+                <img
+                  className="d-block w-100"
+                  src="https://picsum.photos/800/400?text=First slide&bg=373940"
+                  alt="First slide"
+                />
+              </Carousel.Item>
+              <Carousel.Item>
+                <img
+                  className="d-block w-100"
+                  src="https://picsum.photos/800/400?text=Second slide&bg=282c34"
+                  alt="Second slide"
+                />
+              </Carousel.Item>
+              <Carousel.Item>
+                <img
+                  className="d-block w-100"
+                  src="https://picsum.photos/800/400?text=Third slide&bg=20232a"
+                  alt="Third slide"
+                />
+              </Carousel.Item>
+            </Carousel>
+            <Card className="home-title-card-carousel">
+              <Card.Title className="rest-card-home">
+                {" "}
+                Welcome to {restName}
+              </Card.Title>
+              <Card.Body>HSR Layout,Bangalore</Card.Body>
+            </Card>
+          </div>
           {Object.entries(homeItems).map((data, idx) => {
             if (idx === 1) {
               return (
-                <div>
+                <div style= {{marginTop: '15%'}}>
                   <span className="home-title">{data[0]}</span>
-                  <div>
-                  {Object.entries(data[1]).map((item, index) => {
-                    return (
-                      <Card
-                        onClick={() =>
-                          props.history.push("/submenu", {
-                            data: item[1],
-                            sbx: index,
-                            foodMenu: activeData
-                          })
-                        }
-                      
-                        className="nidhi"
-                        key={`category-cards-${index}`}
-                      >
-                      
-                        <div class="bg-image"
-                          style = {{backgroundImage: `url(${sample})`, height:'100%'}}
+                  <Slider {...settings2}>
+                    {Object.entries(data[1]).map((item, index) => {
+                      return (
+                        <Card
+                          onClick={() =>
+                            props.history.push("/submenu", {
+                              data: item[1],
+                              sbx: index,
+                              foodMenu: activeData
+                            })
+                          }
+                          className="available-items"
+                          key={`category-cards-${index}`}
                         >
-                        
-                        </div>
-                        <p class="main-items">{item[0]}</p>
-                    
-                      </Card>
-                    );
-                  })}
-                </div>
-                </div>
+                          <div
+                            className="bg-image"
+                            style={{
+                              backgroundImage: `url(${sample})`,
+                              height: "100%"
+                            }}
+                          ></div>
+                          <p className="main-items">{item[0]}</p>
+                        </Card>
+                      );
+                    })}
+                  
+                  </Slider>
+                  </div>
+                  
               );
             }
           })}
