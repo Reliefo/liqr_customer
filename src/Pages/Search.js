@@ -15,17 +15,18 @@ const Search = props => {
   } = React.useContext(StoreContext);
   const inputNode = React.useRef();
   React.useEffect(() => {
-    inputNode.current.focus();
-    
+    if (searchClicked === true) {
+      inputNode.current.focus();
+    }
     //handling refresh issue
   }, []);
 
   const searchValueChange = ({ target: { value } }) => {
-      inputNode.current.focus();
-      dispatch({
-        type: TYPES.SET_GENERAL_DATA,
-        payload: { searchClicked: true }
-      });
+    inputNode.current.focus();
+    dispatch({
+      type: TYPES.SET_GENERAL_DATA,
+      payload: { searchClicked: true }
+    });
     dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: value } });
   };
 
@@ -39,7 +40,7 @@ const Search = props => {
   return (
     <>
       <div>
-        <div  class="form-group col-lg-4">
+        <div class="form-group col-lg-4">
           <div class="form-group has-feedback">
             <label class="control-label" for="inputValidation"></label>
             <input
