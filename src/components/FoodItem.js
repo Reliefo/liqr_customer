@@ -181,9 +181,9 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
                               float: "left"
                             }}
                           >
-                            Rs {item.options.option_price} <br />
-                            Option:
-                            {item.options.option_name} <br />
+                            Rs {item.options !== undefined ? item.options.option_price : item.price} <br />
+                            {item.options !== undefined ?  Option: ''}
+                            {item.options !== undefined ? item.options.option_name : ''} <br />
                             {item.choices ? "Choice:" : ""} <br />
                             {item.choices ? item.choices : ""} <br />
                           </p>

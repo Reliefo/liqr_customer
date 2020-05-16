@@ -73,7 +73,15 @@ function reducer(state, action) {
             item._id.$oid === payload._id.$oid &&
             item.options.option_name === payload.options.option_name
         );
-      } else {
+      } 
+      else if(payload.options === undefined && payload.choices){
+        idx = st.cart.findIndex(
+          item =>
+            item._id.$oid === payload._id.$oid &&
+            item.choices === payload.choices
+        );
+      }
+      else {
         idx = st.cart.findIndex(item => item._id.$oid === payload._id.$oid);
       }
       if (idx === -1) {
@@ -85,7 +93,7 @@ function reducer(state, action) {
         st.cart = st.cart.map(item => {
           if (
             item._id.$oid === payload._id.$oid &&
-            item.options.option_name === payload.options.option_name
+            item.options ? item.options.option_name : item.choices === payload.options ? payload.option_name : payload.choices
           )
             ++item.quantity;
           return item;
@@ -102,7 +110,18 @@ function reducer(state, action) {
             ++item.quantity;
           return item;
         });
-      } else {
+      } 
+      else if (payload.options === undefined && payload.choices) {
+        st.cart = st.cart.map(item => {
+          if (
+            item._id.$oid === payload._id.$oid &&
+            item.choices === payload.choices
+          )
+            ++item.quantity;
+          return item;
+        });
+      }
+      else {
         st.cart = st.cart.map(item => {
           if (item._id.$oid === payload._id.$oid) ++item.quantity;
           return item;
@@ -120,7 +139,19 @@ function reducer(state, action) {
             --item.quantity;
           return item;
         });
-      } else {
+      }
+      else if (payload.options === undefined && payload.choices) {
+        st.cart = st.cart.map(item => {
+          if (
+            item._id.$oid === payload._id.$oid &&
+            item.choices === payload.choices
+          )
+            --item.quantity;
+          return item;
+        });
+      }
+      
+      else {
         st.cart = st.cart.map(item => {
           if (item._id.$oid === payload._id.$oid) --item.quantity;
           return item;
@@ -146,7 +177,23 @@ function reducer(state, action) {
             item._id.$oid === payload._id.$oid &&
             item.options.option_name === payload.options.option_name
         );
-      } else {
+      } 
+      else if(payload.options === undefined && payload.choices) {
+        st.activeData.forEach(data => {
+          data.food_list.forEach(item => {
+            if (item.name === payload.name) {
+              delete item.choices;
+              delete item.options;
+              delete item.showCustomize;
+              delete item.showPopup;
+              delete item.showOptionsAgain;
+              delete item.foodOptions;
+            }
+          });
+          
+        });
+      }
+      else {
         idx = st.cart.findIndex(item => item._id.$oid === payload._id.$oid);
       }
       if (idx !== -1) st.cart.splice(idx, 1);

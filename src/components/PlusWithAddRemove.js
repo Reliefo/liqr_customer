@@ -14,6 +14,7 @@ const PlusWithAddRemove = ({ item, idx, subs }) => {
 
   const [state, setState] = React.useState({
     showAddRemove: false,
+    showPlusMinus: false,
     count: null //if 0,delt effect fires up //maintaining internal state, so that we don't need to pull individual card state from the store
   });
 
@@ -25,9 +26,33 @@ const PlusWithAddRemove = ({ item, idx, subs }) => {
       setState(state => ({
         ...state,
         quantity: cart[idx].quantity,
-        showAddRemove: true
+        showAddRemove: true,
+        showPlusMinus: true
       }));
     }
+
+    const nidx = cart.findIndex(
+      itm => itm._id.$oid === item._id.$oid && item.foodOptions === true && item.showCustomize === false
+    );
+    if (cart.length > 0 && nidx !== -1) {
+      setState(state => ({
+        ...state,
+        quantity: cart[nidx].quantity,
+        showAddRemove: true,
+        showPlusMinus: false
+      }));
+    } 
+
+   const ix = cart.findIndex(itm => itm._id.$oid === item._id.$oid && item.showCustomize === undefined);
+   if (cart.length > 0 && ix !== -1) {
+    setState(state => ({
+      ...state,
+      quantity: cart[ix].quantity,
+      showAddRemove: true,
+      showPlusMinus: true
+    }));
+  }
+
   }, []);
 
   //if count is 0, then we show plus button.
@@ -63,7 +88,6 @@ const PlusWithAddRemove = ({ item, idx, subs }) => {
     }
   };
   const incHndlr = () => {
-    let data = true;
     activeData.forEach((item, index3) => {
       if (index3 === subs) {
         item.food_list.forEach((item1, idx2) => {
@@ -71,18 +95,14 @@ const PlusWithAddRemove = ({ item, idx, subs }) => {
             if (item1.food_options) {
               item1.foodOptions = true;
               item1.showPopup = true;
-              data = false;
             }
           }
         });
       }
     });
-    if (data) {
+ 
       setState(state => ({ ...state, quantity: ++state.quantity }));
-    }
-    else {
-      setState(state => ({ ...state, quantity: ++state.quantity }));
-    }
+ 
   };
 
   //adds the item to the Store
@@ -116,13 +136,13 @@ const PlusWithAddRemove = ({ item, idx, subs }) => {
     dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
     if (data) {
       dispatch({ type: TYPES.ADD_ITEM, payload: item }); //dispatcing the whole item
-      setState(state => ({ ...state, showAddRemove: true, quantity: 1 }));
+      setState(state => ({ ...state, showAddRemove: true, showPlusMinus:true, quantity: 1 }));
     }
   };
 
   return (
     <>
-      {state.showAddRemove ? (
+      {state.showAddRemove && state.showPlusMinus ? (
         <div className="dynamic-button">
           <AddRemoveItem
             id={item}

@@ -27,7 +27,6 @@ const Cart = props => {
   let orderId = [];
 
   if (tableOrders && Object.keys(tableOrders).length > 0) {
-    console.log("DID IT COME HERE");
     Object.values(tableOrders.orders).forEach(item => {
       if (!orderId.includes(item.placed_by.$oid)) {
         orderId.push(item.placed_by.$oid);
