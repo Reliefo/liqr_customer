@@ -15,12 +15,17 @@ const Search = props => {
   } = React.useContext(StoreContext);
   const inputNode = React.useRef();
   React.useEffect(() => {
-    console.log("Menu screen");
-
+    inputNode.current.focus();
+    
     //handling refresh issue
   }, []);
 
   const searchValueChange = ({ target: { value } }) => {
+      inputNode.current.focus();
+      dispatch({
+        type: TYPES.SET_GENERAL_DATA,
+        payload: { searchClicked: true }
+      });
     dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: value } });
   };
 

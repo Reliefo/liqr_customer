@@ -157,10 +157,9 @@ const Home = props => {
 
     props.socket.off("restaurant_object").on("restaurant_object", msg => {
       const resp = JSON.parse(msg);
-
       dispatch({ type: TYPES.SET_RESTAURANT_NAME, payload: resp.name });
       dispatch({ type: TYPES.ADD_DATA, payload: resp });
-      dispatch({ type: TYPES.ADD_SELECT_DATA, payload: resp.food_menu });
+     dispatch({ type: TYPES.ADD_SELECT_DATA, payload: resp.food_menu });
 
       let justBarItems = [];
       let justFoodItems = [];
