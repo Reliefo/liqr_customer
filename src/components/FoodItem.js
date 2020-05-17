@@ -221,12 +221,17 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
                         {Object.values(item[1]).map((item1, idx) => {
                           return (
                             <div key={idx}>
-                              <Form.Check
-                                onClick={() => selectOption(foodItem, item1)}
-                                type="radio"
-                                label={item1.option_name}
-                                name="test"
-                              />
+                              <label for={item1.option_name}>
+                             
+                            
+                                <Form.Check
+                                  id={idx}
+                                  onClick={() => selectOption(foodItem, item1)}
+                                  type="radio"
+                                  label={item1.option_name}
+                                  name="optionsRadio"
+                                />
+                              </label>
                             </div>
                           );
                         })}
@@ -361,7 +366,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
           </Modal.Body>
           <Modal.Footer>
             <Button
-               className="options-button-close"
+              className="options-button-close"
               variant="secondary"
               onClick={() => closeDetails(foodItem, index, subsIndex)}
             >
