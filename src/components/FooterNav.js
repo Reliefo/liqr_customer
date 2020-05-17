@@ -82,6 +82,12 @@ const FooterNav = props => {
     };
     props.socket.emit("assistance_requests", JSON.stringify(body));
   };
+
+  const footerDiv =
+  activeNav === 'Home' ? "footer-nav custom-home-nav" : "footer-nav";
+
+
+
   return (
     <>
       <ToastContainer
@@ -96,7 +102,7 @@ const FooterNav = props => {
         draggable
         pauseOnHover
       />
-      <div className="footer-nav">
+      <div  className={footerDiv}>
         {activeNav === "Menu" && (
           <div className="floating-container-menu">
             <div className="menu-button-footer" onClick={MenuClick}>

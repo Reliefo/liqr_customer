@@ -160,7 +160,13 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
         <PlusWithAddRemove item={foodItem} idx={index} subs={subsIndex} />
       </Card.Body> */}
       {foodItem.foodOptions && foodItem.foodOptions === true ? (
-        <Modal show={foodItem.showPopup} onHide={handleClose}>
+        <Modal
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+          show={foodItem.showPopup}
+          onHide={handleClose}
+        >
           <Modal.Header>
             <Modal.Title className="options-title">
               {foodItem.name} <br />{" "}
@@ -181,9 +187,16 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
                               float: "left"
                             }}
                           >
-                            Rs {item.options !== undefined ? item.options.option_price : item.price} <br />
-                            {item.options !== undefined ?  Option: ''}
-                            {item.options !== undefined ? item.options.option_name : ''} <br />
+                            Rs{" "}
+                            {item.options !== undefined
+                              ? item.options.option_price
+                              : item.price}{" "}
+                            <br />
+                            {item.options !== undefined ? Option : ""}
+                            {item.options !== undefined
+                              ? item.options.option_name
+                              : ""}{" "}
+                            <br />
                             {item.choices ? "Choice:" : ""} <br />
                             {item.choices ? item.choices : ""} <br />
                           </p>
