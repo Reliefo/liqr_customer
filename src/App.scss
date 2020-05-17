@@ -489,7 +489,7 @@
 
 .options-title {
   text-align: left;
-  font-family: "Montserrat", "Roboto", "Raleway", sans-serif;
+  font-family: "Poppins";
   font-size: 24px;
   letter-spacing: 1.2px;
   color: #707070;
@@ -742,6 +742,37 @@
   opacity: 1;
 }
 
-.custom-home-nav{
-  bottom: 18px
+.custom-home-nav {
+  bottom: 1px;
+}
+
+.options-button-close {
+  color: #ffb023;
+  border: 2px solid #ffb023;
+  border-radius: 6px;
+  opacity: 1;
+  background: white;
+}
+
+.options-button-add {
+  background: #ffb023 0% 0% no-repeat padding-box;
+  border-radius: 6px;
+  opacity: 1;
+}
+
+.slick-prev {
+  display: none !important;
+}
+
+.slick-next {
+  display: none !important;
+}
+
+.fooditem-home {
+  width: 85% !important;
+  min-height: 250px;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border: 1px solid #efefef;
+  border-radius: 6px;
+  opacity: 1;
 }

@@ -11,7 +11,7 @@ import {
 import sampleImage from "../assets/300.png";
 import sample from "../assets/sample.png";
 import PlusWithAddRemove from "components/PlusWithAddRemove";
-import Search from "./Search"
+import Search from "./Search";
 import dummyPic from "assets/dummypic.jpeg";
 import HomeItem from "components/HomeItem";
 import { Carousel } from "react-bootstrap";
@@ -21,6 +21,7 @@ import SocketContext from "../socket-context";
 import Slider from "react-slick";
 import { StoreContext } from "Store";
 import * as TYPES from "Store/actionTypes.js";
+import FoodItem from "components/FoodItem";
 
 const Home = props => {
   const {
@@ -67,7 +68,6 @@ const Home = props => {
       }
     ]
   };
-
 
   let settings2 = {
     dots: false,
@@ -127,7 +127,7 @@ const Home = props => {
 
     const body = {
       user_id: localStorage.getItem("user_id"),
-      restaurant_id: localStorage.getItem('restaurant_id')
+      restaurant_id: localStorage.getItem("restaurant_id")
     };
 
     props.socket.emit("fetch_rest_customer", JSON.stringify(body));
@@ -159,7 +159,7 @@ const Home = props => {
       const resp = JSON.parse(msg);
       dispatch({ type: TYPES.SET_RESTAURANT_NAME, payload: resp.name });
       dispatch({ type: TYPES.ADD_DATA, payload: resp });
-     dispatch({ type: TYPES.ADD_SELECT_DATA, payload: resp.food_menu });
+      dispatch({ type: TYPES.ADD_SELECT_DATA, payload: resp.food_menu });
 
       let justBarItems = [];
       let justFoodItems = [];
@@ -268,10 +268,9 @@ const Home = props => {
     <>
       {searchClicked === true ? (
         <SearchFoodItems />
-        
       ) : (
         <div className="category home-category">
-          <div style = {{ minHeight: '400px'}}>
+          <div style={{ minHeight: "400px" }}>
             <Carousel>
               <Carousel.Item>
                 <img
@@ -307,7 +306,7 @@ const Home = props => {
           {Object.entries(homeItems).map((data, idx) => {
             if (idx === 0) {
               return (
-                <div style= {{marginTop: '15%'}}>
+                <div style={{ marginTop: "15%" }}>
                   <span className="home-title">{data[0]}</span>
                   <Slider {...settings2}>
                     {Object.entries(data[1]).map((item, index) => {
@@ -334,15 +333,13 @@ const Home = props => {
                         </Card>
                       );
                     })}
-                  
                   </Slider>
-                  </div>
-                  
+                </div>
               );
             }
           })}
           {Object.entries(homeItems).map((data, idx) => {
-            if (idx !== 0 ) {
+            if (idx !== 0) {
               return (
                 <Card
                   className="category-card main-home-card"
@@ -356,192 +353,215 @@ const Home = props => {
                       return Object.values(activeData).map((food, idx) => {
                         return Object.values(food.food_list).map((list, ix) => {
                           let desc = list.description.substring(0, 40) + "...";
+                          list.description = desc;
                           if (list._id.$oid === item) {
                             return (
-                              <Card
-                                className="category card home-item"
-                                key={`category-cards-${ix}`}
+                              <div
+                                className="fooditem-home"
+                                onClick={() =>
+                                  props.history.push("/menu", {
+                                    data: list.name
+                                  })
+                                }
                               >
-                                <div>
-                                  <div>
-                                    <img
-                                      onClick={() =>
-                                        props.history.push("/menu", {
-                                          data: list.name
-                                        })
-                                      }
-                                      style={{ float: "left" }}
-                                      className="card-image card-home-image"
-                                      src={sampleImage}
-                                      alt="sample"
-                                    />
-                                  </div>
-                                  <div
-                                    style={{
-                                      marginLeft: "35%"
-                                    }}
-                                  >
-                                    <p className="item-name item-home">
-                                      {list.name}
-                                    </p>
-                                    <div className="options-modal options-home">
-                                      {desc}
-                                    </div>
-                                    <div>
-                                      <p className="item-price">
-                                        ₹ {list.price}
-                                      </p>
-                                      <PlusWithAddRemove
-                                        item={list}
-                                        idx={ix}
-                                        subs={idx}
-                                      />
-                                    </div>
-                                  </div>
-                                </div>
-                                {list.foodOptions &&
-                                list.foodOptions === true ? (
-                                  <Modal
-                                    show={list.showPopup}
-                                    onHide={handleClose}
-                                  >
-                                    <Modal.Header>
-                                      <Modal.Title className="options-title">
-                                        {list.name} <br />{" "}
-                                        <div className="options-modal">
-                                          {list.description}
-                                        </div>
-                                      </Modal.Title>
-                                    </Modal.Header>
-                                    <Modal.Body>
-                                      {cart.length
-                                        ? cart.map(item => {
-                                            if (
-                                              list._id.$oid === item._id.$oid
-                                            ) {
-                                              return (
-                                                <div>
-                                                  <div>
-                                                    <p
-                                                      style={{
-                                                        width: "69%",
-                                                        fontSize: ".9rem",
-                                                        float: "left"
-                                                      }}
-                                                    >
-                                                      Rs{" "}
-                                                      {
-                                                        item.options
-                                                          .option_price
-                                                      }{" "}
-                                                      <br />
-                                                      Option:
-                                                      {
-                                                        item.options.option_name
-                                                      }{" "}
-                                                      <br />
-                                                    </p>
-                                                    <PlusWithAddRemove
-                                                      item={list}
-                                                      idx={ix}
-                                                      subs={idx}
-                                                    />
-                                                    <br />
-                                                  </div>
-                                                </div>
-                                              );
-                                            }
-                                          })
-                                        : ""}
-                                      {list.options
-                                        ? ""
-                                        : Object.entries(list.food_options).map(
-                                            (item, index) => {
-                                              return Object.values(item[1]).map(
-                                                (item1, idx) => {
-                                                  return (
-                                                    <div key={idx}>
-                                                      <Form.Check
-                                                        onClick={() =>
-                                                          selectOption(
-                                                            list,
-                                                            item1
-                                                          )
-                                                        }
-                                                        type="radio"
-                                                        label={
-                                                          item1.option_name
-                                                        }
-                                                        name="test"
-                                                      />
-                                                    </div>
-                                                  );
-                                                }
-                                              );
-                                            }
-                                          )}
-                                      {list.showCustomize ? (
-                                        <div
-                                          className="modal-customization"
-                                          onClick={() =>
-                                            showOptions(list, ix, idx)
-                                          }
-                                        >
-                                          Add More Customization
-                                        </div>
-                                      ) : (
-                                        ""
-                                      )}
-                                      {list.showOptionsAgain
-                                        ? Object.entries(list.food_options).map(
-                                            (item, index) => {
-                                              return Object.values(item[1]).map(
-                                                (item1, idx) => {
-                                                  return (
-                                                    <div key={idx}>
-                                                      <Form.Check
-                                                        onClick={() =>
-                                                          selectOption(
-                                                            list,
-                                                            item1
-                                                          )
-                                                        }
-                                                        type="radio"
-                                                        label={
-                                                          item1.option_name
-                                                        }
-                                                        name="test"
-                                                      />
-                                                    </div>
-                                                  );
-                                                }
-                                              );
-                                            }
-                                          )
-                                        : ""}
-                                    </Modal.Body>
+                                <FoodItem
+                                  stateData={activeData}
+                                  foodItem={list}
+                                  subs={food}
+                                  subsIndex={idx}
+                                  index={ix}
+                                  key={`food-item-${ix}`}
+                                />
+                              </div>
+                              // <Card
+                              //   className="category card home-item"
+                              //   key={`category-cards-${ix}`}
+                              // >
+                              //   <div>
+                              //     <div>
+                              //       <img
+                              //         onClick={() =>
+                              //           props.history.push("/menu", {
+                              //             data: list.name
+                              //           })
+                              //         }
+                              //         style={{ float: "left" }}
+                              //         className="card-image card-home-image"
+                              //         src={sampleImage}
+                              //         alt="sample"
+                              //       />
+                              //     </div>
+                              //     <div
+                              //       style={{
+                              //         marginLeft: "35%"
+                              //       }}
+                              //     >
+                              //       <p className="item-name item-home">
+                              //         {list.name}
+                              //       </p>
+                              //       <div className="options-modal options-home">
+                              //         {desc}
+                              //       </div>
+                              //       <div>
+                              //         <p className="item-price">
+                              //           ₹ {list.price}
+                              //         </p>
+                              //         <PlusWithAddRemove
+                              //           item={list}
+                              //           idx={ix}
+                              //           subs={idx}
+                              //         />
+                              //       </div>
+                              //     </div>
+                              //   </div>
+                              //   {list.foodOptions &&
+                              //   list.foodOptions === true ? (
+                              //     <Modal
+                              //       size="lg"
+                              //       aria-labelledby="contained-modal-title-vcenter"
+                              //       centered
+                              //       show={list.showPopup}
+                              //       onHide={handleClose}
+                              //     >
+                              //       <Modal.Header>
+                              //         <Modal.Title className="options-title">
+                              //           {list.name} <br />{" "}
+                              //           <div className="options-modal">
+                              //             {list.description}
+                              //           </div>
+                              //         </Modal.Title>
+                              //       </Modal.Header>
+                              //       <Modal.Body>
+                              //         {cart.length
+                              //           ? cart.map(item => {
+                              //               if (
+                              //                 list._id.$oid === item._id.$oid
+                              //               ) {
+                              //                 return (
+                              //                   <div>
+                              //                     <div>
+                              //                       <p
+                              //                         style={{
+                              //                           width: "69%",
+                              //                           fontSize: ".9rem",
+                              //                           float: "left"
+                              //                         }}
+                              //                       >
+                              //                         Rs{" "}
+                              //                         {
+                              //                           item.options
+                              //                             .option_price
+                              //                         }{" "}
+                              //                         <br />
+                              //                         Option:
+                              //                         {
+                              //                           item.options.option_name
+                              //                         }{" "}
+                              //                         <br />
+                              //                       </p>
+                              //                       <PlusWithAddRemove
+                              //                         item={list}
+                              //                         idx={ix}
+                              //                         subs={idx}
+                              //                       />
+                              //                       <br />
+                              //                     </div>
+                              //                   </div>
+                              //                 );
+                              //               }
+                              //             })
+                              //           : ""}
+                              //         {list.options
+                              //           ? ""
+                              //           : Object.entries(list.food_options).map(
+                              //               (item, index) => {
+                              //                 return Object.values(item[1]).map(
+                              //                   (item1, idx) => {
+                              //                     return (
+                              //                       <div key={idx}>
+                              //                         <Form.Check
+                              //                           onClick={() =>
+                              //                             selectOption(
+                              //                               list,
+                              //                               item1
+                              //                             )
+                              //                           }
+                              //                           type="radio"
+                              //                           label={
+                              //                             item1.option_name
+                              //                           }
+                              //                           name="test"
+                              //                         />
+                              //                       </div>
+                              //                     );
+                              //                   }
+                              //                 );
+                              //               }
+                              //             )}
+                              //         {list.showCustomize ? (
+                              //           <div
+                              //             className="modal-customization"
+                              //             onClick={() =>
+                              //               showOptions(list, ix, idx)
+                              //             }
+                              //           >
+                              //             Add More Customization
+                              //           </div>
+                              //         ) : (
+                              //           ""
+                              //         )}
+                              //         {list.showOptionsAgain
+                              //           ? Object.entries(list.food_options).map(
+                              //               (item, index) => {
+                              //                 return Object.values(item[1]).map(
+                              //                   (item1, idx) => {
+                              //                     return (
+                              //                       <div key={idx}>
+                              //                         <Form.Check
+                              //                           onClick={() =>
+                              //                             selectOption(
+                              //                               list,
+                              //                               item1
+                              //                             )
+                              //                           }
+                              //                           type="radio"
+                              //                           label={
+                              //                             item1.option_name
+                              //                           }
+                              //                           name="test"
+                              //                         />
+                              //                       </div>
+                              //                     );
+                              //                   }
+                              //                 );
+                              //               }
+                              //             )
+                              //           : ""}
+                              //       </Modal.Body>
 
-                                    <Modal.Footer>
-                                      <Button
-                                        variant="secondary"
-                                        onClick={() =>
-                                          closePopUp(list, ix, idx)
-                                        }
-                                      >
-                                        Close
-                                      </Button>
-                                      <Button
-                                        variant="primary"
-                                        onClick={() => addItem(list, ix, idx)}
-                                      >
-                                        Add
-                                      </Button>
-                                    </Modal.Footer>
-                                  </Modal>
-                                ) : (
-                                  ""
-                                )}
-                              </Card>
+                              //       <Modal.Footer>
+                              //         <Button
+                              //           variant="secondary"
+                              //           onClick={() =>
+                              //             closePopUp(list, ix, idx)
+                              //           }
+                              //           className="options-button-close"
+                              //         >
+                              //           Close
+                              //         </Button>
+                              //         <Button
+                              //            className="options-button-add"
+                              //           variant="primary"
+                              //           onClick={() => addItem(list, ix, idx)}
+                              //         >
+                              //           Add
+                              //         </Button>
+                              //       </Modal.Footer>
+                              //     </Modal>
+                              //   ) : (
+                              //     ""
+                              //   )}
+                              // </Card>
                             );
                           }
                         });

@@ -11,7 +11,7 @@ body {
   color: #2d2d2d;
   /* background-color: #f8f9fa!important; */
   background-color: #f4f4f2;
-  font-family: "Montserrat", "Roboto", "Raleway", sans-serif;
+  font-family: "Poppins";
   -webkit-font-smoothing: antialiased;
   -moz-user-select: none; /* Firefox */
   -ms-user-select: none; /* Internet Explorer */
@@ -48,7 +48,6 @@ code {
 }
 
 .main-home-card {
-  margin-bottom: -4rem !important;
   margin-right: 2%;
   margin-left: 2%;
   background: transparent;
@@ -62,7 +61,7 @@ code {
 
 .home-title-font {
   min-height: 76px;
-  font-family: "Montserrat", "Roboto", "Raleway", sans-serif;
+  font-family: "Poppins";
   text-align: left;
   font-size: 16px;
   letter-spacing: 0.04px;
@@ -72,7 +71,7 @@ code {
 
 .desc-home-body {
   min-height: 100px;
-  font-family: "Montserrat", "Roboto", "Raleway", sans-serif;
+  font-family: "Poppins";
   text-align: left;
   font-size: 12px;
   letter-spacing: 0.04px;
