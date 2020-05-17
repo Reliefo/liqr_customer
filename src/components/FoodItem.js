@@ -323,12 +323,14 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
 
           <Modal.Footer>
             <Button
+              className="options-button-close"
               variant="secondary"
               onClick={() => closePopUp(foodItem, index, subsIndex)}
             >
               Close
             </Button>
             <Button
+              className="options-button-add"
               variant="primary"
               onClick={() => addItem(foodItem, index, subsIndex)}
             >
@@ -341,7 +343,13 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
       )}
 
       {foodItem.showDetails && foodItem.showDetails === true ? (
-        <Modal show={foodItem.showDetails} onHide={handleClose}>
+        <Modal
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+          show={foodItem.showDetails}
+          onHide={handleClose}
+        >
           <Modal.Header>
             <Modal.Title className="details-title">
               <img className="detailsImage" src={sampleImage} alt="img" />
@@ -353,6 +361,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
           </Modal.Body>
           <Modal.Footer>
             <Button
+               className="options-button-close"
               variant="secondary"
               onClick={() => closeDetails(foodItem, index, subsIndex)}
             >
