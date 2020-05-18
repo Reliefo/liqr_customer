@@ -20,7 +20,6 @@ const Table = props => {
     }
   } = React.useContext(StoreContext);
   React.useEffect(() => {
-    console.log("NIDS--->", orderSuccess);
     dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: "" } });
     console.log("Table screen");
     //handling refresh issue
@@ -57,62 +56,93 @@ const Table = props => {
       {searchClicked === true ? (
         <SearchFoodItems />
       ) : (
-        <div className="order-status-styling">
-          {orderSuccess.map((item, idx) => {
-            let orderTime = item.timestamp.split(' ');
-            
-            orderTime = orderTime[1].split('.');
-            
-            return (
-              <div style={{paddingBottom: '3%'}}>
-                <Card className="cart-card cart-styling margin-styling">
-                  <div>
-                  <div style= {{width: '100%', padding: '2%', minHeight: '50px' }}>
-                  <p className = "table-name-card" style={{ float:'left',  textTransform: "capitalize" }}>
-                    Table Order {idx + 1}
-                  </p>
-                  <p className = "table-name-card" style={{ paddingRight: '5%', float:'right',  textTransform: "capitalize" }}>
-                  {orderTime[0]}
-                  </p>
-                  </div>
-                  {item.orders.map(item2 => {
-                  
-                    let placedBy = [];
-                    return item2.food_list.map((item3, index) => {
-                      let flag = false;
-                      if (!placedBy.includes(item2.placed_by.id)) {
-                        placedBy.push(item2.placed_by.id);
-                        flag = true;
-                      } else {
-                        flag = false;
-                      }
-                      return (
-                        <div>
-                          {flag === true ? (
-                            <Card.Title
-                              style={{ padding: "1.25rem", fontSize: "14px" }}
-                              className="card-title-name"
-                            >
-                              {item2.placed_by.name}
-                            </Card.Title>
-                          ) : (
-                            ""
-                          )}
-                          <Card.Body style= {{ padding: '2%'}}>
-                          <div>
-                           <span className="item-status">{item3.name} x {item3.quantity}</span>
-                          <span className="item-status-tagging">Status: {item3.status} {item3.status === 'delivered' ? <FoodSVG /> : item3.status === "queued" ? <UiSVG /> : <FlatSVG />}   </span>
-                          </div>
-                          </Card.Body>
-                        </div>
-                      );
-                    });
-                  })}
-                  </div>
-                </Card>
-              </div>
-            );
-          })}
+        <div style= {{backgroundColor: 'white'}}>
+          <div className="order-status-styling">
+            {orderSuccess.map((item, idx) => {
+              let orderTime = item.timestamp.split(" ");
+
+              orderTime = orderTime[1].split(".");
+
+              return (
+                <div style={{ paddingBottom: "3%" }}>
+                  <Card className="cart-card cart-styling margin-styling">
+                    <div>
+                      <div
+                        style={{
+                          width: "100%",
+                          padding: "2%",
+                          minHeight: "50px"
+                        }}
+                      >
+                        <p
+                          className="table-name-card"
+                          style={{ float: "left", textTransform: "capitalize" }}
+                        >
+                          Table Order {idx + 1}
+                        </p>
+                        <p
+                          className="table-name-card"
+                          style={{
+                            paddingRight: "5%",
+                            float: "right",
+                            textTransform: "capitalize"
+                          }}
+                        >
+                          {orderTime[0]}
+                        </p>
+                      </div>
+                      {item.orders.map(item2 => {
+                        let placedBy = [];
+                        return item2.food_list.map((item3, index) => {
+                          let flag = false;
+                          if (!placedBy.includes(item2.placed_by.id)) {
+                            placedBy.push(item2.placed_by.id);
+                            flag = true;
+                          } else {
+                            flag = false;
+                          }
+                          return (
+                            <div>
+                              {flag === true ? (
+                                <Card.Title
+                                  style={{
+                                    padding: "1.25rem",
+                                    fontSize: "14px"
+                                  }}
+                                  className="card-title-name"
+                                >
+                                  {item2.placed_by.name}
+                                </Card.Title>
+                              ) : (
+                                ""
+                              )}
+                              <Card.Body style={{ padding: "2%" }}>
+                                <div>
+                                  <span className="item-status">
+                                    {item3.name} x {item3.quantity}
+                                  </span>
+                                  <span className="item-status-tagging">
+                                    Status: {item3.status}{" "}
+                                    {item3.status === "delivered" ? (
+                                      <FoodSVG />
+                                    ) : item3.status === "queued" ? (
+                                      <UiSVG />
+                                    ) : (
+                                      <FlatSVG />
+                                    )}{" "}
+                                  </span>
+                                </div>
+                              </Card.Body>
+                            </div>
+                          );
+                        });
+                      })}
+                    </div>
+                  </Card>
+                </div>
+              );
+            })}
+          </div>
         </div>
       )}
     </>
