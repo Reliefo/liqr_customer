@@ -3,6 +3,9 @@ import { StoreContext } from "Store";
 import { Card, Accordion, Button } from "react-bootstrap";
 import SocketContext from "../socket-context";
 import SearchFoodItems from "components/SearchFoodItems.js";
+import { ReactComponent as FoodSVG } from "assets/food.svg";
+import { ReactComponent as FlatSVG } from "assets/Flat.svg";
+import { ReactComponent as UiSVG } from "assets/ui.svg";
 
 import * as TYPES from "Store/actionTypes.js";
 
@@ -56,14 +59,24 @@ const Table = props => {
       ) : (
         <div className="order-status-styling">
           {orderSuccess.map((item, idx) => {
+            let orderTime = item.timestamp.split(' ');
+            
+            orderTime = orderTime[1].split('.');
+            
             return (
-              <div>
-                <p style={{ textTransform: "capitalize" }}>
-                  Table Order {idx + 1} - {item.timestamp}
-                </p>
-
+              <div style={{paddingBottom: '3%'}}>
                 <Card className="cart-card cart-styling margin-styling">
+                  <div>
+                  <div style= {{width: '100%', padding: '2%', minHeight: '50px' }}>
+                  <p className = "table-name-card" style={{ float:'left',  textTransform: "capitalize" }}>
+                    Table Order {idx + 1}
+                  </p>
+                  <p className = "table-name-card" style={{ paddingRight: '5%', float:'right',  textTransform: "capitalize" }}>
+                  {orderTime[0]}
+                  </p>
+                  </div>
                   {item.orders.map(item2 => {
+                  
                     let placedBy = [];
                     return item2.food_list.map((item3, index) => {
                       let flag = false;
@@ -78,20 +91,24 @@ const Table = props => {
                           {flag === true ? (
                             <Card.Title
                               style={{ padding: "1.25rem", fontSize: "14px" }}
-                              className="body"
+                              className="card-title-name"
                             >
                               {item2.placed_by.name}
                             </Card.Title>
                           ) : (
                             ""
                           )}
-                          <Card.Body className="body">
-                            {item3.name} - {item3.status}
+                          <Card.Body style= {{ padding: '2%'}}>
+                          <div>
+                           <span className="item-status">{item3.name} x {item3.quantity}</span>
+                          <span className="item-status-tagging">Status: {item3.status} {item3.status === 'delivered' ? <FoodSVG /> : item3.status === "queued" ? <UiSVG /> : <FlatSVG />}   </span>
+                          </div>
                           </Card.Body>
                         </div>
                       );
                     });
                   })}
+                  </div>
                 </Card>
               </div>
             );

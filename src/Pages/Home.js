@@ -101,16 +101,18 @@ const Home = props => {
       }
     ]
   };
-  const [state, setState] = React.useState({
-    active: false,
-    subMenu: [] //0: Personal cart, 1: Table cart
-  });
 
   const [index, setIndex1] = React.useState(0);
 
   const handleSelect = (selectedIndex, e) => {
     setIndex1(selectedIndex);
   };
+
+  const [state, setState] = React.useState({
+    height: "",
+    active: false,
+    subMenu: [] //0: Personal cart, 1: Table cart
+  });
 
   React.useEffect(() => {
     console.log("home screen");
@@ -357,7 +359,7 @@ const Home = props => {
                           if (list._id.$oid === item) {
                             return (
                               <div
-                                className="fooditem-home"
+                                id="card-home-screen"
                                 onClick={() =>
                                   props.history.push("/menu", {
                                     data: list.name
