@@ -72,7 +72,7 @@ const Cart = props => {
       dispatch({ type: TYPES.RESET_CART });
       const bodyData = {
         user_id: localStorage.getItem("user_id"),
-        restaurant_id: localStorage.getItem('restaurant_id')
+        restaurant_id: localStorage.getItem("restaurant_id")
       };
 
       props.socket.emit("fetch_rest_customer", JSON.stringify(bodyData));
@@ -102,6 +102,7 @@ const Cart = props => {
         item.food_options = {};
         item.food_options.options = [];
         item.food_options.options.push(item.options);
+        item.price = item.options.option_price
       }
       if (item.choices) {
         if (item.food_options === undefined) {
@@ -118,6 +119,7 @@ const Cart = props => {
       delete item._id;
     });
 
+
     const body = {
       table: localStorage.getItem("table_id"),
       orders: [
@@ -129,7 +131,7 @@ const Cart = props => {
     props.socket.off("new_orders").on("new_orders", msg => {
       const body = {
         user_id: localStorage.getItem("user_id"),
-        restaurant_id: localStorage.getItem('restaurant_id')
+        restaurant_id: localStorage.getItem("restaurant_id")
       };
 
       props.socket.emit("fetch_rest_customer", JSON.stringify(body));
@@ -157,6 +159,7 @@ const Cart = props => {
         item.food_options = {};
         item.food_options.options = [];
         item.food_options.options.push(item.options);
+        item.price = item.options.option_price
       }
       if (item.choices) {
         if (item.food_options === undefined) {
@@ -184,7 +187,7 @@ const Cart = props => {
 
     const body1 = {
       user_id: localStorage.getItem("user_id"),
-      restaurant_id: localStorage.getItem('restaurant_id')
+      restaurant_id: localStorage.getItem("restaurant_id")
     };
 
     props.socket.emit("push_to_table_cart", JSON.stringify(body));
@@ -199,8 +202,6 @@ const Cart = props => {
     dispatch({ type: TYPES.RESET_CART });
     setState(state => ({ ...state, activeCart: 1 - state.activeCart }));
   };
-
-  // setState(state => ({ ...state, activeCart: 1 - state.activeCart }));
 
   const renderPersonalCart = () => (
     <>
@@ -227,9 +228,38 @@ const Cart = props => {
               <CloseSVG />
             </div>
           </Card.Body>
+          {item.options !== undefined ? (
+            <span className="detail-options">
+              <strong>{item.options !== undefined ? "Options:" : ""}</strong>
+            </span>
+          ) : (
+            ""
+          )}
+          {item.options !== undefined ? (
+            <span className="detail-options">
+              {item.options !== undefined ? item.options.option_name : ""}
+            </span>
+          ) : (
+            ""
+          )}
+          {item.choices !== undefined ? (
+            <span className="detail-options">
+              <br />
+              <strong>{item.choices !== undefined ? "Choices:" : ""}</strong>
+            </span>
+          ) : (
+            ""
+          )}
+          {item.choices !== undefined ? (
+            <span className="detail-options">
+              {item.choices !== undefined ? item.choices : ""}
+            </span>
+          ) : (
+            ""
+          )}
           <span className="detail-instructions">
             {" "}
-            Add Cooking Instructions <CollapseDetails />
+            Add Cooking Instructions <CollapseDetails item = {item} />
           </span>
 
           <hr className="cart-hr" />
@@ -378,13 +408,11 @@ const Cart = props => {
                   <Row>
                     <Col style={{ marginTop: "1rem" }}>
                       <div className="bill-btn" onClick={setCartPlaceOrder}>
-                        
                         <p>Place Order</p>
                       </div>
                     </Col>
                     <Col style={{ marginTop: "1rem" }}>
                       <div className="bill-btn table-btn" onClick={setCart}>
-                        
                         <p>Push To Table</p>
                       </div>
                     </Col>
@@ -397,7 +425,6 @@ const Cart = props => {
                 <Bill orderTotal={sum} />
                 <div onClick={setOrderTable} className="bill-btn mt-3">
                   <div className="d-flex">
-                
                     <p className="ml-3">Confirm Order</p>
                   </div>
                 </div>
