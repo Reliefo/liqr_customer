@@ -689,7 +689,7 @@
   color: #666666;
   font-family: "Poppins";
   padding-bottom: 6%;
-  padding-top:2%;
+  padding-top: 2%;
 }
 
 .detail-options {
@@ -795,8 +795,14 @@ input[type="radio"]:checked:after {
   content: "";
   display: inline-block;
   visibility: visible;
-  border: 2px solid white;
+  border: 2px solid #ffa500;
 }
+
+.btn-primary:hover {
+  background: #ffb023 0% 0% no-repeat padding-box !important;
+  border-color: #ffb023 0% 0% no-repeat padding-box !important;
+}
+
 
 .card-title-name {
   background: #ffb023 0% 0% no-repeat padding-box;
@@ -818,7 +824,7 @@ input[type="radio"]:checked:after {
 .item-status {
   text-align: left;
   letter-spacing: 0px;
-  font-size:13px;
+  font-size: 13px;
   color: #000000;
   opacity: 1;
   font-family: "Poppins";
@@ -826,12 +832,12 @@ input[type="radio"]:checked:after {
 }
 
 .item-status-tagging {
-  float:right;
+  float: right;
   padding-left: 4%;
   text-align: left;
   text-transform: capitalize;
   letter-spacing: 0px;
-  font-size:13px;
+  font-size: 13px;
   color: #000000;
   opacity: 1;
   font-family: "Poppins";
