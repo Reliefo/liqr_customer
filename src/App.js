@@ -19,37 +19,35 @@ import { StoreContext } from "Store";
 import io from "socket.io-client";
 
 export default function AppWrapper() {
-
-  const socket = io(
-    "https://liqr.cc/reliefo",
-    {
-      transportOptions: {
-        polling: {
-          extraHeaders: {
-            Authorization: `Bearer ${localStorage.getItem("jwt")}`
-          }
+  const socket = io("https://liqr.cc/reliefo", {
+    transportOptions: {
+      polling: {
+        extraHeaders: {
+          Authorization: `Bearer ${localStorage.getItem("jwt")}`
         }
       }
     }
-  );
+  });
 
   return (
     <SocketContext.Provider value={socket}>
       <BrowserRouter>
         <Store>
-          <Route path="/" render={props => <Home {...props} />} exact />
-          <Route path="/menu" render={props => <Menu {...props} />} exact />
-          <Route path="/login" render={props => <Login {...props} />} exact />
-          <Route
-            path="/register"
-            render={props => <SignUp {...props} />}
-            exact
-          />
-          <Route path="/cart" render={props => <Cart {...props} />} exact />
-          <Route path="/table" render={props => <Table {...props} />} />
-          <Route path="/subMenu" render={props => <SubMenu {...props} />} />
-          <Route path="/order" render={props => <Table {...props} />} />
-          <FooterNav />
+          <NavBar outerContainerId={"App"} />
+            <Route path="/" render={props => <Home {...props} />} exact />
+            <Route path="/menu" render={props => <Menu {...props} />} exact />
+            <Route path="/login" render={props => <Login {...props} />} exact />
+            <Route
+              path="/register"
+              render={props => <SignUp {...props} />}
+              exact
+            />
+            <Route path="/cart" render={props => <Cart {...props} />} exact />
+            <Route path="/table" render={props => <Table {...props} />} />
+            <Route path="/subMenu" render={props => <SubMenu {...props} />} />
+            <Route path="/order" render={props => <Table {...props} />} />
+            <FooterNav />
+          
         </Store>
       </BrowserRouter>
     </SocketContext.Provider>
