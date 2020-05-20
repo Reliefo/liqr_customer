@@ -36,22 +36,54 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
     if (item["choices"] === undefined) {
       item["choices"] = {};
     }
-    item["choices"] = item.choice;
-    item["options"] = item.food_option;
-    dispatch({ type: TYPES.ADD_ITEM, payload: item }); //dispatcing the whole item
 
-    activeData.forEach((item2, index3) => {
-      if (index3 === subsIndex) {
-        item2.food_list.forEach((item3, idx2) => {
-          if (idx2 === index) {
-            item3.showPopup = false;
-            item3.showCustomize = false;
-            item3.showOptionsAgain = false;
-          }
-        });
-      }
-    });
-    dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
+    let flag = false;
+    if (item.food_option !== undefined) {
+      item["options"] = item.food_option;
+      flag = true;
+    }
+
+    if (item.choice !== undefined) {
+      item["choices"] = item.choice;
+      flag = true;
+    }
+
+    if (flag === false) {
+      activeData.forEach((item2, index3) => {
+        if (index3 === subsIndex) {
+          item2.food_list.forEach((item3, idx2) => {
+            if (idx2 === index) {
+              item3.showError = true;
+              delete item3.options;
+              delete item3.food_option;
+              delete item3.choice;
+              delete item3.choices;
+            }
+          });
+        }
+      });
+      dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
+    } else {
+      item["choices"] = item.choice;
+      item["options"] = item.food_option;
+      dispatch({ type: TYPES.ADD_ITEM, payload: item }); //dispatcing the whole item
+
+      activeData.forEach((item2, index3) => {
+        if (index3 === subsIndex) {
+          item2.food_list.forEach((item3, idx2) => {
+            if (idx2 === index) {
+              delete item3.showError;
+              item3.showPopup = false;
+              item3.showCustomize = false;
+              delete item3.food_option;
+              delete item3.choice;
+              item3.showOptionsAgain = false;
+            }
+          });
+        }
+      });
+      dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
+    }
   };
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -76,6 +108,9 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
           if (idx2 === index) {
             item1.showPopup = !item1.showPopup;
             item1.showCustomize = false;
+            delete item1.food_option
+            delete item1.choice
+            delete item1.showError;
           }
         });
       }
@@ -222,8 +257,6 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
                           return (
                             <div key={idx}>
                               <label for={item1.option_name}>
-                             
-                            
                                 <Form.Check
                                   id={idx}
                                   onClick={() => selectOption(foodItem, item1)}
@@ -325,7 +358,13 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
               });
             })} */}
           </Modal.Body>
-
+          {foodItem.showError === true ? (
+            <span style={{ textAlign: "center", color: "red" }}>
+              Please Select an Option / Choice
+            </span>
+          ) : (
+            ""
+          )}
           <Modal.Footer>
             <Button
               className="options-button-close"
