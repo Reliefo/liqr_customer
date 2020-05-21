@@ -102,7 +102,7 @@ const Cart = props => {
         item.food_options = {};
         item.food_options.options = [];
         item.food_options.options.push(item.options);
-        item.price = item.options.option_price
+        item.price = item.options.option_price;
       }
       if (item.choices) {
         if (item.food_options === undefined) {
@@ -118,7 +118,6 @@ const Cart = props => {
       delete item.tags;
       delete item._id;
     });
-
 
     const body = {
       table: localStorage.getItem("table_id"),
@@ -159,7 +158,7 @@ const Cart = props => {
         item.food_options = {};
         item.food_options.options = [];
         item.food_options.options.push(item.options);
-        item.price = item.options.option_price
+        item.price = item.options.option_price;
       }
       if (item.choices) {
         if (item.food_options === undefined) {
@@ -259,7 +258,7 @@ const Cart = props => {
           )}
           <span className="detail-instructions">
             {" "}
-            Add Cooking Instructions <CollapseDetails item = {item} />
+            Add Cooking Instructions <CollapseDetails item={item} />
           </span>
 
           <hr className="cart-hr" />
@@ -282,6 +281,7 @@ const Cart = props => {
                           <th>Name</th>
                           <th>Qty</th>
                           <th>Price</th>
+                          <th></th>
                         </tr>
                       </thead>
                       {order_list.food_list.map((food, ix) => {
@@ -291,6 +291,9 @@ const Cart = props => {
                               <td>{food.name}</td>
                               <td>{food.quantity}</td>
                               <td>{food.price}</td>
+                              <td onClick={DeleteItemHndlr.bind(this, food)}>
+                                <CloseSVG />
+                              </td>
                             </tr>
                           </tbody>
                         );

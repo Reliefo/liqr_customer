@@ -19,6 +19,7 @@ const initialState = {
   tableOrders: [],
   tableUsers: [],
   justBarItems: [],
+  dineHistory : [],
   homeItems: [],
   orderSuccess: [],
   orderStatus: [],

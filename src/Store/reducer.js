@@ -211,6 +211,10 @@ function reducer(state, action) {
     case TYPES.SET_GENERAL_DATA:
       return { ...st, ...payload };
 
+    case TYPES.SET_DINE_HISTORY:
+      st.dineHistory = payload;
+      return st;
+
     case TYPES.RESET_CART:
       st.cart = [];
       return st;

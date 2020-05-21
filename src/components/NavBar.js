@@ -89,7 +89,7 @@ export default props => {
             Previous Visits
           </a>
 
-          <a className="menu-item" href="/menu">
+          <a className="menu-item" href="/dine-in-history">
             <img className="navbar-menu-icon" src={location} alt="Login" />{" "}
             Dine-in History
           </a>
