@@ -135,7 +135,12 @@ const Home = props => {
     props.socket.emit("fetch_rest_customer", JSON.stringify(body));
 
     props.socket.off("user_details").on("user_details", msg => {
-      console.log("USER DETAILS--->", msg);
+      console.log("USER DETAILS--->", JSON.parse(msg));
+      const data = JSON.parse(msg);
+      dispatch({
+        type: TYPES.SET_DINE_HISTORY,
+        payload: data.dine_in_history || []
+      });
     });
 
     props.socket.off("table_details").on("table_details", msg => {
