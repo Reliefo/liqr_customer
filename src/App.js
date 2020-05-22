@@ -35,7 +35,8 @@ export default function AppWrapper() {
       <BrowserRouter>
         <Store>
           <NavBar outerContainerId={"App"} />
-          <Route path="/" render={props => <Home {...props} />} exact />
+          <Route path="/" render={props => <Login {...props} />} exact />
+          <Route path="/Home" render={props => <Home {...props} />} exact />
           <Route path="/menu" render={props => <Menu {...props} />} exact />
           <Route path="/login" render={props => <Login {...props} />} exact />
           <Route

@@ -1,7 +1,10 @@
 import React, { Component } from "react";
-import { FormGroup, FormControl } from "react-bootstrap";
+import ReactDOM from "react-dom";
+import { FormGroup, FormControl, Button } from "react-bootstrap";
 import LoaderButton from "./LoaderButton";
-import { Auth } from "aws-amplify";
+import axios from "axios";
+import AppWrapper from "../App";
+import { v4 as uuidv4 } from "uuid";
 
 export default class Login extends Component {
   constructor(props) {
@@ -14,6 +17,11 @@ export default class Login extends Component {
     };
   }
 
+  componentDidMount() {
+    if (localStorage.getItem("jwt")) {
+      this.props.history.push("/Home");
+    }
+  }
   validateForm() {
     return this.state.email.length > 0 && this.state.password.length > 0;
   }
@@ -24,21 +32,79 @@ export default class Login extends Component {
     });
   };
 
+  skipSignIn = async event => {
+    event.preventDefault();
+    let jwt = "";
+    let parm = window.location.href;
+    parm = parm.split("=");
+    let table_id =
+      parm[1] !== undefined ? parm[1] : localStorage.getItem("table_id");
+    const uniqueId = `${uuidv4().substring(0, 15)}`;
+    let bodyFormData = new FormData();
+    bodyFormData.set(
+      "unique_id",
+      localStorage.getItem("uniqueId") !== null
+        ? localStorage.getItem("uniqueId")
+        : uniqueId
+    );
+    bodyFormData.set("password", "wask");
+    bodyFormData.set("email_id", "dud");
+    bodyFormData.set(
+      "table_id",
+      parm[1] !== undefined ? parm[1] : localStorage.getItem("table_id")
+    );
+    axios({
+      method: "post",
+      url: "https://liqr.cc/user_login",
+      data: bodyFormData
+    })
+      .then(response => {
+        const { data } = response;
+        localStorage.setItem("jwt", data.jwt);
+        localStorage.setItem("table_id", table_id);
+        localStorage.setItem("restaurant_id", data.restaurant_id);
+        localStorage.setItem("refreshToken", data.refresh_token);
+        localStorage.setItem("user_id", data.user_id);
+        localStorage.setItem("name", data.name);
+        ReactDOM.render(<AppWrapper />, document.getElementById("root"));
+        this.props.history.push("/Home");
+      })
+      .catch(function(response) {
+        //handle error
+        console.log(response);
+      });
+  };
+
   handleSubmit = async event => {
     event.preventDefault();
-
     this.setState({ isLoading: true });
 
-    try {
-      const user = await Auth.signIn(this.state.email, this.state.password);
-      // console.log(JSON.stringify(user));
-      console.log(user);
-      this.props.userHasAuthenticated(true);
-      this.props.history.push("/");
-    } catch (e) {
-      alert(e.message);
-      this.setState({ isLoading: false });
-    }
+    let parm = window.location.href;
+    parm = parm.split("=");
+    let table_id =
+      parm[1] !== undefined ? parm[1] : localStorage.getItem("table_id");
+    let bodyFormData = new FormData();
+    bodyFormData.set("password", this.state.password);
+    bodyFormData.set("unique_id", "");
+    bodyFormData.set("email_id", this.state.email);
+    bodyFormData.set("table_id", table_id);
+
+    axios({
+      method: "post",
+      url: "https://liqr.cc/user_login",
+      data: bodyFormData
+    }).then(response => {
+      const { data } = response;
+      localStorage.setItem("jwt", data.jwt);
+      localStorage.setItem("table_id", table_id);
+      localStorage.setItem("restaurant_id", data.restaurant_id);
+      localStorage.setItem("refreshToken", data.refresh_token);
+      localStorage.setItem("user_id", data.user_id);
+      localStorage.setItem("name", data.name);
+      ReactDOM.render(<AppWrapper />, document.getElementById("root"));
+      this.props.history.push("/Home");
+    });
+    this.setState({ isLoading: false });
   };
 
   render() {
@@ -96,7 +162,7 @@ export default class Login extends Component {
             style={{
               marginRight: "10%",
               float: "left",
-              width: "45%",
+              width: "45%"
             }}
             className="sign-in-google"
             loadingText="Logging in…"
@@ -116,19 +182,19 @@ export default class Login extends Component {
           />
         </div>
         <div className="sign-in-member">
-          Not a member yet ? <span style= {{ color: '#ffb023' }}> Sign Up</span>
+          Not a member yet ? <span style={{ color: "#ffb023" }}> Sign Up</span>
         </div>
-        <LoaderButton
-            block
-            bsSize="large"
-            disabled={!this.validateForm()}
-            type="submit"
-            style={{marginTop: '5%'}}
-            isLoading={this.state.isLoading}
-            text="Skip Sign In"
-            className="sign-in-button"
-            loadingText="Logging in…"
-          />
+        <Button
+          block
+          bsSize="large"
+          style={{ marginTop: "5%" }}
+          isLoading={this.state.isLoading}
+          text="Skip Sign In"
+          onClick={this.skipSignIn}
+          className="sign-in-button"
+        >
+          Skip Sign In
+        </Button>
       </div>
     );
   }
