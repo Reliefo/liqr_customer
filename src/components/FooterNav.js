@@ -162,7 +162,7 @@ const FooterNav = props => {
           )}
         </div>
         <Link
-          to="/"
+          to="/Home"
           className="styled-link"
           onClick={() => setState(state => ({ ...state, menuClick: false }))}
         >

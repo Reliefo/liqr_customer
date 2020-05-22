@@ -5,7 +5,7 @@ import * as TYPES from "Store/actionTypes.js";
 import { StoreContext } from "Store";
 
 const HomeItem = () => {
-console.log('HOME ITEM')
+
 
   return (
     <div>
