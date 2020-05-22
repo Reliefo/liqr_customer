@@ -258,7 +258,7 @@ const Cart = props => {
           )}
           <span className="detail-instructions">
             {" "}
-            Add Cooking Instructions <CollapseDetails item={item} />
+            <CollapseDetails item={item} />
           </span>
 
           <hr className="cart-hr" />

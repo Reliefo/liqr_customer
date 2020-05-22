@@ -42,7 +42,6 @@ const Table = props => {
 
     props.socket.off("table_details").on("table_details", msg => {
       const data = JSON.parse(msg);
-
       dispatch({ type: TYPES.REFRESH_ORDER_CLOUD, payload: data.table_orders });
     });
 
@@ -132,6 +131,29 @@ const Table = props => {
                                     )}{" "}
                                   </span>
                                 </div>
+                                {item3.food_options ? (
+                                  <div
+                                    style={{
+                                      fontFamily: "Poppins",
+                                      fontSize: "12px"
+                                    }}
+                                  >
+                                    {item3.food_options.options[0].option_name}
+                                    {item3.food_options.choices[0] && item3.food_options.options[0].option_name 
+                                      ? "," + item3.food_options.choices[0]
+                                      : ""}
+                                  </div>
+                                ) : (
+                                  ""
+                                )}
+                                {/* {item3.food_options ? 
+                                <div style={{
+                                  fontFamily: 'Poppins',
+                                  fontSize: '12px'
+                                }}>
+                                 {item3.food_options.choices[0].option_name}
+                                </div>
+                                : ''} */}
                               </Card.Body>
                             </div>
                           );
