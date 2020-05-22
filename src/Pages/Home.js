@@ -365,14 +365,7 @@ const Home = props => {
                           list.description = desc;
                           if (list._id.$oid === item) {
                             return (
-                              <div
-                                id="card-home-screen"
-                                onClick={() =>
-                                  props.history.push("/menu", {
-                                    data: list.name
-                                  })
-                                }
-                              >
+                              <div id="card-home-screen">
                                 <FoodItem
                                   stateData={activeData}
                                   foodItem={list}
