@@ -56,7 +56,7 @@ const Table = props => {
       {searchClicked === true ? (
         <SearchFoodItems />
       ) : (
-        <div style= {{backgroundColor: 'white'}}>
+        <div style={{ backgroundColor: "white" }}>
           <div className="order-status-styling">
             {orderSuccess.map((item, idx) => {
               let orderTime = item.timestamp.split(" ");
@@ -122,8 +122,8 @@ const Table = props => {
                                     {item3.name} x {item3.quantity}
                                   </span>
                                   <span className="item-status-tagging">
-                                    Status: {item3.status}{" "}
-                                    {item3.status === "delivered" ? (
+                                    {item3.status}{" "}
+                                    {item3.status === "completed" ? (
                                       <FoodSVG />
                                     ) : item3.status === "queued" ? (
                                       <UiSVG />
