@@ -2,6 +2,7 @@ export const ADD_ITEM = 1;
 export const INC_ITEM = 2;
 export const DEC_ITEM = 3;
 export const DEL_ITEM = 4;
+export const DEL_TABLE_ITEM = 50;
 export const SET_NAV = 5; //for active nav
 export const ADD_DATA = 6;
 export const ADD_COLLECTIVE_FOODITEMS = 7;

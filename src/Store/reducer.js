@@ -199,6 +199,15 @@ function reducer(state, action) {
       if (idx !== -1) st.cart.splice(idx, 1);
 
       return st;
+
+      case TYPES.DEL_TABLE_ITEM:
+        
+        idx = st.tableOrders.orders.findIndex(item => item.food_list.map(item1 => item1.food_id === payload.food_id));
+        
+        if (idx !== -1) st.tableOrders.orders.splice(idx, 1);
+  
+        return st;
+
     case TYPES.SET_NAV:
       st.activeNav = payload;
       return st;

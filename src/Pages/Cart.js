@@ -59,6 +59,27 @@ const Cart = props => {
     dispatch({ type: TYPES.DEL_ITEM, payload: item });
   };
 
+  const DeleteItemHndlrTableCart = item => {
+    dispatch({ type: TYPES.DEL_TABLE_ITEM, payload: item });
+
+    // const body = {
+    //   table: localStorage.getItem("table_id"),
+    //   orders: [
+    //     {
+    //       placed_by: localStorage.getItem("user_id"),
+    //       food_list: tableOrders.orders.food_list
+    //     }
+    //   ]
+    // };
+    // props.socket.emit("push_to_table_cart", JSON.stringify(body));
+
+    // props.socket.off("table_details").on("table_details", msg => {
+    //   const data = JSON.parse(msg);
+    //   console.log('NIDS--->', data)
+    //   dispatch({ type: TYPES.UPDATE_TABLE_ORDER, payload: data.table_cart });
+    // });
+  };
+
   const pushToCart = () => {
     setState(state => ({ ...state, activeCart: 1 - state.activeCart }));
   };
@@ -291,7 +312,12 @@ const Cart = props => {
                               <td>{food.name}</td>
                               <td>{food.quantity}</td>
                               <td>{food.price}</td>
-                              <td onClick={DeleteItemHndlr.bind(this, food)}>
+                              <td
+                                onClick={DeleteItemHndlrTableCart.bind(
+                                  this,
+                                  food
+                                )}
+                              >
                                 <CloseSVG />
                               </td>
                             </tr>
