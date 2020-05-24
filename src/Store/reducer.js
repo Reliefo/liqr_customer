@@ -208,6 +208,10 @@ function reducer(state, action) {
   
         return st;
 
+    case TYPES.UPDATE_REST_ID: 
+    st.restId = payload;
+    return st;   
+
     case TYPES.SET_NAV:
       st.activeNav = payload;
       return st;

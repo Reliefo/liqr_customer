@@ -80,7 +80,7 @@ export default props => {
             Table Change
           </a>
 
-          <a className="menu-item" href="/menu">
+          <a className="menu-item" href="/previous-visits">
             <img
               className="navbar-menu-icon"
               src={previousVisits}

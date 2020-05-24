@@ -17,6 +17,7 @@ export const UPDATE_TABLE_USERS = 25;
 export const REFRESH_ORDER_CLOUD = 22;
 export const UPDATE_TABLE_ORDER = 14;
 export const UPDATE_TABLE_NAME = 20;
+export const UPDATE_REST_ID = 60;
 export const SET_RESTAURANT_NAME = 30;
 export const SET_DINE_HISTORY = 40;
 export const ADD_SELECT_DATA = 17;

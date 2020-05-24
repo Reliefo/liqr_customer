@@ -17,6 +17,7 @@ const initialState = {
   searchValue: "",
   cart: [],
   tableId: "",
+  restId: "",
   placeOrderById: "",
   tableOrders: [],
   tableUsers: [],
