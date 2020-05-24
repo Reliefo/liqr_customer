@@ -23,3 +23,5 @@ export const SET_DINE_HISTORY = 40;
 export const ADD_SELECT_DATA = 17;
 export const UPDATE_HOME_ITEMS = 15;
 export const RESET_CART = 21;
+export const UPDATE_FAB_CLICK = 70;
+export const UPDATE_MENU_CLICK = 80;

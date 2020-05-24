@@ -17,6 +17,8 @@ const initialState = {
   searchValue: "",
   cart: [],
   tableId: "",
+  menuClick : false,
+  fabClick: false,
   restId: "",
   placeOrderById: "",
   tableOrders: [],

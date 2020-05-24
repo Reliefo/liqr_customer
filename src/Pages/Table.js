@@ -21,6 +21,8 @@ const Table = props => {
   } = React.useContext(StoreContext);
   React.useEffect(() => {
     dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: "" } });
+    dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
+    dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
     console.log("Table screen");
     //handling refresh issue
     dispatch({
@@ -55,7 +57,13 @@ const Table = props => {
       {searchClicked === true ? (
         <SearchFoodItems />
       ) : (
-        <div style={{ backgroundColor: "white" }}>
+        <div
+          onClick={() => {
+            dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
+            dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
+          }}
+          style={{ backgroundColor: "white" }}
+        >
           <div className="order-status-styling">
             {orderSuccess.map((item, idx) => {
               let orderTime = item.timestamp.split(" ");
@@ -139,7 +147,8 @@ const Table = props => {
                                     }}
                                   >
                                     {item3.food_options.options[0].option_name}
-                                    {item3.food_options.choices[0] && item3.food_options.options[0].option_name 
+                                    {item3.food_options.choices[0] &&
+                                    item3.food_options.options[0].option_name
                                       ? "," + item3.food_options.choices[0]
                                       : ""}
                                   </div>

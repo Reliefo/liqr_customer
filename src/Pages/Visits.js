@@ -57,10 +57,16 @@ const Visits = props => {
       {searchClicked === true ? (
         <SearchFoodItems />
       ) : (
-        <div style={{ backgroundColor: "white" }}>
+        <div
+          onClick={() => {
+            dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
+            dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
+          }}
+          style={{ backgroundColor: "white" }}
+        >
           <div className="order-status-styling">
             {dineHistory.map((item, idx) => {
-                if(idx === props.location.state.index) {
+              if (idx === props.location.state.index) {
                 let sum = 0;
                 let orderTime = item.timestamp.split(" ");
                 let orderDate = orderTime[0];
@@ -69,9 +75,7 @@ const Visits = props => {
                 return (
                   <div style={{ paddingBottom: "3%" }}>
                     <Card
-                      onClick={() =>
-                        props.history.goBack()
-                      }
+                      onClick={() => props.history.goBack()}
                       className="cart-card cart-styling margin-styling"
                     >
                       <div>
@@ -120,8 +124,6 @@ const Visits = props => {
                             Order Total <br />
                             {Object.entries(item).forEach(item5 => {
                               if (item5[0] === "table_orders") {
-                                
-
                                 if (item5[1] && item5[1].length > 0) {
                                   item5[1].forEach(item4 => {
                                     item4.orders.forEach(item9 => {
@@ -225,9 +227,7 @@ const Visits = props => {
                     </Card>
                   </div>
                 );
-                    
               }
-              
             })}
           </div>
         </div>

@@ -20,6 +20,8 @@ const FooterNav = props => {
       activeNav,
       tableId,
       cart,
+      fabClick,
+      menuClick,
       activeData,
       placeOrderById,
       rawData: { food_menu = [] }
@@ -63,15 +65,18 @@ const FooterNav = props => {
   const revtrfm = `rotate(${-deg}deg)`;
 
   const FABClick = () => {
-    console.log("clicked...");
-    setState(state => ({ ...state, menuClick: false }));
-    setState(state => ({ ...state, fabClicked: !state.fabClicked }));
+    console.log("clicked...");  
+   
+
+    dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: !fabClick });
+    dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
   };
 
   const MenuClick = () => {
     console.log("clicked...");
-    setState(state => ({ ...state, fabClicked: false }));
-    setState(state => ({ ...state, menuClick: !state.menuClick }));
+
+    dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
+    dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: !menuClick });
   };
 
   const sendAssistance = name => {
@@ -110,7 +115,7 @@ const FooterNav = props => {
             </div>
           </div>
         )}
-        {state.menuClick && (
+        {menuClick && (
           <div className="floating-container-menu">
             <div
               className="floating-container menu-button"
@@ -128,14 +133,14 @@ const FooterNav = props => {
         )}
         <div
           className={`floating-container ${
-            state.fabClicked ? "rotate-fab" : ""
+            fabClick ? "rotate-fab" : ""
           }`}
           style={{ transform: trfm }} //this rotation takes care of all other rotations.
         >
           <div className="FAB" onClick={FABClick}>
             <span>Assist</span>
           </div>
-          {state.fabClicked && (
+          {fabClick && (
             <div className="floating-container">
               <div className="floating-menu">
                 <div onClick={() => sendAssistance("water")}>Ask for Water</div>

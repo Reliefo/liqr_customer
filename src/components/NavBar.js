@@ -25,6 +25,11 @@ export default props => {
     dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: value } });
   };
 
+  React.useEffect(() => {
+    dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
+    dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
+  }, []);
+
   const searchIconClick = () => {
     inputNode.current.focus();
     dispatch({

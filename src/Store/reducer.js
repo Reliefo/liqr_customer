@@ -212,6 +212,15 @@ function reducer(state, action) {
     st.restId = payload;
     return st;   
 
+    case TYPES.UPDATE_MENU_CLICK:
+    st.menuClick = payload;
+    return st;
+
+
+    case TYPES.UPDATE_FAB_CLICK:
+    st.fabClick = payload;
+    return st;
+
     case TYPES.SET_NAV:
       st.activeNav = payload;
       return st;

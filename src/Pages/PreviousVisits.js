@@ -24,6 +24,8 @@ const PreviousVisits = props => {
   let id = "";
   React.useEffect(() => {
     dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: "" } });
+    dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
+    dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
     console.log("Previous Visits screen");
     //handling refresh issue
     dispatch({
@@ -58,7 +60,13 @@ const PreviousVisits = props => {
       {searchClicked === true ? (
         <SearchFoodItems />
       ) : (
-        <div style={{ backgroundColor: "white" }}>
+        <div
+          onClick={() => {
+            dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
+            dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
+          }}
+          style={{ backgroundColor: "white" }}
+        >
           <div className="order-status-styling">
             {dineHistory.map((item, idx) => {
               if (item.restaurant_id === restId) {

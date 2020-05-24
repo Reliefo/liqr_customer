@@ -108,8 +108,8 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
           if (idx2 === index) {
             item1.showPopup = !item1.showPopup;
             item1.showCustomize = false;
-            delete item1.food_option
-            delete item1.choice
+            delete item1.food_option;
+            delete item1.choice;
             delete item1.showError;
           }
         });
