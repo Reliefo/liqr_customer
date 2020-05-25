@@ -118,6 +118,8 @@ const Home = props => {
 
   React.useEffect(() => {
     console.log("home screen");
+    dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
+    dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
     dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: "" } });
     dispatch({
       type: TYPES.SET_GENERAL_DATA,
@@ -147,7 +149,6 @@ const Home = props => {
 
     props.socket.off("table_details").on("table_details", msg => {
       const data = JSON.parse(msg);
-
       dispatch({
         type: TYPES.UPDATE_TABLE_USERS,
         payload: data.users
@@ -166,8 +167,10 @@ const Home = props => {
 
     props.socket.off("restaurant_object").on("restaurant_object", msg => {
       const resp = JSON.parse(msg);
+
       dispatch({ type: TYPES.SET_RESTAURANT_NAME, payload: resp.name });
       dispatch({ type: TYPES.ADD_DATA, payload: resp });
+      dispatch({ type: TYPES.UPDATE_REST_ID, payload: resp._id.$oid });
       dispatch({ type: TYPES.ADD_SELECT_DATA, payload: resp.food_menu });
 
       let justBarItems = [];
@@ -278,7 +281,13 @@ const Home = props => {
       {searchClicked === true ? (
         <SearchFoodItems />
       ) : (
-        <div className="category home-category">
+        <div
+          onClick={() => {
+            dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
+            dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
+          }}
+          className="category home-category"
+        >
           <div style={{ minHeight: "400px" }}>
             <Carousel>
               <Carousel.Item>

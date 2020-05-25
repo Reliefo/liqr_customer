@@ -19,7 +19,45 @@ export default class Login extends Component {
 
   componentDidMount() {
     if (localStorage.getItem("jwt")) {
-      this.props.history.push("/Home");
+      let jwt = "";
+      let parm = window.location.href;
+      parm = parm.split("=");
+      let table_id =
+        parm[1] !== undefined ? parm[1] : localStorage.getItem("table_id");
+      const uniqueId = `${uuidv4().substring(0, 15)}`;
+      let bodyFormData = new FormData();
+      bodyFormData.set(
+        "unique_id",
+        localStorage.getItem("uniqueId") !== null
+          ? localStorage.getItem("uniqueId")
+          : uniqueId
+      );
+      bodyFormData.set("password", "wask");
+      bodyFormData.set("email_id", "dud");
+      bodyFormData.set(
+        "table_id",
+        parm[1] !== undefined ? parm[1] : localStorage.getItem("table_id")
+      );
+      axios({
+        method: "post",
+        url: "https://liqr.cc/user_login",
+        data: bodyFormData
+      })
+        .then(response => {
+          const { data } = response;
+          localStorage.setItem("jwt", data.jwt);
+          localStorage.setItem("table_id", table_id);
+          localStorage.setItem("restaurant_id", data.restaurant_id);
+          localStorage.setItem("refreshToken", data.refresh_token);
+          localStorage.setItem("user_id", data.user_id);
+          localStorage.setItem("name", data.name);
+          ReactDOM.render(<AppWrapper />, document.getElementById("root"));
+          this.props.history.push("/Home");
+        })
+        .catch(function(response) {
+          //handle error
+          console.log(response);
+        });
     }
   }
   validateForm() {

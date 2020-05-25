@@ -2,7 +2,7 @@ import React from "react";
 import { StoreContext } from "Store";
 import { ReactComponent as SearchSVG } from "assets/searchIcon.svg";
 import smoothScroll from "smoothscroll";
-import Search from './Search.js'
+import Search from "./Search.js";
 import * as TYPES from "Store/actionTypes.js";
 import FoodItem from "components/FoodItem";
 import { InputGroup, FormControl } from "react-bootstrap";
@@ -23,7 +23,8 @@ const Menu = props => {
 
   React.useEffect(() => {
     console.log("Menu screen");
-
+    dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
+    dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
     if (props.location.state && props.location.state.data) {
       let element = document.getElementById(props.location.state.data);
       if (element) {
@@ -50,7 +51,12 @@ const Menu = props => {
         <SearchFoodItems />
       ) : (
         <>
-          <div>
+          <div
+            onClick={() => {
+              dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
+              dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
+            }}
+          >
             <ul className="menu-btn">
               <li
                 className={

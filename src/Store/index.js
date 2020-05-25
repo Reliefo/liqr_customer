@@ -1,9 +1,11 @@
 import React from "react";
+import ReactDOM from "react"
 import reducer from "./reducer.js";
 import axios from "axios";
 import * as TYPES from "./actionTypes";
 import { v4 as uuidv4 } from "uuid";
 import tempData from "json_with_class.json";
+import AppWrapper from "../App";
 import io from "socket.io-client";
 
 const initialState = {
@@ -11,15 +13,18 @@ const initialState = {
   justMenuItems: [], //for search
   searchClicked: false,
   tableName: "",
-  restName:"",
+  restName: "",
   searchValue: "",
   cart: [],
   tableId: "",
+  menuClick : false,
+  fabClick: false,
+  restId: "",
   placeOrderById: "",
   tableOrders: [],
   tableUsers: [],
   justBarItems: [],
-  dineHistory : [],
+  dineHistory: [],
   homeItems: [],
   orderSuccess: [],
   orderStatus: [],
@@ -35,9 +40,6 @@ const Store = props => {
     reducer,
     localState || initialState
   );
-
-  let parm = window.location.href;
-  parm = parm.split("=");
 
   React.useEffect(() => {
     sessionStorage.setItem("relief", JSON.stringify(state));
@@ -55,7 +57,6 @@ const Store = props => {
   // };
   React.useEffect(() => {
     console.log("store mounted");
-   
 
     // getData().then(resp => {
     //   if (!resp.success) {
@@ -78,7 +79,6 @@ const Store = props => {
     //     //   }
     //     // });
 
-        
     //   }
     // });
   }, []);

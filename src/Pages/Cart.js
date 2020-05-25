@@ -40,6 +40,8 @@ const Cart = props => {
 
   React.useEffect(() => {
     console.log("Cart screen");
+    dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
+    dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
     dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: "" } });
     dispatch({
       type: TYPES.SET_GENERAL_DATA,
@@ -57,6 +59,27 @@ const Cart = props => {
 
   const DeleteItemHndlr = item => {
     dispatch({ type: TYPES.DEL_ITEM, payload: item });
+  };
+
+  const DeleteItemHndlrTableCart = item => {
+    dispatch({ type: TYPES.DEL_TABLE_ITEM, payload: item });
+
+    // const body = {
+    //   table: localStorage.getItem("table_id"),
+    //   orders: [
+    //     {
+    //       placed_by: localStorage.getItem("user_id"),
+    //       food_list: tableOrders.orders.food_list
+    //     }
+    //   ]
+    // };
+    // props.socket.emit("push_to_table_cart", JSON.stringify(body));
+
+    // props.socket.off("table_details").on("table_details", msg => {
+    //   const data = JSON.parse(msg);
+
+    //   dispatch({ type: TYPES.UPDATE_TABLE_ORDER, payload: data.table_cart });
+    // });
   };
 
   const pushToCart = () => {
@@ -258,7 +281,7 @@ const Cart = props => {
           )}
           <span className="detail-instructions">
             {" "}
-            Add Cooking Instructions <CollapseDetails item={item} />
+            <CollapseDetails item={item} />
           </span>
 
           <hr className="cart-hr" />
@@ -291,7 +314,12 @@ const Cart = props => {
                               <td>{food.name}</td>
                               <td>{food.quantity}</td>
                               <td>{food.price}</td>
-                              <td onClick={DeleteItemHndlr.bind(this, food)}>
+                              <td
+                                onClick={DeleteItemHndlrTableCart.bind(
+                                  this,
+                                  food
+                                )}
+                              >
                                 <CloseSVG />
                               </td>
                             </tr>
@@ -347,7 +375,12 @@ const Cart = props => {
       {searchClicked === true ? (
         <SearchFoodItems />
       ) : (
-        <div>
+        <div
+          onClick={() => {
+            dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
+            dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
+          }}
+        >
           <ul className="menu-btn">
             <li
               className={
@@ -392,7 +425,13 @@ const Cart = props => {
               </div>
             </li>
           </ul> */}
-          <div className="cart-wrapper">
+          <div
+            onClick={() => {
+              dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
+              dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
+            }}
+            className="cart-wrapper"
+          >
             {isEmpty() && (
               <div className="empty-cart">
                 <EmptyCartSadIMG />

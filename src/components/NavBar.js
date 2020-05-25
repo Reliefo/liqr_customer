@@ -25,6 +25,11 @@ export default props => {
     dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: value } });
   };
 
+  React.useEffect(() => {
+    dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
+    dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
+  }, []);
+
   const searchIconClick = () => {
     inputNode.current.focus();
     dispatch({
@@ -80,7 +85,7 @@ export default props => {
             Table Change
           </a>
 
-          <a className="menu-item" href="/menu">
+          <a className="menu-item" href="/previous-visits">
             <img
               className="navbar-menu-icon"
               src={previousVisits}
