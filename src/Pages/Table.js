@@ -1,6 +1,7 @@
 import React from "react";
 import { StoreContext } from "Store";
 import { Card, Accordion, Button } from "react-bootstrap";
+import LoaderButton from "../components/LoaderButton";
 import SocketContext from "../socket-context";
 import SearchFoodItems from "components/SearchFoodItems.js";
 import { ReactComponent as FoodSVG } from "assets/food.svg";
@@ -52,10 +53,65 @@ const Table = props => {
     });
   }, []);
 
+  const fetchSocketBill = isTable => {
+    const billBody = {
+      user_id: localStorage.getItem("user_id"),
+      table_id: localStorage.getItem("table_id"),
+      table_bill: isTable
+    };
+
+    props.socket.emit("fetch_bill", JSON.stringify(billBody));
+  };
+
+  const isEmpty = () => {
+    if (orderSuccess.length === 0) return true;
+  };
+
   return (
     <>
       {searchClicked === true ? (
         <SearchFoodItems />
+      ) : isEmpty() ? (
+        <div className="order-status-styling">
+          <div className="empty-cart">
+            <p style={{ margin: 10 }}>
+              Oops looks like you have no orders placed?
+            </p>
+            <p style={{ margin: 10 }}>
+              Click on the below buttons to get started
+            </p>
+            <div>
+              <LoaderButton
+                block
+                bsSize="large"
+                onClick={() => {
+                  props.history.push("/home");
+                }}
+                type="button"
+                text="Home"
+                style={{
+                  marginRight: "10%",
+                  float: "left",
+                  width: "45%"
+                }}
+                className="empty-orders"
+              />
+              <LoaderButton
+                block
+                onClick={() => {
+                  props.history.push("/menu");
+                }}
+                bsSize="large"
+                type="button"
+                style={{
+                  width: "45%"
+                }}
+                text="Menu"
+                className="empty-orders"
+              />
+            </div>
+          </div>
+        </div>
       ) : (
         <div
           onClick={() => {
@@ -65,6 +121,48 @@ const Table = props => {
           style={{ backgroundColor: "white" }}
         >
           <div className="order-status-styling">
+            <div style={{ paddingBottom: "10%" }}>
+              <LoaderButton
+                block
+                bsSize="large"
+                onClick={() => {
+                  if (
+                    window.confirm(
+                      "Are you sure you would like to bill this item?"
+                    )
+                  ) {
+                    fetchSocketBill(false);
+                  }
+                }}
+                type="button"
+                text="Fetch Individual Bill"
+                style={{
+                  marginRight: "10%",
+                  float: "left",
+                  width: "48%"
+                }}
+                className="empty-orders"
+              />
+              <LoaderButton
+                block
+                onClick={() => {
+                  if (
+                    window.confirm(
+                      "Are you sure you would like to bill this item?"
+                    )
+                  ) {
+                    fetchSocketBill(true);
+                  }
+                }}
+                bsSize="large"
+                type="button"
+                style={{
+                  width: "42%"
+                }}
+                text="Fetch Table Bill"
+                className="empty-orders"
+              />
+            </div>
             {orderSuccess.map((item, idx) => {
               let orderTime = item.timestamp.split(" ");
 
