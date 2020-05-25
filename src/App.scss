@@ -789,18 +789,12 @@ input[type="radio"]:checked:after {
   height: 15px;
   border-radius: 15px;
   top: -2px;
-  left: -1px;
   position: relative;
   background-color: #ffa500;
   content: "";
   display: inline-block;
   visibility: visible;
   border: 2px solid #ffa500;
-}
-
-input[type="radio"] {
-  border: 2px solid red !important;
-  background-color: 2px solid red !important;
 }
 
 .btn-primary:hover {
@@ -939,4 +933,18 @@ input[type="radio"] {
   letter-spacing: 0px;
   color: #818181;
   font-family: "Poppins";
+}
+
+input[type="radio"] {
+  -webkit-appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 15px;
+  outline: none;
+  width: 15px;
+  position: relative;
+  content: "";
+  display: inline-block;
+  visibility: visible;
+  box-shadow: 0px 0px 0px 2px #ffb023;
 }
