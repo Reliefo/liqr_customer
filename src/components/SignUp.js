@@ -86,14 +86,20 @@ export default class Signup extends Component {
     return (
       <form onSubmit={this.handleConfirmationSubmit}>
         <FormGroup controlId="confirmationCode" bsSize="large">
-          <label>Confirmation Code</label>
+          <label className="sign-in-label">Confirmation Code</label>
           <FormControl
+            style={{
+              fontSize: "15px",
+              fontFamily: "Poppins"
+            }}
             autoFocus
             type="tel"
             value={this.state.confirmationCode}
             onChange={this.handleChange}
           />
-          <label>Please check your email for the code.</label>
+          <label className="sign-in-label">
+            Please check your email for the code.
+          </label>
         </FormGroup>
         <LoaderButton
           block
@@ -111,9 +117,14 @@ export default class Signup extends Component {
   renderForm() {
     return (
       <form onSubmit={this.handleSubmit}>
+          <div className="sign-in">Sign Up</div>
         <FormGroup controlId="email" bsSize="large">
-          <label>Email</label>
+          <label className="sign-in-label">Email</label>
           <FormControl
+            style={{
+              fontSize: "15px",
+              fontFamily: "Poppins"
+            }}
             autoFocus
             type="email"
             value={this.state.email}
@@ -121,24 +132,36 @@ export default class Signup extends Component {
           />
         </FormGroup>
         <FormGroup controlId="password" bsSize="large">
-          <label>Password</label>
+          <label className="sign-in-label">Password</label>
           <FormControl
+            style={{
+              fontSize: "15px",
+              fontFamily: "Poppins"
+            }}
             value={this.state.password}
             onChange={this.handleChange}
             type="password"
           />
         </FormGroup>
         <FormGroup controlId="confirmPassword" bsSize="large">
-          <label>Confirm Password</label>
+          <label className="sign-in-label">Confirm Password</label>
           <FormControl
+            style={{
+              fontSize: "15px",
+              fontFamily: "Poppins"
+            }}
             value={this.state.confirmPassword}
             onChange={this.handleChange}
             type="password"
           />
         </FormGroup>
         <FormGroup controlId="name" bsSize="large">
-          <label>Name</label>
+          <label className="sign-in-label">Name</label>
           <FormControl
+            style={{
+              fontSize: "15px",
+              fontFamily: "Poppins"
+            }}
             value={this.state.name}
             onChange={this.handleChange}
             type="name"
@@ -150,8 +173,9 @@ export default class Signup extends Component {
           disabled={!this.validateForm()}
           type="submit"
           isLoading={this.state.isLoading}
-          text="Signup"
-          loadingText="Signing up…"
+          text="Sign Up"
+          className="sign-in-button"
+          loadingText="Logging in…"
         />
       </form>
     );

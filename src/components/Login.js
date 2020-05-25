@@ -220,7 +220,13 @@ export default class Login extends Component {
           />
         </div>
         <div className="sign-in-member">
-          Not a member yet ? <span style={{ color: "#ffb023" }}> Sign Up</span>
+          Not a member yet ?{" "}
+          <span onClick={() => {
+             this.props.history.push("/register");
+          }} style={{ color: "#ffb023" }}>
+            {" "}
+            Sign Up
+          </span>
         </div>
         <Button
           block
