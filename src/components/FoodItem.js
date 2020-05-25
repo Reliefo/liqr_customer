@@ -256,14 +256,15 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
                         {Object.values(item[1]).map((item1, idx) => {
                           return (
                             <div key={idx}>
-                              <label for={item1.option_name}>
-                                <Form.Check
+                              <label>
+                                <input
                                   id={idx}
-                                  onClick={() => selectOption(foodItem, item1)}
                                   type="radio"
-                                  label={item1.option_name}
+                                  onClick={() => selectOption(foodItem, item1)}
+                                  value={item1.option_name}
                                   name="optionsRadio"
                                 />
+                                &nbsp;&nbsp;{item1.option_name}
                               </label>
                             </div>
                           );
@@ -279,12 +280,16 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
                         {Object.values(item[1]).map((item1, idx) => {
                           return (
                             <div key={idx}>
-                              <Form.Check
-                                onClick={() => selectChoice(foodItem, item1)}
-                                type="radio"
-                                label={item1}
-                                name="test1"
-                              />
+                              <label>
+                                <input
+                                  id={idx}
+                                  type="radio"
+                                  onClick={() => selectChoice(foodItem, item1)}
+                                  value={item1}
+                                  name="choiceRadio"
+                                />
+                                &nbsp;&nbsp;{item1}
+                              </label>
                             </div>
                           );
                         })}
@@ -309,12 +314,16 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
                         {Object.values(item[1]).map((item1, idx) => {
                           return (
                             <div key={idx}>
-                              <Form.Check
-                                onClick={() => selectOption(foodItem, item1)}
-                                type="radio"
-                                label={item1.option_name}
-                                name="test"
-                              />
+                              <label>
+                                <input
+                                  id={idx}
+                                  type="radio"
+                                  onClick={() => selectOption(foodItem, item1)}
+                                  value={item1.option_name}
+                                  name="test"
+                                />
+                                &nbsp;&nbsp;{item1.option_name}
+                              </label>
                             </div>
                           );
                         })}
@@ -329,12 +338,16 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
                         {Object.values(item[1]).map((item1, idx) => {
                           return (
                             <div key={idx}>
-                              <Form.Check
-                                onClick={() => selectChoice(foodItem, item1)}
-                                type="radio"
-                                label={item1}
-                                name="test1"
-                              />
+                              <label>
+                                <input
+                                  id={idx}
+                                  type="radio"
+                                  onClick={() => selectChoice(foodItem, item1)}
+                                  label={item1}
+                                  name="test1"
+                                />
+                                &nbsp;&nbsp;{item1}
+                              </label>
                             </div>
                           );
                         })}
