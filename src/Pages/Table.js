@@ -199,6 +199,7 @@ const Table = props => {
                       {item.orders.map(item2 => {
                         let placedBy = [];
                         return item2.food_list.map((item3, index) => {
+                          console.log('NIDS--->', item3.food_options)
                           let flag = false;
                           if (!placedBy.includes(item2.placed_by.id)) {
                             placedBy.push(item2.placed_by.id);
@@ -244,9 +245,9 @@ const Table = props => {
                                       fontSize: "12px"
                                     }}
                                   >
-                                    {item3.food_options.options[0].option_name}
+                                    {item3.food_options.options.length > 0 ? item3.food_options.options[0].option_name: ''}
                                     {item3.food_options.choices[0] &&
-                                    item3.food_options.options[0].option_name
+                                    item3.food_options.options.length > 0
                                       ? "," + item3.food_options.choices[0]
                                       : ""}
                                   </div>
