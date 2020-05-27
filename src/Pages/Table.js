@@ -7,6 +7,8 @@ import SearchFoodItems from "components/SearchFoodItems.js";
 import { ReactComponent as FoodSVG } from "assets/food.svg";
 import { ReactComponent as FlatSVG } from "assets/Flat.svg";
 import { ReactComponent as UiSVG } from "assets/ui.svg";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import * as TYPES from "Store/actionTypes.js";
 
@@ -36,6 +38,21 @@ const Table = props => {
       dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
     });
 
+    props.socket.off("billing").on("billing", msg => {
+      const ms = JSON.parse(msg);
+      const { message } = ms;
+
+      toast.info(message, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined
+      });
+    });
+
     const body = {
       user_id: localStorage.getItem("user_id"),
       restaurant_id: localStorage.getItem("restaurant_id")
@@ -60,7 +77,7 @@ const Table = props => {
       table_bill: isTable
     };
 
-    props.socket.emit("fetch_bill", JSON.stringify(billBody));
+    props.socket.emit("fetch_the_bill", JSON.stringify(billBody));
   };
 
   const isEmpty = () => {
@@ -163,6 +180,18 @@ const Table = props => {
                 className="empty-orders"
               />
             </div>
+            <ToastContainer
+              toastClassName="dark-toast"
+              position="top-center"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+            />
             {orderSuccess.map((item, idx) => {
               let orderTime = item.timestamp.split(" ");
 
@@ -199,7 +228,6 @@ const Table = props => {
                       {item.orders.map(item2 => {
                         let placedBy = [];
                         return item2.food_list.map((item3, index) => {
-                          console.log('NIDS--->', item3.food_options)
                           let flag = false;
                           if (!placedBy.includes(item2.placed_by.id)) {
                             placedBy.push(item2.placed_by.id);
@@ -245,7 +273,10 @@ const Table = props => {
                                       fontSize: "12px"
                                     }}
                                   >
-                                    {item3.food_options.options.length > 0 ? item3.food_options.options[0].option_name: ''}
+                                    {item3.food_options.options.length > 0
+                                      ? item3.food_options.options[0]
+                                          .option_name
+                                      : ""}
                                     {item3.food_options.choices[0] &&
                                     item3.food_options.options.length > 0
                                       ? "," + item3.food_options.choices[0]
