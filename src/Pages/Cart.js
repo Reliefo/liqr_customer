@@ -25,11 +25,11 @@ const Cart = props => {
   } = React.useContext(StoreContext);
 
   let orderId = [];
-
+  
   if (tableOrders && Object.keys(tableOrders).length > 0) {
     Object.values(tableOrders.orders).forEach(item => {
-      if (!orderId.includes(item.placed_by.$oid)) {
-        orderId.push(item.placed_by.$oid);
+   if (item.food_list.length > 0 && !orderId.includes(item.placed_by.name)) {
+        orderId.push(item.placed_by.name);
       }
     });
   }
@@ -54,6 +54,7 @@ const Cart = props => {
   props.socket.off("table_cart_orders").on("table_cart_orders", msg => {
     if (msg !== undefined) {
       dispatch({ type: TYPES.UPDATE_TABLE_ORDER, payload: JSON.parse(msg) });
+      orderId = []
     }
   });
 
@@ -61,25 +62,17 @@ const Cart = props => {
     dispatch({ type: TYPES.DEL_ITEM, payload: item });
   };
 
-  const DeleteItemHndlrTableCart = item => {
-    dispatch({ type: TYPES.DEL_TABLE_ITEM, payload: item });
+  const DeleteItemHndlrTableCart = (item, orderList) => {
+    // dispatch({ type: TYPES.DEL_TABLE_ITEM, payload: item });
 
-    // const body = {
-    //   table: localStorage.getItem("table_id"),
-    //   orders: [
-    //     {
-    //       placed_by: localStorage.getItem("user_id"),
-    //       food_list: tableOrders.orders.food_list
-    //     }
-    //   ]
-    // };
-    // props.socket.emit("push_to_table_cart", JSON.stringify(body));
+    const body = {
+      table_id: localStorage.getItem("table_id"),
+      order_id : orderList._id.$oid,
+      food_id : item.food_id
+    }
+  
+    props.socket.emit("remove_table_cart", JSON.stringify(body));
 
-    // props.socket.off("table_details").on("table_details", msg => {
-    //   const data = JSON.parse(msg);
-
-    //   dispatch({ type: TYPES.UPDATE_TABLE_ORDER, payload: data.table_cart });
-    // });
   };
 
   const pushToCart = () => {
@@ -93,6 +86,7 @@ const Cart = props => {
     props.socket.off("new_orders").on("new_orders", msg => {
       dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
       dispatch({ type: TYPES.RESET_CART });
+      props.history.push('/table');
       const bodyData = {
         user_id: localStorage.getItem("user_id"),
         restaurant_id: localStorage.getItem("restaurant_id")
@@ -165,6 +159,7 @@ const Cart = props => {
       });
       dispatch({ type: TYPES.RESET_CART });
       dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
+      props.history.push("/table")
     });
   };
 
@@ -295,9 +290,10 @@ const Cart = props => {
         return Object.entries(tableOrders).map((item2, idx) => {
           if (item2[0] === "orders") {
             return item2[1].map((order_list, index) => {
-              if (order_list.placed_by.$oid === id) {
+              if (order_list.placed_by.name === id) {
                 return (
                   <React.Fragment key={`table-${index}`}>
+                    {id}
                     <RBTable striped bordered hover>
                       <thead className="table-thead">
                         <tr>
@@ -317,7 +313,8 @@ const Cart = props => {
                               <td
                                 onClick={DeleteItemHndlrTableCart.bind(
                                   this,
-                                  food
+                                  food,
+                                  order_list
                                 )}
                               >
                                 <CloseSVG />
