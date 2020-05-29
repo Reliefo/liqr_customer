@@ -261,8 +261,8 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
                             }
                           });
 
-                          if(count === 0){
-                            if(idx === 0) {
+                          if (count === 0) {
+                            if (idx === 0) {
                               item1.checked = true;
                               selectOption(foodItem, item1);
                             }
@@ -306,13 +306,37 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
                         <br />
                         Choices
                         {Object.values(item[1]).map((item1, idx) => {
+                          let selectedChoice = foodItem.indexSelected;
+                          if (selectedChoice === undefined) {
+                            selectedChoice = 0;
+                            foodItem.indexSelected = 0;
+                            foodItem.choiceSelected = true;
+                            selectChoice(foodItem, item1);
+                          }
+
+                         
+
+                          const checkChoiceIndexValue = index => {
+                            selectedChoice = index;
+                            foodItem.indexSelected = index;
+
+                            Object.values(item[1]).forEach(
+                              (val, checkIndex) => {
+                                if (index === checkIndex) {
+                                  selectChoice(foodItem, val);
+                                }
+                              }
+                            );
+                          };
+                          
                           return (
                             <div key={idx}>
                               <label>
                                 <input
                                   id={idx}
                                   type="radio"
-                                  onClick={() => selectChoice(foodItem, item1)}
+                                  checked={idx === selectedChoice}
+                                  onClick={() => checkChoiceIndexValue(idx)}
                                   value={item1}
                                   name="choiceRadio"
                                 />
