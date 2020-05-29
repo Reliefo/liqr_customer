@@ -143,7 +143,6 @@ const Home = props => {
     props.socket.off("user_details").on("user_details", msg => {
       console.log("USER DETAILS--->", JSON.parse(msg));
       const data = JSON.parse(msg);
-      console.log("NIDS--->", data);
       dispatch({
         type: TYPES.SET_DINE_HISTORY,
         payload: data.dine_in_history || []
@@ -151,6 +150,7 @@ const Home = props => {
     });
 
     props.socket.off("table_details").on("table_details", msg => {
+      
       const data = JSON.parse(msg);
       dispatch({
         type: TYPES.UPDATE_TABLE_USERS,

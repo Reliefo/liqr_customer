@@ -25,10 +25,10 @@ const Cart = props => {
   } = React.useContext(StoreContext);
 
   let orderId = [];
-  
+
   if (tableOrders && Object.keys(tableOrders).length > 0) {
     Object.values(tableOrders.orders).forEach(item => {
-   if (item.food_list.length > 0 && !orderId.includes(item.placed_by.name)) {
+      if (item.food_list.length > 0 && !orderId.includes(item.placed_by.name)) {
         orderId.push(item.placed_by.name);
       }
     });
@@ -54,7 +54,7 @@ const Cart = props => {
   props.socket.off("table_cart_orders").on("table_cart_orders", msg => {
     if (msg !== undefined) {
       dispatch({ type: TYPES.UPDATE_TABLE_ORDER, payload: JSON.parse(msg) });
-      orderId = []
+      orderId = [];
     }
   });
 
@@ -67,12 +67,11 @@ const Cart = props => {
 
     const body = {
       table_id: localStorage.getItem("table_id"),
-      order_id : orderList._id.$oid,
-      food_id : item.food_id
-    }
-  
-    props.socket.emit("remove_table_cart", JSON.stringify(body));
+      order_id: orderList._id.$oid,
+      food_id: item.food_id
+    };
 
+    props.socket.emit("remove_table_cart", JSON.stringify(body));
   };
 
   const pushToCart = () => {
@@ -84,9 +83,13 @@ const Cart = props => {
     props.socket.emit("place_table_order", JSON.stringify(body));
     dispatch({ type: TYPES.UPDATE_TABLE_ORDER, payload: [] });
     props.socket.off("new_orders").on("new_orders", msg => {
+      dispatch({
+        type: TYPES.UPDATE_TABLE_ORDER,
+        payload: []
+      });
       dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
       dispatch({ type: TYPES.RESET_CART });
-      props.history.push('/table');
+      props.history.push("/table");
       const bodyData = {
         user_id: localStorage.getItem("user_id"),
         restaurant_id: localStorage.getItem("restaurant_id")
@@ -136,7 +139,6 @@ const Cart = props => {
       delete item._id;
     });
 
-
     const body = {
       table: localStorage.getItem("table_id"),
       orders: [
@@ -160,7 +162,7 @@ const Cart = props => {
       });
       dispatch({ type: TYPES.RESET_CART });
       dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
-      props.history.push("/table")
+      props.history.push("/table");
     });
   };
 
