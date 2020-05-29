@@ -17,47 +17,10 @@ export default class Login extends Component {
     };
   }
 
+
   componentDidMount() {
-    if (localStorage.getItem("jwt")) {
-      let jwt = "";
-      let parm = window.location.href;
-      parm = parm.split("=");
-      let table_id =
-        parm[1] !== undefined ? parm[1] : localStorage.getItem("table_id");
-      const uniqueId = `${uuidv4().substring(0, 15)}`;
-      let bodyFormData = new FormData();
-      bodyFormData.set(
-        "unique_id",
-        localStorage.getItem("uniqueId") !== null
-          ? localStorage.getItem("uniqueId")
-          : uniqueId
-      );
-      bodyFormData.set("password", "wask");
-      bodyFormData.set("email_id", "dud");
-      bodyFormData.set(
-        "table_id",
-        parm[1] !== undefined ? parm[1] : localStorage.getItem("table_id")
-      );
-      axios({
-        method: "post",
-        url: "https://liqr.cc/user_login",
-        data: bodyFormData
-      })
-        .then(response => {
-          const { data } = response;
-          localStorage.setItem("jwt", data.jwt);
-          localStorage.setItem("table_id", table_id);
-          localStorage.setItem("restaurant_id", data.restaurant_id);
-          localStorage.setItem("refreshToken", data.refresh_token);
-          localStorage.setItem("user_id", data.user_id);
-          localStorage.setItem("name", data.name);
-          ReactDOM.render(<AppWrapper />, document.getElementById("root"));
-          this.props.history.push("/Home");
-        })
-        .catch(function(response) {
-          //handle error
-          console.log(response);
-        });
+    if (localStorage.getItem("registeredUser") === "true") {
+      this.props.history.push("/home");
     }
   }
   validateForm() {
@@ -101,6 +64,7 @@ export default class Login extends Component {
         localStorage.setItem("jwt", data.jwt);
         localStorage.setItem("table_id", table_id);
         localStorage.setItem("restaurant_id", data.restaurant_id);
+        localStorage.setItem("registeredUser", false);
         localStorage.setItem("refreshToken", data.refresh_token);
         localStorage.setItem("user_id", data.user_id);
         localStorage.setItem("name", data.name);
@@ -135,6 +99,7 @@ export default class Login extends Component {
       const { data } = response;
       localStorage.setItem("jwt", data.jwt);
       localStorage.setItem("table_id", table_id);
+      localStorage.setItem("registeredUser", true);
       localStorage.setItem("restaurant_id", data.restaurant_id);
       localStorage.setItem("refreshToken", data.refresh_token);
       localStorage.setItem("user_id", data.user_id);
@@ -221,9 +186,12 @@ export default class Login extends Component {
         </div>
         <div className="sign-in-member">
           Not a member yet ?{" "}
-          <span onClick={() => {
-             this.props.history.push("/register");
-          }} style={{ color: "#ffb023" }}>
+          <span
+            onClick={() => {
+              this.props.history.push("/register");
+            }}
+            style={{ color: "#ffb023" }}
+          >
             {" "}
             Sign Up
           </span>
