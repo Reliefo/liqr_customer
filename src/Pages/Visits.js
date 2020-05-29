@@ -111,7 +111,7 @@ const Visits = props => {
                           style={{
                             width: "100%",
                             padding: "2%",
-                            minHeight: "50px"
+                            minHeight: "70px"
                           }}
                         >
                           <p
