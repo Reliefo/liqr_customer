@@ -16,10 +16,12 @@ const BillingInformation = props => {
     state: {
       rawData: { food_menu = [] },
       searchClicked,
-      orderSuccess,
-      dineHistory
+      restName
     }
   } = React.useContext(StoreContext);
+
+  let billing = [];
+  billing.push(props.location.state.data);
 
   React.useEffect(() => {
     dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: "" } });
@@ -31,8 +33,6 @@ const BillingInformation = props => {
     });
     dispatch({ type: TYPES.SET_NAV, payload: "Order" });
   }, []);
-
-  console.log("NIDS--->", orderSuccess);
 
   return (
     <>
@@ -47,12 +47,7 @@ const BillingInformation = props => {
           style={{ backgroundColor: "white" }}
         >
           <div className="order-status-styling">
-            {orderSuccess.map((item, idx) => {
-              let sum = 0;
-              let orderTime = item.timestamp.split(" ");
-              let orderDate = orderTime[0];
-              orderTime = orderTime[1].split(".");
-
+            {billing.map((item, idx) => {
               return (
                 <div style={{ paddingBottom: "3%" }}>
                   <Card
@@ -70,14 +65,106 @@ const BillingInformation = props => {
                         <p
                           className="table-name-card"
                           style={{
+                            float: "left",
+                            textTransform: "capitalize",
+                            fontWeight: 700
+                          }}
+                        >
+                          {restName}
+                        </p>
+                        <p
+                          className="table-name-card"
+                          style={{
                             paddingRight: "5%",
                             float: "right",
                             textTransform: "capitalize"
                           }}
+                        ></p>
+                      </div>
+                      <div
+                        style={{
+                          width: "100%",
+                          padding: "2%",
+                          minHeight: "70px"
+                        }}
+                      >
+                        <p
+                          className="table-name-card"
+                          style={{
+                            float: "left",
+                            textTransform: "capitalize",
+                            fontWeight: 700
+                          }}
                         >
-                          {orderDate}
+                          Order Total <br />₹{" "}
+                          {item.bill_structure["Total Amount"]}
                         </p>
                       </div>
+                      {item.table_orders.map(item2 => {
+                        return item2.orders.map(item4 => {
+                          let placedBy = [];
+                          return item4.food_list.map((item3, index) => {
+                            let flag = false;
+                            if (!placedBy.includes(item4.placed_by.id)) {
+                              placedBy.push(item4.placed_by.id);
+                              flag = true;
+                            } else {
+                              flag = false;
+                            }
+                            return (
+                              <div>
+                                {flag === true ? (
+                                  <Card.Title
+                                    style={{
+                                      padding: "1.25rem",
+                                      fontSize: "14px"
+                                    }}
+                                    className="card-title-name"
+                                  >
+                                    {item4.placed_by.name}
+                                  </Card.Title>
+                                ) : (
+                                  ""
+                                )}
+                                <Card.Body style={{ padding: "2%" }}>
+                                  <div>
+                                    <span className="item-status">
+                                      {item3.name} x {item3.quantity}
+                                    </span>
+                                  </div>
+                                  {item3.food_options ? (
+                                    <div
+                                      style={{
+                                        fontFamily: "Poppins",
+                                        fontSize: "12px"
+                                      }}
+                                    >
+                                      {
+                                        item3.food_options.options[0]
+                                          .option_name
+                                      }
+                                      {item3.food_options.choices[0] &&
+                                      item3.food_options.options[0].option_name
+                                        ? "," + item3.food_options.choices[0]
+                                        : ""}
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
+                                  {/* {item3.food_options ? 
+                                <div style={{
+                                  fontFamily: 'Poppins',
+                                  fontSize: '12px'
+                                }}>
+                                 {item3.food_options.choices[0].option_name}
+                                </div>
+                                : ''} */}
+                                </Card.Body>
+                              </div>
+                            );
+                          });
+                        });
+                      })}
                     </div>
                   </Card>
                 </div>

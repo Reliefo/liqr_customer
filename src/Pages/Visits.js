@@ -29,7 +29,7 @@ const Visits = props => {
       type: TYPES.SET_GENERAL_DATA,
       payload: { searchClicked: false }
     });
-    dispatch({ type: TYPES.SET_NAV, payload: "Order" });
+    // dispatch({ type: TYPES.SET_NAV, payload: "Order" });
 
     props.socket.off("new_orders").on("new_orders", msg => {
       dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
