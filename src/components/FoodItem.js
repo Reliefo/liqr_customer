@@ -1,5 +1,6 @@
 import React from "react";
 import PlusWithAddRemove from "components/PlusWithAddRemove";
+import AddRemoveItem from "components/AddRemoveItem.js";
 import { Card, Accordion, Modal, Button, Form } from "react-bootstrap";
 import sampleImage from "../assets/300.png";
 import * as TYPES from "Store/actionTypes.js";
@@ -160,11 +161,12 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
     <Card id={foodItem.name} className="category-card food-item">
       <div>
         <div>
-          <img style={
-            from === "home"
-              ? { height: '100%' }
-              : { height: '100px' }
-          } className="card-image" src={sampleImage} alt="sample" />
+          <img
+            style={from === "home" ? { height: "100%" } : { height: "100px" }}
+            className="card-image"
+            src={sampleImage}
+            alt="sample"
+          />
         </div>
         <div
           style={
@@ -189,6 +191,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
             <p
               style={{
                 fontSize: ".9rem",
+                width: "30%",
                 textDecoration: "underline"
               }}
               onClick={() => selectDetails(foodItem, index, subsIndex)}
@@ -206,6 +209,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
       </Card.Body> */}
       {foodItem.foodOptions && foodItem.foodOptions === true ? (
         <Modal
+          style={{zIndex: 10000}}
           size="lg"
           aria-labelledby="contained-modal-title-vcenter"
           centered
@@ -218,7 +222,8 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
               <div className="options-modal">{foodItem.description}</div>
             </Modal.Title>
           </Modal.Header>
-          <Modal.Body>
+          
+          <Modal.Body style={{'overflow-y': 'auto'}}>
             {cart.length
               ? cart.map(item => {
                   if (foodItem._id.$oid === item._id.$oid) {
@@ -245,11 +250,17 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
                             {item.choices ? "Choice:" : ""} <br />
                             {item.choices ? item.choices : ""} <br />
                           </p>
-                          <PlusWithAddRemove
+                          <AddRemoveItem
+                            className="trial-fooditem"
+                            count={item.quantity}
+                            id={item}
+                            allData={item}
+                          />
+                          {/* <PlusWithAddRemove
                             item={foodItem}
                             idx={index}
                             subs={subsIndex}
-                          />
+                          /> */}
                           <br />
                         </div>
                       </div>
@@ -265,9 +276,11 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
                       <div className="radio-div" key={index}>
                         {Object.values(item[1]).map((item1, idx) => {
                           let count = 0;
+
                           Object.values(item[1]).forEach((val, checkIndex) => {
                             if (val.checked === true) {
                               count++;
+                              item1.indexSelected = checkIndex;
                             }
                           });
 
@@ -276,6 +289,11 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
                               item1.checked = true;
                               selectOption(foodItem, item1);
                             }
+                          }
+
+                          if (idx === item1.indexSelected) {
+                            item1.checked = true;
+                            selectOption(foodItem, item1);
                           }
 
                           const checkIndexValue = index => {
