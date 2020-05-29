@@ -136,6 +136,7 @@ const Cart = props => {
       delete item._id;
     });
 
+
     const body = {
       table: localStorage.getItem("table_id"),
       orders: [

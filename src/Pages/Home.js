@@ -75,13 +75,13 @@ const Home = props => {
     dots: false,
     infinite: false,
     speed: 500,
-    slidesToShow: 2.5,
-    slidesToScroll: 1,
+    rows: 1,
+    slidesPerRow: 2,
     responsive: [
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 2.5,
+          slidesToShow: 2,
           slidesToScroll: 1,
           infinite: false,
           dots: false
@@ -90,15 +90,17 @@ const Home = props => {
       {
         breakpoint: 600,
         settings: {
-          slidesToShow: 2.5,
-          slidesToScroll: 1
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          infinite: true
         }
       },
       {
         breakpoint: 480,
         settings: {
-          slidesToShow: 2.5,
-          slidesToScroll: 1
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          infinite: true
         }
       }
     ]
@@ -141,6 +143,7 @@ const Home = props => {
     props.socket.off("user_details").on("user_details", msg => {
       console.log("USER DETAILS--->", JSON.parse(msg));
       const data = JSON.parse(msg);
+      console.log("NIDS--->", data);
       dispatch({
         type: TYPES.SET_DINE_HISTORY,
         payload: data.dine_in_history || []

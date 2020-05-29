@@ -9,6 +9,7 @@ import SignUp from "./components/SignUp";
 import Cart from "./Pages/Cart";
 import Table from "./Pages/Table";
 import Visits from "./Pages/Visits";
+import BillingInformation from "./Pages/BillingInformation";
 import DineHistory from "./Pages/dineHistory";
 import PreviousVisits from "./Pages/PreviousVisits";
 import "./styles.css";
@@ -48,6 +49,7 @@ export default function AppWrapper() {
           />
           <Route path="/cart" render={props => <Cart {...props} />} exact />
           <Route path="/visits" render={props => <Visits {...props} />} exact />
+          <Route path="/billing" render={props => <BillingInformation {...props} />} exact />
           <Route path="/table" render={props => <Table {...props} />} />
           <Route path="/subMenu" render={props => <SubMenu {...props} />} />
           <Route
