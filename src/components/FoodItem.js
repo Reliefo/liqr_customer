@@ -5,7 +5,7 @@ import sampleImage from "../assets/300.png";
 import * as TYPES from "Store/actionTypes.js";
 import { StoreContext } from "Store";
 
-const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
+const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
   const {
     dispatch,
     state: {
@@ -160,9 +160,19 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
     <Card id={foodItem.name} className="category-card food-item">
       <div>
         <div>
-          <img className="card-image" src={sampleImage} alt="sample" />
+          <img style={
+            from === "home"
+              ? { height: '100%' }
+              : { height: '100px' }
+          } className="card-image" src={sampleImage} alt="sample" />
         </div>
-        <div style={{ lineHeight: "210%", marginLeft: "2%", width: "80%" }}>
+        <div
+          style={
+            from === "home"
+              ? { lineHeight: "155%", marginLeft: "2%", width: "80%" }
+              : { lineHeight: "210%", marginLeft: "2%", width: "80%" }
+          }
+        >
           <p className="item-name">{foodItem.name}</p>
           <div className="options-modal">{foodItem.description}</div>
           <div>
@@ -314,8 +324,6 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
                             selectChoice(foodItem, item1);
                           }
 
-                         
-
                           const checkChoiceIndexValue = index => {
                             selectedChoice = index;
                             foodItem.indexSelected = index;
@@ -328,7 +336,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs }) => {
                               }
                             );
                           };
-                          
+
                           return (
                             <div key={idx}>
                               <label>

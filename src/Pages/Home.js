@@ -379,6 +379,7 @@ const Home = props => {
                             return (
                               <div id="card-home-screen">
                                 <FoodItem
+                                  from="home"
                                   stateData={activeData}
                                   foodItem={list}
                                   subs={food}
