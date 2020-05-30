@@ -40,6 +40,10 @@ const Table = props => {
 
     props.socket.off("billing").on("billing", msg => {
       const ms = JSON.parse(msg);
+      const { order_history } = ms;
+      props.history.push("/billing", {
+        data: order_history
+      })
       const { message } = ms;
 
       toast.info(message, {

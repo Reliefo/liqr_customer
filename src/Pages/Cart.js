@@ -51,6 +51,18 @@ const Cart = props => {
     dispatch({ type: TYPES.SET_NAV, payload: "Cart" });
   }, []);
 
+  props.socket.off("new_orders").on("new_orders", msg => {
+    const data = JSON.parse(msg);
+    if (data.personal_order === undefined) {
+      dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
+      dispatch({
+        type: TYPES.UPDATE_TABLE_ORDER,
+        payload: []
+      });
+      props.history.push("/table");
+    }
+  });
+
   props.socket.off("table_cart_orders").on("table_cart_orders", msg => {
     if (msg !== undefined) {
       dispatch({ type: TYPES.UPDATE_TABLE_ORDER, payload: JSON.parse(msg) });
@@ -83,12 +95,10 @@ const Cart = props => {
     props.socket.emit("place_table_order", JSON.stringify(body));
     dispatch({ type: TYPES.UPDATE_TABLE_ORDER, payload: [] });
     props.socket.off("new_orders").on("new_orders", msg => {
-      dispatch({
-        type: TYPES.UPDATE_TABLE_ORDER,
-        payload: []
-      });
       dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
+      if (JSON.parse(msg).personal_order === undefined) {
       dispatch({ type: TYPES.RESET_CART });
+      }
       props.history.push("/table");
       const bodyData = {
         user_id: localStorage.getItem("user_id"),

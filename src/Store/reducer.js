@@ -73,15 +73,13 @@ function reducer(state, action) {
             item._id.$oid === payload._id.$oid &&
             item.options.option_name === payload.options.option_name
         );
-      } 
-      else if(payload.options === undefined && payload.choices){
+      } else if (payload.options === undefined && payload.choices) {
         idx = st.cart.findIndex(
           item =>
             item._id.$oid === payload._id.$oid &&
             item.choices === payload.choices
         );
-      }
-      else {
+      } else {
         idx = st.cart.findIndex(item => item._id.$oid === payload._id.$oid);
       }
       if (idx === -1) {
@@ -92,10 +90,12 @@ function reducer(state, action) {
       } else {
         st.cart = st.cart.map(item => {
           if (
-            item._id.$oid === payload._id.$oid &&
-            item.options ? item.options.option_name : item.choices === payload.options ? payload.option_name : payload.choices
-          )
+            (item._id.$oid === payload._id.$oid &&
+              item.options.option_name === payload.options.option_name) ||
+            (item.choices !== undefined && item.choices === payload.choices)
+          ) {
             ++item.quantity;
+          }
           return item;
         });
       }
@@ -110,8 +110,7 @@ function reducer(state, action) {
             ++item.quantity;
           return item;
         });
-      } 
-      else if (payload.options === undefined && payload.choices) {
+      } else if (payload.options === undefined && payload.choices) {
         st.cart = st.cart.map(item => {
           if (
             item._id.$oid === payload._id.$oid &&
@@ -120,8 +119,7 @@ function reducer(state, action) {
             ++item.quantity;
           return item;
         });
-      }
-      else {
+      } else {
         st.cart = st.cart.map(item => {
           if (item._id.$oid === payload._id.$oid) ++item.quantity;
           return item;
@@ -139,8 +137,7 @@ function reducer(state, action) {
             --item.quantity;
           return item;
         });
-      }
-      else if (payload.options === undefined && payload.choices) {
+      } else if (payload.options === undefined && payload.choices) {
         st.cart = st.cart.map(item => {
           if (
             item._id.$oid === payload._id.$oid &&
@@ -149,9 +146,7 @@ function reducer(state, action) {
             --item.quantity;
           return item;
         });
-      }
-      
-      else {
+      } else {
         st.cart = st.cart.map(item => {
           if (item._id.$oid === payload._id.$oid) --item.quantity;
           return item;
@@ -177,8 +172,7 @@ function reducer(state, action) {
             item._id.$oid === payload._id.$oid &&
             item.options.option_name === payload.options.option_name
         );
-      } 
-      else if(payload.options === undefined && payload.choices) {
+      } else if (payload.options === undefined && payload.choices) {
         st.activeData.forEach(data => {
           data.food_list.forEach(item => {
             if (item.name === payload.name) {
@@ -190,36 +184,34 @@ function reducer(state, action) {
               delete item.foodOptions;
             }
           });
-          
         });
-      }
-      else {
+      } else {
         idx = st.cart.findIndex(item => item._id.$oid === payload._id.$oid);
       }
       if (idx !== -1) st.cart.splice(idx, 1);
 
       return st;
 
-      case TYPES.DEL_TABLE_ITEM:
-        
-        idx = st.tableOrders.orders.findIndex(item => item.food_list.map(item1 => item1.food_id === payload.food_id));
-        
-        if (idx !== -1) st.tableOrders.orders.splice(idx, 1);
-  
-        return st;
+    case TYPES.DEL_TABLE_ITEM:
+      idx = st.tableOrders.orders.findIndex(item =>
+        item.food_list.map(item1 => item1.food_id === payload.food_id)
+      );
 
-    case TYPES.UPDATE_REST_ID: 
-    st.restId = payload;
-    return st;   
+      if (idx !== -1) st.tableOrders.orders.splice(idx, 1);
+
+      return st;
+
+    case TYPES.UPDATE_REST_ID:
+      st.restId = payload;
+      return st;
 
     case TYPES.UPDATE_MENU_CLICK:
-    st.menuClick = payload;
-    return st;
-
+      st.menuClick = payload;
+      return st;
 
     case TYPES.UPDATE_FAB_CLICK:
-    st.fabClick = payload;
-    return st;
+      st.fabClick = payload;
+      return st;
 
     case TYPES.SET_NAV:
       st.activeNav = payload;
