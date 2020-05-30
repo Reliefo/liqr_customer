@@ -8,6 +8,8 @@ import {
   Button,
   Form
 } from "react-bootstrap";
+import ReactDOM from "react-dom";
+import axios from "axios";
 import sampleImage from "../assets/300.png";
 import sample from "../assets/sample.png";
 import PlusWithAddRemove from "components/PlusWithAddRemove";
@@ -21,6 +23,7 @@ import SocketContext from "../socket-context";
 import Slider from "react-slick";
 import { StoreContext } from "Store";
 import * as TYPES from "Store/actionTypes.js";
+import AppWrapper from "../App";
 import FoodItem from "components/FoodItem";
 
 const Home = props => {
@@ -133,6 +136,7 @@ const Home = props => {
     });
     console.log(props.socket);
 
+
     const body = {
       user_id: localStorage.getItem("user_id"),
       restaurant_id: localStorage.getItem("restaurant_id")
@@ -150,7 +154,6 @@ const Home = props => {
     });
 
     props.socket.off("table_details").on("table_details", msg => {
-      
       const data = JSON.parse(msg);
       dispatch({
         type: TYPES.UPDATE_TABLE_USERS,
@@ -210,7 +213,7 @@ const Home = props => {
     props.socket.off("home_screen_lists").on("home_screen_lists", msg => {
       dispatch({ type: TYPES.UPDATE_HOME_ITEMS, payload: JSON.parse(msg) });
     });
-  }, []);
+  }, [dispatch, props.socket]);
 
   const [show, setShow] = React.useState(false);
   const selectOption = (foodItem, item) => {

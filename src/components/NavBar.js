@@ -81,6 +81,14 @@ export default props => {
           <hr />
 
           <a className="menu-item" href="/menu">
+          {" "}
+            Name: {localStorage.getItem('name')}
+          </a>
+
+          <hr />
+          
+
+          <a className="menu-item" href="/menu">
             <img className="navbar-menu-icon" src={tableChange} alt="Login" />{" "}
             Table Change
           </a>
