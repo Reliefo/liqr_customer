@@ -49,6 +49,11 @@ export default function AppWrapper() {
   }
 
 
+  if(localStorage.getItem('table_id') === undefined){
+     window.location.href = "/"
+  }
+
+
   return (
     <SocketContext.Provider value={socket}>
       <BrowserRouter>
