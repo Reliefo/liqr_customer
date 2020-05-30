@@ -55,6 +55,8 @@ const Table = props => {
         draggable: true,
         progress: undefined
       });
+
+      
     });
 
     const body = {

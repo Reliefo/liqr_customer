@@ -61,6 +61,10 @@ const Cart = props => {
       });
       props.history.push("/table");
     }
+    else {
+      dispatch({ type: TYPES.RESET_CART });
+    }
+
   });
 
   props.socket.off("table_cart_orders").on("table_cart_orders", msg => {
@@ -97,7 +101,9 @@ const Cart = props => {
     props.socket.off("new_orders").on("new_orders", msg => {
       dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
       if (JSON.parse(msg).personal_order === undefined) {
-      dispatch({ type: TYPES.RESET_CART });
+      }
+      else {
+        dispatch({ type: TYPES.RESET_CART });
       }
       props.history.push("/table");
       const bodyData = {
@@ -170,8 +176,8 @@ const Cart = props => {
         dispatch({ type: TYPES.ADD_DATA, payload: resp });
         dispatch({ type: TYPES.ADD_SELECT_DATA, payload: resp.food_menu });
       });
-      dispatch({ type: TYPES.RESET_CART });
       dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
+      dispatch({ type: TYPES.RESET_CART });
       props.history.push("/table");
     });
   };

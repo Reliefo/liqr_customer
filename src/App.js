@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./App.scss";
 import { BrowserRouter, Route } from "react-router-dom";
+import axios from "axios";
 import Home from "./Pages/Home";
 import SubMenu from "./Pages/SubMenu";
 import Menu from "./Pages/Menu";
@@ -24,6 +25,7 @@ import io from "socket.io-client";
 
 export default function AppWrapper() {
   const socket = io("https://liqr.cc/reliefo", {
+    'force new connection': false,
     transportOptions: {
       polling: {
         extraHeaders: {
@@ -32,6 +34,25 @@ export default function AppWrapper() {
       }
     }
   });
+
+  if (socket.connected === false) {
+    axios({
+      method: "post",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("refreshToken")}`
+      },
+      url: "https://liqr.cc/refresh"
+    }).then(response => {
+      const { data } = response;
+      localStorage.setItem("jwt", data.access_token);
+    });
+  }
+
+
+  if(localStorage.getItem('table_id') === undefined){
+     window.location.href = "/"
+  }
+
 
   return (
     <SocketContext.Provider value={socket}>

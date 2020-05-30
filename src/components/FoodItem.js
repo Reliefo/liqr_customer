@@ -157,6 +157,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
     });
     dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
   };
+
   return (
     <Card id={foodItem.name} className="category-card food-item">
       <div>
@@ -164,7 +165,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
           <img
             style={from === "home" ? { height: "100%" } : { height: "100px" }}
             className="card-image"
-            src={sampleImage}
+            src={foodItem.image_link}
             alt="sample"
           />
         </div>
