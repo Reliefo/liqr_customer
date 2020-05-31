@@ -391,13 +391,47 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
                     return (
                       <div className="radio-div">
                         {Object.values(item[1]).map((item1, idx) => {
+                          let count = 0;
+
+                          Object.values(item[1]).forEach((val, checkIndex) => {
+                            if (val.checked === true) {
+                              count++;
+                              item1.indexSelected = checkIndex;
+                            }
+                          });
+
+                          if (count === 0) {
+                            if (idx === 0) {
+                              item1.checked = true;
+                              selectOption(foodItem, item1);
+                            }
+                          }
+
+                          if (idx === item1.indexSelected) {
+                            item1.checked = true;
+                            selectOption(foodItem, item1);
+                          }
+
+                          const checkIndexValueAgain = index => {
+                            Object.values(item[1]).forEach(
+                              (val, checkIndex) => {
+                                if (index === checkIndex) {
+                                  val.checked = true;
+                                  selectOption(foodItem, val);
+                                } else {
+                                  val.checked = false;
+                                }
+                              }
+                            );
+                          };
                           return (
                             <div key={idx}>
                               <label>
                                 <input
                                   id={idx}
                                   type="radio"
-                                  onClick={() => selectOption(foodItem, item1)}
+                                  checked={item1.checked}
+                                  onClick={() => checkIndexValueAgain(idx)}
                                   value={item1.option_name}
                                   name="test"
                                 />
@@ -415,13 +449,34 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
                         <br />
                         Choices
                         {Object.values(item[1]).map((item1, idx) => {
+                            let selectedChoice = foodItem.indexSelected;
+                            if (selectedChoice === undefined) {
+                              selectedChoice = 0;
+                              foodItem.indexSelected = 0;
+                              foodItem.choiceSelected = true;
+                              selectChoice(foodItem, item1);
+                            }
+  
+                            const checkChoiceIndexValueAgain = index => {
+                              selectedChoice = index;
+                              foodItem.indexSelected = index;
+  
+                              Object.values(item[1]).forEach(
+                                (val, checkIndex) => {
+                                  if (index === checkIndex) {
+                                    selectChoice(foodItem, val);
+                                  }
+                                }
+                              );
+                            };
                           return (
                             <div key={idx}>
                               <label>
                                 <input
                                   id={idx}
                                   type="radio"
-                                  onClick={() => selectChoice(foodItem, item1)}
+                                  checked={idx === selectedChoice}
+                                  onClick={() => checkChoiceIndexValueAgain(idx)}
                                   label={item1}
                                   name="test1"
                                 />
