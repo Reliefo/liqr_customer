@@ -55,6 +55,7 @@ const Navbar = props => {
     localStorage.removeItem("jwt");
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("name");
+    sessionStorage.removeItem('relief');
     localStorage.removeItem("restaurant_id");
   };
 
@@ -122,7 +123,7 @@ const Navbar = props => {
           <img className="navbar-menu-icon" src={notifications} alt="Login" />{" "}
           Notifications
         </a>
-        {localStorage.getItem("table_id") !== null ? (
+        {localStorage.getItem("jwt") !== null ? (
           <a className="menu-item" href="/login" onClick={() => logoutUser()}>
             <img className="navbar-menu-icon" src={login} alt="Login" />
             Logout

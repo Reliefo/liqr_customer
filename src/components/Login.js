@@ -73,7 +73,9 @@ export default class Login extends Component {
         localStorage.setItem("user_id", data.user_id);
         localStorage.setItem("name", data.name);
         ReactDOM.render(<AppWrapper />, document.getElementById("root"));
-        this.props.history.push("/Home");
+        this.props.history.push("/home", {
+          login : true
+      });
       })
       .catch(function(response) {
         //handle error
@@ -109,7 +111,9 @@ export default class Login extends Component {
       localStorage.setItem("user_id", data.user_id);
       localStorage.setItem("name", data.name);
       ReactDOM.render(<AppWrapper />, document.getElementById("root"));
-      this.props.history.push("/Home");
+      this.props.history.push("/home", {
+        login : true
+    });
     });
     this.setState({ isLoading: false });
   };
