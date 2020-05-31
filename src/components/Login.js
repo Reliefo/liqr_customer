@@ -18,7 +18,7 @@ export default class Login extends Component {
   }
 
   componentDidMount() {
-    if (localStorage.getItem("registeredUser") === "true") {
+    if ((localStorage.getItem("registeredUser") === "true") && (localStorage.getItem('table_id') !== null)) {
       this.props.history.push("/home");
     }
   }
