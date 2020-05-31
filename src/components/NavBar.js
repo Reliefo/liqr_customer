@@ -81,9 +81,7 @@ const Navbar = props => {
             X
           </span>
         </div> */}
-      <div>
-        {props.socket.connected === true ? 'true' : 'false'}
-      </div>
+  
       <Menu disableAutoFocus width={"55%"}>
         <a className="menu-item shadow-menu" href="/login">
           <img className="navbar-menu-icon" src={login} alt="Login" /> Login/

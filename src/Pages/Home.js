@@ -131,8 +131,14 @@ const Home = props => {
         url: "https://liqr.cc/refresh"
       }).then(response => {
         const { data } = response;
-        localStorage.setItem("jwt", data.access_token);
-        ReactDOM.render(<AppWrapper />, document.getElementById("root"));
+
+        setTimeout(function() {
+          if (props.socket.connected === false) {
+            localStorage.setItem("jwt", data.access_token);
+            //Start the timer
+            ReactDOM.render(<AppWrapper />, document.getElementById("root"));
+          }
+        }, 2000);
       });
     }
     console.log("home screen");
