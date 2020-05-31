@@ -186,18 +186,7 @@ const Table = props => {
                 className="empty-orders"
               />
             </div>
-            <ToastContainer
-              toastClassName="dark-toast"
-              position="top-center"
-              autoClose={5000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-            />
+
             {orderSuccess.map((item, idx) => {
               let orderTime = item.timestamp.split(" ");
 

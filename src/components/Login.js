@@ -19,9 +19,11 @@ export default class Login extends Component {
 
   componentDidMount() {
     if ((localStorage.getItem("registeredUser") === "true") && (localStorage.getItem('table_id') !== null)) {
-      this.props.history.push("/home");
-    }
+      this.props.history.push("/home", {
+        login : true
+    });
   }
+}
   validateForm() {
     return this.state.email.length > 0 && this.state.password.length > 0;
   }
@@ -213,3 +215,4 @@ export default class Login extends Component {
     );
   }
 }
+

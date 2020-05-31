@@ -2,8 +2,11 @@ import React from "react";
 import home from "../assets/Home.png";
 import menu from "../assets/menu.png";
 import { ToastContainer, toast } from "react-toastify";
+import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import cartImage from "../assets/cart.png";
+import AppWrapper from "../App";
+import ReactDOM from "react-dom";
 import order from "../assets/order.png";
 import { Badge } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -30,6 +33,29 @@ const FooterNav = props => {
   } = React.useContext(StoreContext);
 
   React.useEffect(() => {
+    if (((props.location && props.location.state.login === false) ||
+        undefined ||
+        null) &&
+      props.socket.connected === false
+    ) {
+      axios({
+        method: "post",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("refreshToken")}`
+        },
+        url: "https://liqr.cc/refresh"
+      }).then(response => {
+        const { data } = response;
+
+        setTimeout(function() {
+          if (props.socket.connected === false) {
+            localStorage.setItem("jwt", data.access_token);
+            //Start the timer
+            ReactDOM.render(<AppWrapper />, document.getElementById("root"));
+          }
+        }, 1000);
+      });
+    }
     props.socket.off("assist").on("assist", ms => {
       const message = JSON.parse(ms);
       const { msg } = message;
@@ -44,7 +70,7 @@ const FooterNav = props => {
         progress: undefined
       });
     });
-  }, []);
+  }, [props.socket, props.location, dispatch]);
 
   const fillSvg = name =>
     activeNav === name ? "icon-active" : "icon-inactive";
