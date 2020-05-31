@@ -2,6 +2,8 @@ import React from "react";
 import { StoreContext } from "Store";
 import { ReactComponent as SearchSVG } from "assets/searchIcon.svg";
 import smoothScroll from "smoothscroll";
+import ReactDOM from "react-dom";
+import AppWrapper from "../App";
 import axios from "axios";
 import Search from "./Search.js";
 import * as TYPES from "Store/actionTypes.js";
@@ -34,6 +36,7 @@ const Menu = props => {
       }).then(response => {
         const { data } = response;
         localStorage.setItem("jwt", data.access_token);
+        ReactDOM.render(<AppWrapper />, document.getElementById("root"));
       });
     }
     console.log("Menu screen");

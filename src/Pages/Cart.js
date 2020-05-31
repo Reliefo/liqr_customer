@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { Card, Row, Col, Form } from "react-bootstrap";
 import AddRemoveItem from "components/AddRemoveItem.js";
 import { StoreContext } from "Store";
+import ReactDOM from "react-dom";
+import AppWrapper from "../App";
 import axios from "axios";
 import SocketContext from "../socket-context";
 import * as TYPES from "Store/actionTypes.js";
@@ -50,6 +52,7 @@ const Cart = props => {
       }).then(response => {
         const { data } = response;
         localStorage.setItem("jwt", data.access_token);
+        ReactDOM.render(<AppWrapper />, document.getElementById("root"));
       });
     }
     console.log("Cart screen");

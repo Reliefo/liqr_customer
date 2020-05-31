@@ -32,20 +32,8 @@ export default function AppWrapper() {
         }
       }
     }
-  });
 
-  if (socket.connected === false) {
-    axios({
-      method: "post",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("refreshToken")}`
-      },
-      url: "https://liqr.cc/refresh"
-    }).then(response => {
-      const { data } = response;
-      localStorage.setItem("jwt", data.access_token);
-    });
-  }
+  });
 
 
 

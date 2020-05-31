@@ -132,6 +132,8 @@ const Home = props => {
       }).then(response => {
         const { data } = response;
         localStorage.setItem("jwt", data.access_token);
+        ReactDOM.render(<AppWrapper />, document.getElementById("root"));
+        
       });
     }
     console.log("home screen");
@@ -305,7 +307,6 @@ const Home = props => {
           }}
           className="category home-category"
         >
-         
           <div style={{ minHeight: "400px" }}>
             <Carousel>
               <Carousel.Item>
