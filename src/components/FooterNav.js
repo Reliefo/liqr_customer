@@ -54,8 +54,7 @@ const FooterNav = props => {
     menuClick: false
   });
 
-  const fillDiv = name =>
-  activeNav === name ? "active-icon-select" : "";
+  const fillDiv = name => (activeNav === name ? "active-icon-select" : "");
 
   let cartCount = 0;
   cart.forEach(item => {
@@ -65,8 +64,7 @@ const FooterNav = props => {
   const revtrfm = `rotate(${-deg}deg)`;
 
   const FABClick = () => {
-    console.log("clicked...");  
-   
+    console.log("clicked...");
 
     dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: !fabClick });
     dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
@@ -85,13 +83,14 @@ const FooterNav = props => {
       user: localStorage.getItem("user_id"),
       assistance_type: name
     };
+
+    dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: !fabClick });
+    dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
     props.socket.emit("assistance_requests", JSON.stringify(body));
   };
 
   const footerDiv =
-  activeNav === 'Home' ? "footer-nav custom-home-nav" : "footer-nav";
-
-
+    activeNav === "Home" ? "footer-nav custom-home-nav" : "footer-nav";
 
   return (
     <>
@@ -107,7 +106,7 @@ const FooterNav = props => {
         draggable
         pauseOnHover
       />
-      <div  className={footerDiv}>
+      <div className={footerDiv}>
         {activeNav === "Menu" && (
           <div className="floating-container-menu">
             <div className="menu-button-footer" onClick={MenuClick}>
@@ -132,9 +131,7 @@ const FooterNav = props => {
           </div>
         )}
         <div
-          className={`floating-container ${
-            fabClick ? "rotate-fab" : ""
-          }`}
+          className={`floating-container ${fabClick ? "rotate-fab" : ""}`}
           style={{ transform: trfm }} //this rotation takes care of all other rotations.
         >
           <div className="FAB" onClick={FABClick}>
@@ -171,13 +168,19 @@ const FooterNav = props => {
           className="styled-link"
           onClick={() => setState(state => ({ ...state, menuClick: false }))}
         >
-          <div  className={fillDiv("Home")} style={{ marginTop: "calc(.7rem - 3px)" }}>
+          <div
+            className={fillDiv("Home")}
+            style={{ marginTop: "calc(.7rem - 3px)" }}
+          >
             <img src={home} alt="Home" className={fillSvg("Home")} />
             <span className="icon-text">Home</span>
           </div>
         </Link>
         <Link to="/menu" className="styled-link">
-          <div className={fillDiv("Menu")} style={{ marginTop: "calc(.7rem - 3px)" }}>
+          <div
+            className={fillDiv("Menu")}
+            style={{ marginTop: "calc(.7rem - 3px)" }}
+          >
             <img src={menu} alt="Menu" className={fillSvg("Menu")} />
             <span className="icon-text">Menu</span>
           </div>
@@ -187,7 +190,10 @@ const FooterNav = props => {
           className="styled-link"
           onClick={() => setState(state => ({ ...state, menuClick: false }))}
         >
-          <div className={fillDiv("Cart")} style={{ marginTop: "calc(.7rem - 15px)" }}>
+          <div
+            className={fillDiv("Cart")}
+            style={{ marginTop: "calc(.7rem - 15px)" }}
+          >
             <Badge variant="danger">{cartCount}</Badge>{" "}
             <img src={cartImage} alt="Cart" className={fillSvg("Cart")} />
             <span className="icon-text">Cart</span>
@@ -198,7 +204,10 @@ const FooterNav = props => {
           className="styled-link"
           onClick={() => setState(state => ({ ...state, menuClick: false }))}
         >
-          <div className={fillDiv("Order")} style={{ marginTop: "calc(.7rem - 3px)" }}>
+          <div
+            className={fillDiv("Order")}
+            style={{ marginTop: "calc(.7rem - 3px)" }}
+          >
             <img src={order} alt="Table" className={fillSvg("Order")} />
             <span className="icon-text">Order</span>
           </div>

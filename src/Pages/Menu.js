@@ -2,8 +2,10 @@ import React from "react";
 import { StoreContext } from "Store";
 import { ReactComponent as SearchSVG } from "assets/searchIcon.svg";
 import smoothScroll from "smoothscroll";
+import axios from "axios";
 import Search from "./Search.js";
 import * as TYPES from "Store/actionTypes.js";
+import SocketContext from "../socket-context";
 import FoodItem from "components/FoodItem";
 import { InputGroup, FormControl } from "react-bootstrap";
 import SearchFoodItems from "components/SearchFoodItems.js";
@@ -22,6 +24,18 @@ const Menu = props => {
   });
 
   React.useEffect(() => {
+    if (props.socket.connected === false) {
+      axios({
+        method: "post",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("refreshToken")}`
+        },
+        url: "https://liqr.cc/refresh"
+      }).then(response => {
+        const { data } = response;
+        localStorage.setItem("jwt", data.access_token);
+      });
+    }
     console.log("Menu screen");
     dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
     dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
@@ -104,7 +118,6 @@ const Menu = props => {
   );
 };
 
-export default Menu;
 
 const SubCategory = ({ subs, categories, activeData }) => (
   <>
@@ -126,3 +139,11 @@ const SubCategory = ({ subs, categories, activeData }) => (
     ))}
   </>
 );
+
+const menuWithSocket = props => (
+  <SocketContext.Consumer>
+    {socket => <Menu {...props} socket={socket} />}
+  </SocketContext.Consumer>
+);
+
+export default menuWithSocket;

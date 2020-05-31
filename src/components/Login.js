@@ -17,7 +17,6 @@ export default class Login extends Component {
     };
   }
 
-
   componentDidMount() {
     if (localStorage.getItem("registeredUser") === "true") {
       this.props.history.push("/home");
@@ -41,6 +40,9 @@ export default class Login extends Component {
     let table_id =
       parm[1] !== undefined ? parm[1] : localStorage.getItem("table_id");
     const uniqueId = `${uuidv4().substring(0, 15)}`;
+    if (localStorage.getItem("unique_id") === null) {
+      localStorage.setItem("unique_id", uniqueId);
+    }
     let bodyFormData = new FormData();
     bodyFormData.set(
       "unique_id",

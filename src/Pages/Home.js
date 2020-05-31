@@ -122,6 +122,18 @@ const Home = props => {
   });
 
   React.useEffect(() => {
+    if (props.socket.connected === false) {
+      axios({
+        method: "post",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("refreshToken")}`
+        },
+        url: "https://liqr.cc/refresh"
+      }).then(response => {
+        const { data } = response;
+        localStorage.setItem("jwt", data.access_token);
+      });
+    }
     console.log("home screen");
     dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
     dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
@@ -135,7 +147,6 @@ const Home = props => {
       dispatch({ type: TYPES.UPDATE_ORDER_STATUS, payload: JSON.parse(msg) });
     });
     console.log(props.socket);
-
 
     const body = {
       user_id: localStorage.getItem("user_id"),
@@ -294,6 +305,7 @@ const Home = props => {
           }}
           className="category home-category"
         >
+         
           <div style={{ minHeight: "400px" }}>
             <Carousel>
               <Carousel.Item>

@@ -25,11 +25,10 @@ import io from "socket.io-client";
 
 export default function AppWrapper() {
   const socket = io("https://liqr.cc/reliefo", {
-    'force new connection': false,
     transportOptions: {
       polling: {
         extraHeaders: {
-          Authorization: `Bearer ${localStorage.getItem("jwt")}`
+          Authorization: `Bearer ${localStorage.getItem('jwt') }`
         }
       }
     }
@@ -48,10 +47,6 @@ export default function AppWrapper() {
     });
   }
 
-
-  if(localStorage.getItem('table_id') === undefined){
-     window.location.href = "/"
-  }
 
 
   return (

@@ -22,17 +22,8 @@ const BillingInformation = props => {
 
   let billing = [];
   billing.push(props.location.state.data);
+  localStorage.removeItem('table_id')
 
- const redirectHome = () => {
-    localStorage.removeItem('table_id')
-    localStorage.removeItem('jwt')
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('user_id');
-    localStorage.removeItem('name');
-    localStorage.removeItem('restaurant_id');
-
-    props.history.push('/');
-  }
   React.useEffect(() => {
     dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: "" } });
     console.log("Billing Information screen");
@@ -61,7 +52,7 @@ const BillingInformation = props => {
               return (
                 <div style={{ paddingBottom: "3%" }}>
                   <Card
-                    onClick={() => redirectHome()}
+                    
                     className="cart-card cart-styling margin-styling"
                   >
                     <div>
