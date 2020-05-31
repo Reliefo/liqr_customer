@@ -133,7 +133,6 @@ const Home = props => {
         const { data } = response;
         localStorage.setItem("jwt", data.access_token);
         ReactDOM.render(<AppWrapper />, document.getElementById("root"));
-        
       });
     }
     console.log("home screen");
@@ -154,78 +153,82 @@ const Home = props => {
       user_id: localStorage.getItem("user_id"),
       restaurant_id: localStorage.getItem("restaurant_id")
     };
+    if (props.socket.connected === true) {
+      props.socket.emit("fetch_rest_customer", JSON.stringify(body));
 
-    props.socket.emit("fetch_rest_customer", JSON.stringify(body));
-
-    props.socket.off("user_details").on("user_details", msg => {
-      console.log("USER DETAILS--->", JSON.parse(msg));
-      const data = JSON.parse(msg);
-      dispatch({
-        type: TYPES.SET_DINE_HISTORY,
-        payload: data.dine_in_history || []
+      props.socket.off("user_details").on("user_details", msg => {
+        console.log("USER DETAILS--->", JSON.parse(msg));
+        const data = JSON.parse(msg);
+        dispatch({
+          type: TYPES.SET_DINE_HISTORY,
+          payload: data.dine_in_history || []
+        });
       });
-    });
 
-    props.socket.off("table_details").on("table_details", msg => {
-      const data = JSON.parse(msg);
-      dispatch({
-        type: TYPES.UPDATE_TABLE_USERS,
-        payload: data.users
+      props.socket.off("table_details").on("table_details", msg => {
+        const data = JSON.parse(msg);
+        dispatch({
+          type: TYPES.UPDATE_TABLE_USERS,
+          payload: data.users
+        });
+        dispatch({
+          type: TYPES.UPDATE_TABLE_NAME,
+          payload: data.name
+        });
+        dispatch({
+          type: TYPES.REFRESH_ORDER_CLOUD,
+          payload: data.table_orders
+        });
+
+        dispatch({
+          type: TYPES.UPDATE_TABLE_ORDER,
+          payload: data.table_cart || []
+        });
       });
-      dispatch({
-        type: TYPES.UPDATE_TABLE_NAME,
-        payload: data.name
-      });
-      dispatch({ type: TYPES.REFRESH_ORDER_CLOUD, payload: data.table_orders });
 
-      dispatch({
-        type: TYPES.UPDATE_TABLE_ORDER,
-        payload: data.table_cart || []
-      });
-    });
+      props.socket.off("restaurant_object").on("restaurant_object", msg => {
+        const resp = JSON.parse(msg);
 
-    props.socket.off("restaurant_object").on("restaurant_object", msg => {
-      const resp = JSON.parse(msg);
+        dispatch({ type: TYPES.SET_RESTAURANT_NAME, payload: resp.name });
+        dispatch({ type: TYPES.ADD_DATA, payload: resp });
+        dispatch({ type: TYPES.UPDATE_REST_ID, payload: resp._id.$oid });
+        dispatch({ type: TYPES.ADD_SELECT_DATA, payload: resp.food_menu });
 
-      dispatch({ type: TYPES.SET_RESTAURANT_NAME, payload: resp.name });
-      dispatch({ type: TYPES.ADD_DATA, payload: resp });
-      dispatch({ type: TYPES.UPDATE_REST_ID, payload: resp._id.$oid });
-      dispatch({ type: TYPES.ADD_SELECT_DATA, payload: resp.food_menu });
-
-      let justBarItems = [];
-      let justFoodItems = [];
-      const barMenu = resp.bar_menu;
-      for (let i = 0; i < barMenu.length; ++i) {
-        const Sub = resp.food_menu[i].name;
-        for (let j = 0; j < resp.bar_menu[i].food_list.length; ++j) {
-          justFoodItems.push(resp.bar_menu[i].food_list[j]);
-          // const FoodList = Sub[j].foodlist;
-          // for (let k = 0; k < FoodList.length; ++k) {
-          //   justFoodItems.push(FoodList[k]);
-          // }
+        let justBarItems = [];
+        let justFoodItems = [];
+        const barMenu = resp.bar_menu;
+        for (let i = 0; i < barMenu.length; ++i) {
+          const Sub = resp.food_menu[i].name;
+          for (let j = 0; j < resp.bar_menu[i].food_list.length; ++j) {
+            justFoodItems.push(resp.bar_menu[i].food_list[j]);
+            // const FoodList = Sub[j].foodlist;
+            // for (let k = 0; k < FoodList.length; ++k) {
+            //   justFoodItems.push(FoodList[k]);
+            // }
+          }
         }
-      }
 
-      const Menu = resp.food_menu;
-      for (let i = 0; i < Menu.length; ++i) {
-        const Sub = resp.food_menu[i].name;
-        for (let j = 0; j < resp.food_menu[i].food_list.length; ++j) {
-          justFoodItems.push(resp.food_menu[i].food_list[j]);
-          // const FoodList = Sub[j].foodlist;
-          // for (let k = 0; k < FoodList.length; ++k) {
-          //   justFoodItems.push(FoodList[k]);
-          // }
+        const Menu = resp.food_menu;
+        for (let i = 0; i < Menu.length; ++i) {
+          const Sub = resp.food_menu[i].name;
+          for (let j = 0; j < resp.food_menu[i].food_list.length; ++j) {
+            justFoodItems.push(resp.food_menu[i].food_list[j]);
+            // const FoodList = Sub[j].foodlist;
+            // for (let k = 0; k < FoodList.length; ++k) {
+            //   justFoodItems.push(FoodList[k]);
+            // }
+          }
         }
-      }
-      dispatch({
-        type: TYPES.ADD_COLLECTIVE_FOODITEMS,
-        payload: justFoodItems
+        dispatch({
+          type: TYPES.ADD_COLLECTIVE_FOODITEMS,
+          payload: justFoodItems
+        });
       });
-    });
 
-    props.socket.off("home_screen_lists").on("home_screen_lists", msg => {
-      dispatch({ type: TYPES.UPDATE_HOME_ITEMS, payload: JSON.parse(msg) });
-    });
+      props.socket.off("home_screen_lists").on("home_screen_lists", msg => {
+        dispatch({ type: TYPES.UPDATE_HOME_ITEMS, payload: JSON.parse(msg) });
+      });
+    }
   }, [dispatch, props.socket]);
 
   const [show, setShow] = React.useState(false);
