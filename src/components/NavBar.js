@@ -4,13 +4,14 @@ import location from "../assets/location.png";
 import { ReactComponent as SearchSVG } from "assets/searchIcon.svg";
 import login from "../assets/login.png";
 import notifications from "../assets/notifications.png";
+import SocketContext from "../socket-context";
 import previousVisits from "../assets/previousVisits.png";
 import settings from "../assets/settings.png";
 import tableChange from "../assets/tableChange.png";
 import * as TYPES from "Store/actionTypes.js";
 import { StoreContext } from "Store";
 
-export default props => {
+const Navbar = props => {
   const [showCollapse, setShowCollapse] = React.useState(false);
   const sideDrawerInner = React.useRef();
   const menuRef = React.useRef();
@@ -18,7 +19,12 @@ export default props => {
 
   const {
     dispatch,
-    state: { searchClicked, searchValue, rawData: { name }, tableName }
+    state: {
+      searchClicked,
+      searchValue,
+      rawData: { name },
+      tableName
+    }
   } = React.useContext(StoreContext);
 
   const searchValueChange = ({ target: { value } }) => {
@@ -43,9 +49,18 @@ export default props => {
       payload: { searchClicked: false }
     });
   };
+
+  const logoutUser = () => {
+    localStorage.removeItem("table_id");
+    localStorage.removeItem("jwt");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("name");
+    localStorage.removeItem("restaurant_id");
+  };
+
   return (
     <div>
-        {/* <span className="restaurant-header">
+      {/* <span className="restaurant-header">
         {name}
         </span>
         <span className="username">
@@ -66,63 +81,78 @@ export default props => {
             X
           </span>
         </div> */}
-        <Menu disableAutoFocus width={"55%"}>
-          <a className="menu-item shadow-menu" href="/login">
-            <img className="navbar-menu-icon" src={login} alt="Login" /> Login/
-            SignUp
-          </a>
-          <hr />
+      <div>
+        {props.socket.connected === true ? 'true' : 'false'}
+      </div>
+      <Menu disableAutoFocus width={"55%"}>
+        <a className="menu-item shadow-menu" href="/login">
+          <img className="navbar-menu-icon" src={login} alt="Login" /> Login/
+          SignUp
+        </a>
+        <hr />
 
-          <a className="menu-item" href="/menu">
+        <a className="menu-item" href="/menu">
           {" "}
-            Current Table: {tableName}
-          </a>
+          Current Table: {tableName}
+        </a>
 
-          <hr />
+        <hr />
 
-          <a className="menu-item" href="/menu">
+        <a className="menu-item" href="/menu">
           {" "}
-            Name: {localStorage.getItem('name')}
-          </a>
+          Name: {localStorage.getItem("name")}
+        </a>
 
+        <hr />
+
+        <a className="menu-item" href="/menu">
+          <img className="navbar-menu-icon" src={tableChange} alt="Login" />{" "}
+          Table Change
+        </a>
+
+        <a className="menu-item" href="/previous-visits">
+          <img className="navbar-menu-icon" src={previousVisits} alt="Login" />{" "}
+          Previous Visits
+        </a>
+
+        <a className="menu-item" href="/dine-in-history">
+          <img className="navbar-menu-icon" src={location} alt="Login" />{" "}
+          Dine-in History
+        </a>
+
+        <a className="menu-item" href="/menu">
+          <img className="navbar-menu-icon" src={notifications} alt="Login" />{" "}
+          Notifications
+        </a>
+        {localStorage.getItem("table_id") !== null ? (
+          <a className="menu-item" href="/login" onClick={() => logoutUser()}>
+            <img className="navbar-menu-icon" src={login} alt="Login" />
+            Logout
+          </a>
+        ) : (
+          ""
+        )}
+        <hr className="navbar-menu-hr" />
+        <hr className="navbar-menu-hr" />
+        <hr className="navbar-menu-hr" />
+        <hr className="navbar-menu-hr" />
+
+        <a className="menu-item shadow-menu" href="/menu">
           <hr />
-          
-
-          <a className="menu-item" href="/menu">
-            <img className="navbar-menu-icon" src={tableChange} alt="Login" />{" "}
-            Table Change
-          </a>
-
-          <a className="menu-item" href="/previous-visits">
-            <img
-              className="navbar-menu-icon"
-              src={previousVisits}
-              alt="Login"
-            />{" "}
-            Previous Visits
-          </a>
-
-          <a className="menu-item" href="/dine-in-history">
-            <img className="navbar-menu-icon" src={location} alt="Login" />{" "}
-            Dine-in History
-          </a>
-
-          <a className="menu-item" href="/menu">
-            <img className="navbar-menu-icon" src={notifications} alt="Login" />{" "}
-            Notifications
-          </a>
-          <hr className="navbar-menu-hr" />
-          <hr className="navbar-menu-hr" />
-          <hr className="navbar-menu-hr" />
-          <hr className="navbar-menu-hr" />
-
-          <a className="menu-item shadow-menu" href="/menu">
-            <hr />
-            <img className="navbar-menu-icon" src={settings} alt="Login" />{" "}
-            Personal Settings
-            <hr />
-          </a>
-        </Menu>
+          <img className="navbar-menu-icon" src={settings} alt="Login" />{" "}
+          Personal Settings
+          <hr />
+        </a>
+      </Menu>
     </div>
   );
 };
+
+
+const navbarWithSocket = props => (
+  <SocketContext.Consumer>
+    {socket => <Navbar {...props} socket={socket} />}
+  </SocketContext.Consumer>
+);
+
+export default navbarWithSocket;

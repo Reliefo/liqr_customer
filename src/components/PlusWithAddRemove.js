@@ -157,7 +157,7 @@ const PlusWithAddRemove = ({ item, idx, subs }) => {
     }
   };
 
-  console.log("AAA--->", state);
+
 
   return (
     <>

@@ -25,33 +25,16 @@ import io from "socket.io-client";
 
 export default function AppWrapper() {
   const socket = io("https://liqr.cc/reliefo", {
-    'force new connection': false,
     transportOptions: {
       polling: {
         extraHeaders: {
-          Authorization: `Bearer ${localStorage.getItem("jwt")}`
+          Authorization: `Bearer ${localStorage.getItem('jwt') }`
         }
       }
     }
+
   });
 
-  if (socket.connected === false) {
-    axios({
-      method: "post",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("refreshToken")}`
-      },
-      url: "https://liqr.cc/refresh"
-    }).then(response => {
-      const { data } = response;
-      localStorage.setItem("jwt", data.access_token);
-    });
-  }
-
-
-  if(localStorage.getItem('table_id') === undefined){
-     window.location.href = "/"
-  }
 
 
   return (

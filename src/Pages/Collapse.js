@@ -38,6 +38,7 @@ const CollapseDetails = props => {
                 onChange={event => {
                   handleChange(event);
                 }}
+                maxLength = {300}
                 as="textarea"
                 rows="3"
                 placeholder="Special Instructions"

@@ -435,10 +435,9 @@
   background: transparent;
   color: #ffb023;
   border-radius: 6px;
-  float:right;
+  float: right;
   opacity: 1;
 }
-
 
 .cart-styling {
   background: #f3f3f3 0% 0% no-repeat padding-box;
@@ -804,6 +803,10 @@ input[type="radio"]:checked:after {
   display: inline-block;
   visibility: visible;
   border: 2px solid #ffa500;
+}
+
+#root {
+  padding-bottom: 20%;
 }
 
 .btn-primary:hover {

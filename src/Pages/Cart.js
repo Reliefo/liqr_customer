@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 import { Card, Row, Col, Form } from "react-bootstrap";
 import AddRemoveItem from "components/AddRemoveItem.js";
 import { StoreContext } from "Store";
+import ReactDOM from "react-dom";
+import AppWrapper from "../App";
+import axios from "axios";
 import SocketContext from "../socket-context";
 import * as TYPES from "Store/actionTypes.js";
 import SearchFoodItems from "components/SearchFoodItems.js";
@@ -39,6 +42,19 @@ const Cart = props => {
   });
 
   React.useEffect(() => {
+    if (props.socket.connected === false) {
+      axios({
+        method: "post",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("refreshToken")}`
+        },
+        url: "https://liqr.cc/refresh"
+      }).then(response => {
+        const { data } = response;
+        localStorage.setItem("jwt", data.access_token);
+        ReactDOM.render(<AppWrapper />, document.getElementById("root"));
+      });
+    }
     console.log("Cart screen");
     dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
     dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });

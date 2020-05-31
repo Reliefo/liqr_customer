@@ -10,6 +10,10 @@ import config from "./config";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 
+console.log = () => {};
+console.warn = () => {};
+console.error = () => {};
+
 // let jwt = "";
 // let parm = window.location.href;
 // parm = parm.split("=");
