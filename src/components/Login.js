@@ -19,9 +19,11 @@ export default class Login extends Component {
 
   componentDidMount() {
     if ((localStorage.getItem("registeredUser") === "true") && (localStorage.getItem('table_id') !== null)) {
-      this.props.history.push("/home");
-    }
+      this.props.history.push("/home", {
+        login : true
+    });
   }
+}
   validateForm() {
     return this.state.email.length > 0 && this.state.password.length > 0;
   }
@@ -71,7 +73,9 @@ export default class Login extends Component {
         localStorage.setItem("user_id", data.user_id);
         localStorage.setItem("name", data.name);
         ReactDOM.render(<AppWrapper />, document.getElementById("root"));
-        this.props.history.push("/Home");
+        this.props.history.push("/home", {
+          login : true
+      });
       })
       .catch(function(response) {
         //handle error
@@ -107,7 +111,9 @@ export default class Login extends Component {
       localStorage.setItem("user_id", data.user_id);
       localStorage.setItem("name", data.name);
       ReactDOM.render(<AppWrapper />, document.getElementById("root"));
-      this.props.history.push("/Home");
+      this.props.history.push("/home", {
+        login : true
+    });
     });
     this.setState({ isLoading: false });
   };
@@ -213,3 +219,4 @@ export default class Login extends Component {
     );
   }
 }
+
