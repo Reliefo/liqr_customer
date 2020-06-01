@@ -18,12 +18,67 @@ export default class Login extends Component {
   }
 
   componentDidMount() {
-    if ((localStorage.getItem("registeredUser") === "true") && (localStorage.getItem('table_id') !== null)) {
-      this.props.history.push("/home", {
-        login : true
-    });
+    let parm = window.location.href;
+    parm = parm.split("=");
+
+    if (
+      localStorage.getItem("registeredUser") === "true" &&
+      localStorage.getItem("table_id") !== null
+    ) {
+      if (parm[1] !== undefined) {
+        let bodyFormData = new FormData();
+        bodyFormData.set("table_id", parm[1]);
+        bodyFormData.set("email_id", localStorage.getItem("email_id"));
+        bodyFormData.set("unique_id", localStorage.getItem("unique_id"));
+        axios({
+          method: "post",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("refreshToken")}`
+          },
+          url: "https://liqr.cc/refresh",
+          data: bodyFormData
+        }).then(response => {
+          const { data } = response;
+          localStorage.setItem("table_id", parm[1]);
+          ReactDOM.render(<AppWrapper />, document.getElementById("root"));
+          this.props.history.push("/home", {
+            login: true
+          });
+        });
+      } else {
+        ReactDOM.render(<AppWrapper />, document.getElementById("root"));
+        this.props.history.push("/home", {
+          login: true
+        });
+      }
+    } else if (
+      localStorage.getItem("registeredUser") === "false" &&
+      localStorage.getItem("table_id") !== null
+    ) {
+      if (parm[1] !== undefined) {
+        let bodyFormData = new FormData();
+        bodyFormData.set("table_id", parm[1]);
+        bodyFormData.set("email_id", "dud");
+        bodyFormData.set("unique_id", localStorage.getItem("unique_id"));
+
+        axios({
+          method: "post",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("refreshToken")}`
+          },
+          url: "https://liqr.cc/refresh",
+          data: bodyFormData
+        }).then(response => {
+          const { data } = response;
+          localStorage.setItem("table_id", parm[1]);
+          ReactDOM.render(<AppWrapper />, document.getElementById("root"));
+         
+        });
+      } else {
+        ReactDOM.render(<AppWrapper />, document.getElementById("root"));
+      }
+    }
   }
-}
   validateForm() {
     return this.state.email.length > 0 && this.state.password.length > 0;
   }
@@ -45,11 +100,14 @@ export default class Login extends Component {
     if (localStorage.getItem("unique_id") === null) {
       localStorage.setItem("unique_id", uniqueId);
     }
+    else {
+      localStorage.setItem("unique_id", localStorage.getItem('unique_id'));
+    }
     let bodyFormData = new FormData();
     bodyFormData.set(
       "unique_id",
-      localStorage.getItem("uniqueId") !== null
-        ? localStorage.getItem("uniqueId")
+      localStorage.getItem("unique_id") !== null
+        ? localStorage.getItem("unique_id")
         : uniqueId
     );
     bodyFormData.set("password", "wask");
@@ -68,14 +126,15 @@ export default class Login extends Component {
         localStorage.setItem("jwt", data.jwt);
         localStorage.setItem("table_id", table_id);
         localStorage.setItem("restaurant_id", data.restaurant_id);
+        localStorage.setItem('unique_id', data.unique_id)
         localStorage.setItem("registeredUser", false);
         localStorage.setItem("refreshToken", data.refresh_token);
         localStorage.setItem("user_id", data.user_id);
         localStorage.setItem("name", data.name);
         ReactDOM.render(<AppWrapper />, document.getElementById("root"));
         this.props.history.push("/home", {
-          login : true
-      });
+          login: true
+        });
       })
       .catch(function(response) {
         //handle error
@@ -106,14 +165,15 @@ export default class Login extends Component {
       localStorage.setItem("jwt", data.jwt);
       localStorage.setItem("table_id", table_id);
       localStorage.setItem("registeredUser", true);
+      localStorage.setItem("email_id", this.state.email);
       localStorage.setItem("restaurant_id", data.restaurant_id);
       localStorage.setItem("refreshToken", data.refresh_token);
       localStorage.setItem("user_id", data.user_id);
       localStorage.setItem("name", data.name);
       ReactDOM.render(<AppWrapper />, document.getElementById("root"));
       this.props.history.push("/home", {
-        login : true
-    });
+        login: true
+      });
     });
     this.setState({ isLoading: false });
   };
@@ -219,4 +279,3 @@ export default class Login extends Component {
     );
   }
 }
-
