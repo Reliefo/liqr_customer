@@ -416,14 +416,15 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
                             Object.values(item[1]).forEach(
                               (val, checkIndex) => {
                                 if (index === checkIndex) {
-                                  val.checked1 = true;
+                                  val.checked = true;
                                   selectOption(foodItem, val);
                                 } else {
-                                  val.checked1 = false;
+                                  val.checked = false;
                                 }
                               }
                             );
                           };
+                         
                           return (
                             <div key={idx}>
                               <label>

@@ -84,6 +84,7 @@ const Cart = props => {
       props.history.push("/table");
     } else {
       dispatch({ type: TYPES.RESET_CART });
+      props.history.push("/table");
     }
   });
 
