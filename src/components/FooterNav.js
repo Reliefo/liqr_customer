@@ -9,7 +9,7 @@ import AppWrapper from "../App";
 import ReactDOM from "react-dom";
 import order from "../assets/order.png";
 import { Badge } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import SocketContext from "../socket-context";
 import { StoreContext } from "Store";
 import { ReactComponent as WaterSVG } from "assets/water.svg";
@@ -31,31 +31,8 @@ const FooterNav = props => {
     },
     dispatch
   } = React.useContext(StoreContext);
-
   React.useEffect(() => {
-    if (((props.location && props.location.state.login === false) ||
-        undefined ||
-        null) &&
-      props.socket.connected === false
-    ) {
-      axios({
-        method: "post",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("refreshToken")}`
-        },
-        url: "https://liqr.cc/refresh"
-      }).then(response => {
-        const { data } = response;
 
-        setTimeout(function() {
-          if (props.socket.connected === false) {
-            localStorage.setItem("jwt", data.access_token);
-            //Start the timer
-            ReactDOM.render(<AppWrapper />, document.getElementById("root"));
-          }
-        }, 1000);
-      });
-    }
     props.socket.off("assist").on("assist", ms => {
       const message = JSON.parse(ms);
       const { msg } = message;
@@ -70,7 +47,7 @@ const FooterNav = props => {
         progress: undefined
       });
     });
-  }, [props.socket, props.location, dispatch]);
+  }, [props, props.socket, props.location, dispatch]);
 
   const fillSvg = name =>
     activeNav === name ? "icon-active" : "icon-inactive";
@@ -132,113 +109,117 @@ const FooterNav = props => {
         draggable
         pauseOnHover
       />
-      <div className={footerDiv}>
-        {activeNav === "Menu" && (
-          <div className="floating-container-menu">
-            <div className="menu-button-footer" onClick={MenuClick}>
-              <span>Menu</span>
-            </div>
-          </div>
-        )}
-        {menuClick && (
-          <div className="floating-container-menu">
-            <div
-              className="floating-container menu-button"
-              style={{ marginBottom: "2.5rem" }}
-            >
-              {activeData.map((item, idx) => {
-                return (
-                  <div key={idx}>
-                    <a href={`#menu-${idx}`}> {item.name}</a>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
-        <div
-          className={`floating-container ${fabClick ? "rotate-fab" : ""}`}
-          style={{ transform: trfm }} //this rotation takes care of all other rotations.
-        >
-          <div className="FAB" onClick={FABClick}>
-            <span>Assist</span>
-          </div>
-          {fabClick && (
-            <div className="floating-container">
-              <div className="floating-menu">
-                <div onClick={() => sendAssistance("water")}>Ask for Water</div>
-                <div onClick={() => sendAssistance("help")}>
-                  Call for Assistance
-                </div>
-                <div onClick={() => sendAssistance("cutlery")}>
-                  Call for Cutlery
-                </div>
-                <div onClick={() => sendAssistance("tissue")}>
-                  Ask for Tissue
-                </div>
-                <div onClick={() => sendAssistance("cleaning")}>
-                  Ask for Cleaning
-                </div>
-                <div onClick={() => sendAssistance("menu")}>
-                  Ask for Physical Menu
-                </div>
-                <div onClick={() => sendAssistance("ketchup")}>
-                  Ask for Ketchup
-                </div>
+      {props.location.pathname === "/register" || props.location.pathname === "/login" || props.location.pathname === "/"? null : (
+        <div className={footerDiv}>
+          {activeNav === "Menu" && (
+            <div className="floating-container-menu">
+              <div className="menu-button-footer" onClick={MenuClick}>
+                <span>Menu</span>
               </div>
             </div>
           )}
+          {menuClick && (
+            <div className="floating-container-menu">
+              <div
+                className="floating-container menu-button"
+                style={{ marginBottom: "2.5rem" }}
+              >
+                {activeData.map((item, idx) => {
+                  return (
+                    <div key={idx}>
+                      <a href={`#menu-${idx}`}> {item.name}</a>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+          <div
+            className={`floating-container ${fabClick ? "rotate-fab" : ""}`}
+            style={{ transform: trfm }} //this rotation takes care of all other rotations.
+          >
+            <div className="FAB" onClick={FABClick}>
+              <span>Assist</span>
+            </div>
+            {fabClick && (
+              <div className="floating-container">
+                <div className="floating-menu">
+                  <div onClick={() => sendAssistance("water")}>
+                    Ask for Water
+                  </div>
+                  <div onClick={() => sendAssistance("help")}>
+                    Call for Assistance
+                  </div>
+                  <div onClick={() => sendAssistance("cutlery")}>
+                    Call for Cutlery
+                  </div>
+                  <div onClick={() => sendAssistance("tissue")}>
+                    Ask for Tissue
+                  </div>
+                  <div onClick={() => sendAssistance("cleaning")}>
+                    Ask for Cleaning
+                  </div>
+                  <div onClick={() => sendAssistance("menu")}>
+                    Ask for Physical Menu
+                  </div>
+                  <div onClick={() => sendAssistance("ketchup")}>
+                    Ask for Ketchup
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+          <Link
+            to="/Home"
+            className="styled-link"
+            onClick={() => setState(state => ({ ...state, menuClick: false }))}
+          >
+            <div
+              className={fillDiv("Home")}
+              style={{ marginTop: "calc(.7rem - 3px)" }}
+            >
+              <img src={home} alt="Home" className={fillSvg("Home")} />
+              <span className="icon-text">Home</span>
+            </div>
+          </Link>
+          <Link to="/menu" className="styled-link">
+            <div
+              className={fillDiv("Menu")}
+              style={{ marginTop: "calc(.7rem - 3px)" }}
+            >
+              <img src={menu} alt="Menu" className={fillSvg("Menu")} />
+              <span className="icon-text">Menu</span>
+            </div>
+          </Link>
+          <Link
+            to="/cart"
+            className="styled-link"
+            onClick={() => setState(state => ({ ...state, menuClick: false }))}
+          >
+            <div
+              className={fillDiv("Cart")}
+              style={{ marginTop: "calc(.7rem - 15px)" }}
+            >
+              <Badge variant="danger">{cartCount}</Badge>{" "}
+              <img src={cartImage} alt="Cart" className={fillSvg("Cart")} />
+              <span className="icon-text">Cart</span>
+            </div>
+          </Link>
+          <Link
+            to="/order"
+            className="styled-link"
+            onClick={() => setState(state => ({ ...state, menuClick: false }))}
+          >
+            <div
+              className={fillDiv("Order")}
+              style={{ marginTop: "calc(.7rem - 3px)" }}
+            >
+              <img src={order} alt="Table" className={fillSvg("Order")} />
+              <span className="icon-text">Order</span>
+            </div>
+          </Link>
         </div>
-        <Link
-          to="/Home"
-          className="styled-link"
-          onClick={() => setState(state => ({ ...state, menuClick: false }))}
-        >
-          <div
-            className={fillDiv("Home")}
-            style={{ marginTop: "calc(.7rem - 3px)" }}
-          >
-            <img src={home} alt="Home" className={fillSvg("Home")} />
-            <span className="icon-text">Home</span>
-          </div>
-        </Link>
-        <Link to="/menu" className="styled-link">
-          <div
-            className={fillDiv("Menu")}
-            style={{ marginTop: "calc(.7rem - 3px)" }}
-          >
-            <img src={menu} alt="Menu" className={fillSvg("Menu")} />
-            <span className="icon-text">Menu</span>
-          </div>
-        </Link>
-        <Link
-          to="/cart"
-          className="styled-link"
-          onClick={() => setState(state => ({ ...state, menuClick: false }))}
-        >
-          <div
-            className={fillDiv("Cart")}
-            style={{ marginTop: "calc(.7rem - 15px)" }}
-          >
-            <Badge variant="danger">{cartCount}</Badge>{" "}
-            <img src={cartImage} alt="Cart" className={fillSvg("Cart")} />
-            <span className="icon-text">Cart</span>
-          </div>
-        </Link>
-        <Link
-          to="/order"
-          className="styled-link"
-          onClick={() => setState(state => ({ ...state, menuClick: false }))}
-        >
-          <div
-            className={fillDiv("Order")}
-            style={{ marginTop: "calc(.7rem - 3px)" }}
-          >
-            <img src={order} alt="Table" className={fillSvg("Order")} />
-            <span className="icon-text">Order</span>
-          </div>
-        </Link>
-      </div>
+      )}
     </>
   );
 };
@@ -267,4 +248,4 @@ const FooterNavSocket = props => (
   </SocketContext.Consumer>
 );
 
-export default FooterNavSocket;
+export default withRouter(FooterNavSocket);

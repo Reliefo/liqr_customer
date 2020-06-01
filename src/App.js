@@ -65,7 +65,9 @@ export default function AppWrapper() {
             render={props => <PreviousVisits {...props} />}
           />
           <Route path="/order" render={props => <Table {...props} />} />
+          
           <FooterNav />
+          
         </Store>
       </BrowserRouter>
     </SocketContext.Provider>
