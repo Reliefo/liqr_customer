@@ -416,10 +416,10 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
                             Object.values(item[1]).forEach(
                               (val, checkIndex) => {
                                 if (index === checkIndex) {
-                                  val.checked = true;
+                                  val.checked1 = true;
                                   selectOption(foodItem, val);
                                 } else {
-                                  val.checked = false;
+                                  val.checked1 = false;
                                 }
                               }
                             );
@@ -449,17 +449,17 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
                         <br />
                         Choices
                         {Object.values(item[1]).map((item1, idx) => {
-                            let selectedChoice = foodItem.indexSelected;
+                            let selectedChoice = foodItem.indexSelected1;
                             if (selectedChoice === undefined) {
                               selectedChoice = 0;
-                              foodItem.indexSelected = 0;
-                              foodItem.choiceSelected = true;
+                              foodItem.indexSelected1 = 0;
+                              foodItem.choiceSelected1 = true;
                               selectChoice(foodItem, item1);
                             }
   
                             const checkChoiceIndexValueAgain = index => {
                               selectedChoice = index;
-                              foodItem.indexSelected = index;
+                              foodItem.indexSelected1 = index;
   
                               Object.values(item[1]).forEach(
                                 (val, checkIndex) => {

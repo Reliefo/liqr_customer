@@ -55,7 +55,7 @@ const Navbar = props => {
     localStorage.removeItem("jwt");
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("name");
-    sessionStorage.removeItem('relief');
+    sessionStorage.removeItem("relief");
     localStorage.removeItem("restaurant_id");
   };
 
@@ -82,7 +82,13 @@ const Navbar = props => {
             X
           </span>
         </div> */}
-  
+      <div style={{ float: "right", marginRight: "5%" }}>
+        {props.socket.connected === true ? (
+          <span id="connected-socket"></span>
+        ) : (
+          <span id="dis-connected-socket"></span>
+        )}
+      </div>
       <Menu disableAutoFocus width={"55%"}>
         <a className="menu-item shadow-menu" href="/login">
           <img className="navbar-menu-icon" src={login} alt="Login" /> Login/
@@ -146,7 +152,6 @@ const Navbar = props => {
     </div>
   );
 };
-
 
 const navbarWithSocket = props => (
   <SocketContext.Consumer>
