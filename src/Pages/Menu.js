@@ -9,7 +9,7 @@ import Search from "./Search.js";
 import * as TYPES from "Store/actionTypes.js";
 import SocketContext from "../socket-context";
 import FoodItem from "components/FoodItem";
-import { InputGroup, FormControl } from "react-bootstrap";
+import { InputGroup, FormControl, Modal, Button } from "react-bootstrap";
 import SearchFoodItems from "components/SearchFoodItems.js";
 const Menu = props => {
   const {
@@ -22,7 +22,8 @@ const Menu = props => {
   } = React.useContext(StoreContext);
 
   const [state, setState] = React.useState({
-    activeMenu: "food"
+    activeMenu: "food",
+    showData: true
   });
 
   React.useEffect(() => {
@@ -66,10 +67,33 @@ const Menu = props => {
     setState(state => ({ ...state, activeMenu: name }));
     dispatch({ type: TYPES.ADD_SELECT_DATA, payload: type });
   };
+  const handleClose = () => setState({ showData: false });
+  const handleShow = () => setState({ showData: true });
 
   return (
     <>
-      {searchClicked === true ? (
+      {localStorage.getItem("table_id") === null && state.showData === true ? (
+        <Modal
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+          show={state.showData}
+          onHide={handleClose}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title></Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            <p>Please scan a new table to continue</p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      ) : searchClicked === true ? (
         <SearchFoodItems />
       ) : (
         <>
@@ -125,7 +149,6 @@ const Menu = props => {
     </>
   );
 };
-
 
 const SubCategory = ({ subs, categories, activeData }) => (
   <>

@@ -118,7 +118,8 @@ const Home = props => {
   const [state, setState] = React.useState({
     height: "",
     active: false,
-    subMenu: [] //0: Personal cart, 1: Table cart
+    subMenu: [], //0: Personal cart, 1: Table cart
+    showData: true
   });
 
   React.useEffect(() => {
@@ -178,7 +179,7 @@ const Home = props => {
 
     props.socket.off("table_details").on("table_details", msg => {
       const data = JSON.parse(msg);
-      console.log('AAA--->', data)
+      console.log("AAA--->", data);
       dispatch({
         type: TYPES.UPDATE_TABLE_USERS,
         payload: data.users
@@ -240,9 +241,8 @@ const Home = props => {
     props.socket.off("home_screen_lists").on("home_screen_lists", msg => {
       dispatch({ type: TYPES.UPDATE_HOME_ITEMS, payload: JSON.parse(msg) });
     });
-  }, [props.socket,dispatch, props.location]);
+  }, [props.socket, dispatch, props.location]);
 
-  const [show, setShow] = React.useState(false);
   const selectOption = (foodItem, item) => {
     foodItem.food_option = item;
   };
@@ -266,8 +266,6 @@ const Home = props => {
     });
     dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
   };
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
   const setIndex = (foodItem, index, subsIndex) => {
     activeData.forEach((item, index3) => {
@@ -309,9 +307,35 @@ const Home = props => {
     dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
   };
 
+  
+
+  const handleClose = () => setState({ showData: false });
+  const handleShow = () => setState({ showData: true });
+
   return (
     <>
-      {searchClicked === true ? (
+      {localStorage.getItem("table_id") === null && state.showData === true ? (
+        <Modal
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+          show={state.showData}
+          onHide={handleClose}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title></Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            <p>Please scan a new table to continue</p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      ) : searchClicked === true ? (
         <SearchFoodItems />
       ) : (
         <div

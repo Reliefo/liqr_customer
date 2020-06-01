@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import React from "react";
 import { Link } from "react-router-dom";
-import { Card, Row, Col, Form } from "react-bootstrap";
+import { Card, Row, Col, Form, Modal, Button } from "react-bootstrap";
 import AddRemoveItem from "components/AddRemoveItem.js";
 import { StoreContext } from "Store";
 import ReactDOM from "react-dom";
@@ -15,7 +15,7 @@ import { ReactComponent as TableSVG } from "assets/table.svg";
 import { ReactComponent as EmptyCartSadIMG } from "assets/empty-card-sad.svg";
 import CloseSVG from "components/CloseSVG.js";
 import _ from "lodash";
-import { Table as RBTable, Button, Collapse } from "react-bootstrap";
+import { Table as RBTable, Collapse } from "react-bootstrap";
 import Bill from "components/Bill.js";
 import CollapseDetails from "./Collapse.js";
 import { ReactComponent as TableFilledIMG } from "assets/Table-Filled.svg";
@@ -38,7 +38,8 @@ const Cart = props => {
   }
 
   const [state, setState] = React.useState({
-    activeCart: 0 //0: Personal cart, 1: Table cart
+    activeCart: 0, //0: Personal cart, 1: Table cart
+    showData: true
   });
 
   React.useEffect(() => {
@@ -81,11 +82,9 @@ const Cart = props => {
         payload: []
       });
       props.history.push("/table");
-    }
-    else {
+    } else {
       dispatch({ type: TYPES.RESET_CART });
     }
-
   });
 
   props.socket.off("table_cart_orders").on("table_cart_orders", msg => {
@@ -122,8 +121,7 @@ const Cart = props => {
     props.socket.off("new_orders").on("new_orders", msg => {
       dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
       if (JSON.parse(msg).personal_order === undefined) {
-      }
-      else {
+      } else {
         dispatch({ type: TYPES.RESET_CART });
       }
       props.history.push("/table");
@@ -407,9 +405,32 @@ const Cart = props => {
     if (state.activeCart === 0 && cart.length === 0) return true;
     if (state.activeCart === 1) return false; //TODO: figure this out
   };
+
+  const handleClose = () => setState({ showData: false });
   return (
     <>
-      {searchClicked === true ? (
+      {localStorage.getItem("table_id") === null && state.showData === true ? (
+        <Modal
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+          show={state.showData}
+          onHide={handleClose}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title></Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            <p>Please scan a new table to continue</p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      ) : searchClicked === true ? (
         <SearchFoodItems />
       ) : (
         <div
