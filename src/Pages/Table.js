@@ -1,6 +1,6 @@
 import React from "react";
 import { StoreContext } from "Store";
-import { Card, Accordion, Button } from "react-bootstrap";
+import { Card, Accordion, Button, Modal } from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
 import SocketContext from "../socket-context";
 import SearchFoodItems from "components/SearchFoodItems.js";
@@ -43,7 +43,7 @@ const Table = props => {
       const { order_history } = ms;
       props.history.push("/billing", {
         data: order_history
-      })
+      });
       const { message } = ms;
 
       toast.info(message, {
@@ -55,8 +55,6 @@ const Table = props => {
         draggable: true,
         progress: undefined
       });
-
-      
     });
 
     const body = {
@@ -90,9 +88,36 @@ const Table = props => {
     if (orderSuccess.length === 0) return true;
   };
 
+  const [state, setState] = React.useState({
+    showData: true
+  });
+
+  const handleClose = () => setState({ showData: false });
+
   return (
     <>
-      {searchClicked === true ? (
+      {localStorage.getItem("table_id") === null && state.showData === true ? (
+        <Modal
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+          show={state.showData}
+          onHide={handleClose}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title></Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            <p>Please scan a new table to continue</p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      ) : searchClicked === true ? (
         <SearchFoodItems />
       ) : isEmpty() ? (
         <div className="order-status-styling">
