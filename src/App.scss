@@ -960,3 +960,26 @@ input[type="radio"] {
   visibility: visible;
   box-shadow: 0px 0px 0px 2px #ffb023;
 }
+
+#connected-socket {
+  position: absolute;
+  background-color: green;
+  background: green;
+  border-radius: 50%;
+  display: block;
+  width: 10px;
+  height: 10px;
+  top: 0.2rem;
+}
+
+#dis-connected-socket {
+  position: absolute;
+  background-color: red;
+  background: red;
+  border-radius: 50%;
+  display: block;
+  width: 10px;
+  height: 10px;
+  top: 0.2rem;
+}
+
