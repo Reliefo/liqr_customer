@@ -4,7 +4,7 @@ import ReactDOM from "react-dom";
 import LoaderButton from "../components/LoaderButton";
 import axios from "axios";
 import AppWrapper from "../App";
-import { Auth } from "aws-amplify";
+import { v4 as uuidv4 } from "uuid";
 
 export default class Signup extends Component {
   constructor(props) {
@@ -41,9 +41,9 @@ export default class Signup extends Component {
   handleSubmit = async event => {
     event.preventDefault();
     this.setState({ isLoading: true });
-
+    const uniqueId = `${uuidv4().substring(0, 15)}`;
     let bodyFormData = new FormData();
-    bodyFormData.set("unique_id", localStorage.getItem("uniqueId"));
+    bodyFormData.set("unique_id", uniqueId);
     bodyFormData.set("password", this.state.password);
     bodyFormData.set("email_id", this.state.email);
     bodyFormData.set("name", this.state.name);
@@ -57,6 +57,7 @@ export default class Signup extends Component {
       const { data } = response;
       localStorage.setItem("jwt", data.jwt);
       localStorage.setItem("refreshToken", data.refresh_token);
+      localStorage.setItem('unique_id', uniqueId)
       localStorage.setItem("user_id", data.user_id);
       localStorage.setItem("name", data.name);
       ReactDOM.render(<AppWrapper />, document.getElementById("root"));
@@ -117,7 +118,7 @@ export default class Signup extends Component {
   renderForm() {
     return (
       <form onSubmit={this.handleSubmit}>
-          <div className="sign-in">Sign Up</div>
+        <div className="sign-in">Sign Up</div>
         <FormGroup controlId="email" bsSize="large">
           <label className="sign-in-label">Email</label>
           <FormControl
