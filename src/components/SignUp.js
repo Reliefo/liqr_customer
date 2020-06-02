@@ -43,7 +43,12 @@ export default class Signup extends Component {
     this.setState({ isLoading: true });
     const uniqueId = `${uuidv4().substring(0, 15)}`;
     let bodyFormData = new FormData();
-    bodyFormData.set("unique_id", uniqueId);
+    bodyFormData.set(
+      "unique_id",
+      localStorage.getItem("unique_id") !== null
+        ? localStorage.getItem("unique_id")
+        : uniqueId
+    );
     bodyFormData.set("password", this.state.password);
     bodyFormData.set("email_id", this.state.email);
     bodyFormData.set("name", this.state.name);
@@ -57,7 +62,7 @@ export default class Signup extends Component {
       const { data } = response;
       localStorage.setItem("jwt", data.jwt);
       localStorage.setItem("refreshToken", data.refresh_token);
-      localStorage.setItem("unique_id", uniqueId);
+      localStorage.setItem("unique_id",  localStorage.getItem("unique_id") !== null ? localStorage.getItem("unique_id") : uniqueId );
       localStorage.setItem("user_id", data.user_id);
       localStorage.setItem("name", data.name);
       ReactDOM.render(<AppWrapper />, document.getElementById("root"));
