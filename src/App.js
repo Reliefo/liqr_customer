@@ -11,7 +11,7 @@ import Cart from "./Pages/Cart";
 import Table from "./Pages/Table";
 import Visits from "./Pages/Visits";
 import BillingInformation from "./Pages/BillingInformation";
-import SearchItems from "./Pages/SearchItems";
+import SearchItems from "./Pages/searchItems";
 import DineHistory from "./Pages/dineHistory";
 import PreviousVisits from "./Pages/PreviousVisits";
 import "./styles.css";
