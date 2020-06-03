@@ -32,7 +32,6 @@ const FooterNav = props => {
     dispatch
   } = React.useContext(StoreContext);
   React.useEffect(() => {
-
     props.socket.off("assist").on("assist", ms => {
       const message = JSON.parse(ms);
       const { msg } = message;
@@ -92,6 +91,11 @@ const FooterNav = props => {
     props.socket.emit("assistance_requests", JSON.stringify(body));
   };
 
+  const closeMenu = () => {
+    dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
+    dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
+  };
+
   const footerDiv =
     activeNav === "Home" ? "footer-nav custom-home-nav" : "footer-nav";
 
@@ -109,7 +113,9 @@ const FooterNav = props => {
         draggable
         pauseOnHover
       />
-      {props.location.pathname === "/register" || props.location.pathname === "/login" || props.location.pathname === "/"? null : (
+      {props.location.pathname === "/register" ||
+      props.location.pathname === "/login" ||
+      props.location.pathname === "/" ? null : (
         <div className={footerDiv}>
           {activeNav === "Menu" && (
             <div className="floating-container-menu">
@@ -126,7 +132,7 @@ const FooterNav = props => {
               >
                 {activeData.map((item, idx) => {
                   return (
-                    <div key={idx}>
+                    <div key={idx} onClick={() => closeMenu()}>
                       <a href={`#menu-${idx}`}> {item.name}</a>
                     </div>
                   );
