@@ -119,7 +119,8 @@ const Home = props => {
     height: "",
     active: false,
     subMenu: [], //0: Personal cart, 1: Table cart
-    showData: true
+    showData: true,
+    imageLink: ""
   });
 
   React.useEffect(() => {
@@ -201,9 +202,9 @@ const Home = props => {
         payload: data.table_cart || []
       });
     });
-
     props.socket.off("restaurant_object").on("restaurant_object", msg => {
       const resp = JSON.parse(msg);
+      setState({ imageLink: resp.home_page_images[0] });
 
       dispatch({ type: TYPES.SET_RESTAURANT_NAME, payload: resp.name });
       dispatch({ type: TYPES.ADD_DATA, payload: resp });
@@ -331,22 +332,8 @@ const Home = props => {
               <Carousel.Item>
                 <img
                   className="d-block w-100"
-                  src="https://picsum.photos/800/400?text=First slide&bg=373940"
+                  src={state.imageLink}
                   alt="First slide"
-                />
-              </Carousel.Item>
-              <Carousel.Item>
-                <img
-                  className="d-block w-100"
-                  src="https://picsum.photos/800/400?text=Second slide&bg=282c34"
-                  alt="Second slide"
-                />
-              </Carousel.Item>
-              <Carousel.Item>
-                <img
-                  className="d-block w-100"
-                  src="https://picsum.photos/800/400?text=Third slide&bg=20232a"
-                  alt="Third slide"
                 />
               </Carousel.Item>
             </Carousel>
