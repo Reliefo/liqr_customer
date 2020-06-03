@@ -42,6 +42,10 @@ export default class Signup extends Component {
     event.preventDefault();
     this.setState({ isLoading: true });
     const uniqueId = `${uuidv4().substring(0, 15)}`;
+    let parm = window.location.href;
+    parm = parm.split("=");
+    let table_id =
+      parm[1] !== undefined ? parm[1] : localStorage.getItem("table_id");
     let bodyFormData = new FormData();
     bodyFormData.set(
       "unique_id",
@@ -52,7 +56,7 @@ export default class Signup extends Component {
     bodyFormData.set("password", this.state.password);
     bodyFormData.set("email_id", this.state.email);
     bodyFormData.set("name", this.state.name);
-    bodyFormData.set("table_id", localStorage.getItem("table_id"));
+    bodyFormData.set("table_id", table_id);
 
     axios({
       method: "post",
@@ -61,8 +65,14 @@ export default class Signup extends Component {
     }).then(response => {
       const { data } = response;
       localStorage.setItem("jwt", data.jwt);
+      
       localStorage.setItem("refreshToken", data.refresh_token);
-      localStorage.setItem("unique_id",  localStorage.getItem("unique_id") !== null ? localStorage.getItem("unique_id") : uniqueId );
+      localStorage.setItem(
+        "unique_id",
+        localStorage.getItem("unique_id") !== null
+          ? localStorage.getItem("unique_id")
+          : data.unique_id
+      );
       localStorage.setItem("user_id", data.user_id);
       localStorage.setItem("name", data.name);
       ReactDOM.render(<AppWrapper />, document.getElementById("root"));

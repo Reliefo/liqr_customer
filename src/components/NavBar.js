@@ -55,6 +55,9 @@ const Navbar = props => {
     localStorage.removeItem("jwt");
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("name");
+    localStorage.removeItem("user_id");
+    localStorage.removeItem("registeredUser");
+    localStorage.removeItem("email_id");
     sessionStorage.removeItem("relief");
     localStorage.removeItem("restaurant_id");
   };
