@@ -162,12 +162,16 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
     <Card id={foodItem.name} className="category-card food-item">
       <div>
         <div>
-          <img
-            style={from === "home" ? { height: "100%" } : { height: "100px" }}
-            className="card-image"
-            src={foodItem.image_link}
-            alt="sample"
-          />
+          {foodItem.image_link ? (
+            <img
+              style={from === "home" ? { height: "100%" } : { height: "100px" }}
+              className="card-image"
+              src={foodItem.image_link}
+              alt="sample"
+            />
+          ) : (
+            <div className="card-image"></div>
+          )}
         </div>
         <div
           style={
@@ -210,7 +214,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
       </Card.Body> */}
       {foodItem.foodOptions && foodItem.foodOptions === true ? (
         <Modal
-          style={{zIndex: 10000}}
+          style={{ zIndex: 10000 }}
           size="lg"
           aria-labelledby="contained-modal-title-vcenter"
           centered
@@ -223,8 +227,8 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
               <div className="options-modal">{foodItem.description}</div>
             </Modal.Title>
           </Modal.Header>
-          
-          <Modal.Body style={{'overflow-y': 'auto'}}>
+
+          <Modal.Body style={{ "overflow-y": "auto" }}>
             {cart.length
               ? cart.map(item => {
                   if (foodItem._id.$oid === item._id.$oid) {
@@ -424,7 +428,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
                               }
                             );
                           };
-                         
+
                           return (
                             <div key={idx}>
                               <label>
@@ -450,26 +454,26 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
                         <br />
                         Choices
                         {Object.values(item[1]).map((item1, idx) => {
-                            let selectedChoice = foodItem.indexSelected1;
-                            if (selectedChoice === undefined) {
-                              selectedChoice = 0;
-                              foodItem.indexSelected1 = 0;
-                              foodItem.choiceSelected1 = true;
-                              selectChoice(foodItem, item1);
-                            }
-  
-                            const checkChoiceIndexValueAgain = index => {
-                              selectedChoice = index;
-                              foodItem.indexSelected1 = index;
-  
-                              Object.values(item[1]).forEach(
-                                (val, checkIndex) => {
-                                  if (index === checkIndex) {
-                                    selectChoice(foodItem, val);
-                                  }
+                          let selectedChoice = foodItem.indexSelected1;
+                          if (selectedChoice === undefined) {
+                            selectedChoice = 0;
+                            foodItem.indexSelected1 = 0;
+                            foodItem.choiceSelected1 = true;
+                            selectChoice(foodItem, item1);
+                          }
+
+                          const checkChoiceIndexValueAgain = index => {
+                            selectedChoice = index;
+                            foodItem.indexSelected1 = index;
+
+                            Object.values(item[1]).forEach(
+                              (val, checkIndex) => {
+                                if (index === checkIndex) {
+                                  selectChoice(foodItem, val);
                                 }
-                              );
-                            };
+                              }
+                            );
+                          };
                           return (
                             <div key={idx}>
                               <label>
@@ -477,7 +481,9 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
                                   id={idx}
                                   type="radio"
                                   checked={idx === selectedChoice}
-                                  onClick={() => checkChoiceIndexValueAgain(idx)}
+                                  onClick={() =>
+                                    checkChoiceIndexValueAgain(idx)
+                                  }
                                   label={item1}
                                   name="test1"
                                 />

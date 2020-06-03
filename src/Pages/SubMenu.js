@@ -15,6 +15,7 @@ const SubMenu = props => {
     dispatch,
     state: {
       homeItems,
+      activeData,
       rawData: { food_menu = [] }
     }
   } = React.useContext(StoreContext);
@@ -69,8 +70,12 @@ const SubMenu = props => {
                 if (list._id.$oid === item) {
                   return (
                     <FoodItem
+                      from="home"
+                      stateData={props.location.state.foodMenu}
                       foodItem={list}
-                      subs={index}
+                      subs={food}
+                      subsIndex={idx}
+                      index={ix}
                       key={`food-item-${index}`}
                     />
                   );

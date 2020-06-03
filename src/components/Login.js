@@ -2,9 +2,11 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import { FormGroup, FormControl, Button } from "react-bootstrap";
 import LoaderButton from "./LoaderButton";
+import { StoreContext } from "Store";
 import axios from "axios";
+import * as TYPES from "Store/actionTypes.js";
 import AppWrapper from "../App";
-import { v4 as uuidv4 } from "uuid"; 
+import { v4 as uuidv4 } from "uuid";
 
 export default class Login extends Component {
   constructor(props) {
@@ -39,6 +41,7 @@ export default class Login extends Component {
           data: bodyFormData
         }).then(response => {
           const { data } = response;
+          
           localStorage.setItem("table_id", parm[1]);
           ReactDOM.render(<AppWrapper />, document.getElementById("root"));
           this.props.history.push("/home", {
@@ -72,7 +75,6 @@ export default class Login extends Component {
           const { data } = response;
           localStorage.setItem("table_id", parm[1]);
           ReactDOM.render(<AppWrapper />, document.getElementById("root"));
-         
         });
       } else {
         ReactDOM.render(<AppWrapper />, document.getElementById("root"));
@@ -99,9 +101,8 @@ export default class Login extends Component {
     const uniqueId = `${uuidv4().substring(0, 15)}`;
     if (localStorage.getItem("unique_id") === null) {
       localStorage.setItem("unique_id", uniqueId);
-    }
-    else {
-      localStorage.setItem("unique_id", localStorage.getItem('unique_id'));
+    } else {
+      localStorage.setItem("unique_id", localStorage.getItem("unique_id"));
     }
     let bodyFormData = new FormData();
     bodyFormData.set(
@@ -126,7 +127,7 @@ export default class Login extends Component {
         localStorage.setItem("jwt", data.jwt);
         localStorage.setItem("table_id", table_id);
         localStorage.setItem("restaurant_id", data.restaurant_id);
-        localStorage.setItem('unique_id', data.unique_id)
+        localStorage.setItem("unique_id", data.unique_id);
         localStorage.setItem("registeredUser", false);
         localStorage.setItem("refreshToken", data.refresh_token);
         localStorage.setItem("user_id", data.user_id);

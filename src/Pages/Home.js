@@ -161,6 +161,10 @@ const Home = props => {
         }, 1000);
       });
     }
+
+    if (props.location.state && props.location.state.login === true) {
+      dispatch({ type: TYPES.RESET_CART });
+    }
     const body = {
       user_id: localStorage.getItem("user_id"),
       restaurant_id: localStorage.getItem("restaurant_id")
