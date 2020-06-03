@@ -15,7 +15,8 @@ export default class Login extends Component {
     this.state = {
       isLoading: false,
       email: "",
-      password: ""
+      password: "",
+      errorMessage: ""
     };
   }
 
@@ -41,7 +42,7 @@ export default class Login extends Component {
           data: bodyFormData
         }).then(response => {
           const { data } = response;
-          
+
           localStorage.setItem("table_id", parm[1]);
           ReactDOM.render(<AppWrapper />, document.getElementById("root"));
           this.props.history.push("/home", {
@@ -145,45 +146,84 @@ export default class Login extends Component {
 
   handleSubmit = async event => {
     event.preventDefault();
-    this.setState({ isLoading: true });
+    try {
+      this.setState({ isLoading: true });
 
-    let parm = window.location.href;
-    parm = parm.split("=");
-    let table_id =
-      parm[1] !== undefined ? parm[1] : localStorage.getItem("table_id");
-    let bodyFormData = new FormData();
-    bodyFormData.set("password", this.state.password);
-    bodyFormData.set("unique_id", "");
-    bodyFormData.set("email_id", this.state.email);
-    bodyFormData.set("table_id", table_id);
+      let parm = window.location.href;
+      parm = parm.split("=");
+      let table_id =
+        parm[1] !== undefined ? parm[1] : localStorage.getItem("table_id");
+        const uniqueId = `${uuidv4().substring(0, 15)}`;
+      if (localStorage.getItem("registeredUser") === "true") {
+        let bodyFormData = new FormData();
+        bodyFormData.set("table_id", parm[1]);
+        bodyFormData.set(
+          "unique_id",
+          localStorage.getItem("unique_id") !== null
+            ? localStorage.getItem("unique_id")
+            : uniqueId
+        );
 
-    axios({
-      method: "post",
-      url: "https://liqr.cc/user_login",
-      data: bodyFormData
-    }).then(response => {
-      const { data } = response;
-      localStorage.setItem("jwt", data.jwt);
-      localStorage.setItem("table_id", table_id);
-      localStorage.setItem("registeredUser", true);
-      localStorage.setItem("email_id", this.state.email);
-      localStorage.setItem("restaurant_id", data.restaurant_id);
-      localStorage.setItem("refreshToken", data.refresh_token);
-      localStorage.setItem("user_id", data.user_id);
-      localStorage.setItem("name", data.name);
-      ReactDOM.render(<AppWrapper />, document.getElementById("root"));
-      this.props.history.push("/home", {
-        login: true
-      });
-    });
-    this.setState({ isLoading: false });
+        bodyFormData.set("email_id", localStorage.getItem("email_id"));
+        axios({
+          method: "post",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("refreshToken")}`
+          },
+          url: "https://liqr.cc/refresh",
+          data: bodyFormData
+        }).then(response => {
+          const { data } = response;
+
+          localStorage.setItem("table_id", parm[1]);
+          ReactDOM.render(<AppWrapper />, document.getElementById("root"));
+          this.props.history.push("/home", {
+            login: true
+          });
+        });
+      } else {
+        let bodyFormData = new FormData();
+        bodyFormData.set("password", this.state.password);
+        bodyFormData.set("unique_id", "");
+        bodyFormData.set("email_id", this.state.email);
+        bodyFormData.set("table_id", table_id);
+
+        axios({
+          method: "post",
+          url: "https://liqr.cc/user_login",
+          data: bodyFormData
+        }).then(response => {
+          const { data } = response;
+          if (data.code === "401") {
+            this.setState({ errorMessage: data.status });
+          } else {
+            localStorage.setItem("jwt", data.jwt);
+            localStorage.setItem("table_id", table_id);
+            localStorage.setItem("registeredUser", true);
+            localStorage.setItem("email_id", this.state.email);
+            localStorage.setItem("restaurant_id", data.restaurant_id);
+            localStorage.setItem("refreshToken", data.refresh_token);
+            localStorage.setItem("user_id", data.user_id);
+            localStorage.setItem("name", data.name);
+            ReactDOM.render(<AppWrapper />, document.getElementById("root"));
+            this.props.history.push("/home", {
+              login: true
+            });
+          }
+        });
+        this.setState({ isLoading: false });
+      }
+    } catch (e) {
+      alert(e.message);
+    }
   };
 
   render() {
+    const { errorMessage } = this.state;
     return (
       <div className="Login">
         <div className="sign-in">Sign In</div>
-        <form onSubmit={this.handleSubmit}>
+        <form>
           <FormGroup controlId="email" bsSize="large">
             <label className="sign-in-label">Email ID</label>
             <FormControl
@@ -211,16 +251,29 @@ export default class Login extends Component {
               type="password"
             />
           </FormGroup>
-          <LoaderButton
+          {errorMessage ? (
+            <div className="error-handling">{errorMessage} </div>
+          ) : (
+            ""
+          )}
+          <Button
             block
             bsSize="large"
-            disabled={!this.validateForm()}
-            type="submit"
+            onClick={this.handleSubmit}
             isLoading={this.state.isLoading}
-            text="Login"
             className="sign-in-button"
             loadingText="Logging in…"
-          />
+          >
+            {localStorage.getItem("registeredUser") !== null ? (
+              localStorage.getItem("registeredUser") === "true" ? (
+                <div>Login as {localStorage.getItem("name")}</div>
+              ) : (
+                "Log In"
+              )
+            ) : (
+              "Log In"
+            )}
+          </Button>
         </form>
         <div className="sign-in-or">or</div>
         <div>
@@ -274,7 +327,15 @@ export default class Login extends Component {
           onClick={this.skipSignIn}
           className="sign-in-button"
         >
-          Skip Sign In
+          {localStorage.getItem("registeredUser") !== null ? (
+            localStorage.getItem("registeredUser") === "false" ? (
+              <div>Continue as {localStorage.getItem("name")}</div>
+            ) : (
+              "Skip Sign In"
+            )
+          ) : (
+            "Skip Sign In"
+          )}
         </Button>
       </div>
     );
