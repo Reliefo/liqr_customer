@@ -208,29 +208,9 @@ const Home = props => {
 
       let justBarItems = [];
       let justFoodItems = [];
-      const barMenu = resp.bar_menu;
-      for (let i = 0; i < barMenu.length; ++i) {
-        const Sub = resp.food_menu[i].name;
-        for (let j = 0; j < resp.bar_menu[i].food_list.length; ++j) {
-          justFoodItems.push(resp.bar_menu[i].food_list[j]);
-          // const FoodList = Sub[j].foodlist;
-          // for (let k = 0; k < FoodList.length; ++k) {
-          //   justFoodItems.push(FoodList[k]);
-          // }
-        }
-      }
 
-      const Menu = resp.food_menu;
-      for (let i = 0; i < Menu.length; ++i) {
-        const Sub = resp.food_menu[i].name;
-        for (let j = 0; j < resp.food_menu[i].food_list.length; ++j) {
-          justFoodItems.push(resp.food_menu[i].food_list[j]);
-          // const FoodList = Sub[j].foodlist;
-          // for (let k = 0; k < FoodList.length; ++k) {
-          //   justFoodItems.push(FoodList[k]);
-          // }
-        }
-      }
+      justFoodItems.push(resp.bar_menu);
+      justFoodItems.push(resp.food_menu);
       dispatch({
         type: TYPES.ADD_COLLECTIVE_FOODITEMS,
         payload: justFoodItems
@@ -305,8 +285,6 @@ const Home = props => {
     });
     dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
   };
-
-  
 
   const handleClose = () => setState({ showData: false });
   const handleShow = () => setState({ showData: true });

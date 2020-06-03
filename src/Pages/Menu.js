@@ -130,7 +130,7 @@ const Menu = props => {
               {activeData.length &&
                 activeData.map((item, idx) => (
                   <React.Fragment key={`Category-${idx}`}>
-                    <p className="category-subs" style={{ zIndex: idx + 1 }}>
+                    <p  className="category-subs" style={{ zIndex: idx + 1 }}>
                       {item.name}
                     </p>
 

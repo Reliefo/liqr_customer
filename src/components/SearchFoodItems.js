@@ -14,17 +14,16 @@ const SearchFoodItems = () => {
     <div className="category">
       <Search />
       <ul style={{ listStyleType: "none" }}>
-        {activeData.map((foodItem, idx) => {
-          //to make it case insensitive
-          return foodItem.food_list.map((data, idx3) => {
-            const name = data.name.toLowerCase();
-            const mathingValue = searchValue.toLowerCase();
-            const isMatch = name.indexOf(mathingValue) !== -1;
-            return (
-                
+        {justMenuItems.map((foodItem1, idx9) => {
+          return foodItem1.map((foodItem, idx) => {
+            return foodItem.food_list.map((data, idx3) => {
+              const name = data.name.toLowerCase();
+              const mathingValue = searchValue.toLowerCase();
+              const isMatch = name.indexOf(mathingValue) !== -1;
+              return (
                 <li key={idx3} style={{ display: isMatch ? "" : "none" }}>
                   <FoodItem
-                    stateData={activeData}
+                    stateData={justMenuItems}
                     foodItem={data}
                     subs={foodItem}
                     subsIndex={idx}
@@ -32,8 +31,8 @@ const SearchFoodItems = () => {
                     key={`food-item-${idx3}`}
                   />
                 </li>
-              
-            );
+              );
+            });
           });
         })}
       </ul>
