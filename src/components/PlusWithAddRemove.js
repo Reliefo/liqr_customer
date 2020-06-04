@@ -16,6 +16,7 @@ const PlusWithAddRemove = ({ item, idx, subs }) => {
     showAddRemove: false,
     showPlusMinus: false,
     showQuantity: false,
+    itemName: item.name,
     count: null //if 0,delt effect fires up //maintaining internal state, so that we don't need to pull individual card state from the store
   });
 
@@ -36,7 +37,8 @@ const PlusWithAddRemove = ({ item, idx, subs }) => {
         ...state,
         quantity: cart[idx].quantity,
         showAddRemove: true,
-        showPlusMinus: true
+        showPlusMinus: true,
+        itemName: item.name
       }));
     }
 
@@ -44,7 +46,7 @@ const PlusWithAddRemove = ({ item, idx, subs }) => {
       itm =>
         itm._id.$oid === item._id.$oid &&
         item.foodOptions === true &&
-        item.showCustomize === false
+        item.showCustomize === false,
     );
     if (cart.length > 0 && nidx !== -1) {
         setState(state => ({
@@ -52,7 +54,8 @@ const PlusWithAddRemove = ({ item, idx, subs }) => {
           quantity: cart[nidx].quantity,
           showAddRemove: true,
           showPlusMinus: false,
-          showQuantity: true
+          showQuantity: true,
+          itemName: item.name
         }));
     }
 
@@ -64,7 +67,8 @@ const PlusWithAddRemove = ({ item, idx, subs }) => {
         ...state,
         quantity: cart[ix].quantity,
         showAddRemove: true,
-        showPlusMinus: true
+        showPlusMinus: true,
+        itemName: item.name
       }));
     }
   }, []);
@@ -152,12 +156,13 @@ const PlusWithAddRemove = ({ item, idx, subs }) => {
         ...state,
         showAddRemove: true,
         showPlusMinus: true,
-        quantity: 1
+        quantity: 1,
+        itemName: item.name
       }));
     }
   };
 
-
+// console.log("NTEST--->", state)
 
   return (
     <>
@@ -165,7 +170,7 @@ const PlusWithAddRemove = ({ item, idx, subs }) => {
         <button className="add-button-item" onClick={onClickPlus}>
           Add({item.quantity})
         </button>
-      ) : state.showAddRemove && state.showPlusMinus ? (
+      ) : state.showAddRemove && state.showPlusMinus && state.itemName === item.name ? (
         <div className="dynamic-button">
           <AddRemoveItem
             id={item}
