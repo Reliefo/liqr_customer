@@ -54,6 +54,8 @@ const DineHistory = props => {
     });
   }, []);
 
+  console.log("TAER--->", dineHistory);
+
   return (
     <>
       {searchClicked === true ? (
@@ -124,29 +126,8 @@ const DineHistory = props => {
                           className="table-name-card"
                           style={{ float: "left", textTransform: "capitalize" }}
                         >
-                          Order Total <br />
-                          {Object.entries(item).forEach(item5 => {
-                            if (item5[0] === "table_orders") {
-                              if (item5[1] && item5[1].length > 0) {
-                                item5[1].forEach(item4 => {
-                                  item4.orders.forEach(item9 => {
-                                    item9.food_list.forEach(item3 => {
-                                      if (item.options) {
-                                        sum +=
-                                          parseInt(item3.options.option_price) *
-                                          item3.quantity;
-                                      } else {
-                                        sum += parseInt(
-                                          item3.price * item3.quantity
-                                        );
-                                      }
-                                    });
-                                  });
-                                });
-                              }
-                            }
-                          })}
-                          ₹ {sum}
+                          Order Total <br />₹{" "}
+                          {item.bill_structure["Total Amount"]}
                         </p>
                         <p
                           className="table-name-card"
