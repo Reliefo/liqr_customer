@@ -121,30 +121,8 @@ const Visits = props => {
                               textTransform: "capitalize"
                             }}
                           >
-                            Order Total <br />
-                            {Object.entries(item).forEach(item5 => {
-                              if (item5[0] === "table_orders") {
-                                if (item5[1] && item5[1].length > 0) {
-                                  item5[1].forEach(item4 => {
-                                    item4.orders.forEach(item9 => {
-                                      item9.food_list.forEach(item3 => {
-                                        if (item.options) {
-                                          sum +=
-                                            parseInt(
-                                              item3.options.option_price
-                                            ) * item3.quantity;
-                                        } else {
-                                          sum += parseInt(
-                                            item3.price * item3.quantity
-                                          );
-                                        }
-                                      });
-                                    });
-                                  });
-                                }
-                              }
-                            })}
-                            ₹ {sum}
+                            Order Total <br />₹{" "}
+                            {item.bill_structure["Total Amount"]}
                           </p>
                           <p
                             className="table-name-card"
@@ -223,6 +201,112 @@ const Visits = props => {
                             });
                           });
                         })}
+                      </div>
+                      <hr />
+                      <div
+                        style={{
+                          float: "left",
+                          height: "25px",
+                          paddingLeft: "2%",
+                          width: "100%",
+                          margin: "0 auto"
+                        }}
+                      >
+                        <p
+                          className="table-name-card-billing"
+                          style={{
+                            float: "left",
+                            width: "40%",
+                            textTransform: "capitalize"
+                          }}
+                        >
+                          <b>Order Total</b>
+                        </p>
+                        <p
+                          className="table-name-card-billing"
+                          style={{ float: "right", paddingRight: "10%", height: "25px", }}
+                        >
+                          <b> ₹ {item.bill_structure["Total Amount"]}</b>
+                        </p>
+                      </div>
+                      <div
+                        style={{
+                          float: "left",
+                          paddingLeft: "2%",
+                          height: "25px",
+                          width: "100%",
+                          margin: "0 auto"
+                        }}
+                      >
+                        <p
+                          className="table-name-card-billing"
+                          style={{
+                            float: "left",
+                            width: "40%",
+                            
+                            textTransform: "capitalize"
+                          }}
+                        >
+                          <b>CGST</b>
+                        </p>
+                        <p
+                          className="table-name-card-billing"
+                          style={{ float: "right", paddingRight: "10%" }}
+                        >
+                          <b> {item.taxes["CGST"]}%</b>
+                        </p>
+                      </div>
+                      <div
+                        style={{
+                          float: "left",
+                          paddingLeft: "2%",
+                          height: "25px",
+                          width: "100%",
+                          margin: "0 auto"
+                        }}
+                      >
+                        <p
+                          className="table-name-card-billing"
+                          style={{
+                            float: "left",
+                            width: "40%",
+                            textTransform: "capitalize"
+                          }}
+                        >
+                          <b>SGST</b>
+                        </p>
+                        <p
+                          className="table-name-card-billing"
+                          style={{ float: "right", paddingRight: "10%" }}
+                        >
+                          <b> {item.taxes["SGST"]}%</b>
+                        </p>
+                      </div>
+                      <div
+                        style={{
+                          float: "left",
+                          paddingLeft: "2%",
+
+                          width: "100%",
+                          margin: "0 auto"
+                        }}
+                      >
+                        <p
+                          className="table-name-card-billing"
+                          style={{
+                            float: "left",
+                            width: "40%",
+                            textTransform: "capitalize"
+                          }}
+                        >
+                          <b>Service Charge</b>
+                        </p>
+                        <p
+                          className="table-name-card-billing"
+                          style={{ float: "right", paddingRight: "10%" }}
+                        >
+                          <b> {item.taxes["Service"]}%</b>
+                        </p>
                       </div>
                     </Card>
                   </div>

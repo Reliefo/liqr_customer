@@ -395,8 +395,6 @@ const Home = props => {
                       }
                       return Object.values(activeData).map((food, idx) => {
                         return Object.values(food.food_list).map((list, ix) => {
-                          let desc = list.description.substring(0, 40) + "...";
-                          list.description = desc;
                           if (list._id.$oid === item) {
                             return (
                               <div id="card-home-screen">
