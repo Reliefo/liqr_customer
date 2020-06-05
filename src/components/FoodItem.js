@@ -158,6 +158,8 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
     dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
   };
 
+  let desc = foodItem.description.substring(0, 40) + "...";
+
   return (
     <Card id={foodItem.name} className="category-card food-item">
       <div>
@@ -181,7 +183,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
           }
         >
           <p className="item-name">{foodItem.name}</p>
-          <div className="options-modal">{foodItem.description}</div>
+          <div className="options-modal">{desc}</div>
           <div>
             <p className="item-price">₹ {foodItem.price}</p>
             <PlusWithAddRemove item={foodItem} idx={index} subs={subsIndex} />
@@ -542,6 +544,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
 
       {foodItem.showDetails && foodItem.showDetails === true ? (
         <Modal
+          style={{ zIndex: 10000 }}
           size="lg"
           aria-labelledby="contained-modal-title-vcenter"
           centered
@@ -550,12 +553,71 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
         >
           <Modal.Header>
             <Modal.Title className="details-title">
-              <img className="detailsImage" src={sampleImage} alt="img" />
+              {foodItem.image_link ? (
+                <img
+                  className="detailsImage"
+                  src={foodItem.image_link}
+                  alt="img"
+                />
+              ) : (
+                ""
+              )}
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            {foodItem.name} <br />{" "}
-            <div className="options-modal">{foodItem.description}</div>
+            <p style={{ float: "left" }}> {foodItem.name}</p>{" "}
+            <b>
+              <p style={{ float: "right" }}>₹ {foodItem.price}</p>
+            </b>
+            <div>
+              <div
+                style={{ float: "left", width: "100%", paddingBottom: "2%" }}
+                className="options-modal"
+              >
+                {foodItem.description}
+              </div>
+            </div>
+            <br />
+            <div className="options-modal" style={{ float: "left" }}>
+              {foodItem.food_options ? (
+                foodItem.food_options.options ? (
+                  <b> Options:</b>
+                ) : (
+                  ""
+                )
+              ) : (
+                ""
+              )}
+              <br />
+              {foodItem.food_options
+                ? foodItem.food_options.options
+                  ? Object.entries(foodItem.food_options).map((item, index) => {
+                      if (item[0] === "options")
+                        return Object.values(item[1]).map((item1, idx) => {
+                          return (
+                            <div style={{ textTransform: "capitalize" }}>
+                              {item1.option_name}
+                            </div>
+                          );
+                        });
+                      if (item[0] === "choices" && item[1].length > 0)
+                        return (
+                          <div className="radio-div-2">
+                            <br />
+                            Choices
+                            {Object.values(item[1]).map((item1, idx) => {
+                              return (
+                                <div style={{ textTransform: "capitalize" }}>
+                                  {item1}
+                                </div>
+                              );
+                            })}
+                          </div>
+                        );
+                    })
+                  : ""
+                : ""}
+            </div>
           </Modal.Body>
           <Modal.Footer>
             <Button
