@@ -244,7 +244,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
                               float: "left"
                             }}
                           >
-                            Rs{" "}
+                            ₹{" "}
                             {item.options !== undefined
                               ? item.options.option_price
                               : item.price}{" "}
@@ -596,7 +596,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
                         return Object.values(item[1]).map((item1, idx) => {
                           return (
                             <div style={{ textTransform: "capitalize" }}>
-                              {item1.option_name}
+                              {item1.option_name} - <b>₹{item1.option_price}</b>
                             </div>
                           );
                         });
