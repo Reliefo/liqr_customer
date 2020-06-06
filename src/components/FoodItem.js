@@ -86,6 +86,23 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
       dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
     }
   };
+
+  const addItemDetails = (item, index, subsIndex) => {
+    activeData.forEach((item2, index3) => {
+      if (index3 === subsIndex) {
+        item2.food_list.forEach((item3, idx2) => {
+          if (idx2 === index) {
+            console.log("item3", item3);
+            item3.showDetails = false;
+            item3.foodOptions = true;
+            item3.showPopup = true;
+          }
+        });
+      }
+    });
+    dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
+  };
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -172,14 +189,16 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
               alt="sample"
             />
           ) : (
-            <div className="card-image"></div>
+            ""
           )}
         </div>
         <div
           style={
             from === "home"
-              ? { lineHeight: "155%", marginLeft: "2%", width: "80%" }
-              : { lineHeight: "210%", marginLeft: "2%", width: "80%" }
+              ? foodItem.image_link
+                ? { lineHeight: "155%", marginLeft: "2%", width: "80%" }
+                : { lineHeight: "210%", marginLeft: "2%", width: "80%" }
+              : { lineHeight: "210%", marginLeft: "2%", width: "100%" }
           }
         >
           <p className="item-name">{foodItem.name}</p>
@@ -627,6 +646,17 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
             >
               Close
             </Button>
+            {foodItem.foodOptions ? (
+              <Button
+                className="options-button-add"
+                variant="primary"
+                onClick={() => addItemDetails(foodItem, index, subsIndex)}
+              >
+                Add
+              </Button>
+            ) : (
+              <PlusWithAddRemove from= "details" item={foodItem} idx={index} subs={subsIndex} />
+            )}
           </Modal.Footer>
         </Modal>
       ) : (
