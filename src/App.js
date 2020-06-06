@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.scss";
+import ReactDOM from "react-dom";
 import { BrowserRouter, Route } from "react-router-dom";
 import axios from "axios";
 import Home from "./Pages/Home";
@@ -29,14 +30,25 @@ export default function AppWrapper() {
     transportOptions: {
       polling: {
         extraHeaders: {
-          Authorization: `Bearer ${localStorage.getItem('jwt') }`
+          Authorization: `Bearer ${localStorage.getItem("jwt")}`
         }
       }
     }
-
   });
 
+  axios({
+    method: "post",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("refreshToken")}`
+    },
+    url: "https://liqr.cc/refresh"
+  }).then(response => {
+    const { data } = response;
 
+    localStorage.setItem("jwt", data.access_token);
+    //Start the timer
+    
+  });
 
   return (
     <SocketContext.Provider value={socket}>
@@ -52,10 +64,18 @@ export default function AppWrapper() {
             render={props => <SignUp {...props} />}
             exact
           />
-          <Route path="/searchItems" render={props => <SearchItems {...props} />} exact />
+          <Route
+            path="/searchItems"
+            render={props => <SearchItems {...props} />}
+            exact
+          />
           <Route path="/cart" render={props => <Cart {...props} />} exact />
           <Route path="/visits" render={props => <Visits {...props} />} exact />
-          <Route path="/billing" render={props => <BillingInformation {...props} />} exact />
+          <Route
+            path="/billing"
+            render={props => <BillingInformation {...props} />}
+            exact
+          />
           <Route path="/table" render={props => <Table {...props} />} />
           <Route path="/subMenu" render={props => <SubMenu {...props} />} />
           <Route
@@ -67,9 +87,8 @@ export default function AppWrapper() {
             render={props => <PreviousVisits {...props} />}
           />
           <Route path="/order" render={props => <Table {...props} />} />
-          
+
           <FooterNav />
-          
         </Store>
       </BrowserRouter>
     </SocketContext.Provider>
