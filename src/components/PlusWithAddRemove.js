@@ -6,7 +6,7 @@ import { StoreContext } from "Store";
 import * as TYPES from "Store/actionTypes.js";
 
 //used in menu, menu has lots of items
-const PlusWithAddRemove = ({ item, idx, subs }) => {
+const PlusWithAddRemove = ({ item, idx, subs, from }) => {
   const {
     dispatch,
     state: { cart, activeData }
@@ -21,15 +21,14 @@ const PlusWithAddRemove = ({ item, idx, subs }) => {
   });
 
   React.useEffect(() => {
-    item.quantity = 0
+    item.quantity = 0;
     cart.forEach(nids => {
-      if(item._id.$oid === nids._id.$oid){
+      if (item._id.$oid === nids._id.$oid) {
         item.quantity += nids.quantity;
       }
-    })
-   
+    });
+
     const idx = cart.findIndex(
-      
       itm => itm._id.$oid === item._id.$oid && item.showCustomize === true
     );
     if (cart.length > 0 && idx !== -1) {
@@ -46,17 +45,17 @@ const PlusWithAddRemove = ({ item, idx, subs }) => {
       itm =>
         itm._id.$oid === item._id.$oid &&
         item.foodOptions === true &&
-        item.showCustomize === false,
+        item.showCustomize === false
     );
     if (cart.length > 0 && nidx !== -1) {
-        setState(state => ({
-          ...state,
-          quantity: cart[nidx].quantity,
-          showAddRemove: true,
-          showPlusMinus: false,
-          showQuantity: true,
-          itemName: item.name
-        }));
+      setState(state => ({
+        ...state,
+        quantity: cart[nidx].quantity,
+        showAddRemove: true,
+        showPlusMinus: false,
+        showQuantity: true,
+        itemName: item.name
+      }));
     }
 
     const ix = cart.findIndex(
@@ -162,7 +161,7 @@ const PlusWithAddRemove = ({ item, idx, subs }) => {
     }
   };
 
-// console.log("NTEST--->", state)
+  // console.log("NTEST--->", state)
 
   return (
     <>
@@ -170,7 +169,9 @@ const PlusWithAddRemove = ({ item, idx, subs }) => {
         <button className="add-button-item" onClick={onClickPlus}>
           Add({item.quantity})
         </button>
-      ) : state.showAddRemove && state.showPlusMinus && state.itemName === item.name ? (
+      ) : state.showAddRemove &&
+        state.showPlusMinus &&
+        state.itemName === item.name ? (
         <div className="dynamic-button">
           <AddRemoveItem
             id={item}
@@ -184,7 +185,14 @@ const PlusWithAddRemove = ({ item, idx, subs }) => {
         </div>
       ) : (
         <div>
-          <button className="add-button-item" onClick={onClickPlus}>
+          <button
+            className={
+              from === "details"
+                ? "options-button-add btn btn-primary"
+                : "add-button-item"
+            }
+            onClick={onClickPlus}
+          >
             Add
           </button>
         </div>
