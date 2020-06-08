@@ -44,6 +44,7 @@ export default class Login extends Component {
           const { data } = response;
 
           localStorage.setItem("table_id", parm[1]);
+          localStorage.setItem("restaurant_id", data.restaurant_id);
           ReactDOM.render(<AppWrapper />, document.getElementById("root"));
           this.props.history.push("/home", {
             login: true
@@ -75,6 +76,7 @@ export default class Login extends Component {
         }).then(response => {
           const { data } = response;
           localStorage.setItem("table_id", parm[1]);
+          localStorage.setItem("restaurant_id", data.restaurant_id);
           ReactDOM.render(<AppWrapper />, document.getElementById("root"));
         });
       } else {
@@ -176,6 +178,7 @@ export default class Login extends Component {
           const { data } = response;
 
           localStorage.setItem("table_id", parm[1]);
+          localStorage.setItem("restaurant_id", data.restaurant_id);
           ReactDOM.render(<AppWrapper />, document.getElementById("root"));
           this.props.history.push("/home", {
             login: true

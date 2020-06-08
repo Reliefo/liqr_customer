@@ -39,6 +39,7 @@ const Menu = props => {
         setTimeout(function() {
           if (props.socket.connected === false) {
             localStorage.setItem("jwt", data.access_token);
+            localStorage.setItem("restaurant_id", data.restaurant_id);
             //Start the timer
             ReactDOM.render(<AppWrapper />, document.getElementById("root"));
           }
