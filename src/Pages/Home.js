@@ -138,31 +138,34 @@ const Home = props => {
     });
     console.log(props.socket);
 
-    if (
-      ((props.location.state && props.location.state.login === false) ||
-        undefined ||
-        null) &&
-      props.socket.connected === false
-    ) {
-      axios({
-        method: "post",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("refreshToken")}`
-        },
-        url: "https://liqr.cc/refresh"
-      }).then(response => {
-        const { data } = response;
+    // if (
+    //   ((props.location.state && props.location.state.login === false) ||
+    //     undefined ||
+    //     null) &&
+    //   props.socket.connected === false
+    // ) {
+    //   let bodyFormData = new FormData();
+    //   bodyFormData.set("table_id", localStorage.getItem('table_id'));
+    //   axios({
+    //     method: "post",
+    //     headers: {
+    //       Authorization: `Bearer ${localStorage.getItem("refreshToken")}`
+    //     },
+    //     url: "https://liqr.cc/refresh",
+    //     data: bodyFormData
+    //   }).then(response => {
+    //     const { data } = response;
 
-        setTimeout(function() {
-          if (props.socket.connected === false) {
-            localStorage.setItem("jwt", data.access_token);
-            localStorage.setItem("restaurant_id", data.restaurant_id);
-            //Start the timer
-            ReactDOM.render(<AppWrapper />, document.getElementById("root"));
-          }
-        }, 1000);
-      });
-    }
+    //     setTimeout(function() {
+    //       if (props.socket.connected === false) {
+    //         localStorage.setItem("jwt", data.access_token);
+    //         localStorage.setItem("restaurant_id", data.restaurant_id);
+    //         //Start the timer
+    //         ReactDOM.render(<AppWrapper />, document.getElementById("root"));
+    //       }
+    //     }, 1000);
+    //   });
+    // }
 
     if (props.location.state && props.location.state.login === true) {
       dispatch({ type: TYPES.RESET_CART });

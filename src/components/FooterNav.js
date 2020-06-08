@@ -1,5 +1,5 @@
 import React from "react";
-import home from "../assets/home.png";
+import home from "../assets/Home.png";
 import menu from "../assets/menu.png";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";

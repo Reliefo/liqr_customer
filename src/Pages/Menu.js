@@ -27,25 +27,25 @@ const Menu = props => {
   });
 
   React.useEffect(() => {
-    if (props.socket.connected === false) {
-      axios({
-        method: "post",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("refreshToken")}`
-        },
-        url: "https://liqr.cc/refresh"
-      }).then(response => {
-        const { data } = response;
-        setTimeout(function() {
-          if (props.socket.connected === false) {
-            localStorage.setItem("jwt", data.access_token);
-            localStorage.setItem("restaurant_id", data.restaurant_id);
-            //Start the timer
-            ReactDOM.render(<AppWrapper />, document.getElementById("root"));
-          }
-        }, 2000);
-      });
-    }
+    // if (props.socket.connected === false) {
+    //   axios({
+    //     method: "post",
+    //     headers: {
+    //       Authorization: `Bearer ${localStorage.getItem("refreshToken")}`
+    //     },
+    //     url: "https://liqr.cc/refresh"
+    //   }).then(response => {
+    //     const { data } = response;
+    //     setTimeout(function() {
+    //       if (props.socket.connected === false) {
+    //         localStorage.setItem("jwt", data.access_token);
+    //         localStorage.setItem("restaurant_id", data.restaurant_id);
+    //         //Start the timer
+    //         ReactDOM.render(<AppWrapper />, document.getElementById("root"));
+    //       }
+    //     }, 2000);
+    //   });
+    // }
     console.log("Menu screen");
     dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
     dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
