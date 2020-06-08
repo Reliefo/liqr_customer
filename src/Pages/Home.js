@@ -331,7 +331,7 @@ const Home = props => {
           }}
           className="category home-category"
         >
-          <div style={{ minHeight: "400px" }}>
+          <div className="responsive-height">
             <Carousel>
               <Carousel.Item>
                 <img
@@ -353,7 +353,7 @@ const Home = props => {
           {Object.entries(homeItems).map((data, idx) => {
             if (idx === 0) {
               return (
-                <div style={{ marginTop: "15%" }}>
+                <div>
                   <span className="home-title">{data[0]}</span>
                   <Slider {...settings2}>
                     {Object.entries(data[1]).map((item, index) => {

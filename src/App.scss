@@ -1017,3 +1017,15 @@ input[type="radio"] {
   color:red;
   padding-bottom:5%;
 }
+
+@media only screen and (max-width: 480px) {
+  .responsive-height{
+    max-height: 280px;
+  }
+}
+
+@media only screen and (min-width: 480px) {
+  .responsive-height{
+    max-height: 380px;
+  }
+}
