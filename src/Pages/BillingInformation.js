@@ -3,12 +3,14 @@ import React from "react";
 import { StoreContext } from "Store";
 import { Card, Accordion, Button } from "react-bootstrap";
 import SocketContext from "../socket-context";
+import LoaderButton from "../components/LoaderButton";
 import SearchFoodItems from "components/SearchFoodItems.js";
 import { ReactComponent as FoodSVG } from "assets/food.svg";
 import { ReactComponent as FlatSVG } from "assets/Flat.svg";
 import { ReactComponent as UiSVG } from "assets/ui.svg";
 
 import * as TYPES from "Store/actionTypes.js";
+import { auto } from "@popperjs/core";
 
 const BillingInformation = props => {
   const {
@@ -51,10 +53,7 @@ const BillingInformation = props => {
             {billing.map((item, idx) => {
               return (
                 <div style={{ paddingBottom: "3%" }}>
-                  <Card
-                    
-                    className="cart-card cart-styling margin-styling"
-                  >
+                  <Card className="cart-card cart-styling margin-styling">
                     <div>
                       <div
                         style={{
@@ -171,6 +170,20 @@ const BillingInformation = props => {
                 </div>
               );
             })}
+            <LoaderButton
+              block
+              bsSize="large"
+              onClick={() => {
+                props.history.push("/coupons");
+              }}
+              type="button"
+              text="Pay Now"
+              style={{
+                margin: "0 auto",
+                width: '50%'
+              }}
+              className="empty-orders"
+            />
           </div>
         </div>
       )}

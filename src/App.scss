@@ -833,13 +833,12 @@ input[type="radio"]:checked:after {
 
 .table-name-card-billing {
   text-align: left;
-  font-size:12px;
+  font-size: 12px;
   letter-spacing: 0px;
   color: #000000;
   opacity: 1;
   font-family: "Poppins";
 }
-
 
 .item-status {
   text-align: left;
@@ -1004,28 +1003,39 @@ input[type="radio"] {
   float: left;
   height: calc(1.5em + 0.75rem + 2px);
   width: 8%;
-  background: #ffffff 0% 0% no-repeat padding-box !important; 
+  background: #ffffff 0% 0% no-repeat padding-box !important;
   box-shadow: 0px 7px 8px #1c1b1b12 !important;
   border-radius: 6px;
   opacity: 1;
-  color:#7F7F7F
+  color: #7f7f7f;
 }
 
 .error-handling {
   font-family: "Poppins";
   font-size: 12px;
-  color:red;
-  padding-bottom:5%;
+  color: red;
+  padding-bottom: 5%;
 }
 
 @media only screen and (max-width: 480px) {
-  .responsive-height{
+  .responsive-height {
     max-height: 280px;
   }
 }
 
 @media only screen and (min-width: 480px) {
-  .responsive-height{
+  .responsive-height {
     max-height: 380px;
   }
+}
+
+.coupon-div {
+  background: white;
+  border-radius: 8px;
+  padding: 6%;
+}
+
+.paymentLogo {
+  border: 1px solid black;
+  padding: 2%;
 }

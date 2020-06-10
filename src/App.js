@@ -4,6 +4,8 @@ import ReactDOM from "react-dom";
 import { BrowserRouter, Route } from "react-router-dom";
 import axios from "axios";
 import Home from "./Pages/Home";
+import Coupons from "./Pages/Coupons";
+import PaymentOptions from "./Pages/PaymentOptions";
 import SubMenu from "./Pages/SubMenu";
 import Menu from "./Pages/Menu";
 import Login from "./components/Login";
@@ -46,9 +48,8 @@ export default function AppWrapper() {
     const { data } = response;
 
     localStorage.setItem("jwt", data.access_token);
-    
+
     //Start the timer
-    
   });
 
   return (
@@ -60,6 +61,17 @@ export default function AppWrapper() {
           <Route path="/Home" render={props => <Home {...props} />} exact />
           <Route path="/menu" render={props => <Menu {...props} />} exact />
           <Route path="/login" render={props => <Login {...props} />} exact />
+          <Route
+            path="/coupons"
+            render={props => <Coupons {...props} />}
+            exact
+          />
+          <Route
+            path="/paymentOptions"
+            render={props => <PaymentOptions {...props} />}
+            exact
+          />
+
           <Route
             path="/register"
             render={props => <SignUp {...props} />}
