@@ -10,7 +10,7 @@ import { ReactComponent as FlatSVG } from "assets/Flat.svg";
 import { ReactComponent as UiSVG } from "assets/ui.svg";
 
 import * as TYPES from "Store/actionTypes.js";
-import { auto } from "@popperjs/core";
+import { auto, left } from "@popperjs/core";
 
 const BillingInformation = props => {
   const {
@@ -24,7 +24,7 @@ const BillingInformation = props => {
 
   let billing = [];
   billing.push(props.location.state.data);
-  localStorage.removeItem('table_id')
+  localStorage.removeItem("table_id");
 
   React.useEffect(() => {
     dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: "" } });
@@ -36,6 +36,10 @@ const BillingInformation = props => {
     });
     dispatch({ type: TYPES.SET_NAV, payload: "Order" });
   }, []);
+
+  const handleDoc = pdf => {
+    window.open(pdf);
+  };
 
   return (
     <>
@@ -116,7 +120,7 @@ const BillingInformation = props => {
                                 {flag === true ? (
                                   <Card.Title
                                     style={{
-                                      padding: "1.25rem",
+                                      padding: "0.85rem",
                                       fontSize: "14px"
                                     }}
                                     className="card-title-name"
@@ -166,10 +170,135 @@ const BillingInformation = props => {
                         });
                       })}
                     </div>
+                    <hr />
+                    <div
+                      style={{
+                        float: "left",
+                        height: "25px",
+                        paddingLeft: "2%",
+                        width: "100%",
+                        margin: "0 auto"
+                      }}
+                    >
+                      <p
+                        className="table-name-card-billing"
+                        style={{
+                          float: "left",
+                          width: "40%",
+                          textTransform: "capitalize"
+                        }}
+                      >
+                        <b>Order Total</b>
+                      </p>
+                      <p
+                        className="table-name-card-billing"
+                        style={{
+                          float: "right",
+                          paddingRight: "10%",
+                          height: "25px"
+                        }}
+                      >
+                        <b> ₹ {item.bill_structure["Total Amount"]}</b>
+                      </p>
+                    </div>
+                    <div
+                      style={{
+                        float: "left",
+                        paddingLeft: "2%",
+                        height: "25px",
+                        width: "100%",
+                        margin: "0 auto"
+                      }}
+                    >
+                      <p
+                        className="table-name-card-billing"
+                        style={{
+                          float: "left",
+                          width: "40%",
+
+                          textTransform: "capitalize"
+                        }}
+                      >
+                        <b>CGST</b>
+                      </p>
+                      <p
+                        className="table-name-card-billing"
+                        style={{ float: "right", paddingRight: "10%" }}
+                      >
+                        <b> {item.taxes["CGST"]}%</b>
+                      </p>
+                    </div>
+                    <div
+                      style={{
+                        float: "left",
+                        paddingLeft: "2%",
+                        height: "25px",
+                        width: "100%",
+                        margin: "0 auto"
+                      }}
+                    >
+                      <p
+                        className="table-name-card-billing"
+                        style={{
+                          float: "left",
+                          width: "40%",
+                          textTransform: "capitalize"
+                        }}
+                      >
+                        <b>SGST</b>
+                      </p>
+                      <p
+                        className="table-name-card-billing"
+                        style={{ float: "right", paddingRight: "10%" }}
+                      >
+                        <b> {item.taxes["SGST"]}%</b>
+                      </p>
+                    </div>
+                    <div
+                      style={{
+                        float: "left",
+                        paddingLeft: "2%",
+
+                        width: "100%",
+                        margin: "0 auto"
+                      }}
+                    >
+                      <p
+                        className="table-name-card-billing"
+                        style={{
+                          float: "left",
+                          width: "40%",
+                          textTransform: "capitalize"
+                        }}
+                      >
+                        <b>Service Charge</b>
+                      </p>
+                      <p
+                        className="table-name-card-billing"
+                        style={{ float: "right", paddingRight: "10%" }}
+                      >
+                        <b> {item.taxes["Service"]}%</b>
+                      </p>
+                    </div>
                   </Card>
                 </div>
               );
             })}
+            <LoaderButton
+              block
+              bsSize="large"
+              onClick={() => {
+                handleDoc(billing[0].pdf);
+              }}
+              type="button"
+              text="View Bill"
+              style={{
+                float: "left",
+                margin: "0 auto",
+                width: "45%"
+              }}
+              className="empty-orders"
+            />
             <LoaderButton
               block
               bsSize="large"
@@ -179,8 +308,9 @@ const BillingInformation = props => {
               type="button"
               text="Pay Now"
               style={{
+                float: "right",
                 margin: "0 auto",
-                width: '50%'
+                width: "45%"
               }}
               className="empty-orders"
             />
