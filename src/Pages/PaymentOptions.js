@@ -45,24 +45,7 @@ const PaymentOptions = props => {
       dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
     });
 
-    props.socket.off("billing").on("billing", msg => {
-      const ms = JSON.parse(msg);
-      const { order_history } = ms;
-      props.history.push("/billing", {
-        data: order_history
-      });
-      const { message } = ms;
-
-      toast.info(message, {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined
-      });
-    });
+    
 
     const body = {
       user_id: localStorage.getItem("user_id"),
@@ -127,7 +110,7 @@ const PaymentOptions = props => {
           <div style={{ minHeight: "60px", paddingTop: "5%" }}>
             <span className="paymentLogo">Logo</span>{" "}
             <span style={{ fontSize: "12px", fontFamily: "Poppins" }}>
-              Amazon Pay
+              Paytm
             </span>
             <span
               style={{
@@ -142,7 +125,7 @@ const PaymentOptions = props => {
           <div style={{ minHeight: "60px", paddingTop: "5%" }}>
             <span className="paymentLogo">Logo</span>{" "}
             <span style={{ fontSize: "12px", fontFamily: "Poppins" }}>
-              Amazon Pay
+              PayPal
             </span>
             <span
               style={{
@@ -157,7 +140,7 @@ const PaymentOptions = props => {
           <div style={{ minHeight: "60px", paddingTop: "5%" }}>
             <span className="paymentLogo">Logo</span>{" "}
             <span style={{ fontSize: "12px", fontFamily: "Poppins" }}>
-              Amazon Pay
+              Google Pay
             </span>
             <span
               style={{
@@ -190,11 +173,11 @@ const PaymentOptions = props => {
             }}
           >
             <div>
-              <span className="paymentLogo">Logo</span>&nbsp;&nbsp;
-              <span className="paymentLogo">Logo</span>&nbsp;&nbsp;
-              <span className="paymentLogo">Logo</span>&nbsp;&nbsp;
-              <span className="paymentLogo">Logo</span>&nbsp;&nbsp;
-              <span className="paymentLogo">Logo</span>&nbsp;&nbsp;
+              <span className="paymentLogo">SC</span>&nbsp;&nbsp;
+              <span className="paymentLogo">BB</span>&nbsp;&nbsp;
+              <span className="paymentLogo">BJB</span>&nbsp;&nbsp;
+              <span className="paymentLogo">CIMB</span>&nbsp;&nbsp;
+              <span className="paymentLogo">HSBC</span>&nbsp;&nbsp;
             </div>
           </Card.Body>
         </Card>
