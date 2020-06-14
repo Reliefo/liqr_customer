@@ -25,6 +25,7 @@ import { StoreContext } from "Store";
 import * as TYPES from "Store/actionTypes.js";
 import AppWrapper from "../App";
 import FoodItem from "components/FoodItem";
+import Loader from "./Loader";
 
 const Home = props => {
   const {
@@ -125,7 +126,8 @@ const Home = props => {
     active: false,
     subMenu: [], //0: Personal cart, 1: Table cart
     showData: true,
-    imageLink: ""
+    imageLink: "",
+    isLoading: true
   });
 
   React.useEffect(() => {
@@ -329,6 +331,8 @@ const Home = props => {
         </Modal>
       ) : searchClicked === true ? (
         <SearchFoodItems />
+      ) : state.isLoading === true ? (
+        <Loader />
       ) : (
         <div
           onClick={() => {
