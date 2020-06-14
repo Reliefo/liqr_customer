@@ -232,6 +232,10 @@ function reducer(state, action) {
     case TYPES.RESET_CART:
       st.cart = [];
       return st;
+
+    case TYPES.ADD_REST_ADDRESS:
+      st.restAddress = payload;
+      return st;
     default:
       return state;
   }

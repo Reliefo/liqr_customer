@@ -34,6 +34,7 @@ const Home = props => {
       rawData: { food_menu = [] },
       activeData,
       restName,
+      restAddress,
       cart,
       searchClicked
     }
@@ -64,9 +65,13 @@ const Home = props => {
       },
       {
         breakpoint: 480,
+
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
+          customPaging: function(i) {
+            return <a>{i + 1}</a>;
+          },
           dots: true,
           infinite: true
         }
@@ -211,6 +216,7 @@ const Home = props => {
       setState({ imageLink: resp.home_page_images[0] });
 
       dispatch({ type: TYPES.SET_RESTAURANT_NAME, payload: resp.name });
+      dispatch({ type: TYPES.ADD_REST_ADDRESS, payload: resp.address });
       dispatch({ type: TYPES.ADD_DATA, payload: resp });
       dispatch({ type: TYPES.UPDATE_REST_ID, payload: resp._id.$oid });
       dispatch({ type: TYPES.ADD_SELECT_DATA, payload: resp.food_menu });
@@ -346,7 +352,7 @@ const Home = props => {
                 {" "}
                 Welcome to {restName}
               </Card.Title>
-              <Card.Body>HSR Layout,Bangalore</Card.Body>
+              <Card.Body>{restAddress}</Card.Body>
             </Card>
           </div>
           <Search />
@@ -392,7 +398,22 @@ const Home = props => {
                   className="category-card main-home-card"
                   key={`category-cards-${idx}`}
                 >
-                  <Card.Title className="home-title">{data[0]}</Card.Title>
+                  <Card.Title className="home-title">
+                    <span style={{ width: "90%" }}>{data[0]}</span>
+                    <Button
+                      className="add-button-item"
+                      variant="primary"
+                      onClick={() =>
+                        props.history.push("/submenu", {
+                          data: data[1],
+                          sbx: idx,
+                          foodMenu: activeData
+                        })
+                      }
+                    >
+                      View All
+                    </Button>
+                  </Card.Title>
                   <Slider {...settings}>
                     {Object.values(data[1]).map((item, index) => {
                       if (typeof item === "object") {

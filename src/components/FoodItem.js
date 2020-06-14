@@ -178,7 +178,15 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
   let desc = foodItem.description.substring(0, 40) + "...";
 
   return (
-    <Card id={foodItem.name} className="category-card food-item">
+    <Card
+      id={foodItem.name}
+      style={
+        from === "home"
+          ? { background: "#EFEFEF", width: "90%", paddingBottom: "5%", minHeight:'200px' }
+          : ""
+      }
+      className="category-card food-item"
+    >
       <div>
         <div>
           {foodItem.image_link ? (
@@ -565,7 +573,6 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
         <Modal
           style={{ zIndex: 10000 }}
           size="lg"
-          aria-labelledby="contained-modal-title-vcenter"
           centered
           show={foodItem.showDetails}
           onHide={handleClose}
@@ -655,7 +662,12 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
                 Add
               </Button>
             ) : (
-              <PlusWithAddRemove from= "details" item={foodItem} idx={index} subs={subsIndex} />
+              <PlusWithAddRemove
+                from="details"
+                item={foodItem}
+                idx={index}
+                subs={subsIndex}
+              />
             )}
           </Modal.Footer>
         </Modal>

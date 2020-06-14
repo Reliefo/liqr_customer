@@ -21,6 +21,7 @@ const initialState = {
   fabClick: false,
   restId: "",
   placeOrderById: "",
+  restAddress: "",
   tableOrders: [],
   tableUsers: [],
   justBarItems: [],
