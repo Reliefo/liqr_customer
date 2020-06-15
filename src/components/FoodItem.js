@@ -183,7 +183,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
       style={
         from === "home"
           ? { background: "#EFEFEF", width: "90%", paddingBottom: "5%", minHeight:'200px' }
-          : {}
+          : ""
       }
       className="category-card food-item"
     >
