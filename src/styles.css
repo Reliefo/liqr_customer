@@ -105,12 +105,12 @@ body {
 /* Styling of overlay */
 .icon-active {
   opacity: 1;
-  width: 60%;
+  width: 50%;
 }
 
 .icon-inactive {
-  opacity: 0.4;
-  width: 60%;
+  opacity: 1;
+  width: 50%;
 }
 
 .icon-text {
@@ -118,12 +118,12 @@ body {
   color: #000000;
   text-transform: capitalize;
   opacity: 1;
-  font-size: 12px;
+  font-size: 14px;
   font-family: "Poppins";
 }
 
 .active-icon-select {
   background: #ffffff 0% 0% no-repeat padding-box;
   border-radius: 19px;
-  opacity: 0.15;
+  opacity: 0.6;
 }
