@@ -8,6 +8,7 @@ import Coupons from "./Pages/Coupons";
 import PaymentOptions from "./Pages/PaymentOptions";
 import SubMenu from "./Pages/SubMenu";
 import Menu from "./Pages/Menu";
+import JM from "./Pages/jm";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import Cart from "./Pages/Cart";
@@ -83,6 +84,7 @@ export default function AppWrapper() {
             exact
           />
           <Route path="/cart" render={props => <Cart {...props} />} exact />
+          <Route path="/jm" render={props => <JM {...props} />} exact />
           <Route path="/visits" render={props => <Visits {...props} />} exact />
           <Route
             path="/billing"
