@@ -44,7 +44,7 @@ const JM = props => {
   return (
     <>
       <div className="order-status-styling">
-        <ImageGallery items={state.images} />
+        <ImageGallery thumbnailPosition="left" items={state.images} />
       </div>
     </>
   );
