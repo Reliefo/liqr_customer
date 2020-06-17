@@ -46,15 +46,16 @@ const JM = props => {
   return (
     <>
       <div>
-        <img style={{width:'15%'}} src='https://liqr-restaurants.s3.ap-south-1.amazonaws.com/liqr_logo.jpg' alt="liqr"/>
+        <img style={{width:'15%', float:'left'}} src='https://liqr-restaurants.s3.ap-south-1.amazonaws.com/liqr_logo.jpg' alt="liqr"/>
+        <div style={{textAlign:'center',padding:'3%', fontSize:'24px', fontFamily:'Poppins'}}>
+          <strong>{state.restName}</strong>
+        </div>
       </div>
-      <div className="order-status-styling">
-        <div style={{paddingBottom:'10%', fontSize:'20px', fontFamily:'Poppins'}}>
-          {state.restName}
-        </div>
-        <div>
-        <ImageGallery thumbnailPosition="left" items={state.images} />
-        </div>
+     
+        
+        <div style={{paddingTop:'10%'}}>
+        <ImageGallery thumbnailPosition="bottom" items={state.images} />
+     
       </div>
     </>
   );
