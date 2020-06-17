@@ -142,9 +142,7 @@ const FooterNav = props => {
                   {cartCount} {cartCount < 2 ? "Item" : "Items"} | ₹{sum}{" "}
                 </span>{" "}
                 <br />
-                <span style={{ margin: "10%", fontSize: "14px" }}>
-                  Extra Charges may apply
-                </span>
+               
               </div>
               <div className="footerOrder">
                 <Button
