@@ -1,34 +1,54 @@
 import React from "react";
 import SocketContext from "../socket-context";
 import "../../node_modules/react-image-gallery/styles/css/image-gallery.css";
-import ImageGallery from 'react-image-gallery';
-
+import ImageGallery from "react-image-gallery";
+import axios from "axios";
+import { StoreContext } from "Store";
 
 const JM = props => {
+  const {
+    dispatch,
+    state: { restId }
+  } = React.useContext(StoreContext);
+
+  const [state, setState] = React.useState({
+    images: []
+  });
+
+  React.useEffect(() => {
+
+  let rid = props.location.search;
+
+  rid = rid.split("=");
+
+  axios({
+    method: "get",
+    url: `https://liqr.cc/get_just_menu/${rid[1]}`
+  }).then(response => {
+    let imagesData = [];
+    const { data } = response;
   
-  const images = [
-    {
-      original: 'http://lorempixel.com/1000/600/nature/1/',
-      thumbnail: 'http://lorempixel.com/250/150/nature/1/',
-    },
-    {
-      original: 'http://lorempixel.com/1000/600/nature/2/',
-      thumbnail: 'http://lorempixel.com/250/150/nature/2/'
-    },
-    {
-      original: 'http://lorempixel.com/1000/600/nature/3/',
-      thumbnail: 'http://lorempixel.com/250/150/nature/3/'
-    }
-  ]
+    data.menu.forEach(item => {
+      let imageData = {}
+      imageData.original = item
+      imageData.thumbnail = item
+      imagesData.push(imageData)
+    })
+    setState({
+      images: imagesData
+    })
+  });
+},[0])
+
+  
   return (
     <>
-       <div className="order-status-styling">
-       <ImageGallery items={images} />
-       </div>
+      <div className="order-status-styling">
+        <ImageGallery items={state.images} />
+      </div>
     </>
   );
 };
-
 
 const jmWithSocket = props => (
   <SocketContext.Consumer>

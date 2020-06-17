@@ -62,9 +62,15 @@ const Navbar = props => {
     localStorage.removeItem("restaurant_id");
   };
 
+  
+
   return (
     <div>
-      {/* <span className="restaurant-header">
+      {window.location.pathname === "/jm" ? (
+        <div></div>
+      ) : (
+        <div>
+          {/* <span className="restaurant-header">
         {name}
         </span>
         <span className="username">
@@ -85,80 +91,98 @@ const Navbar = props => {
             X
           </span>
         </div> */}
-      <div style={{ float: "right", marginRight: "5%" }}>
-        {props.socket.connected === true ? (
-          <span id="connected-socket"></span>
-        ) : (
-          <span id="dis-connected-socket"></span>
-        )}
-      </div>
-      <Menu disableAutoFocus width={"55%"}>
-        {localStorage.getItem("registeredUser") === "false" ? (
-          <a className="menu-item shadow-menu" href="/login">
-            <img className="navbar-menu-icon" src={login} alt="Login" /> Login/
-            SignUp
-          </a>
-        ) : (
-          <a className="menu-item shadow-menu" href="/">
-            <img className="navbar-menu-icon" src={login} alt="Login" /> Logged
-            In : {localStorage.getItem("name")}
-          </a>
-        )}
-        <hr />
+          <div style={{ float: "right", marginRight: "5%" }}>
+            {props.socket.connected === true ? (
+              <span id="connected-socket"></span>
+            ) : (
+              <span id="dis-connected-socket"></span>
+            )}
+          </div>
+          <Menu disableAutoFocus width={"55%"}>
+            {localStorage.getItem("registeredUser") === "false" ? (
+              <a className="menu-item shadow-menu" href="/login">
+                <img className="navbar-menu-icon" src={login} alt="Login" />{" "}
+                Login/ SignUp
+              </a>
+            ) : (
+              <a className="menu-item shadow-menu" href="/">
+                <img className="navbar-menu-icon" src={login} alt="Login" />{" "}
+                Logged In : {localStorage.getItem("name")}
+              </a>
+            )}
+            <hr />
 
-        <a className="menu-item" href="/menu">
-          {" "}
-          Current Table: {tableName}
-        </a>
+            <a className="menu-item" href="/menu">
+              {" "}
+              Current Table: {tableName}
+            </a>
 
-        <hr />
+            <hr />
 
-        <a className="menu-item" href="/menu">
-          {" "}
-          Name: {localStorage.getItem("name")}
-        </a>
+            <a className="menu-item" href="/menu">
+              {" "}
+              Name: {localStorage.getItem("name")}
+            </a>
 
-        <hr />
+            <hr />
 
-        <a className="menu-item" href="/menu">
-          <img className="navbar-menu-icon" src={tableChange} alt="Login" />{" "}
-          Table Change
-        </a>
+            <a className="menu-item" href="/menu">
+              <img className="navbar-menu-icon" src={tableChange} alt="Login" />{" "}
+              Table Change
+            </a>
 
-        <a className="menu-item" href="/previous-visits">
-          <img className="navbar-menu-icon" src={previousVisits} alt="Login" />{" "}
-          Previous Visits
-        </a>
+            <a className="menu-item" href="/previous-visits">
+              <img
+                className="navbar-menu-icon"
+                src={previousVisits}
+                alt="Login"
+              />{" "}
+              Previous Visits
+            </a>
 
-        <a className="menu-item" href="/dine-in-history">
-          <img className="navbar-menu-icon" src={location} alt="Login" />{" "}
-          Dine-in History
-        </a>
+            <a className="menu-item" href="/dine-in-history">
+              <img className="navbar-menu-icon" src={location} alt="Login" />{" "}
+              Dine-in History
+            </a>
 
-        <a className="menu-item" href="/menu">
-          <img className="navbar-menu-icon" src={notifications} alt="Login" />{" "}
-          Notifications
-        </a>
-        {localStorage.getItem("jwt") !== null ? (
-          <a className="menu-item" href="/login" onClick={() => logoutUser()}>
-            <img className="navbar-menu-icon" src={login} alt="Login" />
-            Logout
-          </a>
-        ) : (
-          ""
-        )}
-        <hr className="navbar-menu-hr" />
-        <hr className="navbar-menu-hr" />
-        <hr className="navbar-menu-hr" />
-        <hr className="navbar-menu-hr" />
+            <a className="menu-item" href="/menu">
+              <img
+                className="navbar-menu-icon"
+                src={notifications}
+                alt="Login"
+              />{" "}
+              Notifications
+            </a>
+            {localStorage.getItem("jwt") !== null ? (
+              <a
+                className="menu-item"
+                href="/login"
+                onClick={() => logoutUser()}
+              >
+                <img className="navbar-menu-icon" src={login} alt="Login" />
+                Logout
+              </a>
+            ) : (
+              ""
+            )}
+            <hr className="navbar-menu-hr" />
+            <hr className="navbar-menu-hr" />
+            <hr className="navbar-menu-hr" />
+            <hr className="navbar-menu-hr" />
 
-        <a className="menu-item shadow-menu" href="/menu">
-          <hr />
-          <img className="navbar-menu-icon" src={settings} alt="Login" />{" "}
-          Personal Settings
-          <hr />
-        </a>
-      </Menu>
+            <a className="menu-item shadow-menu" href="/menu">
+              <hr />
+              <img
+                className="navbar-menu-icon"
+                src={settings}
+                alt="Login"
+              />{" "}
+              Personal Settings
+              <hr />
+            </a>
+          </Menu>
+        </div>
+      )}
     </div>
   );
 };

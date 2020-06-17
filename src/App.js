@@ -57,7 +57,7 @@ export default function AppWrapper() {
     <SocketContext.Provider value={socket}>
       <BrowserRouter>
         <Store>
-          <NavBar outerContainerId={"App"} />
+          <NavBar outerContainerId={"App"}/>
           <Route path="/" render={props => <Login {...props} />} exact />
           <Route path="/Home" render={props => <Home {...props} />} exact />
           <Route path="/menu" render={props => <Menu {...props} />} exact />

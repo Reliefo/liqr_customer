@@ -122,6 +122,7 @@ const FooterNav = props => {
       />
       {props.location.pathname === "/register" ||
       props.location.pathname === "/login" ||
+      props.location.pathname === "/jm" ||
       props.location.pathname === "/" ? null : (
         <div>
           {cartCount > 0 && props.location.pathname === "/menu" ? (
