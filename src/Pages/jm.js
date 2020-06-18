@@ -46,7 +46,9 @@ const JM = props => {
   return (
     <>
       <div>
-        <img style={{width:'15%', float:'left'}} src='https://liqr-restaurants.s3.ap-south-1.amazonaws.com/liqr_logo.jpg' alt="liqr"/>
+        <a href="https://solutions.liqr.cc">
+            <img style={{width:'15%', float:'left'}} src='https://liqr-restaurants.s3.ap-south-1.amazonaws.com/liqr_logo.jpg' alt="liqr"/>
+        </a>
         <div style={{textAlign:'center', fontSize:'36px', fontFamily:'Poppins'}}>
           <strong>{state.restName}</strong>
         </div>
