@@ -224,7 +224,7 @@ const FooterNav = props => {
               >
                 <div
                   className={fillDiv("Home")}
-                  style={{ marginTop: "calc(.7rem - 3px)" }}
+                  style={{ marginBottom: "calc(.7rem - 3px)" }}
                 >
                   <img src={home} alt="Home" className={fillSvg("Home")} />
                   <span className="icon-text">Home</span>
@@ -233,7 +233,7 @@ const FooterNav = props => {
               <Link to="/menu" className="styled-link">
                 <div
                   className={fillDiv("Menu")}
-                  style={{ marginTop: "calc(.7rem - 3px)" }}
+                  style={{ marginBottom: "calc(.7rem - 3px)" }}
                 >
                   <img src={menu} alt="Menu" className={fillSvg("Menu")} />
                   <span className="icon-text">Menu</span>
@@ -248,9 +248,9 @@ const FooterNav = props => {
               >
                 <div
                   className={fillDiv("Cart")}
-                  style={{ marginTop: "calc(.7rem - 15px)" }}
+                  style={{ marginBottom: "calc(.7rem - 3px)" }}
                 >
-                  <Badge variant="danger">{cartCount}</Badge>{" "}
+                  { cartCount > 0 ? <Badge variant="danger" style={{ position:'absolute', top: '-7px' }}>{cartCount}</Badge> : null }{" "}
                   <img src={cartImage} alt="Cart" className={fillSvg("Cart")} />
                   <span className="icon-text">Cart</span>
                 </div>
@@ -264,7 +264,7 @@ const FooterNav = props => {
               >
                 <div
                   className={fillDiv("Order")}
-                  style={{ marginTop: "calc(.7rem - 3px)" }}
+                  style={{ marginBottom: "calc(.7rem - 3px)" }}
                 >
                   <img src={order} alt="Table" className={fillSvg("Order")} />
                   <span className="icon-text">Order</span>
