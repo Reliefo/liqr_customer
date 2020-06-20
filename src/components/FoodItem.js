@@ -177,6 +177,8 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
 
   let desc = foodItem.description.substring(0, 40) + "...";
 
+  let visibility = foodItem.visibility;
+
   return (
     <Card
       id={foodItem.name}

@@ -107,16 +107,6 @@ const Menu = props => {
             <ul className="menu-btn">
               <li
                 className={
-                  state.activeMenu === "bar"
-                    ? "menu-active bar-active"
-                    : "menu-inactive bar-inactive"
-                }
-                onClick={() => setMenu("bar", bar_menu)}
-              >
-                <div className="menu-item-names">Bar Menu</div>
-              </li>
-              <li
-                className={
                   state.activeMenu === "food"
                     ? "menu-active food-active"
                     : "food-inactive menu-inactive"
@@ -125,6 +115,17 @@ const Menu = props => {
               >
                 <div className="menu-item-names">Food Menu</div>
               </li>
+              { bar_menu.length > 0 ? <li
+                className={
+                  state.activeMenu === "bar"
+                    ? "menu-active bar-active"
+                    : "menu-inactive bar-inactive"
+                }
+                onClick={() => setMenu("bar", bar_menu)}
+              > 
+                <div className="menu-item-names">Bar Menu</div>
+              </li> : null }
+
             </ul>
             <Search />
             <div className="category">
@@ -159,14 +160,14 @@ const SubCategory = ({ subs, categories, activeData }) => (
     ></p>
     {subs.food_list.map((foodItem, idx3) => (
       <div>
-        <FoodItem
+        {foodItem.visibility ? <FoodItem
           stateData={activeData}
           foodItem={foodItem}
           subs={subs}
           subsIndex={categories}
           index={idx3}
           key={`food-item-${idx3}`}
-        />
+        /> : null }
       </div>
     ))}
   </>
