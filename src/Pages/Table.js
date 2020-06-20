@@ -34,6 +34,11 @@ const Table = props => {
     });
     dispatch({ type: TYPES.SET_NAV, payload: "Order" });
 
+    props.socket.off("cancel_items_request").on("cancel_items_request", msg => {
+      const data = JSON.parse(msg);
+      dispatch({ type: TYPES.REFRESH_ORDER_CLOUD, payload: data.table_orders });
+    });
+
     props.socket.off("new_orders").on("new_orders", msg => {
       dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
     });
@@ -91,6 +96,19 @@ const Table = props => {
   const [state, setState] = React.useState({
     showData: true
   });
+
+  const deleteItem = (item, item2, item3) => {
+    //  console.log('NIDS--->', item, item2, item3)
+
+    let body = {
+      table_order_id: item2.table_id,
+      table_id: localStorage.getItem("table_id"),
+      order_id: item3._id.$oid,
+      food_id: item.food_id
+    };
+
+    props.socket.emit("cancel_ordered_items", JSON.stringify(body));
+  };
 
   const handleClose = () => setState({ showData: false });
 
@@ -280,7 +298,18 @@ const Table = props => {
                                     {item3.status === "completed" ? (
                                       <FoodSVG />
                                     ) : item3.status === "queued" ? (
-                                      <UiSVG />
+                                      <span>
+                                        <UiSVG />
+                                        <span
+                                          style={{ fontWeight: "bold" }}
+                                          onClick={() =>
+                                            deleteItem(item3, item, item2)
+                                          }
+                                        >
+                                          {" "}
+                                          X{" "}
+                                        </span>
+                                      </span>
                                     ) : (
                                       <FlatSVG />
                                     )}{" "}
