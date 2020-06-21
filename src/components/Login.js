@@ -4,6 +4,7 @@ import { FormGroup, FormControl, Button } from "react-bootstrap";
 import LoaderButton from "./LoaderButton";
 import { StoreContext } from "Store";
 import axios from "axios";
+import { Auth } from "aws-amplify";
 import * as TYPES from "Store/actionTypes.js";
 import AppWrapper from "../App";
 import { v4 as uuidv4 } from "uuid";
@@ -220,6 +221,32 @@ export default class Login extends Component {
       alert(e.message);
     }
   };
+
+  // handleSubmit = async event => {
+  //   event.preventDefault();
+  //   this.setState({ isLoading: true });
+  //   try {
+  //     // await Auth.signIn(this.state.email, this.state.password);
+
+  //     console.log('NIDS--->', this.state.email, this.state.password)
+  //     Auth.signIn(this.state.email, this.state.password)
+  //     .then(user => {
+  //       console.log('NIDS---->', user);
+  //       this.setState({ isLoading: false });
+  //       const { history, location } = this.props;
+  //       const { from } = location.state || {
+  //         from: {
+  //           pathname: '/home'
+  //         }
+  //       };
+  //     })
+     
+  //     // this.props.history.push("/home");
+  //   } catch (e) {
+  //     alert(e.message);
+  //   }
+  // };
+
 
   render() {
     const { errorMessage } = this.state;

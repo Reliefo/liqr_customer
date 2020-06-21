@@ -70,8 +70,8 @@ const Home = props => {
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
-          customPaging: function(i) {
-            return <a>{i + 1}</a>;
+          customPaging: function(slider, i) {
+            return <a>{slider  + 1}  </a>;
           },
           dots: true,
           infinite: true
@@ -215,8 +215,9 @@ const Home = props => {
     });
     props.socket.off("restaurant_object").on("restaurant_object", msg => {
       const resp = JSON.parse(msg);
+      console.log('NIDS--->', resp)
       setState({ imageLink: resp.home_page_images[0] });
-
+      dispatch({ type: TYPES.ADDONS, payload: resp.add_ons });
       dispatch({ type: TYPES.SET_RESTAURANT_NAME, payload: resp.name });
       dispatch({ type: TYPES.ADD_REST_ADDRESS, payload: resp.address });
       dispatch({ type: TYPES.ADD_DATA, payload: resp });

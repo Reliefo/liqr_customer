@@ -128,7 +128,7 @@ const PlusWithAddRemove = ({ item, idx, subs, from }) => {
       if (index3 === subs) {
         item.food_list.forEach((item1, idx2) => {
           if (idx2 === idx) {
-            if (item1.food_options) {
+            if (item1.customization) {
               item1.foodOptions = true;
               item1.showPopup = true;
               data = false;

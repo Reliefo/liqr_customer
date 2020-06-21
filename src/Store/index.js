@@ -20,6 +20,7 @@ const initialState = {
   menuClick : false,
   fabClick: false,
   restId: "",
+  addons: [],
   placeOrderById: "",
   restAddress: "",
   tableOrders: [],

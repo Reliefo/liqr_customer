@@ -7,6 +7,7 @@ export const SET_NAV = 5; //for active nav
 export const ADD_DATA = 6;
 export const ADD_COLLECTIVE_FOODITEMS = 7;
 export const ADD_REST_ADDRESS = 100;
+export const ADDONS = 130;
 export const ADD_COLLECTIVE_BARITEMS = 16;
 export const SET_GENERAL_DATA = 8; //doesn't servers for nested data tho.
 export const UPDATE_FOOD_MENU = 9;
