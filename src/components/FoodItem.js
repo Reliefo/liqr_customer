@@ -202,8 +202,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
     });
     dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
   };
-
-  let desc = "";
+  let desc = foodItem.description ? foodItem.description.substring(0, 40) + "..." : "";
 
   let visibility = foodItem.visibility;
 
@@ -250,8 +249,20 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
             <p className="item-price">₹ {foodItem.price}</p>
             <PlusWithAddRemove item={foodItem} idx={index} subs={subsIndex} />
             {/* <PlusWithAddRemove item={foodItem} idx={index} subs={subsIndex} /> */}
+            <p
+              style={{
+                fontSize: ".9rem",
+                width: "auto",
+                textDecoration: "underline",
+                float: "right",
+                paddingRight: "2%"
+              }}
+              onClick={() => selectDetails(foodItem, index, subsIndex)}
+            >
+              Details
+            </p>
           </div>
-          <div
+          {/* <div
             style={{
               width: "100%",
               float: "left"
@@ -267,7 +278,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
             >
               Details
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
       {/* <Card.Body className="Menu-body">

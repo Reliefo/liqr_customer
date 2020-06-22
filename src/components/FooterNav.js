@@ -270,6 +270,21 @@ const FooterNav = props => {
                   <span className="icon-text">Order</span>
                 </div>
               </Link>
+              {/* <Link
+                to="/order"
+                className="styled-link"
+                onClick={() =>
+                  setState(state => ({ ...state, menuClick: false }))
+                }
+              >
+                <div
+                  className={fillDiv("Order")}
+                  style={{ marginBottom: "calc(.7rem - 3px)" }}
+                >
+                  <img src={order} alt="Table" className={fillSvg("Order")} />
+                  <span className="icon-text">Order</span>
+                </div>
+              </Link> */}
             </div>
           )}
         </div>
