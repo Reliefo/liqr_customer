@@ -125,7 +125,6 @@ const Menu = props => {
               > 
                 <div className="menu-item-names">Bar Menu</div>
               </li> : null }
-
             </ul>
             <Search />
             <div className="category">

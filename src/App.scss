@@ -324,14 +324,16 @@
 
   list-style: none;
   display: flex;
-  padding: 1rem;
+  padding: 0rem;
   position: sticky;
   margin-top: 6%;
+  margin-bottom: 0rem;
   z-index: 1;
   font-size: 1.2rem;
   font-weight: 500;
   cursor: pointer;
   width: 100%;
+  padding-top: 0.5rem;
 
   cursor: pointer;
 }
@@ -491,7 +493,7 @@
 .options-modal {
   text-align: left;
   color: #000000;
-  opacity: 0.5;
+  opacity: 0.6;
   font-family: "Poppins";
   font-size: 12px;
   letter-spacing: 0px;
