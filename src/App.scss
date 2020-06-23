@@ -1,5 +1,15 @@
 @import "./base";
 
+.input-css[type=text] {
+  border: 2px solid #ffb023;
+  border-radius: 6px;
+  background-color: #d8931b;
+}
+
+.input-css[type=text]:focus {
+  // border: 3px #ffb023;
+}
+
 .nav-search-bar {
   width: 95%;
   position: fixed;
@@ -29,6 +39,7 @@
 
 .search-svg {
   position: absolute;
+  display: none;
   right: -14rem;
   float: right;
   z-index: 2;
@@ -36,6 +47,17 @@
   bottom: 8px;
   fill: #262626;
 }
+
+.closesearch-svg {
+  position: absolute;
+  right: -14rem;
+  float: right;
+  z-index: 2;
+  height: 22px;
+  bottom: 8px;
+  fill: #262626;
+}
+
 .footer-nav {
   position: relative;
   font-size: 0.8rem;
@@ -772,9 +794,20 @@
 }
 
 .form-control {
-  background: #ffffff 0% 0% no-repeat padding-box;
-  box-shadow: 0px 7px 8px #1c1b1b12;
+  // background: #ffffff 0% 0% no-repeat padding-box;
+  // box-shadow: 0px 7px 8px #1c1b1b12;
+  // border: none;
+  box-shadow: none;
   border-radius: 6px;
+  opacity: 1;
+}
+
+.form-control:focus {
+  // background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: none;
+  border-radius: 6px;
+  // border: none;
+  // border-bottom: 1px solid black;
   opacity: 1;
 }
 

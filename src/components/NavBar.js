@@ -184,9 +184,9 @@ const Navbar = (props) => {
               onClick={() => setVisible(!visible)}
               active={visible}
               burger="arrow"
-              color="black"
+              color="white"
               hoverOpacity={0.8}
-              scale={1}
+              scale={0.75}
               marginTop={"0.5rem"}
               marginLeft={"0.5rem"}
               style={{

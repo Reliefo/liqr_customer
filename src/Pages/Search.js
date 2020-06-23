@@ -73,6 +73,14 @@ const Search = (props) => {
     setState({closeSearch: false });
     }
   }
+  const handleKeyDown = e => {
+    if (e.key === "Enter") {
+      dispatch({
+        type: TYPES.SET_GENERAL_DATA,
+        payload: { searchClicked: true }
+      });
+    }
+  };
 
   return (
     <>
@@ -82,12 +90,13 @@ const Search = (props) => {
             <label class="control-label" for="inputValidation"></label>
             <input
               type="text"
-              class="form-control"
+              class="form-control input-css"
               ref={inputNode}
               autocomplete="off"
               value={searchValue}
               onChange={searchValueChange}
               onFocus={searchValueChange}
+              onKeyDown={handleKeyDown}
               id="inputValidation"
               placeholder="Search the Menu..."
             />
@@ -97,8 +106,8 @@ const Search = (props) => {
                 className="search-close-button"
                 onClick={closeButtonClick}
               /> */}
-            {state.closeSearch ? <CloseSearchSVG onClick={closeButtonClick} className="search-svg" /> : null}
-            {/* <SearchSVG onClick={searchIconClick} className="search-svg" /> */}
+            {state.closeSearch ? <CloseSearchSVG onClick={closeButtonClick} className="closesearch-svg" /> : null}
+            <SearchSVG onClick={searchIconClick} className="search-svg" />
           </div>
         </div>
       </div>
