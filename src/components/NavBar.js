@@ -19,7 +19,7 @@ import Burger from "react-css-burger";
 const Navbar = (props) => {
   const [showCollapse, setShowCollapse] = React.useState(false);
   const [prevScrollpos, setPrevScrollpos] = React.useState(window.pageYOffset);
-  const [visible, setVisible] = React.useState(true);
+  const [visible, setVisible] = React.useState(false);
   const sideDrawerInner = React.useRef();
   const menuRef = React.useRef();
   const inputNode = React.useRef();
@@ -89,9 +89,13 @@ const Navbar = (props) => {
   };
   return (
     <div>
-      {window.location.pathname === "/jm" ? (
+      {window.location.pathname === "/jm" || 
+      window.location.pathname === "/" ||
+      window.location.pathname === "/login"
+      ? (
         <div></div>
-      ) : (
+      ) : 
+      (
         <div>
           <nav className="navbar">
             <Container fluid>

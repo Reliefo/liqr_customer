@@ -360,7 +360,7 @@ const Home = props => {
             </Card>
           </div>
           <div className='category'>
-          {Object.entries(homeItems).map((data, idx) => {
+          {/* {Object.entries(homeItems).map((data, idx) => {
             if (idx === 0) {
               return (
                 <div>
@@ -394,7 +394,7 @@ const Home = props => {
                 </div>
               );
             }
-          })}
+          })} */}
           {Object.entries(homeItems).map((data, idx) => {
             if (idx !== 0) {
               return (
