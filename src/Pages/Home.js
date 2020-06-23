@@ -215,7 +215,6 @@ const Home = props => {
     });
     props.socket.off("restaurant_object").on("restaurant_object", msg => {
       const resp = JSON.parse(msg);
-      console.log('NIDS--->', resp)
       setState({ imageLink: resp.home_page_images[0] });
       dispatch({ type: TYPES.ADDONS, payload: resp.add_ons });
       dispatch({ type: TYPES.SET_RESTAURANT_NAME, payload: resp.name });
