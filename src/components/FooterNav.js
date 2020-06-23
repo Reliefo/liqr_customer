@@ -18,7 +18,7 @@ import { ReactComponent as TissueSVG } from "assets/tissue.svg";
 // import { ReactComponent as HelpSVG } from "assets/help.svg";
 import { ReactComponent as DoubleArrow } from "assets/double-arrow.svg";
 import * as TYPES from "Store/actionTypes.js";
-const FooterNav = props => {
+const FooterNav = (props) => {
   const {
     state: {
       activeNav,
@@ -28,12 +28,12 @@ const FooterNav = props => {
       menuClick,
       activeData,
       placeOrderById,
-      rawData: { food_menu = [] }
+      rawData: { food_menu = [] },
     },
-    dispatch
+    dispatch,
   } = React.useContext(StoreContext);
   React.useEffect(() => {
-    props.socket.off("assist").on("assist", ms => {
+    props.socket.off("assist").on("assist", (ms) => {
       const message = JSON.parse(ms);
       const { msg } = message;
 
@@ -44,24 +44,24 @@ const FooterNav = props => {
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
-        progress: undefined
+        progress: undefined,
       });
     });
   }, [props, props.socket, props.location, dispatch]);
 
-  const fillSvg = name =>
+  const fillSvg = (name) =>
     activeNav === name ? "icon-active" : "icon-inactive";
   const [deg, setDeg] = React.useState(0);
   const [state, setState] = React.useState({
     fabClicked: false,
-    menuClick: false
+    menuClick: false,
   });
 
-  const fillDiv = name => (activeNav === name ? "active-icon-select" : "");
+  const fillDiv = (name) => (activeNav === name ? "active-icon-select" : "");
 
   let cartCount = 0;
   let sum = 0;
-  cart.forEach(item => {
+  cart.forEach((item) => {
     if (item.options) {
       sum += parseInt(item.options.option_price) * item.quantity;
     } else {
@@ -86,11 +86,11 @@ const FooterNav = props => {
     dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: !menuClick });
   };
 
-  const sendAssistance = name => {
+  const sendAssistance = (name) => {
     const body = {
       table: localStorage.getItem("table_id"),
       user: localStorage.getItem("user_id"),
-      assistance_type: name
+      assistance_type: name,
     };
 
     dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: !fabClick });
@@ -133,7 +133,7 @@ const FooterNav = props => {
                 background: "white",
                 height: "100px",
                 color: "black",
-                display: "block"
+                display: "block",
               }}
               className={footerDiv}
             >
@@ -142,13 +142,12 @@ const FooterNav = props => {
                   {cartCount} {cartCount < 2 ? "Item" : "Items"} | ₹{sum}{" "}
                 </span>{" "}
                 <br />
-               
               </div>
               <div className="footerOrder">
                 <Button
                   className="options-button-add"
                   variant="primary"
-                  onClick={()=> props.history.push('/cart')}
+                  onClick={() => props.history.push("/cart")}
                 >
                   Order
                 </Button>
@@ -219,7 +218,7 @@ const FooterNav = props => {
                 to="/Home"
                 className="styled-link"
                 onClick={() =>
-                  setState(state => ({ ...state, menuClick: false }))
+                  setState((state) => ({ ...state, menuClick: false }))
                 }
               >
                 <div
@@ -243,14 +242,21 @@ const FooterNav = props => {
                 to="/cart"
                 className="styled-link"
                 onClick={() =>
-                  setState(state => ({ ...state, menuClick: false }))
+                  setState((state) => ({ ...state, menuClick: false }))
                 }
               >
                 <div
                   className={fillDiv("Cart")}
                   style={{ marginBottom: "calc(.7rem - 3px)" }}
                 >
-                  { cartCount > 0 ? <Badge variant="danger" style={{ position:'absolute', top: '-7px' }}>{cartCount}</Badge> : null }{" "}
+                  {cartCount > 0 ? (
+                    <Badge
+                      variant="danger"
+                      style={{ position: "absolute", top: "-7px" }}
+                    >
+                      {cartCount}
+                    </Badge>
+                  ) : null}{" "}
                   <img src={cartImage} alt="Cart" className={fillSvg("Cart")} />
                   <span className="icon-text">Cart</span>
                 </div>
@@ -259,7 +265,7 @@ const FooterNav = props => {
                 to="/order"
                 className="styled-link"
                 onClick={() =>
-                  setState(state => ({ ...state, menuClick: false }))
+                  setState((state) => ({ ...state, menuClick: false }))
                 }
               >
                 <div
@@ -311,9 +317,9 @@ const FooterNav = props => {
       </div>
 */
 
-const FooterNavSocket = props => (
+const FooterNavSocket = (props) => (
   <SocketContext.Consumer>
-    {socket => <FooterNav {...props} socket={socket} />}
+    {(socket) => <FooterNav {...props} socket={socket} />}
   </SocketContext.Consumer>
 );
 

@@ -11888,6 +11888,11 @@ react-burger-menu@^2.6.13:
     prop-types "^15.7.2"
     snapsvg-cjs "0.0.6"
 
+react-css-burger@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/react-css-burger/-/react-css-burger-0.2.0.tgz#6b85f6855c1c0d9af136e7043d5c21f3de565874"
+  integrity sha512-q2ifct44rVXvLmVr1NeOcMsaeKQWGFaTaUCicF0ynekM8kK5ATpizV2PurgP1hnQntbWRVizCqmKE9JwoDmZNA==
+
 react-dev-utils@^10.2.1:
   version "10.2.1"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-10.2.1.tgz#f6de325ae25fa4d546d09df4bb1befdc6dd19c19"

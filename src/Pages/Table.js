@@ -138,7 +138,7 @@ const Table = props => {
       ) : searchClicked === true ? (
         <SearchFoodItems />
       ) : isEmpty() ? (
-        <div className="order-status-styling">
+        <div className="default-screen order-status-styling">
           <div className="empty-cart">
             <p style={{ margin: 10 }}>
               Oops looks like you have no orders placed?
@@ -185,10 +185,11 @@ const Table = props => {
             dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
           }}
           style={{ backgroundColor: "white" }}
+          className="default-screen"
         >
           <div className="order-status-styling">
             <div style={{ paddingBottom: "10%" }}>
-              <LoaderButton
+              {/* <LoaderButton
                 block
                 bsSize="large"
                 onClick={() => {
@@ -208,7 +209,7 @@ const Table = props => {
                   width: "48%"
                 }}
                 className="empty-orders"
-              />
+              /> */}
               <LoaderButton
                 block
                 onClick={() => {
@@ -223,7 +224,7 @@ const Table = props => {
                 bsSize="large"
                 type="button"
                 style={{
-                  width: "42%"
+                  width: "54%",
                 }}
                 text="Fetch Table Bill"
                 className="empty-orders"

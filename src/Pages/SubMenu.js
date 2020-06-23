@@ -61,12 +61,12 @@ const SubMenu = props => {
 
   return (
     <>
-      <div className="category">
+      <div className="category default-screen">
         {Object.values(props.location.state.data).map((item, index) => {
           return Object.values(props.location.state.foodMenu).map(
             (food, idx) => {
               return Object.values(food.food_list).map((list, ix) => {
-                let desc = list.description.substring(0, 40) + "...";
+                let desc = list.description ? list.description.substring(0, 40) + "..." : "";
                 if (list._id.$oid === item) {
                   return (
                     <FoodItem

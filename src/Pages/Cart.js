@@ -440,6 +440,7 @@ const Cart = props => {
             dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
             dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
           }}
+          className="default-screen"
         >
           <ul className="menu-btn">
             <li

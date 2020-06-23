@@ -29,7 +29,7 @@
 
 .search-svg {
   position: absolute;
-  right: 27px;
+  right: -14rem;
   float: right;
   z-index: 2;
   height: 22px;
@@ -184,8 +184,9 @@
   }
 }
 .category {
-  padding: 1rem;
   margin-bottom: 66px;
+  position: relative;
+  padding: 1rem;
   .category-card {
     border: none;
     margin-bottom: 1rem;
@@ -195,10 +196,10 @@
     & > :first-child {
       font-size: 1rem;
       font-weight: 600;
-      margin-bottom: 0;
-      margin-top: 1rem;
-      padding-left: 1rem;
-      padding-right: 1rem;
+      padding: 1rem;
+      // margin-top: 1rem;
+      // padding-left: 1rem;
+      // padding-right: 1rem;
       display: flex;
       & p {
         margin: 0;
@@ -326,14 +327,12 @@
   display: flex;
   padding: 0rem;
   position: sticky;
-  margin-top: 6%;
   margin-bottom: 0rem;
   z-index: 1;
   font-size: 1.2rem;
   font-weight: 500;
   cursor: pointer;
   width: 100%;
-  padding-top: 0.5rem;
 
   cursor: pointer;
 }
@@ -396,11 +395,12 @@
   color: #000000;
   opacity: 1;
   position: sticky;
-  top: 0rem;
+  top: 3rem;
   background: #f4f4f2;
   font-size: 1.2rem;
   font-weight: 500;
-  padding: 1rem 0;
+  padding: 0.7rem 0;
+  margin-bottom: 0rem;
 }
 
 .cart-plus-minus-svg {
@@ -671,10 +671,22 @@
   opacity: 1;
 }
 
-.home-category {
+.home-screen{
   background: white;
+  position: relative;
+  top: 3rem;
+}
+.menu-screen {
+  position: relative;
+  padding: 0rem;
+  top: 3rem;
 }
 
+.default-screen {
+  position: relative;
+  padding: 0rem;
+  top: 3rem;
+}
 .rest-card-home {
   padding: 5% 5% 0% 3%;
   letter-spacing: 0px;
@@ -1013,9 +1025,10 @@ input[type="radio"] {
   font-size: 12px;
 }
 
-.back-button {
-  margin-left: 7%;
-  float: left;
+.search-close-button {
+  margin-left: -9%;
+  position: fixed;
+  // float: left;
   height: calc(1.5em + 0.75rem + 2px);
   width: 8%;
   background: #ffffff 0% 0% no-repeat padding-box !important;
@@ -1057,4 +1070,9 @@ input[type="radio"] {
 
 .slick-dots li {
   font-size: 10px !important;
+}
+
+
+.fooditem-card {
+  padding-bottom: 0%;
 }

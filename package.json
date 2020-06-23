@@ -15,6 +15,7 @@
     "react": "^16.13.0",
     "react-bootstrap": "^1.0.0",
     "react-burger-menu": "^2.6.13",
+    "react-css-burger": "^0.2.0",
     "react-dom": "^16.13.0",
     "react-image-gallery": "^1.0.7",
     "react-router-dom": "^5.1.2",

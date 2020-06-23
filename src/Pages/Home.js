@@ -340,7 +340,7 @@ const Home = props => {
             dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
             dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
           }}
-          className="category home-category"
+          className="home-screen"
         >
           <div className="responsive-height">
             <Carousel>
@@ -360,7 +360,7 @@ const Home = props => {
               <Card.Body>{restAddress}</Card.Body>
             </Card>
           </div>
-          <Search />
+          <div className='category'>
           {Object.entries(homeItems).map((data, idx) => {
             if (idx === 0) {
               return (
@@ -637,7 +637,7 @@ const Home = props => {
               );
             }
           })}
-        </div>
+        </div></div>
       )}
     </>
   );

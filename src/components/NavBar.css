@@ -1,0 +1,35 @@
+
+.navbar-menu {
+  width: 100%;
+  position: relative;
+  top: 0;
+  transition: top 0.1s;
+  z-index: 7;
+  padding:1rem;
+}
+
+.navbar {
+  width: 100%;
+  height: 3rem;
+  padding: 0px;
+  position: fixed;
+  display: block;
+  flex-direction: row;
+  top: 0;
+  transition: top 0.1s;
+  z-index: 8;
+  background-color: #ffb023;
+}
+
+
+.navbar--hidden {
+  top: -100px;
+  z-index: 7;
+}
+
+.menu-item {
+  height: auto;
+  width: auto;
+  padding: 1%;
+  margin-bottom: 1%;
+}

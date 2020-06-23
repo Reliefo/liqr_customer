@@ -17,7 +17,7 @@ const Search = props => {
   } = React.useContext(StoreContext);
 
   React.useEffect(() => {
-    inputNode.current.focus();
+    // inputNode.current.focus();
 
     //handling refresh issue
   }, []);
@@ -74,13 +74,13 @@ const Search = props => {
         <div>
           <div class="form-group col-lg-4">
             <div class="form-group has-feedback" style={{ marginTop: "10%" }}>
-              <input
+              {/* <input
                 type="button"
                 value="<"
                 className="back-button"
                 onClick={() => props.history.goBack()}
-              />
-              <input
+              /> */}
+              {/* <input
                 type="text"
                 style={{
                   width: "77%",
@@ -99,7 +99,7 @@ const Search = props => {
                 style={{ right: "46px" }}
                 onClick={searchIconClick}
                 className="search-svg"
-              />
+              /> */}
             </div>
           </div>
 

@@ -11,8 +11,7 @@ const SearchFoodItems = () => {
   } = React.useContext(StoreContext);
 
   return (
-    <div className="category">
-      <Search />
+    <div className="category default-screen">
       <ul style={{ listStyleType: "none" }}>
         {justMenuItems.map((foodItem1, idx9) => {
           return foodItem1.map((foodItem, idx) => {

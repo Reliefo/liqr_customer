@@ -29,6 +29,7 @@ import { StoreContext } from "Store";
 import io from "socket.io-client";
 
 export default function AppWrapper() {
+
   const socket = io("https://liqr.cc/reliefo", {
     transportOptions: {
       polling: {
@@ -60,7 +61,7 @@ export default function AppWrapper() {
           <NavBar outerContainerId={"App"}/>
           <Route path="/" render={props => <Login {...props} />} exact />
           <Route path="/Home" render={props => <Home {...props} />} exact />
-          <Route path="/menu" render={props => <Menu {...props} />} exact />
+          <Route path="/menu" render={props => <Menu {...props} />}/>
           <Route path="/login" render={props => <Login {...props} />} exact />
           <Route
             path="/coupons"
