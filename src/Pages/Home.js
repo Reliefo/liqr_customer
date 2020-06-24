@@ -36,6 +36,7 @@ const Home = (props) => {
       activeData,
       restName,
       restAddress,
+      restImages,
       cart,
       searchClicked,
     },
@@ -216,8 +217,7 @@ const Home = (props) => {
     props.socket.off("restaurant_object").on("restaurant_object", (msg) => {
       const resp = JSON.parse(msg);
       console.log(resp);
-      console.log(state.imageLinks.home_page_images);
-      setState({ imageLinks: resp.home_page_images });
+      dispatch({ type: TYPES.ADD_REST_IMAGES, payload: resp.home_page_images });
       dispatch({ type: TYPES.ADDONS, payload: resp.add_ons });
       dispatch({ type: TYPES.SET_RESTAURANT_NAME, payload: resp.name });
       dispatch({ type: TYPES.ADD_REST_ADDRESS, payload: resp.address });
@@ -308,7 +308,7 @@ const Home = (props) => {
   const handleClose = () => setState({ showData: false });
   const handleShow = () => setState({ showData: true });
 
-  console.log(state.imageLinks);
+  // console.log(state.imageLinks);
   // state.imageLinks.map((image,idx) => {
   //   console.log(image,idx);
   // });
@@ -350,22 +350,22 @@ const Home = (props) => {
         >
           <div className="responsive-height">
             <Carousel activeIndex={index} onSelect={handleSelect}>
-              {state.imageLinks.forEach((imageLink, idx7) => (
-                <Carousel.Item>
+              {Object.entries(restImages).map((data, idx) => {
+                return (<Carousel.Item>
                   <img
                     className="d-block w-100"
-                    src={state.imageLink}
+                    src={'https://liqr-restaurants.s3.ap-south-1.amazonaws.com/BNGKOR004/home_page_images/home_page_2.png'}
                     alt="First slide"
                   />
-                  {idx7}
+                  {idx}
                   <Carousel.Caption>
                     <h3>First slide label</h3>
                     <p>
                       Nulla vitae elit libero, a pharetra augue mollis interdum.
                     </p>
                   </Carousel.Caption>
-                </Carousel.Item>
-              ))}
+                </Carousel.Item>)
+              })};
             </Carousel>
             <Card className="home-title-card-carousel">
               <Card.Title className="rest-card-home">

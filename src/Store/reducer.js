@@ -21,12 +21,10 @@ function reducer(state, action) {
       st.orderSuccess = payload;
       return st;
 
-      case TYPES.ADDONS:
-        st.addons = [];
-        st.addons = payload;
-        return st;  
-
-      
+    case TYPES.ADDONS:
+      st.addons = [];
+      st.addons = payload;
+      return st;  
 
     case TYPES.SET_RESTAURANT_NAME:
       st.restName = payload;
@@ -243,6 +241,9 @@ function reducer(state, action) {
     case TYPES.ADD_REST_ADDRESS:
       st.restAddress = payload;
       return st;
+    case TYPES.ADD_REST_IMAGES:
+      st.restImages = payload;
+      return st
     default:
       return state;
   }
