@@ -205,8 +205,8 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
             from === "home"
               ? foodItem.image_link
                 ? { lineHeight: "155%", marginLeft: "2%", width: "80%" }
-                : { lineHeight: "155%", marginLeft: "2%", width: "80%" }
-              : { lineHeight: "155%", marginLeft: "2%", width: "100%" }
+                : { lineHeight: "215%", marginLeft: "2%", width: "80%" }
+              : { lineHeight: "215%", marginLeft: "2%", width: "100%" }
           }
         >
           <p className="item-name">{foodItem.name}</p>
