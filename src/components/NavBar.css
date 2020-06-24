@@ -5,7 +5,8 @@
   top: 0;
   transition: top 0.1s;
   z-index: 7;
-  padding:1rem;
+  padding-right:4.5rem;
+  padding-left:4.5rem;
 }
 
 .navbar {

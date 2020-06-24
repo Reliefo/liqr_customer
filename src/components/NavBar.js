@@ -149,7 +149,7 @@ const Navbar = (props) => {
             </span>
           </div> */}
               </div>
-              <div style={{ float: "right", marginRight: "5%" }}>
+              <div style={{ float: "right", marginRight: "3%" }}>
                 {props.socket.connected === true ? (
                   <span id="connected-socket"></span>
                 ) : (

@@ -12,7 +12,7 @@ import FoodItem from "components/FoodItem";
 import { InputGroup, FormControl, Modal, Button } from "react-bootstrap";
 import SearchFoodItems from "components/SearchFoodItems.js";
 import classnames from "classnames";
-import '../components/NavBar.css';
+import "../components/NavBar.css";
 
 const Menu = (props) => {
   const [prevScrollpos, setPrevScrollpos] = React.useState(window.pageYOffset);
@@ -33,7 +33,7 @@ const Menu = (props) => {
   const handleScroll = () => {
     const currentScrollPos = window.pageYOffset;
     const visible = prevScrollpos > currentScrollPos;
-    setPrevScrollpos( prevScrollpos => currentScrollPos);
+    setPrevScrollpos((prevScrollpos) => currentScrollPos);
     // setVisible(visible);
   };
   React.useEffect(() => {
@@ -83,13 +83,9 @@ const Menu = (props) => {
   const handleShow = () => setState({ showData: true });
   React.useEffect(() => {
     return () => {
-      console.log("will unmount");
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
-
-
 
   return (
     <>
@@ -130,30 +126,30 @@ const Menu = (props) => {
                 "navbar--hidden": !visible,
               })}
             >
+                {bar_menu.length > 0 ? (
               <ul className="menu-btn">
                 <li
                   className={
                     state.activeMenu === "food"
-                      ? "menu-active food-active"
-                      : "food-inactive menu-inactive"
+                      ? "menu-active bar-active"
+                      : "menu-inactive bar-inactive"
                   }
                   onClick={() => setMenu("food", food_menu)}
                 >
                   <div className="menu-item-names">Food Menu</div>
                 </li>
-                {bar_menu.length > 0 ? (
                   <li
                     className={
                       state.activeMenu === "bar"
-                        ? "menu-active bar-active"
-                        : "menu-inactive bar-inactive"
+                        ? "menu-active food-active"
+                        : "menu-inactive food-inactive"
                     }
                     onClick={() => setMenu("bar", bar_menu)}
                   >
                     <div className="menu-item-names">Bar Menu</div>
                   </li>
-                ) : null}
               </ul>
+                ) : null}
             </nav>
             <div className="category">
               {activeData.length &&
@@ -162,6 +158,21 @@ const Menu = (props) => {
                     <p className="category-subs" style={{ zIndex: idx + 1 }}>
                       {item.name}
                     </p>
+                    {/* <Dropdown>
+                      <Dropdown.Toggle variant="success" id="dropdown-basic">
+                        Category
+                      </Dropdown.Toggle>
+
+                      <Dropdown.Menu>
+                        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                        <Dropdown.Item href="#/action-2">
+                          Another action
+                        </Dropdown.Item>
+                        <Dropdown.Item href="#/action-3">
+                          Something else
+                        </Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown> */}
                     <SubCategory
                       activeData={state.activeData}
                       subs={item}
@@ -180,10 +191,10 @@ const Menu = (props) => {
 
 const SubCategory = ({ subs, categories, activeData }) => (
   <>
-    <p
+    {/* <p
       id={`menu-${categories}`}
       style={{ fontSize: "1.1rem", color: "#334252", fontWeight: 600, marginBottom:"0rem"}}
-    ></p>
+    ></p> */}
     {subs.food_list.map((foodItem, idx3) => (
       <div>
         {foodItem.visibility ? (

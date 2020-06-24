@@ -216,7 +216,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
           ? {
               background: "#EFEFEF",
               width: "90%",
-              paddingBottom: "5%",
+              paddingBottom: "3%",
               minHeight: "200px",
             }
           : {}
