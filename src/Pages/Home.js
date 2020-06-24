@@ -238,6 +238,7 @@ const Home = (props) => {
 
     props.socket.off("home_screen_lists").on("home_screen_lists", (msg) => {
       dispatch({ type: TYPES.UPDATE_HOME_ITEMS, payload: JSON.parse(msg) });
+      setState({ isLoading : false });
     });
   }, [props.socket, dispatch, props.location]);
 
@@ -351,18 +352,20 @@ const Home = (props) => {
           <div className="responsive-height">
             <Carousel activeIndex={index} onSelect={handleSelect}>
               {Object.entries(restImages).map((data, idx) => {
+                // console.log();
+                console.log(data);
+                console.log(idx);
                 return (<Carousel.Item>
                   <img
                     className="d-block w-100"
-                    src={'https://liqr-restaurants.s3.ap-south-1.amazonaws.com/BNGKOR004/home_page_images/home_page_2.png'}
+                    src={data[1]}
                     alt="First slide"
                   />
-                  {idx}
                   <Carousel.Caption>
-                    <h3>First slide label</h3>
-                    <p>
-                      Nulla vitae elit libero, a pharetra augue mollis interdum.
-                    </p>
+                    {/* <h3>First slide label</h3> */}
+                    {/* <p> */}
+                      {/* Nulla vitae elit libero, a pharetra augue mollis interdum. */}
+                    {/* </p> */}
                   </Carousel.Caption>
                 </Carousel.Item>)
               })};
