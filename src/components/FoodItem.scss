@@ -1,0 +1,52 @@
+.col-5-menu-food-card {
+  padding: 0.5rem;
+  padding-right: 0rem;
+}
+
+.card-image-menu {
+  width: 4rem;
+  height: 4rem;
+  opacity: 1;
+  border-radius: 6px;
+}
+
+.add-button-item-menu {
+  float: right;
+  width: 90px;
+  height: 30px;
+  background: #ffb023 0% 0% no-repeat padding-box;
+  border-radius: 6px;
+  border-color: #ffb023;
+  font-family: "Poppins";
+  letter-spacing: 0px;
+  color: #ffffff;
+  opacity: 1;
+}
+
+.container-row-home {
+  margin-right: 0rem;
+  margin-left: 0rem;
+}
+
+.item-name-menu {
+  text-align: left;
+  letter-spacing: 0px;
+  color: #000000;
+  opacity: 1;
+  font-family: "Poppins";
+  font-size: 0.9rem;
+}
+.food-desc-menu {
+  text-align: left;
+  color: #000000;
+  opacity: 0.6;
+  font-family: "Poppins";
+  font-size: small;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  letter-spacing: 0px;
+  // padding-left: 0.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}

@@ -6,7 +6,7 @@ import { StoreContext } from "Store";
 import * as TYPES from "Store/actionTypes.js";
 
 //used in menu, menu has lots of items
-const PlusWithAddRemove = ({ item, idx, subs, from }) => {
+const PlusWithAddRemove = ({ item, idx, subs, from, fromhome }) => {
   const {
     dispatch,
     state: { cart, activeData }
@@ -166,7 +166,7 @@ const PlusWithAddRemove = ({ item, idx, subs, from }) => {
   return (
     <>
       {state.showQuantity === true ? (
-        <button className="add-button-item" onClick={onClickPlus}>
+        <button className={fromhome === "home"? "add-button-item" : "add-button-item-menu"} onClick={onClickPlus}>
           Add({item.quantity})
         </button>
       ) : state.showAddRemove &&
@@ -189,7 +189,7 @@ const PlusWithAddRemove = ({ item, idx, subs, from }) => {
             className={
               from === "details"
                 ? "options-button-add btn btn-primary"
-                : "add-button-item"
+                :fromhome === "home"? "add-button-item" : "add-button-item-menu"
             }
             onClick={onClickPlus}
           >

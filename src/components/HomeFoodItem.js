@@ -221,43 +221,41 @@ const HomeFoodItem = ({
   return (
     <Card
       id={foodItem.name}
-      style={{
-        background: "#EFEFEF",
-        width: "90%",
-        paddingBottom: "0%",
-      }}
       className="category-card home-screen-food-card"
     >
       <div className="container" style={{ paddingRight: "0rem" }}>
         {foodItem.image_link ? (
-          <div
-            className="row container-row"
-            onClick={() => selectDetails(foodItem, index, subsIndex)}
-          >
-            <div className="col-4 col-5-home-food-card">
+          <div className="row container-row">
+            <div
+              className="col-4 col-5-home-food-card"
+              onClick={() => selectDetails(foodItem, index, subsIndex)}
+            >
               <img
                 className="card-image-home"
                 src={foodItem.image_link}
                 alt="sample"
               />
             </div>
-            {/* <div onClick={() => selectDetails(foodItem, index, subsIndex)}> */}
             <div className={"col-8 col-7-home-food-card"}>
-              <div className="row-6 row-6-name">
+              <div
+                className="row-6 row-6-name"
+                onClick={() => selectDetails(foodItem, index, subsIndex)}
+              >
                 <span className="item-name-home">{foodItem.name}</span>
               </div>
               <div className="row-6 row-6-addprice">
                 {/* <div className="food-desc">{fullDesc}</div> */}
                 {/* </div> */}
-                <div className="col-5 col-6-price">
+                <div className="col-6 col-6-price">
                   <p className="item-price-home">₹ {foodItem.price}</p>
                 </div>
-                <div className="col-7 col-6-add">
+                <div className="col-6 col-6-add">
                   <div className="add-button-home">
                     <PlusWithAddRemove
                       item={foodItem}
                       idx={index}
                       subs={subsIndex}
+                      fromhome="home"
                     />
                   </div>
                 </div>
@@ -270,17 +268,20 @@ const HomeFoodItem = ({
             onClick={() => selectDetails(foodItem, index, subsIndex)}
           >
             <div className={"col col-7-home-food-card"}>
-              <div className="row-6 row-6-name">
+              <div
+                className="row-6 row-6-name"
+                onClick={() => selectDetails(foodItem, index, subsIndex)}
+              >
                 <div className="col col-7-home-food-card">
                   <span className="item-name-home">{foodItem.name}</span>
                   <div className="food-desc">{fullDesc}</div>
                 </div>
               </div>
               <div className="row-6 row-6-addprice">
-                <div className="col-5 col-6-price">
+                <div className="col-6 col-6-price">
                   <p className="item-price-home">₹ {foodItem.price}</p>
                 </div>
-                <div className="col-7 col-6-add">
+                <div className="col-6 col-6-add">
                   <div className="add-button-home">
                     <PlusWithAddRemove
                       item={foodItem}
