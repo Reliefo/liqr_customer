@@ -222,33 +222,53 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
     >
       <div className="container">
         {/* {foodItem.image_link ? ( */}
-        <div className="row">
-          <div
-            className="col-3"
-            onClick={() => selectDetails(foodItem, index, subsIndex)}
-          >
-            {foodItem.image_link ? (
+        {foodItem.image_link ? (
+          <div className="row">
+            <div
+              className="col-3"
+              onClick={() => selectDetails(foodItem, index, subsIndex)}
+            >
               <img
                 className="card-image-menu"
                 src={foodItem.image_link}
                 alt="sample"
               />
-            ) : (
-              ""
-            )}
-          </div>
-          <div className={"col-9"}>
-            <div onClick={() => selectDetails(foodItem, index, subsIndex)}>
-              <p className="item-name-menu">{foodItem.name}</p>
-              <div className="food-desc-menu">{fullDesc}</div>
             </div>
-            <div>
-              <p className="item-price">₹ {foodItem.price}</p>
-              <PlusWithAddRemove item={foodItem} idx={index} subs={subsIndex} />
-              {/* <PlusWithAddRemove item={foodItem} idx={index} subs={subsIndex} /> */}
+            <div className={"col-9"}>
+              <div onClick={() => selectDetails(foodItem, index, subsIndex)}>
+                <p className="item-name-menu">{foodItem.name}</p>
+                <div className="food-desc-menu">{fullDesc}</div>
+              </div>
+              <div>
+                <p className="item-price">₹ {foodItem.price}</p>
+                <PlusWithAddRemove
+                  item={foodItem}
+                  idx={index}
+                  subs={subsIndex}
+                />
+                {/* <PlusWithAddRemove item={foodItem} idx={index} subs={subsIndex} /> */}
+              </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <div className="row">
+            <div className={"col"}>
+              <div onClick={() => selectDetails(foodItem, index, subsIndex)}>
+                <p className="item-name-menu">{foodItem.name}</p>
+                <div className="food-desc-menu">{fullDesc}</div>
+              </div>
+              <div>
+                <p className="item-price">₹ {foodItem.price}</p>
+                <PlusWithAddRemove
+                  item={foodItem}
+                  idx={index}
+                  subs={subsIndex}
+                />
+                {/* <PlusWithAddRemove item={foodItem} idx={index} subs={subsIndex} /> */}
+              </div>
+            </div>
+          </div>
+        )}
         {/* // ) : (
         //   ""
         // )} */}
@@ -835,6 +855,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
     // :
 
     //   <Card></Card> }
+    /*:*/
     /*:*/
    /*:*/);
 };
