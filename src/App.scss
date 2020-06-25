@@ -195,13 +195,22 @@
     font-size: 14px;
   }
 }
-.category {
+
+.home-screen-rest{
   margin-bottom: 66px;
   position: relative;
   padding: 1rem;
+}
+
+.category {
+  margin-bottom: 66px;
+  position: relative;
+  padding: 0rem;
   .category-card {
     border: none;
     margin-bottom: 0.5rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
     // background-color:#f8f9fa;
     // background-color:#f0efef;
 
@@ -416,11 +425,11 @@
   font-weight: 500;
   padding-top: 0.2rem;
   padding-bottom: 0.2rem;
-  margin-right: 6rem;
-  margin-left: -1rem;
-  margin-bottom: 0rem;
-  width: 50%;
-  border-radius: 0px 6px 6px 0px;
+  margin-right: 0rem;
+  margin-left: 0rem;
+  margin-bottom: 0.5rem;
+  width: 100%;
+  // border-radius: 0px 6px 6px 0px;
 }
 
 .cart-plus-minus-svg {
@@ -518,6 +527,20 @@
   font-size: 12px;
   letter-spacing: 0px;
 }
+.food-desc {
+  text-align: left;
+  color: #000000;
+  opacity: 0.6;
+  font-family: "Poppins";
+  font-size: small;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  letter-spacing: 0px;
+  // padding-left: 0.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
 
 .modal-customization {
   width: 100%;
@@ -587,6 +610,9 @@
   opacity: 1;
   float: left;
   font-family: "Poppins";
+  padding-top: 0.5rem;
+  padding-left: 0rem;
+  margin-bottom: 0rem;
 }
 
 .item-name {
@@ -595,12 +621,13 @@
   color: #000000;
   opacity: 1;
   font-family: "Poppins";
+  font-size: 0.9rem;
 }
 
 .add-button-item {
   float: right;
-  width: 90px;
-  height: 30px;
+  width: 75px;
+  height: 25px;
   background: #ffb023 0% 0% no-repeat padding-box;
   border-radius: 6px;
   border-color: #ffb023;
@@ -722,21 +749,8 @@
   text-align: left;
 }
 
-.available-items {
-  height: 120px;
-  display: inline-block;
-  width: 36%;
-  width: 85% !important;
-  margin: 2% 6% 2% 6%;
-}
 
-.main-items {
-  text-align: center;
-  letter-spacing: 0px;
-  opacity: 1;
-  font-family: "Poppins";
-  font-size: 14px;
-}
+
 
 .cart-hr {
   width: 80%;
@@ -795,6 +809,10 @@
   top: -6rem;
   /* transform: translateY(-50%); */
   width: 80%;
+}
+
+.text-center {
+  text-align: center;
 }
 
 .input-css[type=text] {
@@ -1092,18 +1110,6 @@ input[type="radio"] {
   padding-bottom: 5%;
 }
 
-@media only screen and (max-width: 410px) {
-  .responsive-height {
-    max-height: 380px;
-  }
-}
-
-@media only screen and (min-width: 410px) {
-  .responsive-height {
-    max-height: 420px;
-  }
-}
-
 .coupon-div {
   background: white;
   border-radius: 8px;
@@ -1123,3 +1129,4 @@ input[type="radio"] {
 .fooditem-card {
   padding-bottom: 0%;
 }
+

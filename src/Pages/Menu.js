@@ -9,6 +9,7 @@ import Search from "./Search.js";
 import * as TYPES from "Store/actionTypes.js";
 import SocketContext from "../socket-context";
 import FoodItem from "components/FoodItem";
+import HomeFoodItem from "components/HomeFoodItem";
 import { InputGroup, FormControl, Modal, Button } from "react-bootstrap";
 import SearchFoodItems from "components/SearchFoodItems.js";
 import classnames from "classnames";

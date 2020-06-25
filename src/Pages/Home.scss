@@ -1,0 +1,123 @@
+.home-screen-images {
+  height: -moz-fit-content;
+  margin-bottom: -18%;
+}
+// @media only screen and (max-width: 410px) {
+//   .responsive-height {
+//     max-height: 380px;
+//   }
+// }
+
+// @media only screen and (min-width: 550px) {
+//   .responsive-height {
+//     max-height: 420px;
+//   }
+// }
+
+.main-home-card {
+  margin-top: 2rem;
+  // margin-left: 2%;
+  background: rgb(255, 130, 130);
+  border-radius: 8px;
+  opacity: 1;
+  // top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.view-all-home-screen {
+  background-color: rgb(82, 245, 231);
+  float: right;
+  font-size: small;
+}
+
+.home-screen-headings {
+  padding: 3%;
+  font-family: "Poppins";
+  text-align: left;
+  font-size: larger;
+  letter-spacing: 0.04px;
+  opacity: 1;
+  text-justify: auto;
+  font-weight: bold;
+  font-size: larger;
+  margin-bottom: 0rem;
+}
+
+.home-screen-headings-text {
+  position: relative;
+  top: 0.3rem;
+  left: 0.3rem;
+}
+
+.need-help-div {
+  height: 30%;
+  display: inline-block;
+  width: 95% !important;
+  margin: 4% 4% 4% 4%;
+  // background-color: #ffb023;
+}
+
+.need-help-images {
+  // height: %;
+  scale: 100%;
+}
+
+.need-help-names {
+  text-align: center;
+  // text-overflow: initial;
+  letter-spacing: 0px;
+  opacity: 1;
+  font-family: "Poppins";
+  font-size: medium;
+  height: 4rem;
+  padding-top: 0rem;
+}
+
+.slick-slider {
+  top: 0.5rem;
+}
+
+.slick-track {
+  display: flex !important;
+}
+
+.slick-slide {
+  height: inherit !important;
+}
+
+// .custom-slider {
+//   .slick-slide {
+//     margin: 0 -10px;
+//     height: inherit !important;
+//   }
+//   .slick-list {
+//     padding: 0px 75px !important;
+//   }
+// }
+.desc-home-body {
+  min-height: 100px;
+  font-family: "Poppins";
+  text-align: left;
+  font-size: 12px;
+  letter-spacing: 0.04px;
+  color: #707070;
+  opacity: 1;
+}
+
+.home-item {
+  border-radius: 8px;
+  text-transform: capitalize;
+  margin-left: 6% !important;
+  width: 85% !important;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border: 1px solid #efefef;
+  border-radius: 6px;
+  opacity: 1;
+}
+
+.slick-prev:before,
+.slick-next:before {
+  color: black !important;
+}
+
+// .slick-list{padding:0 20% 0 0;}

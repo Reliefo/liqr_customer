@@ -24,8 +24,9 @@ import Slider from "react-slick";
 import { StoreContext } from "Store";
 import * as TYPES from "Store/actionTypes.js";
 import AppWrapper from "../App";
-import FoodItem from "components/FoodItem";
+import HomeFoodItem from "components/HomeFoodItem";
 import Loader from "./Loader";
+import "./Home.scss";
 
 const Home = (props) => {
   const {
@@ -42,56 +43,69 @@ const Home = (props) => {
     },
   } = React.useContext(StoreContext);
 
-  let settings = {
-    dots: false,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 1.5,
-    slidesToScroll: 1,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 1.5,
-          slidesToScroll: 1,
-          infinite: false,
-          dots: false,
-        },
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 1.5,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 480,
 
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          customPaging: function (slider, i) {
-            return <a>{slider + 1} </a>;
+
+  function getSettings(idx) {
+    var speed = 3000 + (idx%2) * 1000;
+    let settings = {
+      dots: false,
+      infinite: false,
+      speed: 500,
+      slidesToShow: 1,
+      centerMode: true,
+      centerPadding: "20px",
+      autoplay: true,
+      autoplaySpeed: speed,
+      slidesToScroll: 1,
+      responsive: [
+        {
+          breakpoint: 1024,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            infinite: false,
+            dots: false,
           },
-          dots: true,
-          infinite: true,
         },
-      },
-    ],
-  };
-
+        {
+          breakpoint: 600,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+          },
+        },
+        {
+          breakpoint: 480,
+  
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            // dotsClass: "slickDots",
+            // customPaging: function (slider, i) {
+            //   return <a>{slider + 1} </a>;
+            // },
+            dots: true,
+            infinite: true,
+          },
+        },
+      ],
+    };
+    return settings;
+  }
   let settings2 = {
     dots: false,
-    infinite: false,
+    infinite: true,
     speed: 500,
     rows: 1,
     slidesPerRow: 2,
+    centerPadding: "50px",
+    centerMode: false,
+    touchThreshold: 8,
     responsive: [
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 2.5,
           slidesToScroll: 1,
           infinite: false,
           dots: false,
@@ -100,17 +114,17 @@ const Home = (props) => {
       {
         breakpoint: 600,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 2.5,
           slidesToScroll: 1,
-          infinite: true,
+          infinite: false,
         },
       },
       {
         breakpoint: 480,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 2.5,
           slidesToScroll: 1,
-          infinite: true,
+          infinite: false,
         },
       },
     ],
@@ -238,7 +252,7 @@ const Home = (props) => {
 
     props.socket.off("home_screen_lists").on("home_screen_lists", (msg) => {
       dispatch({ type: TYPES.UPDATE_HOME_ITEMS, payload: JSON.parse(msg) });
-      setState({ isLoading : false });
+      setState({ isLoading: false });
     });
   }, [props.socket, dispatch, props.location]);
 
@@ -349,44 +363,50 @@ const Home = (props) => {
           }}
           className="home-screen"
         >
-          <div className="responsive-height">
-            <Carousel activeIndex={index} onSelect={handleSelect}>
+          <div className="home-screen-images">
+            <Carousel
+              activeIndex={index}
+              indicators={false}
+              onSelect={handleSelect}
+            >
               {Object.entries(restImages).map((data, idx) => {
-                // console.log();
-                console.log(data);
-                console.log(idx);
-                return (<Carousel.Item>
-                  <img
-                    className="d-block w-100"
-                    src={data[1]}
-                    alt="First slide"
-                  />
-                  <Carousel.Caption>
-                    {/* <h3>First slide label</h3> */}
-                    {/* <p> */}
+                return (
+                  <Carousel.Item>
+                    <img
+                      className="d-block w-100"
+                      src={data[1]}
+                      alt="First slide"
+                    />
+                    <Carousel.Caption>
+                      {/* <h3>First slide label</h3> */}
+                      {/* <p> */}
                       {/* Nulla vitae elit libero, a pharetra augue mollis interdum. */}
-                    {/* </p> */}
-                  </Carousel.Caption>
-                </Carousel.Item>)
-              })};
+                      {/* </p> */}
+                    </Carousel.Caption>
+                  </Carousel.Item>
+                );
+              })}
             </Carousel>
             <Card className="home-title-card-carousel">
-              <Card.Title className="rest-card-home">
+              <Card.Title className="rest-card-home text-center">
                 {" "}
                 Welcome to {restName}
               </Card.Title>
-              <Card.Body>{restAddress}</Card.Body>
+              <Card.Body className="text-center">{restAddress}</Card.Body>
             </Card>
           </div>
-          <div className="category">
+          <div className="home-screen-rest">
             {Object.entries(homeItems).map((data, idx) => {
               if (idx === 0) {
                 return (
                   <div>
-                    <span className="home-title">{data[0]}</span>
+                    <span className="home-title home-screen-headings">
+                      {data[0]}
+                    </span>
                     <Slider {...settings2}>
                       {Object.entries(data[1]).map((item, index) => {
                         return (
+                          // <div className="card-needs-help">
                           <Card
                             onClick={() =>
                               props.history.push("/submenu", {
@@ -395,18 +415,18 @@ const Home = (props) => {
                                 foodMenu: activeData,
                               })
                             }
-                            className="available-items"
+                            className="need-help-div"
                             key={`category-cards-${index}`}
                           >
-                            <div
-                              className="bg-image"
-                              style={{
-                                backgroundImage: `url(${sample})`,
-                                height: "100%",
-                              }}
-                            ></div>
-                            <p className="main-items">{item[0]}</p>
+                            <Card.Img
+                              className="need-help-images"
+                              src="https://liqr-restaurants.s3.ap-south-1.amazonaws.com/default_need_help.jpg"
+                            />
+                            <Card.Footer className="need-help-names">
+                              {item[0]}
+                            </Card.Footer>
                           </Card>
+                          // </div>
                         );
                       })}
                     </Slider>
@@ -418,13 +438,15 @@ const Home = (props) => {
               if (idx !== 0) {
                 return (
                   <Card
-                    className="category-card main-home-card"
+                    className="main-home-card"
                     key={`category-cards-${idx}`}
                   >
-                    <Card.Title className="home-title">
-                      <span style={{ width: "90%" }}>{data[0]}</span>
+                    <Card.Title className="home-title home-screen-headings">
+                      <span className="home-screen-headings-text">
+                        {data[0]}
+                      </span>
                       <Button
-                        className="add-button-item"
+                        className="view-all-home-screen"
                         variant="primary"
                         onClick={() =>
                           props.history.push("/submenu", {
@@ -437,7 +459,7 @@ const Home = (props) => {
                         View All
                       </Button>
                     </Card.Title>
-                    <Slider {...settings}>
+                    <Slider {...getSettings(idx)}  className="custom-slider">
                       {Object.values(data[1]).map((item, index) => {
                         if (typeof item === "object") {
                         }
@@ -447,8 +469,7 @@ const Home = (props) => {
                               if (list._id.$oid === item) {
                                 return (
                                   <div id="card-home-screen">
-                                    <FoodItem
-                                      from="home"
+                                    <HomeFoodItem
                                       stateData={activeData}
                                       foodItem={list}
                                       subs={food}

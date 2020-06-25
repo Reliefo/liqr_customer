@@ -5,8 +5,17 @@ import { Card, Accordion, Modal, Button, Form } from "react-bootstrap";
 import sampleImage from "../assets/300.png";
 import * as TYPES from "Store/actionTypes.js";
 import { StoreContext } from "Store";
+import "./HomeFoodItem.scss";
+import classnames from "classnames";
 
-const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
+const HomeFoodItem = ({
+  stateData,
+  foodItem,
+  index,
+  subsIndex,
+  subs,
+  from,
+}) => {
   const {
     dispatch,
     state: {
@@ -33,7 +42,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
       foodItem.addons = [];
     }
 
-    foodItem.addons.forEach(item3 => {
+    foodItem.addons.forEach((item3) => {
       items += item3 + ",";
     });
 
@@ -94,7 +103,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
     } else {
       item["choices"] = item.choice;
       item["options"] = item.food_option;
-      item['add_ons'] = item.addon;
+      item["add_ons"] = item.addon;
       dispatch({ type: TYPES.ADD_ITEM, payload: item }); //dispatcing the whole item
 
       activeData.forEach((item2, index3) => {
@@ -210,53 +219,80 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
   let visibility = foodItem.visibility;
 
   return (
-    // {from == "home" ? 
     <Card
       id={foodItem.name}
-      style={
-        from === "home"
-          ? {
-              background: "#EFEFEF",
-              width: "90%",
-              paddingBottom: "0%",
-              minHeight: "150px",
-            }
-          : {}
-      }
-      className="category-card food-item"
+      style={{
+        background: "#EFEFEF",
+        width: "90%",
+        paddingBottom: "0%",
+      }}
+      className="category-card home-screen-food-card"
     >
-      <div className="fooditem_card">
-        <div onClick={() => selectDetails(foodItem, index, subsIndex)}>
-          {foodItem.image_link ? (
-            <img
-              style={from === "home" ? { height: "100%" } : { height: "100px" }}
-              className="card-image"
-              src={foodItem.image_link}
-              alt="sample"
-            />
-          ) : (
-            ""
-          )}
-        </div>
-        <div
-          style={
-            from === "home"
-              ? foodItem.image_link
-                ? { lineHeight: "155%", marginLeft: "2%", width: "100%" }
-                : { lineHeight: "155%", marginLeft: "2%", width: "80%" }
-              : { lineHeight: "155%", marginLeft: "2%", width: "100%" }
-          }
-        >
-          <div onClick={() => selectDetails(foodItem, index, subsIndex)}>
-            <p className="item-name">{foodItem.name}</p>
-            <div className="food-desc">{fullDesc}</div>
+      <div className="container" style={{ paddingRight: "0rem" }}>
+        {foodItem.image_link ? (
+          <div
+            className="row container-row"
+            onClick={() => selectDetails(foodItem, index, subsIndex)}
+          >
+            <div className="col-4 col-5-home-food-card">
+              <img
+                className="card-image-home"
+                src={foodItem.image_link}
+                alt="sample"
+              />
+            </div>
+            {/* <div onClick={() => selectDetails(foodItem, index, subsIndex)}> */}
+            <div className={"col-8 col-7-home-food-card"}>
+              <div className="row-6 row-6-name">
+                <span className="item-name-home">{foodItem.name}</span>
+              </div>
+              <div className="row-6 row-6-addprice">
+                {/* <div className="food-desc">{fullDesc}</div> */}
+                {/* </div> */}
+                <div className="col-5 col-6-price">
+                  <p className="item-price-home">₹ {foodItem.price}</p>
+                </div>
+                <div className="col-7 col-6-add">
+                  <div className="add-button-home">
+                    <PlusWithAddRemove
+                      item={foodItem}
+                      idx={index}
+                      subs={subsIndex}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div>
-            <p className="item-price">₹ {foodItem.price}</p>
-            <PlusWithAddRemove item={foodItem} idx={index} subs={subsIndex} />
-            {/* <PlusWithAddRemove item={foodItem} idx={index} subs={subsIndex} /> */}
+        ) : (
+          <div
+            className="row container-row"
+            onClick={() => selectDetails(foodItem, index, subsIndex)}
+          >
+            <div className={"col col-7-home-food-card"}>
+              <div className="row-6 row-6-name">
+                <div className="col col-7-home-food-card">
+                  <span className="item-name-home">{foodItem.name}</span>
+                  <div className="food-desc">{fullDesc}</div>
+                </div>
+              </div>
+              <div className="row-6 row-6-addprice">
+                <div className="col-5 col-6-price">
+                  <p className="item-price-home">₹ {foodItem.price}</p>
+                </div>
+                <div className="col-7 col-6-add">
+                  <div className="add-button-home">
+                    <PlusWithAddRemove
+                      item={foodItem}
+                      idx={index}
+                      subs={subsIndex}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
+        )}
       </div>
       {/* <Card.Body className="Menu-body">
         <p style={{ width: "69%", fontSize: ".9rem" }}>
@@ -325,240 +361,249 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
                   }
                 })
               : ""}
-            {foodItem.options
-              ? ""
-              : Object.values(foodItem.customization).map((item, index) => {
-                  if (item.customization_type === "options") {
-                    return (
-                      <div>
-                        Options:
-                        {item.list_of_options.map((item2, idx) => {
-                          let count = 0;
+            {
+              foodItem.options
+                ? ""
+                : Object.values(foodItem.customization).map((item, index) => {
+                    if (item.customization_type === "options") {
+                      return (
+                        <div>
+                          Options:
+                          {item.list_of_options.map((item2, idx) => {
+                            let count = 0;
 
-                          item.list_of_options.forEach((val, checkIndex) => {
-                            if (val.checked === true) {
-                              count++;
-                              item2.indexSelected = checkIndex;
+                            item.list_of_options.forEach((val, checkIndex) => {
+                              if (val.checked === true) {
+                                count++;
+                                item2.indexSelected = checkIndex;
+                              }
+                            });
+
+                            if (count === 0) {
+                              if (idx === 0) {
+                                item2.checked = true;
+                                selectOption(foodItem, item2);
+                              }
                             }
-                          });
 
-                          if (count === 0) {
-                            if (idx === 0) {
+                            if (idx === item2.indexSelected) {
                               item2.checked = true;
                               selectOption(foodItem, item2);
                             }
-                          }
 
-                          if (idx === item2.indexSelected) {
-                            item2.checked = true;
-                            selectOption(foodItem, item2);
-                          }
-
-                          const checkIndexValue = index => {
-                            item.list_of_options.forEach((val, checkIndex) => {
-                              if (index === checkIndex) {
-                                val.checked = true;
-                                selectOption(foodItem, val);
-                              } else {
-                                val.checked = false;
-                              }
-                            });
-                          };
-                          return (
-                            <div key={idx}>
-                              <label>
-                                <input
-                                  id={idx}
-                                  type="checkbox"
-                                  checked={item2.checked}
-                                  onClick={() => checkIndexValue(idx)}
-                                  value={item2.option_name}
-                                  name="optionsRadio"
-                                />
-                                &nbsp;&nbsp;{item2.option_name}
-                              </label>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    );
-                  }
-                  if (item.customization_type === "choices") {
-                    return (
-                      <div>
-                        Choices:
-                        {item.list_of_options.map((item2, idx) => {
-                          let selectedChoice = foodItem.indexSelected;
-                          if (selectedChoice === undefined) {
-                            selectedChoice = 0;
-                            foodItem.indexSelected = 0;
-                            foodItem.choiceSelected = true;
-                            selectChoice(foodItem, item2);
-                          }
-
-                          const checkChoiceIndexValue = index => {
-                            selectedChoice = index;
-                            foodItem.indexSelected = index;
-
-                            item.list_of_options.forEach((val, checkIndex) => {
-                              if (index === checkIndex) {
-                                selectChoice(foodItem, val);
-                              }
-                            });
-                          };
-                          return (
-                            <div key={idx}>
-                              <label>
-                                <input
-                                  id={idx}
-                                  type="checkbox"
-                                  checked={idx === selectedChoice}
-                                  onClick={() => checkChoiceIndexValue(idx)}
-                                  value={item2}
-                                  name="choicesRadio"
-                                />
-                                &nbsp;&nbsp;{item2}
-                              </label>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    );
-                  }
-                  if (item.customization_type === "add_ons") {
-                    return (
-                      <div>
-                        Addons:
-                        {addons.map(item3 => {
-                          return item.list_of_options.map((item2, idx) => {
-                            if (item3._id.$oid === item2) {
-                              return (
-                                <div key={idx}>
-                                  <label>
-                                    <input
-                                      id={idx}
-                                      type="checkbox"
-                                      // checked={item1.checked}
-                                      onClick={() => selectAddon(foodItem, item2)}
-                                      // value={item1.option_name}
-                                      name="choicesRadio"
-                                    />
-                                    &nbsp;&nbsp;
-                                    {item3._id.$oid === item2 ? item3.name : ""}
-                                  </label>
-                                </div>
+                            const checkIndexValue = (index) => {
+                              item.list_of_options.forEach(
+                                (val, checkIndex) => {
+                                  if (index === checkIndex) {
+                                    val.checked = true;
+                                    selectOption(foodItem, val);
+                                  } else {
+                                    val.checked = false;
+                                  }
+                                }
                               );
+                            };
+                            return (
+                              <div key={idx}>
+                                <label>
+                                  <input
+                                    id={idx}
+                                    type="checkbox"
+                                    checked={item2.checked}
+                                    onClick={() => checkIndexValue(idx)}
+                                    value={item2.option_name}
+                                    name="optionsRadio"
+                                  />
+                                  &nbsp;&nbsp;{item2.option_name}
+                                </label>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      );
+                    }
+                    if (item.customization_type === "choices") {
+                      return (
+                        <div>
+                          Choices:
+                          {item.list_of_options.map((item2, idx) => {
+                            let selectedChoice = foodItem.indexSelected;
+                            if (selectedChoice === undefined) {
+                              selectedChoice = 0;
+                              foodItem.indexSelected = 0;
+                              foodItem.choiceSelected = true;
+                              selectChoice(foodItem, item2);
                             }
-                          });
-                        })}
-                      </div>
-                    );
-                  }
-                })
-            // : Object.entries(foodItem.food_options).map((item, index) => {
-            //   if (item[0] === "options")
-            //     return (
-            //       <div className="radio-div" key={index}>
-            //         {Object.values(item[1]).map((item1, idx) => {
-            //           let count = 0;
 
-            //           Object.values(item[1]).forEach((val, checkIndex) => {
-            //             if (val.checked === true) {
-            //               count++;
-            //               item1.indexSelected = checkIndex;
-            //             }
-            //           });
+                            const checkChoiceIndexValue = (index) => {
+                              selectedChoice = index;
+                              foodItem.indexSelected = index;
 
-            //           if (count === 0) {
-            //             if (idx === 0) {
-            //               item1.checked = true;
-            //               selectOption(foodItem, item1);
-            //             }
-            //           }
+                              item.list_of_options.forEach(
+                                (val, checkIndex) => {
+                                  if (index === checkIndex) {
+                                    selectChoice(foodItem, val);
+                                  }
+                                }
+                              );
+                            };
+                            return (
+                              <div key={idx}>
+                                <label>
+                                  <input
+                                    id={idx}
+                                    type="checkbox"
+                                    checked={idx === selectedChoice}
+                                    onClick={() => checkChoiceIndexValue(idx)}
+                                    value={item2}
+                                    name="choicesRadio"
+                                  />
+                                  &nbsp;&nbsp;{item2}
+                                </label>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      );
+                    }
+                    if (item.customization_type === "add_ons") {
+                      return (
+                        <div>
+                          Addons:
+                          {addons.map((item3) => {
+                            return item.list_of_options.map((item2, idx) => {
+                              if (item3._id.$oid === item2) {
+                                return (
+                                  <div key={idx}>
+                                    <label>
+                                      <input
+                                        id={idx}
+                                        type="checkbox"
+                                        // checked={item1.checked}
+                                        onClick={() =>
+                                          selectAddon(foodItem, item2)
+                                        }
+                                        // value={item1.option_name}
+                                        name="choicesRadio"
+                                      />
+                                      &nbsp;&nbsp;
+                                      {item3._id.$oid === item2
+                                        ? item3.name
+                                        : ""}
+                                    </label>
+                                  </div>
+                                );
+                              }
+                            });
+                          })}
+                        </div>
+                      );
+                    }
+                  })
+              // : Object.entries(foodItem.food_options).map((item, index) => {
+              //   if (item[0] === "options")
+              //     return (
+              //       <div className="radio-div" key={index}>
+              //         {Object.values(item[1]).map((item1, idx) => {
+              //           let count = 0;
 
-            //           if (idx === item1.indexSelected) {
-            //             item1.checked = true;
-            //             selectOption(foodItem, item1);
-            //           }
+              //           Object.values(item[1]).forEach((val, checkIndex) => {
+              //             if (val.checked === true) {
+              //               count++;
+              //               item1.indexSelected = checkIndex;
+              //             }
+              //           });
 
-            //           const checkIndexValue = index => {
-            //             Object.values(item[1]).forEach(
-            //               (val, checkIndex) => {
-            //                 if (index === checkIndex) {
-            //                   val.checked = true;
-            //                   selectOption(foodItem, val);
-            //                 } else {
-            //                   val.checked = false;
-            //                 }
-            //               }
-            //             );
-            //           };
+              //           if (count === 0) {
+              //             if (idx === 0) {
+              //               item1.checked = true;
+              //               selectOption(foodItem, item1);
+              //             }
+              //           }
 
-            //           return (
-            //             <div key={idx}>
-            //               <label>
-            //                 <input
-            //                   id={idx}
-            //                   type="radio"
-            //                   checked={item1.checked}
-            //                   onClick={() => checkIndexValue(idx)}
-            //                   value={item1.option_name}
-            //                   name="optionsRadio"
-            //                 />
-            //                   &nbsp;&nbsp;{item1.option_name}
-            //               </label>
-            //             </div>
-            //           );
-            //         })}
-            //       </div>
-            //     );
+              //           if (idx === item1.indexSelected) {
+              //             item1.checked = true;
+              //             selectOption(foodItem, item1);
+              //           }
 
-            //   if (item[0] === "choices" && item[1].length > 0)
-            //     return (
-            //       <div className="radio-div-2">
-            //         <br />
-            //           Choices
-            //         {Object.values(item[1]).map((item1, idx) => {
-            //           let selectedChoice = foodItem.indexSelected;
-            //           if (selectedChoice === undefined) {
-            //             selectedChoice = 0;
-            //             foodItem.indexSelected = 0;
-            //             foodItem.choiceSelected = true;
-            //             selectChoice(foodItem, item1);
-            //           }
+              //           const checkIndexValue = index => {
+              //             Object.values(item[1]).forEach(
+              //               (val, checkIndex) => {
+              //                 if (index === checkIndex) {
+              //                   val.checked = true;
+              //                   selectOption(foodItem, val);
+              //                 } else {
+              //                   val.checked = false;
+              //                 }
+              //               }
+              //             );
+              //           };
 
-            //           const checkChoiceIndexValue = index => {
-            //             selectedChoice = index;
-            //             foodItem.indexSelected = index;
+              //           return (
+              //             <div key={idx}>
+              //               <label>
+              //                 <input
+              //                   id={idx}
+              //                   type="radio"
+              //                   checked={item1.checked}
+              //                   onClick={() => checkIndexValue(idx)}
+              //                   value={item1.option_name}
+              //                   name="optionsRadio"
+              //                 />
+              //                   &nbsp;&nbsp;{item1.option_name}
+              //               </label>
+              //             </div>
+              //           );
+              //         })}
+              //       </div>
+              //     );
 
-            //             Object.values(item[1]).forEach(
-            //               (val, checkIndex) => {
-            //                 if (index === checkIndex) {
-            //                   selectChoice(foodItem, val);
-            //                 }
-            //               }
-            //             );
-            //           };
+              //   if (item[0] === "choices" && item[1].length > 0)
+              //     return (
+              //       <div className="radio-div-2">
+              //         <br />
+              //           Choices
+              //         {Object.values(item[1]).map((item1, idx) => {
+              //           let selectedChoice = foodItem.indexSelected;
+              //           if (selectedChoice === undefined) {
+              //             selectedChoice = 0;
+              //             foodItem.indexSelected = 0;
+              //             foodItem.choiceSelected = true;
+              //             selectChoice(foodItem, item1);
+              //           }
 
-            //           return (
-            //             <div key={idx}>
-            //               <label>
-            //                 <input
-            //                   id={idx}
-            //                   type="radio"
-            //                   checked={idx === selectedChoice}
-            //                   onClick={() => checkChoiceIndexValue(idx)}
-            //                   value={item1}
-            //                   name="choiceRadio"
-            //                 />
-            //                   &nbsp;&nbsp;{item1}
-            //               </label>
-            //             </div>
-            //           );
-            //         })}
-            //       </div>
-            //     );
-            // })
+              //           const checkChoiceIndexValue = index => {
+              //             selectedChoice = index;
+              //             foodItem.indexSelected = index;
+
+              //             Object.values(item[1]).forEach(
+              //               (val, checkIndex) => {
+              //                 if (index === checkIndex) {
+              //                   selectChoice(foodItem, val);
+              //                 }
+              //               }
+              //             );
+              //           };
+
+              //           return (
+              //             <div key={idx}>
+              //               <label>
+              //                 <input
+              //                   id={idx}
+              //                   type="radio"
+              //                   checked={idx === selectedChoice}
+              //                   onClick={() => checkChoiceIndexValue(idx)}
+              //                   value={item1}
+              //                   name="choiceRadio"
+              //                 />
+              //                   &nbsp;&nbsp;{item1}
+              //               </label>
+              //             </div>
+              //           );
+              //         })}
+              //       </div>
+              //     );
+              // })
             }
             {foodItem.showCustomize ? (
               <div
@@ -769,7 +814,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
               <br />
               {foodItem.food_options
                 ? foodItem.customization
-                  ? ''
+                  ? ""
                   : // ? Object.entries(foodItem.food_options).map((item, index) => {
                     //   if (item[0] === "options")
                     //     return Object.values(item[1]).map((item1, idx) => {
@@ -827,11 +872,8 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
       ) : (
         ""
       )}
-    </Card> 
-    // :
-
-    //   <Card></Card> }
+    </Card>
   );
 };
 
-export default FoodItem;
+export default HomeFoodItem;
