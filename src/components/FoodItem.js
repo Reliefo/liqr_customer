@@ -239,7 +239,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
                 alt="sample"
               />
             </div>
-            <div className={"col-9"}>
+            <div className={"col-9 col-7-home-food-card"}>
               <div onClick={() => selectDetails(foodItem, index, subsIndex)}>
                 <p className="item-name-menu">{foodItem.name}</p>
                 <div className="food-desc-menu">{fullDesc}</div>
