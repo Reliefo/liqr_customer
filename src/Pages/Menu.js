@@ -82,6 +82,7 @@ const Menu = (props) => {
   };
   const handleClose = () => setState({ showData: false });
   const handleShow = () => setState({ showData: true });
+  // console.log(activeData[0].food_list[1]);
   React.useEffect(() => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -192,10 +193,10 @@ const Menu = (props) => {
 
 const SubCategory = ({ subs, categories, activeData }) => (
   <>
-    {/* <p
+    <p
       id={`menu-${categories}`}
       style={{ fontSize: "1.1rem", color: "#334252", fontWeight: 600, marginBottom:"0rem"}}
-    ></p> */}
+    ></p>
     {subs.food_list.map((foodItem, idx3) => (
       <div>
         {foodItem.visibility ? (

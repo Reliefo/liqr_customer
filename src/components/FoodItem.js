@@ -210,6 +210,11 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
 
   let visibility = foodItem.visibility;
 
+  // if (foodItem.customization.length > 0){
+  //   console.log('true');
+  // }
+  // console.log(foodItem.customization);
+
   return (
     // {from == "home" ?
     <Card
@@ -223,9 +228,9 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
       <div className="container">
         {/* {foodItem.image_link ? ( */}
         {foodItem.image_link ? (
-          <div className="row">
+          <div className="row container-row-home">
             <div
-              className="col-3"
+              className="col-3 col-5-menu-food-card"
               onClick={() => selectDetails(foodItem, index, subsIndex)}
             >
               <img
@@ -279,7 +284,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
         </p>
         <PlusWithAddRemove item={foodItem} idx={index} subs={subsIndex} />
       </Card.Body> */}
-      {foodItem.foodOptions && foodItem.foodOptions === true ? (
+      {foodItem.customization.length > 0 && foodItem.foodOptions === true ? (
         <Modal
           style={{ zIndex: 10000 }}
           size="lg"

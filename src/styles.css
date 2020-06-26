@@ -37,9 +37,12 @@ body {
 .bm-item:hover {
   color: white;
 }
-
+.menu-item {
+  /* background-color: #045040; */
+  font-size: medium;
+}
 .navbar-menu-icon {
-  width: 15%;
+  width: 14%;
   margin-right: 5%;
 }
 /* The rest copied directly from react-burger-menu docs */

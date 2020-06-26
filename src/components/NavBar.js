@@ -196,7 +196,6 @@ const Navbar = (props) => {
                 top: "0px",
               }}
             />
-            <hr />
             {localStorage.getItem("registeredUser") === "false" ? (
               <a className="menu-item shadow-menu" href="/login">
                 <img className="navbar-menu-icon" src={login} alt="Login" />{" "}
@@ -208,20 +207,17 @@ const Navbar = (props) => {
                 Logged In : {localStorage.getItem("name")}
               </a>
             )}
-            <hr className="navbar-menu-hr" />
             <a className="menu-item" href="/menu">
               {" "}
               Current Table: {tableName}
             </a>
 
-            <hr />
 
             <a className="menu-item" href="/menu">
               {" "}
               Name: {localStorage.getItem("name")}
             </a>
 
-            <hr />
 
             <a className="menu-item" href="/menu">
               <img className="navbar-menu-icon" src={tableChange} alt="Login" />{" "}
@@ -262,21 +258,27 @@ const Navbar = (props) => {
             ) : (
               ""
             )}
-            <hr className="navbar-menu-hr" />
-            <hr className="navbar-menu-hr" />
-            <hr className="navbar-menu-hr" />
-            <hr className="navbar-menu-hr" />
 
-            <a className="menu-item shadow-menu" href="/menu">
-              <hr />
+            <a className="menu-item" href="/menu">
               <img
                 className="navbar-menu-icon"
                 src={settings}
                 alt="Login"
               />{" "}
               Personal Settings
-              <hr />
             </a>
+
+            <div>
+              <span> </span>
+            </div>
+
+            <div>
+              <span> </span>
+            </div>
+
+            <div>
+              <span> </span>
+            </div>
           </Menu>
         </div>
       )}
