@@ -13,6 +13,7 @@
     "node-sass": "^4.13.1",
     "npm": "^6.14.4",
     "react": "^16.13.0",
+    "react-anchor-link-smooth-scroll": "^1.0.12",
     "react-bootstrap": "^1.0.0",
     "react-burger-menu": "^2.6.13",
     "react-css-burger": "^0.2.0",

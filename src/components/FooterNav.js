@@ -18,6 +18,7 @@ import { ReactComponent as TissueSVG } from "assets/tissue.svg";
 // import { ReactComponent as HelpSVG } from "assets/help.svg";
 import { ReactComponent as DoubleArrow } from "assets/double-arrow.svg";
 import * as TYPES from "Store/actionTypes.js";
+import AnchorLink from 'react-anchor-link-smooth-scroll';
 const FooterNav = (props) => {
   const {
     state: {
@@ -170,8 +171,9 @@ const FooterNav = (props) => {
                   >
                     {activeData.map((item, idx) => {
                       return (
-                        <div key={idx} onClick={() => closeMenu()}>
-                          <a href={`#menu-${idx}`}> {item.name}</a>
+                      <div class="floating-menu-items" key={idx} onClick={() => closeMenu(idx)}>
+                          {/* <a href={`#menu-${idx}`}> <span>{item.name}</span></a> */}
+                          <AnchorLink offset='90' href={`#menu-${idx}`}>{item.name}</AnchorLink>
                         </div>
                       );
                     })}
