@@ -29,24 +29,23 @@ import { StoreContext } from "Store";
 import io from "socket.io-client";
 
 export default function AppWrapper() {
-
   const socket = io("https://liqr.cc/reliefo", {
     transportOptions: {
       polling: {
         extraHeaders: {
-          Authorization: `Bearer ${localStorage.getItem("jwt")}`
-        }
-      }
-    }
+          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+        },
+      },
+    },
   });
 
   axios({
     method: "post",
     headers: {
-      Authorization: `Bearer ${localStorage.getItem("refreshToken")}`
+      Authorization: `Bearer ${localStorage.getItem("refreshToken")}`,
     },
-    url: "https://liqr.cc/refresh"
-  }).then(response => {
+    url: "https://liqr.cc/refresh",
+  }).then((response) => {
     const { data } = response;
 
     localStorage.setItem("jwt", data.access_token);
@@ -58,51 +57,55 @@ export default function AppWrapper() {
     <SocketContext.Provider value={socket}>
       <BrowserRouter>
         <Store>
-          <NavBar outerContainerId={"App"}/>
-          <Route path="/" render={props => <Login {...props} />} exact />
-          <Route path="/Home" render={props => <Home {...props} />} exact />
-          <Route path="/menu" render={props => <Menu {...props} />}/>
-          <Route path="/login" render={props => <Login {...props} />} exact />
+          <NavBar outerContainerId={"App"} />
+          <Route path="/" render={(props) => <Login {...props} />} exact />
+          <Route path="/Home" render={(props) => <Home {...props} />} exact />
+          <Route path="/menu" render={(props) => <Menu {...props} />} />
+          <Route path="/login" render={(props) => <Login {...props} />} exact />
           <Route
             path="/coupons"
-            render={props => <Coupons {...props} />}
+            render={(props) => <Coupons {...props} />}
             exact
           />
           <Route
             path="/paymentOptions"
-            render={props => <PaymentOptions {...props} />}
+            render={(props) => <PaymentOptions {...props} />}
             exact
           />
 
           <Route
             path="/register"
-            render={props => <SignUp {...props} />}
+            render={(props) => <SignUp {...props} />}
             exact
           />
           <Route
             path="/searchItems"
-            render={props => <SearchItems {...props} />}
+            render={(props) => <SearchItems {...props} />}
             exact
           />
-          <Route path="/cart" render={props => <Cart {...props} />} exact />
-          <Route path="/jm" render={props => <JM {...props} />} exact />
-          <Route path="/visits" render={props => <Visits {...props} />} exact />
+          <Route path="/cart" render={(props) => <Cart {...props} />} exact />
+          <Route path="/jm" render={(props) => <JM {...props} />} exact />
+          <Route
+            path="/visits"
+            render={(props) => <Visits {...props} />}
+            exact
+          />
           <Route
             path="/billing"
-            render={props => <BillingInformation {...props} />}
+            render={(props) => <BillingInformation {...props} />}
             exact
           />
-          <Route path="/table" render={props => <Table {...props} />} />
-          <Route path="/subMenu" render={props => <SubMenu {...props} />} />
+          <Route path="/table" render={(props) => <Table {...props} />} />
+          <Route path="/subMenu" render={(props) => <SubMenu {...props} />} />
           <Route
             path="/dine-in-history"
-            render={props => <DineHistory {...props} />}
+            render={(props) => <DineHistory {...props} />}
           />
           <Route
             path="/previous-visits"
-            render={props => <PreviousVisits {...props} />}
+            render={(props) => <PreviousVisits {...props} />}
           />
-          <Route path="/order" render={props => <Table {...props} />} />
+          <Route path="/order" render={(props) => <Table {...props} />} />
 
           <FooterNav />
         </Store>

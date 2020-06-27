@@ -18,7 +18,7 @@ import { ReactComponent as TissueSVG } from "assets/tissue.svg";
 // import { ReactComponent as HelpSVG } from "assets/help.svg";
 import { ReactComponent as DoubleArrow } from "assets/double-arrow.svg";
 import * as TYPES from "Store/actionTypes.js";
-import AnchorLink from 'react-anchor-link-smooth-scroll';
+import AnchorLink from "react-anchor-link-smooth-scroll";
 const FooterNav = (props) => {
   const {
     state: {
@@ -68,6 +68,14 @@ const FooterNav = (props) => {
     } else {
       sum += parseInt(item.price * item.quantity);
     }
+    let addonPrice = 0;
+    item.addon.forEach((addon) => {
+      if (typeof addon === "object") {
+        addonPrice += parseInt(addon.price);
+      }
+    });
+
+    sum += addonPrice;
     cartCount++;
   });
   const trfm = `rotate(${deg}deg)`;
@@ -171,9 +179,15 @@ const FooterNav = (props) => {
                   >
                     {activeData.map((item, idx) => {
                       return (
-                      <div class="floating-menu-items" key={idx} onClick={() => closeMenu(idx)}>
+                        <div
+                          class="floating-menu-items"
+                          key={idx}
+                          onClick={() => closeMenu(idx)}
+                        >
                           {/* <a href={`#menu-${idx}`}> <span>{item.name}</span></a> */}
-                          <AnchorLink offset='90' href={`#menu-${idx}`}>{item.name}</AnchorLink>
+                          <AnchorLink offset="90" href={`#menu-${idx}`}>
+                            {item.name}
+                          </AnchorLink>
                         </div>
                       );
                     })}
