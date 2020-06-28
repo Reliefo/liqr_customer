@@ -143,8 +143,6 @@ const Cart = (props) => {
     });
   };
 
-  console.log(cart);
-
   const setCartPlaceOrder = () => {
     // const cartClone = _.cloneDeep(cart);
     const cartToSend = [];
@@ -218,6 +216,8 @@ const Cart = (props) => {
     //   delete item.tags;
     //   delete item._id;
     // });
+
+    console.log(cartToSend);
 
     const body = {
       table: localStorage.getItem("table_id"),
@@ -473,11 +473,13 @@ const Cart = (props) => {
 
   let addOnTotal = 0;
   cart.forEach((item) => {
-    item.addon.forEach((addon) => {
-      if (typeof addon === "object") {
-        addOnTotal += parseInt(addon.price);
-      }
-    });
+    if (item.hasOwnProperty("addon")) {
+      item.addon.forEach((addon) => {
+        if (typeof addon === "object") {
+          addOnTotal += parseInt(addon.price);
+        }
+      });
+    }
   });
 
   let sum = 0;
