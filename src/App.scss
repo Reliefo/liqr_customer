@@ -725,7 +725,14 @@ $border-dark: #000000;
 }
 
 .home-screen {
-  background: white;
+  // background: white;
+  background: repeating-linear-gradient(
+    45deg,
+    #606dbc,
+    #606dbc 10px,
+    #465298 10px,
+    #465298 20px
+  );
   position: relative;
   top: 3rem;
 }
