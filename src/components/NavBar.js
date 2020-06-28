@@ -89,24 +89,22 @@ const Navbar = (props) => {
   };
   return (
     <div>
-      {window.location.pathname === "/jm" || 
+      {window.location.pathname === "/jm" ||
       window.location.pathname === "/" ||
-      window.location.pathname === "/login"
-      ? (
+      window.location.pathname === "/login" ? (
         <div></div>
-      ) : 
-      (
+      ) : (
         <div>
           <nav className="navbar">
             <Container fluid>
-              <Row>
+              <Row className="w-100">
                 <Col
                   sm={1}
                   lg={1}
                   xs={1}
                   md={1}
                   xl={1}
-                  style={{ padding: "0px"}}
+                  style={{ padding: "0px" }}
                 >
                   <Burger
                     onClick={() => setVisible(!visible)}
@@ -117,7 +115,7 @@ const Navbar = (props) => {
                     scale={1}
                     marginTop={"1.0rem"}
                     marginLeft={"0.5rem"}
-                    style={{ zIndex: 9, position: "absolute"}}
+                    style={{ zIndex: 9, position: "absolute" }}
                   />
                 </Col>
                 <Col sm={11} lg={11} xs={11} md={11} xl={11}>
@@ -165,7 +163,8 @@ const Navbar = (props) => {
             onStateChange={isMenuOpen}
             width={"70%"}
             style={{ zIndex: 1003 }}
-            customBurgerIcon={ false
+            customBurgerIcon={
+              false
               // <Burger
               //   onClick={() => setVisible(!visible)}
               //   active={visible}
@@ -212,12 +211,10 @@ const Navbar = (props) => {
               Current Table: {tableName}
             </a>
 
-
             <a className="menu-item" href="/menu">
               {" "}
               Name: {localStorage.getItem("name")}
             </a>
-
 
             <a className="menu-item" href="/menu">
               <img className="navbar-menu-icon" src={tableChange} alt="Login" />{" "}
@@ -260,11 +257,7 @@ const Navbar = (props) => {
             )}
 
             <a className="menu-item" href="/menu">
-              <img
-                className="navbar-menu-icon"
-                src={settings}
-                alt="Login"
-              />{" "}
+              <img className="navbar-menu-icon" src={settings} alt="Login" />{" "}
               Personal Settings
             </a>
 
