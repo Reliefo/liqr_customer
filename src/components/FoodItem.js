@@ -395,7 +395,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
                               );
                             };
                             return (
-                              <div key={idx}>
+                              <div key={idx} className="addon-item">
                                 <label>
                                   <input
                                     id={idx}
@@ -407,6 +407,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
                                   />
                                   &nbsp;&nbsp;{item2.option_name}
                                 </label>
+                                <p>₹ {item2.option_price}</p>
                               </div>
                             );
                           })}
@@ -868,6 +869,10 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
     // :
 
     //   <Card></Card> }
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
     /*:*/
     /*:*/
     /*:*/

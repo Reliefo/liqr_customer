@@ -69,12 +69,13 @@ const FooterNav = (props) => {
       sum += parseInt(item.price * item.quantity);
     }
     let addonPrice = 0;
-    if (item.addon){
-    item.addon.forEach((addon) => {
-      if (typeof addon === "object") {
-        addonPrice += parseInt(addon.price);
-      }
-    });}
+    if (item.hasOwnProperty("addon")) {
+      item.addon.forEach((addon) => {
+        if (typeof addon === "object") {
+          addonPrice += parseInt(addon.price);
+        }
+      });
+    }
 
     sum += addonPrice;
     cartCount++;

@@ -148,42 +148,85 @@ const Cart = (props) => {
   };
 
   const setCartPlaceOrder = () => {
-    const cartClone = _.cloneDeep(cart);
+    // const cartClone = _.cloneDeep(cart);
+    const cartToSend = [];
 
-    cartClone.forEach((item) => {
-      item.food_id = item._id.$oid;
-      delete item.open;
-      delete item.food_options;
-      delete item.restaurant;
-      delete item.showCustomize;
-      delete item.showPopup;
-      delete item.showOptionsAgain;
-      delete item.foodOptions;
+    cart.forEach((item) => {
+      const singleObject = {
+        food_id: item._id.$oid,
+        customization: item.customization,
+        price: item.price,
+        quantity: item.quantity,
+        name: item.name,
+        restaurant_id: item.restaurant_id,
+      };
+
       if (item.options) {
-        item.food_options = {};
-        item.food_options.options = [];
-        item.food_options.options.push(item.options);
-        item.price = item.options.option_price;
+        const optionIndex = item.customization.findIndex(
+          (option) => option.customization_type === "options"
+        );
+        singleObject.customization[optionIndex].list_of_options = [
+          item.options,
+        ];
+        singleObject.price = item.options.option_price;
       }
+
       if (item.choices) {
-        if (item.food_options === undefined) {
-          item.food_options = {};
-        }
-        item.food_options.choices = [];
-        item.food_options.choices.push(item.choices);
+        const choiceIndex = item.customization.findIndex(
+          (choice) => choice.customization_type === "choices"
+        );
+        singleObject.customization[choiceIndex].list_of_options = [
+          item.choices,
+        ];
       }
-      delete item.choices;
-      delete item.choice;
-      delete item.options;
-      delete item.food_option;
-      delete item.tags;
-      delete item._id;
+
+      if (item.addon.length > 0) {
+        const addonIndex = item.customization.findIndex(
+          (addon) => addon.customization_type === "add_ons"
+        );
+        singleObject.customization[addonIndex].list_of_options = item.addon.map(
+          (addon) => addon._id.$oid
+        );
+      }
+      cartToSend.push(singleObject);
     });
+
+    // cartClone.forEach((item) => {
+    //   item.food_id = item._id.$oid;
+    //   delete item.open;
+    //   delete item.food_options;
+    //   delete item.restaurant;
+    //   delete item.showCustomize;
+    //   delete item.showPopup;
+    //   delete item.showOptionsAgain;
+    //   delete item.foodOptions;
+    //   if (item.options) {
+    //     item.food_options = {};
+    //     item.food_options.options = [];
+    //     item.food_options.options.push(item.options);
+    //     item.price = item.options.option_price;
+    //   }
+    //   if (item.choices) {
+    //     if (item.food_options === undefined) {
+    //       item.food_options = {};
+    //     }
+    //     item.food_options.choices = [];
+    //     item.food_options.choices.push(item.choices);
+    //   }
+    //   delete item.choices;
+    //   delete item.choice;
+    //   delete item.options;
+    //   delete item.food_option;
+    //   delete item.tags;
+    //   delete item._id;
+    // });
+
+    console.log(cartToSend);
 
     const body = {
       table: localStorage.getItem("table_id"),
       orders: [
-        { placed_by: localStorage.getItem("user_id"), food_list: cartClone },
+        { placed_by: localStorage.getItem("user_id"), food_list: cartToSend },
       ],
     };
     console.log(body);
@@ -209,41 +252,83 @@ const Cart = (props) => {
   };
 
   const setCart = () => {
-    const cartClone = _.cloneDeep(cart);
-    cartClone.forEach((item) => {
-      item.food_id = item._id.$oid;
-      delete item.open;
-      delete item.showPopup;
-      delete item.food_options;
-      delete item.showCustomize;
-      delete item.restaurant;
+    // const cartClone = _.cloneDeep(cart);
+    // cartClone.forEach((item) => {
+    //   item.food_id = item._id.$oid;
+    //   delete item.open;
+    //   delete item.showPopup;
+    //   delete item.food_options;
+    //   delete item.showCustomize;
+    //   delete item.restaurant;
+    //   if (item.options) {
+    //     item.food_options = {};
+    //     item.food_options.options = [];
+    //     item.food_options.options.push(item.options);
+    //     item.price = item.options.option_price;
+    //   }
+    //   if (item.choices) {
+    //     if (item.food_options === undefined) {
+    //       item.food_options = {};
+    //     }
+    //     item.food_options.choices = [];
+    //     item.food_options.choices.push(item.choices);
+    //   }
+    //   delete item.choices;
+    //   delete item.choice;
+    //   delete item.showOptionsAgain;
+    //   delete item.options;
+    //   delete item.foodOptions;
+    //   delete item.food_option;
+    //   delete item.tags;
+    //   delete item._id;
+    // });
+
+    const cartToSend = [];
+
+    cart.forEach((item) => {
+      const singleObject = {
+        food_id: item._id.$oid,
+        customization: item.customization,
+        price: item.price,
+        quantity: item.quantity,
+        name: item.name,
+        restaurant_id: item.restaurant_id,
+      };
+
       if (item.options) {
-        item.food_options = {};
-        item.food_options.options = [];
-        item.food_options.options.push(item.options);
-        item.price = item.options.option_price;
+        const optionIndex = item.customization.findIndex(
+          (option) => option.customization_type === "options"
+        );
+        singleObject.customization[optionIndex].list_of_options = [
+          item.options,
+        ];
+        singleObject.price = item.options.option_price;
       }
+
       if (item.choices) {
-        if (item.food_options === undefined) {
-          item.food_options = {};
-        }
-        item.food_options.choices = [];
-        item.food_options.choices.push(item.choices);
+        const choiceIndex = item.customization.findIndex(
+          (choice) => choice.customization_type === "choices"
+        );
+        singleObject.customization[choiceIndex].list_of_options = [
+          item.choices,
+        ];
       }
-      delete item.choices;
-      delete item.choice;
-      delete item.showOptionsAgain;
-      delete item.options;
-      delete item.foodOptions;
-      delete item.food_option;
-      delete item.tags;
-      delete item._id;
+
+      if (item.addon.length > 0) {
+        const addonIndex = item.customization.findIndex(
+          (addon) => addon.customization_type === "add_ons"
+        );
+        singleObject.customization[addonIndex].list_of_options = item.addon.map(
+          (addon) => addon._id.$oid
+        );
+      }
+      cartToSend.push(singleObject);
     });
 
     const body = {
       table: localStorage.getItem("table_id"),
       orders: [
-        { placed_by: localStorage.getItem("user_id"), food_list: cartClone },
+        { placed_by: localStorage.getItem("user_id"), food_list: cartToSend },
       ],
     };
 
@@ -394,12 +479,13 @@ const Cart = (props) => {
   let addOnTotal = 0;
   
   cart.forEach((item) => {
-    if (item.addon) {
-    item.addon.forEach((addon) => {
-      if (typeof addon === "object") {
-        addOnTotal += parseInt(addon.price);
-      }
-    });}
+    if (item.hasOwnProperty("addon")) {
+      item.addon.forEach((addon) => {
+        if (typeof addon === "object") {
+          addOnTotal += parseInt(addon.price);
+        }
+      });
+    }
   });
 
   let sum = 0;
