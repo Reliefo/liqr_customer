@@ -20,6 +20,9 @@ import "react-toastify/dist/ReactToastify.css";
 import * as TYPES from "Store/actionTypes.js";
 
 const PaymentOptions = props => {
+  // $rest-font 
+  const rest_font = "Inconsolata";
+
   const {
     dispatch,
     state: {
@@ -89,19 +92,19 @@ const PaymentOptions = props => {
   };
   return (
     <>
-      <div className="order-status-styling" style={{ fontFamily: "Poppins" }}>
+      <div className="order-status-styling" style={{ fontFamily: rest_font }}>
         <div className="coupon-div">
           Wallets
           <div style={{ minHeight: "60px", paddingTop: "5%" }}>
             <span className="paymentLogo">Logo</span>{" "}
-            <span style={{ fontSize: "12px", fontFamily: "Poppins" }}>
+            <span style={{ fontSize: "12px", fontFamily: rest_font }}>
               Amazon Pay
             </span>
             <span
               style={{
                 fontSize: "12px",
                 float: "right",
-                fontFamily: "Poppins"
+                fontFamily: rest_font
               }}
             >
               Link Account
@@ -109,14 +112,14 @@ const PaymentOptions = props => {
           </div>
           <div style={{ minHeight: "60px", paddingTop: "5%" }}>
             <span className="paymentLogo">Logo</span>{" "}
-            <span style={{ fontSize: "12px", fontFamily: "Poppins" }}>
+            <span style={{ fontSize: "12px", fontFamily: rest_font }}>
               Paytm
             </span>
             <span
               style={{
                 fontSize: "12px",
                 float: "right",
-                fontFamily: "Poppins"
+                fontFamily: rest_font
               }}
             >
               Link Account
@@ -124,14 +127,14 @@ const PaymentOptions = props => {
           </div>
           <div style={{ minHeight: "60px", paddingTop: "5%" }}>
             <span className="paymentLogo">Logo</span>{" "}
-            <span style={{ fontSize: "12px", fontFamily: "Poppins" }}>
+            <span style={{ fontSize: "12px", fontFamily: rest_font }}>
               PayPal
             </span>
             <span
               style={{
                 fontSize: "12px",
                 float: "right",
-                fontFamily: "Poppins"
+                fontFamily: rest_font
               }}
             >
               Link Account
@@ -139,14 +142,14 @@ const PaymentOptions = props => {
           </div>
           <div style={{ minHeight: "60px", paddingTop: "5%" }}>
             <span className="paymentLogo">Logo</span>{" "}
-            <span style={{ fontSize: "12px", fontFamily: "Poppins" }}>
+            <span style={{ fontSize: "12px", fontFamily: rest_font }}>
               Google Pay
             </span>
             <span
               style={{
                 fontSize: "12px",
                 float: "right",
-                fontFamily: "Poppins"
+                fontFamily: rest_font
               }}
             >
               Link Account
@@ -161,7 +164,7 @@ const PaymentOptions = props => {
             style={{
               padding: "1.25rem",
               fontSize: "12px",
-              fontFamily: "Poppins"
+              fontFamily: rest_font
             }}
           >
             <div style={{ float: "left" }}>NET BANKING</div>
@@ -169,7 +172,7 @@ const PaymentOptions = props => {
           <Card.Body
             style={{
               fontSize: "12px",
-              fontFamily: "Poppins"
+              fontFamily: rest_font
             }}
           >
             <div>
@@ -189,7 +192,7 @@ const PaymentOptions = props => {
             style={{
               padding: "1.25rem",
               fontSize: "12px",
-              fontFamily: "Poppins"
+              fontFamily: rest_font
             }}
           >
             <div style={{ float: "left" }}>Credit/ Debit Cards</div>
@@ -197,7 +200,7 @@ const PaymentOptions = props => {
           <Card.Body
             style={{
               fontSize: "12px",
-              fontFamily: "Poppins"
+              fontFamily: rest_font
             }}
           >
             Add New
@@ -211,7 +214,7 @@ const PaymentOptions = props => {
             style={{
               padding: "1.25rem",
               fontSize: "12px",
-              fontFamily: "Poppins"
+              fontFamily: rest_font
             }}
           >
             <div style={{ float: "left" }}>Pay the Restaurant</div>
@@ -219,7 +222,7 @@ const PaymentOptions = props => {
           <Card.Body
             style={{
               fontSize: "12px",
-              fontFamily: "Poppins"
+              fontFamily: rest_font
             }}
           >
             Cash Only

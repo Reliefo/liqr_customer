@@ -21,6 +21,7 @@ export default class Login extends Component {
     };
   }
 
+
   componentDidMount() {
     let parm = window.location.href;
     parm = parm.split("=");
@@ -249,6 +250,9 @@ export default class Login extends Component {
 
 
   render() {
+
+    //$base-font
+    const base_font = "Poppins";
     const { errorMessage } = this.state;
     return (
       <div className="Login">
@@ -259,7 +263,7 @@ export default class Login extends Component {
             <FormControl
               style={{
                 fontSize: "15px",
-                fontFamily: "Poppins"
+                fontFamily: base_font
               }}
               placeholder="sample@emailid.com"
               autoFocus
@@ -273,7 +277,7 @@ export default class Login extends Component {
             <FormControl
               style={{
                 fontSize: "15px",
-                fontFamily: "Poppins"
+                fontFamily: base_font
               }}
               placeholder="********"
               value={this.state.password}

@@ -11,6 +11,9 @@ import { ReactComponent as UiSVG } from "assets/ui.svg";
 import * as TYPES from "Store/actionTypes.js";
 
 const Visits = props => {
+
+  // $rest-font 
+  const rest_font = "Inconsolata";
   const {
     dispatch,
     state: {
@@ -170,7 +173,7 @@ const Visits = props => {
                                     {item3.food_options ? (
                                       <div
                                         style={{
-                                          fontFamily: "Poppins",
+                                          fontFamily: rest_font,
                                           fontSize: "12px"
                                         }}
                                       >
@@ -189,7 +192,7 @@ const Visits = props => {
                                     )}
                                     {/* {item3.food_options ? 
                                 <div style={{
-                                  fontFamily: 'Poppins',
+                                  fontFamily: rest_json,
                                   fontSize: '12px'
                                 }}>
                                  {item3.food_options.choices[0].option_name}

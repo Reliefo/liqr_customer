@@ -13,6 +13,10 @@ import * as TYPES from "Store/actionTypes.js";
 import { auto, left } from "@popperjs/core";
 
 const BillingInformation = props => {
+
+  //$rest-font 
+  const rest_font = 'Inconsolata';
+
   const {
     dispatch,
     state: {
@@ -139,7 +143,7 @@ const BillingInformation = props => {
                                   {item3.food_options ? (
                                     <div
                                       style={{
-                                        fontFamily: "Poppins",
+                                        fontFamily: rest_font,
                                         fontSize: "12px"
                                       }}
                                     >
@@ -157,7 +161,7 @@ const BillingInformation = props => {
                                   )}
                                   {/* {item3.food_options ? 
                                 <div style={{
-                                  fontFamily: 'Poppins',
+                                  fontFamily: rest_font,
                                   fontSize: '12px'
                                 }}>
                                  {item3.food_options.choices[0].option_name}

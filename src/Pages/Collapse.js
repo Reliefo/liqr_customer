@@ -3,6 +3,9 @@ import { Table as RBTable, Button, Collapse, Form } from "react-bootstrap";
 import { StoreContext } from "Store";
 
 const CollapseDetails = props => {
+  //$rest-font 
+  const rest_font = 'Inconsolata';
+
   const {
     dispatch,
     state: { activeData }
@@ -17,7 +20,7 @@ const CollapseDetails = props => {
     <div>
       <span
         style={{
-          fontFamily: "Poppins",
+          fontFamily: rest_font,
           fontSize: "12px",
           paddingLeft: "2%"
         }}

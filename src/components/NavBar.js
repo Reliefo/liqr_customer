@@ -98,7 +98,7 @@ const Navbar = (props) => {
       (
         <div>
           <nav className="navbar">
-            <Container fluid>
+            <Container>
               <Row>
                 <Col
                   sm={1}
