@@ -11,8 +11,6 @@ import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 
 // console.log = () => {};
-console.warn = () => {};
-console.error = () => {};
 
 // let jwt = "";
 // let parm = window.location.href;
@@ -60,19 +58,16 @@ console.error = () => {};
 //     console.log(response);
 //   });
 Amplify.configure({
-    Auth: {
-      mandatorySignIn: true,
-      region: config.cognito.REGION,
-      userPoolId: config.cognito.USER_POOL_ID,
-      identityPoolId: config.cognito.IDENTITY_POOL_ID,
-      userPoolWebClientId: config.cognito.APP_CLIENT_ID
-    }
-  });
-  
-  ReactDOM.render(<AppWrapper />, document.getElementById("root"));
-  
+  Auth: {
+    mandatorySignIn: true,
+    region: config.cognito.REGION,
+    userPoolId: config.cognito.USER_POOL_ID,
+    identityPoolId: config.cognito.IDENTITY_POOL_ID,
+    userPoolWebClientId: config.cognito.APP_CLIENT_ID,
+  },
+});
 
-
+ReactDOM.render(<AppWrapper />, document.getElementById("root"));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
