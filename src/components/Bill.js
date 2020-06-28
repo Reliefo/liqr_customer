@@ -1,7 +1,7 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 
-const Bill = ({ orderTotal }) => {
+const Bill = ({ orderTotal, addOnTotal }) => {
   let tax = 0;
 
   tax = (11 * parseFloat(orderTotal)) / 100;
@@ -20,7 +20,7 @@ const Bill = ({ orderTotal }) => {
               fontFamily: "Poppins",
               color: "#000000",
               opacity: 0.5,
-              fontWeight: 500
+              fontWeight: 500,
             }}
           >
             Order total
@@ -30,7 +30,7 @@ const Bill = ({ orderTotal }) => {
               fontFamily: "Poppins",
               color: "#000000",
               opacity: 1,
-              fontWeight: 600
+              fontWeight: 600,
             }}
           >
             &#8377; {orderTotal}
@@ -42,7 +42,29 @@ const Bill = ({ orderTotal }) => {
               fontFamily: "Poppins",
               color: "#000000",
               opacity: 0.5,
-              fontWeight: 500
+              fontWeight: 500,
+            }}
+          >
+            Addon total
+          </p>
+          <p
+            style={{
+              fontFamily: "Poppins",
+              color: "#000000",
+              opacity: 1,
+              fontWeight: 600,
+            }}
+          >
+            &#8377; {addOnTotal}
+          </p>
+        </div>
+        <div className="d-flex justify-content-between">
+          <p
+            style={{
+              fontFamily: "Poppins",
+              color: "#000000",
+              opacity: 0.5,
+              fontWeight: 500,
             }}
           >
             Taxes & Charges
@@ -52,7 +74,7 @@ const Bill = ({ orderTotal }) => {
               fontFamily: "Poppins",
               color: "#000000",
               opacity: 1,
-              fontWeight: 600
+              fontWeight: 600,
             }}
           >
             &#8377; {tax}
@@ -64,7 +86,7 @@ const Bill = ({ orderTotal }) => {
               fontFamily: "Poppins",
               color: "#000000",
               opacity: 0.5,
-              fontWeight: 500
+              fontWeight: 500,
             }}
           >
             Pay
@@ -74,10 +96,10 @@ const Bill = ({ orderTotal }) => {
               fontFamily: "Poppins",
               color: "#000000",
               opacity: 1,
-              fontWeight: 600
+              fontWeight: 600,
             }}
           >
-            &#8377; {orderTotal + tax}
+            &#8377; {orderTotal + tax + addOnTotal}
           </p>
         </div>
       </Card.Body>

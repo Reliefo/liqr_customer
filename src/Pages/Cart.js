@@ -21,16 +21,16 @@ import CollapseDetails from "./Collapse.js";
 import { ReactComponent as TableFilledIMG } from "assets/Table-Filled.svg";
 import { ReactComponent as PersonalSVG } from "assets/personal.svg";
 
-const Cart = props => {
+const Cart = (props) => {
   const {
     dispatch,
-    state: { cart, tableId, tableOrders, placeOrderById, searchClicked }
+    state: { cart, tableId, tableOrders, placeOrderById, searchClicked },
   } = React.useContext(StoreContext);
 
   let orderId = [];
 
   if (tableOrders && Object.keys(tableOrders).length > 0) {
-    Object.values(tableOrders.orders).forEach(item => {
+    Object.values(tableOrders.orders).forEach((item) => {
       if (item.food_list.length > 0 && !orderId.includes(item.placed_by.name)) {
         orderId.push(item.placed_by.name);
       }
@@ -39,7 +39,7 @@ const Cart = props => {
 
   const [state, setState] = React.useState({
     activeCart: 0, //0: Personal cart, 1: Table cart
-    showData: true
+    showData: true,
   });
 
   React.useEffect(() => {
@@ -68,19 +68,19 @@ const Cart = props => {
     dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: "" } });
     dispatch({
       type: TYPES.SET_GENERAL_DATA,
-      payload: { searchClicked: false }
+      payload: { searchClicked: false },
     });
     //handling refresh issue
     dispatch({ type: TYPES.SET_NAV, payload: "Cart" });
   }, []);
 
-  props.socket.off("new_orders").on("new_orders", msg => {
+  props.socket.off("new_orders").on("new_orders", (msg) => {
     const data = JSON.parse(msg);
     if (data.personal_order === undefined) {
       dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
       dispatch({
         type: TYPES.UPDATE_TABLE_ORDER,
-        payload: []
+        payload: [],
       });
       props.history.push("/table");
     } else {
@@ -89,14 +89,14 @@ const Cart = props => {
     }
   });
 
-  props.socket.off("table_cart_orders").on("table_cart_orders", msg => {
+  props.socket.off("table_cart_orders").on("table_cart_orders", (msg) => {
     if (msg !== undefined) {
       dispatch({ type: TYPES.UPDATE_TABLE_ORDER, payload: JSON.parse(msg) });
       orderId = [];
     }
   });
 
-  const DeleteItemHndlr = item => {
+  const DeleteItemHndlr = (item) => {
     dispatch({ type: TYPES.DEL_ITEM, payload: item });
   };
 
@@ -106,21 +106,21 @@ const Cart = props => {
     const body = {
       table_id: localStorage.getItem("table_id"),
       order_id: orderList._id.$oid,
-      food_id: item.food_id
+      food_id: item.food_id,
     };
 
     props.socket.emit("remove_table_cart", JSON.stringify(body));
   };
 
   const pushToCart = () => {
-    setState(state => ({ ...state, activeCart: 1 - state.activeCart }));
+    setState((state) => ({ ...state, activeCart: 1 - state.activeCart }));
   };
 
   const setOrderTable = () => {
     const body = { table_id: localStorage.getItem("table_id") };
     props.socket.emit("place_table_order", JSON.stringify(body));
     dispatch({ type: TYPES.UPDATE_TABLE_ORDER, payload: [] });
-    props.socket.off("new_orders").on("new_orders", msg => {
+    props.socket.off("new_orders").on("new_orders", (msg) => {
       dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
       if (JSON.parse(msg).personal_order === undefined) {
       } else {
@@ -129,16 +129,16 @@ const Cart = props => {
       props.history.push("/table");
       const bodyData = {
         user_id: localStorage.getItem("user_id"),
-        restaurant_id: localStorage.getItem("restaurant_id")
+        restaurant_id: localStorage.getItem("restaurant_id"),
       };
 
       props.socket.emit("fetch_rest_customer", JSON.stringify(bodyData));
 
-      props.socket.off("restaurant_object").on("restaurant_object", data => {
+      props.socket.off("restaurant_object").on("restaurant_object", (data) => {
         const resp = JSON.parse(data);
         dispatch({ type: TYPES.ADD_DATA, payload: resp });
         dispatch({ type: TYPES.ADD_SELECT_DATA, payload: resp.food_menu });
-        setState(state => ({ ...state, activeCart: 1 - state.activeCart }));
+        setState((state) => ({ ...state, activeCart: 1 - state.activeCart }));
       });
     });
   };
@@ -146,7 +146,7 @@ const Cart = props => {
   const setCartPlaceOrder = () => {
     const cartClone = _.cloneDeep(cart);
 
-    cartClone.forEach(item => {
+    cartClone.forEach((item) => {
       item.food_id = item._id.$oid;
       delete item.open;
       delete item.food_options;
@@ -179,21 +179,21 @@ const Cart = props => {
     const body = {
       table: localStorage.getItem("table_id"),
       orders: [
-        { placed_by: localStorage.getItem("user_id"), food_list: cartClone }
-      ]
+        { placed_by: localStorage.getItem("user_id"), food_list: cartClone },
+      ],
     };
     console.log(body);
 
     props.socket.emit("place_personal_order", JSON.stringify(body));
-    props.socket.off("new_orders").on("new_orders", msg => {
+    props.socket.off("new_orders").on("new_orders", (msg) => {
       const body = {
         user_id: localStorage.getItem("user_id"),
-        restaurant_id: localStorage.getItem("restaurant_id")
+        restaurant_id: localStorage.getItem("restaurant_id"),
       };
 
       props.socket.emit("fetch_rest_customer", JSON.stringify(body));
 
-      props.socket.off("restaurant_object").on("restaurant_object", data => {
+      props.socket.off("restaurant_object").on("restaurant_object", (data) => {
         const resp = JSON.parse(data);
         dispatch({ type: TYPES.ADD_DATA, payload: resp });
         dispatch({ type: TYPES.ADD_SELECT_DATA, payload: resp.food_menu });
@@ -206,7 +206,7 @@ const Cart = props => {
 
   const setCart = () => {
     const cartClone = _.cloneDeep(cart);
-    cartClone.forEach(item => {
+    cartClone.forEach((item) => {
       item.food_id = item._id.$oid;
       delete item.open;
       delete item.showPopup;
@@ -239,26 +239,26 @@ const Cart = props => {
     const body = {
       table: localStorage.getItem("table_id"),
       orders: [
-        { placed_by: localStorage.getItem("user_id"), food_list: cartClone }
-      ]
+        { placed_by: localStorage.getItem("user_id"), food_list: cartClone },
+      ],
     };
 
     const body1 = {
       user_id: localStorage.getItem("user_id"),
-      restaurant_id: localStorage.getItem("restaurant_id")
+      restaurant_id: localStorage.getItem("restaurant_id"),
     };
 
     props.socket.emit("push_to_table_cart", JSON.stringify(body));
 
     props.socket.emit("fetch_rest_customer", JSON.stringify(body1));
 
-    props.socket.off("table_details").on("table_details", msg => {
+    props.socket.off("table_details").on("table_details", (msg) => {
       const data = JSON.parse(msg);
       dispatch({ type: TYPES.UPDATE_TABLE_ORDER, payload: data.table_cart });
     });
 
     dispatch({ type: TYPES.RESET_CART });
-    setState(state => ({ ...state, activeCart: 1 - state.activeCart }));
+    setState((state) => ({ ...state, activeCart: 1 - state.activeCart }));
   };
 
   const renderPersonalCart = () => (
@@ -327,7 +327,7 @@ const Cart = props => {
   );
   const renderTableCart = () => (
     <>
-      {orderId.map(id => {
+      {orderId.map((id) => {
         return Object.entries(tableOrders).map((item2, idx) => {
           if (item2[0] === "orders") {
             return item2[1].map((order_list, index) => {
@@ -387,12 +387,21 @@ const Cart = props => {
         )
       : "";
 
+  let addOnTotal = 0;
+  cart.forEach((item) => {
+    item.addon.forEach((addon) => {
+      if (typeof addon === "object") {
+        addOnTotal += parseInt(addon.price);
+      }
+    });
+  });
+
   let sum = 0;
   tableOrders && Object.keys(tableOrders).length > 0
-    ? Object.entries(tableOrders).forEach(item => {
+    ? Object.entries(tableOrders).forEach((item) => {
         if (item[0] === "orders") {
-          item[1].forEach(item2 => {
-            item2.food_list.forEach(item3 => {
+          item[1].forEach((item2) => {
+            item2.food_list.forEach((item3) => {
               if (item.options) {
                 sum += parseInt(item3.options.option_price) * item3.quantity;
               } else {
@@ -507,7 +516,7 @@ const Cart = props => {
             {state.activeCart === 1 && renderTableCart()}
             {state.activeCart === 0 && cart.length !== 0 && (
               <>
-                <Bill orderTotal={orderTotal} />
+                <Bill orderTotal={orderTotal} addOnTotal={addOnTotal} />
                 {state.activeCart === 0 && (
                   <Row>
                     <Col style={{ marginTop: "1rem" }}>
@@ -541,9 +550,9 @@ const Cart = props => {
   );
 };
 
-const cartWithSocket = props => (
+const cartWithSocket = (props) => (
   <SocketContext.Consumer>
-    {socket => <Cart {...props} socket={socket} />}
+    {(socket) => <Cart {...props} socket={socket} />}
   </SocketContext.Consumer>
 );
 

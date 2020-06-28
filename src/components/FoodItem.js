@@ -6,6 +6,7 @@ import sampleImage from "../assets/300.png";
 import * as TYPES from "Store/actionTypes.js";
 import { StoreContext } from "Store";
 import "./FoodItem.scss";
+import { uniqBy } from "lodash";
 
 const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
   const {
@@ -28,8 +29,9 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
     foodItem.food_option = item;
   };
 
-  const selectAddon = (foodItem, item) => {
+  const selectAddon = (foodItem, item, addonItem) => {
     let items = "";
+
     if (foodItem.addons === undefined) {
       foodItem.addons = [];
     }
@@ -39,9 +41,10 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
     });
 
     if (!items.includes(item)) {
-      foodItem.addons.push(item);
+      foodItem.addons.push(addonItem);
     }
   };
+
   const selectChoice = (foodItem, item) => {
     foodItem.choice = item;
   };
@@ -71,7 +74,9 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
     }
 
     if (item.addons !== undefined) {
-      item["addon"] = item.addons;
+      item["addon"] = uniqBy(item.addons, (e) => {
+        return e.hasOwnProperty("_id") ? e._id.$oid : e;
+      });
       flag = true;
     }
 
@@ -95,7 +100,9 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
     } else {
       item["choices"] = item.choice;
       item["options"] = item.food_option;
-      item["add_ons"] = item.addon;
+      item["add_ons"] = uniqBy(item.addon, (e) => {
+        return e.hasOwnProperty("_id") ? e._id.$oid : e;
+      });
       dispatch({ type: TYPES.ADD_ITEM, payload: item }); //dispatcing the whole item
 
       activeData.forEach((item2, index3) => {
@@ -458,14 +465,14 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
                             return item.list_of_options.map((item2, idx) => {
                               if (item3._id.$oid === item2) {
                                 return (
-                                  <div key={idx}>
+                                  <div key={idx} className="addon-item">
                                     <label>
                                       <input
                                         id={idx}
                                         type="checkbox"
                                         // checked={item1.checked}
                                         onClick={() =>
-                                          selectAddon(foodItem, item2)
+                                          selectAddon(foodItem, item2, item3)
                                         }
                                         // value={item1.option_name}
                                         name="choicesRadio"
@@ -475,6 +482,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
                                         ? item3.name
                                         : ""}
                                     </label>
+                                    <p>₹ {item3.price}</p>
                                   </div>
                                 );
                               }
@@ -860,6 +868,38 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
     // :
 
     //   <Card></Card> }
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
     /*:*/
     /*:*/
    /*:*/);
