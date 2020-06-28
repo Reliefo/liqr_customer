@@ -182,6 +182,7 @@ const Cart = props => {
         { placed_by: localStorage.getItem("user_id"), food_list: cartClone }
       ]
     };
+    console.log(body);
 
     props.socket.emit("place_personal_order", JSON.stringify(body));
     props.socket.off("new_orders").on("new_orders", msg => {
