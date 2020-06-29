@@ -25,11 +25,6 @@ $rest-font: "Inconsolata";
   font-size: medium;
 }
 
-.home-screen-food-card {
-  background: #ffffff;
-  width: 90%;
-  padding-bottom: 0%;
-}
 
 .col-5-home-food-card {
   padding: 0.5rem;
@@ -80,15 +75,3 @@ $rest-font: "Inconsolata";
   padding-right: 1rem;
 }
 
-.add-button-item {
-  float: right;
-  width: 90px;
-  height: 30px;
-  background: #ffb023 0% 0% no-repeat padding-box;
-  border-radius: 6px;
-  border-color: #ffb023;
-  font-family: $rest-font;
-  letter-spacing: 0px;
-  color: #ffffff;
-  opacity: 1;
-}

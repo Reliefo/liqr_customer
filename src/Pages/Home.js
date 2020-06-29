@@ -38,15 +38,14 @@ const Home = (props) => {
       restName,
       restAddress,
       restImages,
+      restLogo,
       cart,
       searchClicked,
     },
   } = React.useContext(StoreContext);
 
-
-
   function getSettings(idx) {
-    var speed = 3000 + (idx%2) * 1000;
+    var speed = 3000 + (idx % 2) * 1000;
     let settings = {
       dots: false,
       infinite: false,
@@ -76,7 +75,7 @@ const Home = (props) => {
         },
         {
           breakpoint: 480,
-  
+
           settings: {
             slidesToShow: 1,
             slidesToScroll: 1,
@@ -234,7 +233,8 @@ const Home = (props) => {
       dispatch({ type: TYPES.ADD_REST_IMAGES, payload: resp.home_page_images });
       dispatch({ type: TYPES.ADDONS, payload: resp.add_ons });
       dispatch({ type: TYPES.SET_RESTAURANT_NAME, payload: resp.name });
-      dispatch({ type: TYPES.ADD_REST_ADDRESS, payload: resp.address });
+      dispatch({ type: TYPES.ADD_REST_ADDRESS, payload: resp.abs_address });
+      dispatch({ type: TYPES.ADD_REST_LOGO, payload: resp.logo });
       dispatch({ type: TYPES.ADD_DATA, payload: resp });
       dispatch({ type: TYPES.UPDATE_REST_ID, payload: resp._id.$oid });
       dispatch({ type: TYPES.ADD_SELECT_DATA, payload: resp.food_menu });
@@ -388,11 +388,20 @@ const Home = (props) => {
               })}
             </Carousel>
             <Card className="home-title-card-carousel">
-              <Card.Title className="rest-card-home text-center">
-                {" "}
-                Welcome to {restName}
-              </Card.Title>
-              <Card.Body className="text-center">{restAddress}</Card.Body>
+              <div style={{ backgroundColor: "#4f3e2c" }}>
+                {restLogo ? (
+                  <Card.Title className="rest-card-home text-center">
+                    {" "}
+                    Welcome to {restName}
+                  </Card.Title>
+                ) : (
+                  <Card.Img
+                    variant="top"
+                    src="https://liqr-restaurants.s3.ap-south-1.amazonaws.com/BNGKOR004/logo.png"
+                  />
+                )}
+                <Card.Body className="text-center" text="white">{restAddress}</Card.Body>
+              </div>
             </Card>
           </div>
           <div className="home-screen-rest">
@@ -459,7 +468,7 @@ const Home = (props) => {
                         View All
                       </Button>
                     </Card.Title>
-                    <Slider {...getSettings(idx)}  className="custom-slider">
+                    <Slider {...getSettings(idx)} className="custom-slider">
                       {Object.values(data[1]).map((item, index) => {
                         if (typeof item === "object") {
                         }

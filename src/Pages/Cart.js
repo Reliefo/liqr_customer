@@ -26,11 +26,11 @@ const Cart = (props) => {
     dispatch,
     state: { cart, tableId, tableOrders, placeOrderById, searchClicked },
   } = React.useContext(StoreContext);
-  //$rest-font 
-  const rest_font = 'Inconsolata';
+  //$rest-font
+  const rest_font = "Inconsolata";
 
   let orderId = [];
-
+  console.log(cart);
   if (tableOrders && Object.keys(tableOrders).length > 0) {
     Object.values(tableOrders.orders).forEach((item) => {
       if (item.food_list.length > 0 && !orderId.includes(item.placed_by.name)) {
@@ -180,13 +180,15 @@ const Cart = (props) => {
         ];
       }
 
-      if (item.addon.length > 0) {
-        const addonIndex = item.customization.findIndex(
-          (addon) => addon.customization_type === "add_ons"
-        );
-        singleObject.customization[addonIndex].list_of_options = item.addon.map(
-          (addon) => addon._id.$oid
-        );
+      if (item.hasOwnProperty("addon")) {
+        if (item.addon.length > 0) {
+          const addonIndex = item.customization.findIndex(
+            (addon) => addon.customization_type === "add_ons"
+          );
+          singleObject.customization[
+            addonIndex
+          ].list_of_options = item.addon.map((addon) => addon._id.$oid);
+        }
       }
       cartToSend.push(singleObject);
     });
@@ -221,7 +223,7 @@ const Cart = (props) => {
     //   delete item._id;
     // });
 
-    console.log(cartToSend);
+    // console.log(cartToSend);
 
     const body = {
       table: localStorage.getItem("table_id"),
@@ -229,10 +231,11 @@ const Cart = (props) => {
         { placed_by: localStorage.getItem("user_id"), food_list: cartToSend },
       ],
     };
-    console.log(body);
+    // console.log(body);
 
     props.socket.emit("place_personal_order", JSON.stringify(body));
     props.socket.off("new_orders").on("new_orders", (msg) => {
+      console.log(msg);
       const body = {
         user_id: localStorage.getItem("user_id"),
         restaurant_id: localStorage.getItem("restaurant_id"),
@@ -356,7 +359,7 @@ const Cart = (props) => {
     <>
       {cart.map((item, idx) => (
         <Card className="cart-card cart-styling" key={`cart-card-${idx}`}>
-          <Card.Body className="body">
+          <Card.Body className="cart-item-body body">
             <p className="name">{item.name}</p>
             <AddRemoveItem
               className="trial"
@@ -393,7 +396,6 @@ const Cart = (props) => {
           )}
           {item.choices !== undefined ? (
             <span className="detail-options">
-              <br />
               <strong>{item.choices !== undefined ? "Choices:" : ""}</strong>
             </span>
           ) : (
@@ -402,6 +404,28 @@ const Cart = (props) => {
           {item.choices !== undefined ? (
             <span className="detail-options">
               {item.choices !== undefined ? item.choices : ""}
+            </span>
+          ) : (
+            ""
+          )}
+          {item.add_ons !== undefined ? (
+            <span className="detail-options">
+              <strong>{item.add_ons !== undefined ? "Addons:" : ""}</strong>
+            </span>
+          ) : (
+            ""
+          )}
+          {item.add_ons !== undefined ? (
+            <span className="detail-options">
+              {item.add_ons !== undefined
+                ? item.add_ons.map((add_on) => {
+                  if (true) {
+                    return (
+                      <div>
+                      {add_on.name}</div>
+                      );}
+                  })
+                : ""}
             </span>
           ) : (
             ""
@@ -426,7 +450,12 @@ const Cart = (props) => {
                 return (
                   <React.Fragment key={`table-${index}`}>
                     {id}
-                    <RBTable striped bordered hover>
+                    <RBTable
+                      striped
+                      bordered
+                      hover
+                      className="table-cart-layout"
+                    >
                       <thead className="table-thead">
                         <tr>
                           <th>Name</th>
@@ -479,7 +508,7 @@ const Cart = (props) => {
       : "";
 
   let addOnTotal = 0;
-  
+
   cart.forEach((item) => {
     if (item.hasOwnProperty("addon")) {
       item.addon.forEach((addon) => {
@@ -630,7 +659,10 @@ const Cart = (props) => {
             {state.activeCart === 1 && (
               <>
                 <Bill orderTotal={sum} />
-                <div onClick={setOrderTable} className="bill-btn mt-3">
+                <div
+                  onClick={setOrderTable}
+                  className="bill-btn table-btn mt-3"
+                >
                   <div className="d-flex">
                     <p className="ml-3">Confirm Order</p>
                   </div>

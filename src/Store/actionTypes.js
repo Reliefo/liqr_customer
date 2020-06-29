@@ -28,3 +28,4 @@ export const RESET_CART = 21;
 export const UPDATE_FAB_CLICK = 70;
 export const UPDATE_MENU_CLICK = 80;
 export const ADD_REST_IMAGES = 81;
+export const ADD_REST_LOGO = 82;

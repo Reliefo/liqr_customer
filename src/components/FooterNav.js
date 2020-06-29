@@ -20,6 +20,9 @@ import { ReactComponent as DoubleArrow } from "assets/double-arrow.svg";
 import * as TYPES from "Store/actionTypes.js";
 import AnchorLink from "react-anchor-link-smooth-scroll";
 const FooterNav = (props) => {
+
+  //$rest-font 
+  const rest_font = 'Inconsolata';
   const {
     state: {
       activeNav,
@@ -139,25 +142,23 @@ const FooterNav = (props) => {
         <div>
           {cartCount > 0 && props.location.pathname === "/menu" ? (
             <div
-              style={{
-                fontSize: "16px",
-                fontFamily: "Poppins",
-                background: "white",
-                height: "100px",
-                color: "black",
-                display: "block",
-              }}
-              className={footerDiv}
+              // style={{
+              //   fontSize: "16px",
+              //   fontFamily: rest_font,
+              //   height: "100px",
+                // color: "black",
+              //   display: "block",
+              // }}
+              className = "footer-nav go-to-cart-footer"
             >
-              <div className="footerButton">
-                <span style={{ margin: "10%", fontSize: "20px" }}>
+              <div className="footerOrderTotal">
+                <span>
                   {cartCount} {cartCount < 2 ? "Item" : "Items"} | ₹{sum}{" "}
                 </span>{" "}
-                <br />
               </div>
               <div className="footerOrder">
                 <Button
-                  className="options-button-add"
+                  className="add-button-item-menu"
                   variant="primary"
                   onClick={() => props.history.push("/cart")}
                 >
@@ -188,7 +189,7 @@ const FooterNav = (props) => {
                           onClick={() => closeMenu(idx)}
                         >
                           {/* <a href={`#menu-${idx}`}> <span>{item.name}</span></a> */}
-                          <AnchorLink offset="90" href={`#menu-${idx}`}>
+                          <AnchorLink className="anchor-menu" offset="90" href={`#menu-${idx}`}>
                             {item.name}
                           </AnchorLink>
                         </div>
@@ -292,7 +293,7 @@ const FooterNav = (props) => {
                   style={{ marginBottom: "calc(.7rem - 3px)" }}
                 >
                   <img src={order} alt="Table" className={fillSvg("Order")} />
-                  <span className="icon-text">Order</span>
+                  <span className="icon-text">Status</span>
                 </div>
               </Link>
               {/* <Link
