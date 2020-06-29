@@ -26,6 +26,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
   const [show, setShow] = React.useState(false);
   const [choicesSelected, setChoicesSelected] = React.useState([]);
   const [numberOfChoices, setNumberOfChoices] = React.useState(0);
+  const [choices, setChoices] = React.useState(null);
 
   React.useEffect(() => {
     if (foodItem.hasOwnProperty("choice") && foodItem.choice !== "") {
@@ -35,11 +36,17 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
     }
 
     if (foodItem.hasOwnProperty("customization")) {
+      let choicesObject = {};
       foodItem.customization.forEach((item) => {
         if (item.customization_type === "choices") {
           setNumberOfChoices(item.that_number);
+          choicesObject[item.name] = {
+            toCount: item.that_number,
+            items: [],
+          };
         }
       });
+      setChoices(choicesObject);
     }
   }, [foodItem]);
 
@@ -63,21 +70,32 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
     }
   };
 
-  const selectChoice = (foodItem, choice) => {
+  const selectChoice = (foodItem, choice, customizationItem) => {
     foodItem.choice = choice;
 
-    const clonedChoices = [...choicesSelected];
-    const index = clonedChoices.indexOf(choice);
-
+    const clonedChoices = { ...choices };
+    const currentItem = clonedChoices[customizationItem.name];
+    const index = currentItem.items.indexOf(choice);
+    const items = [...currentItem.items];
     if (index !== -1) {
-      clonedChoices.splice(index, 1);
+      items.splice(index, 1);
     } else {
-      clonedChoices.push(choice);
+      items.push(choice);
     }
 
-    if (clonedChoices.length <= numberOfChoices) {
-      setChoicesSelected(clonedChoices);
+    if (items.length <= currentItem.toCount) {
+      currentItem.items = items;
+      clonedChoices[customizationItem.name] = currentItem;
+      setChoices(clonedChoices);
     }
+  };
+
+  const fetchSelectedChoices = () => {
+    const selectedChoices = [];
+    for (let key in choices) {
+      selectedChoices.push(...choices[key].items);
+    }
+    return selectedChoices;
   };
 
   const addItem = (item, index, subsIndex) => {
@@ -100,7 +118,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
     }
 
     if (item.choice !== undefined) {
-      item["choices"] = choicesSelected;
+      item["choices"] = fetchSelectedChoices();
       flag = true;
     }
 
@@ -129,7 +147,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
       });
       dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
     } else {
-      item["choices"] = choicesSelected;
+      item["choices"] = fetchSelectedChoices();
       item["options"] = item.food_option;
       item["add_ons"] = uniqBy(item.addon, (e) => {
         return e.hasOwnProperty("_id") ? e._id.$oid : e;
@@ -478,7 +496,10 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
                                     id={idx}
                                     type="checkbox"
                                     checked={
-                                      choicesSelected.indexOf(item2) !== -1
+                                      choices &&
+                                      choices[item.name].items.indexOf(
+                                        item2
+                                      ) !== -1
                                     }
                                     onClick={() => checkChoiceIndexValue(idx)}
                                     value={item2}
@@ -903,6 +924,60 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
     // :
 
     //   <Card></Card> }
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
     /*:*/
     /*:*/
     /*:*/
