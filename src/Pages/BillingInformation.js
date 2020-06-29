@@ -140,7 +140,7 @@ const BillingInformation = props => {
                                       {item3.name} x {item3.quantity}
                                     </span>
                                   </div>
-                                  {item3.food_options ? (
+                                  {/* {item3.food_options ? (
                                     <div
                                       style={{
                                         fontFamily: rest_font,
@@ -158,7 +158,7 @@ const BillingInformation = props => {
                                     </div>
                                   ) : (
                                     ""
-                                  )}
+                                  )} */}
                                   {/* {item3.food_options ? 
                                 <div style={{
                                   fontFamily: rest_font,

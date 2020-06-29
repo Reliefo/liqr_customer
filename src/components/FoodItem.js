@@ -249,8 +249,8 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
             <div className={"col-9 col-7-menu-food-card"}>
               <div onClick={() => selectDetails(foodItem, index, subsIndex)}>
                 <p className="item-name-menu">{foodItem.name}</p>
-                <div className="food-desc-menu">{fullDesc}</div>
               </div>
+              <div className="food-desc-menu">{fullDesc}</div>
               <div>
                 <p className="item-price">₹ {foodItem.price}</p>
                 <PlusWithAddRemove
@@ -267,8 +267,8 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
             <div className={"col"}>
               <div onClick={() => selectDetails(foodItem, index, subsIndex)}>
                 <p className="item-name-menu">{foodItem.name}</p>
-                <div className="food-desc-menu">{fullDesc}</div>
               </div>
+              <div className="food-desc-menu">{fullDesc}</div>
               <div>
                 <p className="item-price">₹ {foodItem.price}</p>
                 <PlusWithAddRemove
@@ -299,10 +299,11 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
           centered
           show={foodItem.showPopup}
           onHide={handleClose}
+          className = "food-options-modal"
         >
           <Modal.Header>
             <Modal.Title className="options-title">
-              {foodItem.name} <br />{" "}
+              {foodItem.name} {" "}
               <div className="options-modal">{foodItem.description}</div>
             </Modal.Title>
           </Modal.Header>
@@ -869,6 +870,8 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
     // :
 
     //   <Card></Card> }
+    /*:*/
+    /*:*/
     /*:*/
     /*:*/
     /*:*/

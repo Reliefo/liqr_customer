@@ -24,7 +24,7 @@ function reducer(state, action) {
     case TYPES.ADDONS:
       st.addons = [];
       st.addons = payload;
-      return st;  
+      return st;
 
     case TYPES.SET_RESTAURANT_NAME:
       st.restName = payload;
@@ -43,9 +43,9 @@ function reducer(state, action) {
     case TYPES.UPDATE_ORDER_STATUS:
       st.orderSuccess.forEach((item, index) => {
         if (item._id.$oid === payload.table_order_id) {
-          item.orders.forEach(item1 => {
+          item.orders.forEach((item1) => {
             if (item1._id.$oid === payload.order_id) {
-              item1.food_list.forEach(item2 => {
+              item1.food_list.forEach((item2) => {
                 if (item2.food_id === payload.food_id) {
                   item2.status = payload.type;
                   st.orderSuccess[index] = item;
@@ -69,31 +69,31 @@ function reducer(state, action) {
     case TYPES.ADD_SELECT_DATA:
       return {
         ...st,
-        activeData: payload
+        activeData: payload,
       };
     case TYPES.ADD_ITEM:
       if (payload.options) {
         idx = st.cart.findIndex(
-          item =>
+          (item) =>
             item._id.$oid === payload._id.$oid &&
             item.options.option_name === payload.options.option_name
         );
       } else if (payload.options === undefined && payload.choices) {
         idx = st.cart.findIndex(
-          item =>
+          (item) =>
             item._id.$oid === payload._id.$oid &&
             item.choices === payload.choices
         );
       } else {
-        idx = st.cart.findIndex(item => item._id.$oid === payload._id.$oid);
+        idx = st.cart.findIndex((item) => item._id.$oid === payload._id.$oid);
       }
       if (idx === -1) {
         st.cart.push({
           ...payload, //payload is the id
-          quantity: 1
+          quantity: 1,
         });
       } else {
-        st.cart = st.cart.map(item => {
+        st.cart = st.cart.map((item) => {
           if (
             (item._id.$oid === payload._id.$oid &&
               item.options.option_name === payload.options.option_name) ||
@@ -107,7 +107,7 @@ function reducer(state, action) {
       return st;
     case TYPES.INC_ITEM:
       if (payload.options) {
-        st.cart = st.cart.map(item => {
+        st.cart = st.cart.map((item) => {
           if (
             item._id.$oid === payload._id.$oid &&
             item.options.option_name === payload.options.option_name
@@ -116,7 +116,7 @@ function reducer(state, action) {
           return item;
         });
       } else if (payload.options === undefined && payload.choices) {
-        st.cart = st.cart.map(item => {
+        st.cart = st.cart.map((item) => {
           if (
             item._id.$oid === payload._id.$oid &&
             item.choices === payload.choices
@@ -125,7 +125,7 @@ function reducer(state, action) {
           return item;
         });
       } else {
-        st.cart = st.cart.map(item => {
+        st.cart = st.cart.map((item) => {
           if (item._id.$oid === payload._id.$oid) ++item.quantity;
           return item;
         });
@@ -134,7 +134,7 @@ function reducer(state, action) {
       return st;
     case TYPES.DEC_ITEM:
       if (payload.options) {
-        st.cart = st.cart.map(item => {
+        st.cart = st.cart.map((item) => {
           if (
             item._id.$oid === payload._id.$oid &&
             item.options.option_name === payload.options.option_name
@@ -143,7 +143,7 @@ function reducer(state, action) {
           return item;
         });
       } else if (payload.options === undefined && payload.choices) {
-        st.cart = st.cart.map(item => {
+        st.cart = st.cart.map((item) => {
           if (
             item._id.$oid === payload._id.$oid &&
             item.choices === payload.choices
@@ -152,7 +152,7 @@ function reducer(state, action) {
           return item;
         });
       } else {
-        st.cart = st.cart.map(item => {
+        st.cart = st.cart.map((item) => {
           if (item._id.$oid === payload._id.$oid) --item.quantity;
           return item;
         });
@@ -160,8 +160,8 @@ function reducer(state, action) {
       return st;
     case TYPES.DEL_ITEM:
       if (payload.options) {
-        st.activeData.forEach(data => {
-          data.food_list.forEach(item => {
+        st.activeData.forEach((data) => {
+          data.food_list.forEach((item) => {
             if (item.name === payload.name) {
               delete item.choices;
               delete item.options;
@@ -173,13 +173,13 @@ function reducer(state, action) {
           });
         });
         idx = st.cart.findIndex(
-          item =>
+          (item) =>
             item._id.$oid === payload._id.$oid &&
             item.options.option_name === payload.options.option_name
         );
       } else if (payload.options === undefined && payload.choices) {
-        st.activeData.forEach(data => {
-          data.food_list.forEach(item => {
+        st.activeData.forEach((data) => {
+          data.food_list.forEach((item) => {
             if (item.name === payload.name) {
               delete item.choices;
               delete item.options;
@@ -191,15 +191,15 @@ function reducer(state, action) {
           });
         });
       } else {
-        idx = st.cart.findIndex(item => item._id.$oid === payload._id.$oid);
+        idx = st.cart.findIndex((item) => item._id.$oid === payload._id.$oid);
       }
       if (idx !== -1) st.cart.splice(idx, 1);
 
       return st;
 
     case TYPES.DEL_TABLE_ITEM:
-      idx = st.tableOrders.orders.findIndex(item =>
-        item.food_list.map(item1 => item1.food_id === payload.food_id)
+      idx = st.tableOrders.orders.findIndex((item) =>
+        item.food_list.map((item1) => item1.food_id === payload.food_id)
       );
 
       if (idx !== -1) st.tableOrders.orders.splice(idx, 1);
@@ -243,7 +243,10 @@ function reducer(state, action) {
       return st;
     case TYPES.ADD_REST_IMAGES:
       st.restImages = payload;
-      return st
+      return st;
+    case TYPES.ADD_REST_LOGO:
+      st.restLogo= payload;
+      return st;
     default:
       return state;
   }

@@ -90,7 +90,7 @@ const Search = (props) => {
             <label class="control-label" for="inputValidation"></label>
             <input
               type="text"
-              class="form-control input-css"
+              class="form-control search-bar"
               ref={inputNode}
               autocomplete="off"
               value={searchValue}
