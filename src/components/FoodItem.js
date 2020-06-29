@@ -330,11 +330,11 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
           centered
           show={foodItem.showPopup}
           onHide={handleClose}
-          className = "food-options-modal"
+          className="food-options-modal"
         >
           <Modal.Header>
             <Modal.Title className="options-title">
-              {foodItem.name} {" "}
+              {foodItem.name}{" "}
               <div className="options-modal">{foodItem.description}</div>
             </Modal.Title>
           </Modal.Header>
@@ -489,14 +489,6 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
                               </div>
                             );
                           })}
-                          {numberOfChoices > 0 && (
-                            <p style={{ fontSize: "12px" }}>
-                              <em>
-                                You need to select atleast {numberOfChoices}{" "}
-                                choices
-                              </em>
-                            </p>
-                          )}
                         </div>
                       );
                     }
@@ -911,6 +903,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
     // :
 
     //   <Card></Card> }
+    /*:*/
     /*:*/
     /*:*/
     /*:*/
