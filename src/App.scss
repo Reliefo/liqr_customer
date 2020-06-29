@@ -1,5 +1,14 @@
 @import "./base";
 
+$base-font: "Poppins";
+$rest-font: "Inconsolata";
+$border-dark: #000000;
+
+.alert {
+  border: 1px solid $border-dark;
+}
+
+
 .nav-search-bar {
   width: 95%;
   position: fixed;
@@ -297,7 +306,7 @@
       justify-content: space-between;
       & > p.name {
         width: 46%;
-        font-family: "Poppins";
+        font-family: $rest-font;
       }
       & p {
         margin: 0;
@@ -392,7 +401,7 @@
   text-transform: uppercase;
   opacity: 1;
   padding: 0.6rem;
-  font-family: "Poppins";
+  font-family: $rest-font;
   cursor: pointer;
   font-weight: 600;
   align-items: center;
@@ -527,7 +536,7 @@
   text-align: left;
   color: #000000;
   opacity: 0.6;
-  // font-family: "Poppins";
+  // font-family: $rest-font;
   font-size: 12px;
   letter-spacing: 0px;
 }
@@ -535,7 +544,7 @@
   text-align: left;
   color: #000000;
   opacity: 0.6;
-  font-family: "Poppins";
+  font-family: $rest-font;
   font-size: small;
   overflow: hidden;
   white-space: nowrap;
@@ -558,7 +567,7 @@
 
 .options-title {
   text-align: left;
-  font-family: "Poppins";
+  font-family: $rest-font;
   font-size: 24px;
   letter-spacing: 1.2px;
   color: #707070;
@@ -613,7 +622,7 @@
   color: #000000;
   opacity: 1;
   float: left;
-  font-family: "Poppins";
+  font-family: $rest-font;
   padding-top: 0.5rem;
   padding-left: 0rem;
   margin-bottom: 0rem;
@@ -624,7 +633,7 @@
   letter-spacing: 0px;
   color: #000000;
   opacity: 1;
-  font-family: "Poppins";
+  font-family: $rest-font;
   font-size: 0.9rem;
 }
 
@@ -636,7 +645,7 @@
   color: #000000;
   border-radius: 0px 0px 6px 0px;
   // border-radius: 0px 0px 0px 0px;
-  font-family: "Poppins";
+  font-family: $rest-font;
   opacity: 1;
   transition: ease 0.5s;
 }
@@ -648,7 +657,7 @@
   color: #000000;
   border-radius: 6px 0px 6px 0px;
   // border-radius: 0px 0px 0px 0px;
-  font-family: "Poppins";
+  font-family: $rest-font;
   opacity: 1;
   transition: ease 0.5s;
 }
@@ -656,7 +665,7 @@
 .menu-item-names {
   text-align: center;
   letter-spacing: 0px;
-  font-family: "Poppins";
+  font-family: $rest-font;
   opacity: 1;
   font-size: 1rem;
   padding-top: 0.3rem;
@@ -742,7 +751,7 @@
 .detail-instructions {
   padding-left: 3%;
   color: #666666;
-  font-family: "Poppins";
+  font-family: $rest-font;
   padding-bottom: 6%;
   padding-top: 2%;
 }
@@ -750,7 +759,7 @@
 .detail-options {
   padding-left: 5%;
   color: #666666;
-  font-family: "Poppins";
+  font-family: $rest-font;
   font-size: 12px;
 }
 
@@ -778,7 +787,7 @@
 
 .bill-details {
   color: #000000;
-  font-family: "Poppins";
+  font-family: $rest-font;
 }
 
 .home-title-card-carousel {
@@ -900,7 +909,7 @@ input[type="radio"]:checked:after {
   letter-spacing: 0px;
   color: #000000;
   opacity: 1;
-  font-family: "Poppins";
+  font-family: $rest-font;
 }
 
 .table-name-card-billing {
@@ -909,7 +918,7 @@ input[type="radio"]:checked:after {
   letter-spacing: 0px;
   color: #000000;
   opacity: 1;
-  font-family: "Poppins";
+  font-family: $rest-font;
 }
 
 .item-status {
@@ -918,7 +927,7 @@ input[type="radio"]:checked:after {
   font-size: 13px;
   color: #000000;
   opacity: 1;
-  font-family: "Poppins";
+  font-family: $rest-font;
   font-weight: 700;
 }
 
@@ -931,7 +940,7 @@ input[type="radio"]:checked:after {
   font-size: 13px;
   color: #000000;
   opacity: 1;
-  font-family: "Poppins";
+  font-family: $rest-font;
 }
 
 .slick-track {
@@ -947,7 +956,7 @@ input[type="radio"]:checked:after {
   letter-spacing: 0px;
   color: #000000;
   opacity: 1;
-  font-family: "Poppins";
+  font-family: $base-font;
   font-weight: 700;
   font-size: 26px;
 }
@@ -957,7 +966,7 @@ input[type="radio"]:checked:after {
   letter-spacing: 0px;
   color: #000000;
   opacity: 1;
-  font-family: "Poppins";
+  font-family: $base-font;
   font-size: 15px;
 }
 
@@ -968,7 +977,7 @@ input[type="radio"]:checked:after {
   border-radius: 6px !important;
   opacity: 1 !important;
   font-size: 17px;
-  font-family: "Poppins";
+  font-family: $base-font;
 }
 
 .sign-in-or {
@@ -977,7 +986,7 @@ input[type="radio"]:checked:after {
   letter-spacing: 0px;
   color: #000000;
   opacity: 1;
-  font-family: "Poppins";
+  font-family: $base-font;
   font-size: 15px;
 }
 
@@ -991,7 +1000,7 @@ input[type="radio"]:checked:after {
   opacity: 1 !important;
   font-size: 14px;
   min-height: 42px;
-  font-family: "Poppins";
+  font-family: $base-font;
 }
 
 .sign-in-facebook {
@@ -1004,7 +1013,7 @@ input[type="radio"]:checked:after {
   opacity: 1 !important;
   font-size: 14px;
   min-height: 42px;
-  font-family: "Poppins";
+  font-family: $base-font;
 }
 
 .empty-orders {
@@ -1017,7 +1026,7 @@ input[type="radio"]:checked:after {
   opacity: 1 !important;
   font-size: 14px;
   min-height: 42px;
-  font-family: "Poppins";
+  font-family: $rest-font;
 }
 
 .sign-in-member {
@@ -1025,7 +1034,7 @@ input[type="radio"]:checked:after {
   text-align: center;
   letter-spacing: 0px;
   color: #818181;
-  font-family: "Poppins";
+  font-family: $base-font;
 }
 
 input[type="radio"] {
@@ -1066,7 +1075,7 @@ input[type="radio"] {
 
 .search-items {
   text-transform: capitalize;
-  font-family: "Poppins";
+  font-family: $rest-font;
   font-size: 12px;
 }
 
@@ -1084,7 +1093,7 @@ input[type="radio"] {
 }
 
 .error-handling {
-  font-family: "Poppins";
+  font-family: $base-font;
   font-size: 12px;
   color: red;
   padding-bottom: 5%;

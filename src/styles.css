@@ -127,7 +127,8 @@ body {
   text-transform: capitalize;
   opacity: 1;
   font-size: 14px;
-  font-family: "Poppins";
+  /* $rest-font */
+  font-family: "Inconsolata";
 }
 
 .active-icon-select {

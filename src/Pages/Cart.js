@@ -26,6 +26,8 @@ const Cart = (props) => {
     dispatch,
     state: { cart, tableId, tableOrders, placeOrderById, searchClicked },
   } = React.useContext(StoreContext);
+  //$rest-font 
+  const rest_font = 'Inconsolata';
 
   let orderId = [];
 
@@ -76,6 +78,7 @@ const Cart = (props) => {
 
   props.socket.off("new_orders").on("new_orders", (msg) => {
     const data = JSON.parse(msg);
+    console.log(data);
     if (data.personal_order === undefined) {
       dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
       dispatch({
@@ -121,6 +124,7 @@ const Cart = (props) => {
     props.socket.emit("place_table_order", JSON.stringify(body));
     dispatch({ type: TYPES.UPDATE_TABLE_ORDER, payload: [] });
     props.socket.off("new_orders").on("new_orders", (msg) => {
+      console.log(msg);
       dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
       if (JSON.parse(msg).personal_order === undefined) {
       } else {
@@ -225,6 +229,7 @@ const Cart = (props) => {
         { placed_by: localStorage.getItem("user_id"), food_list: cartToSend },
       ],
     };
+    console.log(body);
 
     props.socket.emit("place_personal_order", JSON.stringify(body));
     props.socket.off("new_orders").on("new_orders", (msg) => {
@@ -359,7 +364,7 @@ const Cart = (props) => {
               id={item}
               allData={item}
             />
-            <p style={{ fontFamily: "Poppins", margin: 0, width: "15%" }}>
+            <p style={{ fontFamily: rest_font, margin: 0, width: "15%" }}>
               &#8377;{" "}
               {item.options
                 ? parseInt(item.options.option_price * item.quantity)
@@ -474,6 +479,7 @@ const Cart = (props) => {
       : "";
 
   let addOnTotal = 0;
+  
   cart.forEach((item) => {
     if (item.hasOwnProperty("addon")) {
       item.addon.forEach((addon) => {

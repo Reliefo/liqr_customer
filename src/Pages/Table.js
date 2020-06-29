@@ -13,6 +13,10 @@ import "react-toastify/dist/ReactToastify.css";
 import * as TYPES from "Store/actionTypes.js";
 
 const Table = props => {
+
+  // $rest-font 
+  const rest_font = "Inconsolata";
+
   const {
     dispatch,
     state: {
@@ -319,7 +323,7 @@ const Table = props => {
                                 {item3.food_options ? (
                                   <div
                                     style={{
-                                      fontFamily: "Poppins",
+                                      fontFamily: rest_font,
                                       fontSize: "12px"
                                     }}
                                   >
@@ -337,7 +341,7 @@ const Table = props => {
                                 )}
                                 {/* {item3.food_options ? 
                                 <div style={{
-                                  fontFamily: 'Poppins',
+                                  fontFamily: rest_font,
                                   fontSize: '12px'
                                 }}>
                                  {item3.food_options.choices[0].option_name}

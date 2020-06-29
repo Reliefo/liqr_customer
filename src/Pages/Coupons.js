@@ -29,6 +29,10 @@ const Coupons = props => {
       tableUsers
     }
   } = React.useContext(StoreContext);
+
+
+  // $rest-font 
+  const rest_font = "Inconsolata";
   React.useEffect(() => {
     dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: "" } });
     dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
@@ -113,7 +117,7 @@ const Coupons = props => {
             <FormControl
               style={{
                 fontSize: "15px",
-                fontFamily: "Poppins"
+                fontFamily: rest_font
               }}
               placeholder="Promotion Code"
               autoFocus
@@ -159,7 +163,7 @@ const Coupons = props => {
             style={{
               padding: "1.25rem",
               fontSize: "12px",
-              fontFamily: "Poppins"
+              fontFamily: rest_font
             }}
           >
             <div style={{ float: "left" }}>Payment Option Logo</div>
@@ -176,7 +180,7 @@ const Coupons = props => {
           <Card.Body
             style={{
               fontSize: "12px",
-              fontFamily: "Poppins"
+              fontFamily: rest_font
             }}
           >
             Promo Code Description
@@ -190,7 +194,7 @@ const Coupons = props => {
             style={{
               padding: "1.25rem",
               fontSize: "12px",
-              fontFamily: "Poppins"
+              fontFamily: rest_font
             }}
           >
             <div style={{ float: "left" }}>Payment Option Logo</div>
@@ -207,7 +211,7 @@ const Coupons = props => {
           <Card.Body
             style={{
               fontSize: "12px",
-              fontFamily: "Poppins"
+              fontFamily: rest_font
             }}
           >
             Promo Code Description

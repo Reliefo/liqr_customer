@@ -82,6 +82,9 @@ export default class Signup extends Component {
   };
 
   renderConfirmationForm() {
+    // $base-font 
+    const base_font = "Poppins";
+
     return (
       <form onSubmit={this.handleConfirmationSubmit}>
         <FormGroup controlId="confirmationCode" bsSize="large">
@@ -89,7 +92,7 @@ export default class Signup extends Component {
           <FormControl
             style={{
               fontSize: "15px",
-              fontFamily: "Poppins"
+              fontFamily: base_font
             }}
             autoFocus
             type="tel"
@@ -114,6 +117,9 @@ export default class Signup extends Component {
   }
 
   renderForm() {
+
+    // $base-font 
+    const base_font = "Poppins";
     return (
       <form onSubmit={this.handleSubmit}>
         <div className="sign-in">Sign Up</div>
@@ -122,7 +128,7 @@ export default class Signup extends Component {
           <FormControl
             style={{
               fontSize: "15px",
-              fontFamily: "Poppins"
+              fontFamily: base_font
             }}
             autoFocus
             type="email"
@@ -135,7 +141,7 @@ export default class Signup extends Component {
           <FormControl
             style={{
               fontSize: "15px",
-              fontFamily: "Poppins"
+              fontFamily: base_font
             }}
             value={this.state.password}
             onChange={this.handleChange}
@@ -147,7 +153,7 @@ export default class Signup extends Component {
           <FormControl
             style={{
               fontSize: "15px",
-              fontFamily: "Poppins"
+              fontFamily: base_font
             }}
             value={this.state.confirmPassword}
             onChange={this.handleChange}
@@ -159,7 +165,7 @@ export default class Signup extends Component {
           <FormControl
             style={{
               fontSize: "15px",
-              fontFamily: "Poppins"
+              fontFamily: base_font
             }}
             value={this.state.name}
             onChange={this.handleChange}
