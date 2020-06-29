@@ -41,7 +41,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
         }
       });
     }
-  }, []);
+  }, [foodItem]);
 
   const selectOption = (foodItem, item) => {
     foodItem.food_option = item;
@@ -70,7 +70,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
     const index = clonedChoices.indexOf(choice);
 
     if (index !== -1) {
-      clonedChoices.split(index, 1);
+      clonedChoices.splice(index, 1);
     } else {
       clonedChoices.push(choice);
     }
@@ -491,7 +491,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
                           {numberOfChoices > 0 && (
                             <p style={{ fontSize: "12px" }}>
                               <em>
-                                You need to select atleast {numberOfChoices}
+                                You need to select atleast {numberOfChoices}{" "}
                                 choices
                               </em>
                             </p>
@@ -910,6 +910,13 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
     // :
 
     //   <Card></Card> }
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
     /*:*/
     /*:*/
     /*:*/
