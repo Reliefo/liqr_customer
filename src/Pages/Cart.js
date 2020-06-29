@@ -176,7 +176,7 @@ const Cart = (props) => {
           (choice) => choice.customization_type === "choices"
         );
         singleObject.customization[choiceIndex].list_of_options = [
-          item.choices,
+          ...item.choices,
         ];
       }
 
@@ -313,7 +313,7 @@ const Cart = (props) => {
           (choice) => choice.customization_type === "choices"
         );
         singleObject.customization[choiceIndex].list_of_options = [
-          item.choices,
+          ...item.choices,
         ];
       }
 
@@ -327,6 +327,8 @@ const Cart = (props) => {
       }
       cartToSend.push(singleObject);
     });
+
+    console.log(cartToSend);
 
     const body = {
       table: localStorage.getItem("table_id"),

@@ -109,6 +109,7 @@ body {
 .food-options-modal{
   background-color: transparentize($color: #000000, $amount: 0.7);
   font-weight: 700;
+  height: 90%;
 }
 .modal-header {
   font-weight: bold !important;
