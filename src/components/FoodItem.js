@@ -24,6 +24,24 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
   });
 
   const [show, setShow] = React.useState(false);
+  const [choicesSelected, setChoicesSelected] = React.useState([]);
+  const [numberOfChoices, setNumberOfChoices] = React.useState(0);
+
+  React.useEffect(() => {
+    if (foodItem.hasOwnProperty("choice") && foodItem.choice !== "") {
+      const clonedChoices = [...choicesSelected];
+      clonedChoices.push(foodItem.choice);
+      setChoicesSelected(clonedChoices);
+    }
+
+    if (foodItem.hasOwnProperty("customization")) {
+      foodItem.customization.forEach((item) => {
+        if (item.customization_type === "choices") {
+          setNumberOfChoices(item.that_number);
+        }
+      });
+    }
+  }, []);
 
   const selectOption = (foodItem, item) => {
     foodItem.food_option = item;
@@ -45,8 +63,21 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
     }
   };
 
-  const selectChoice = (foodItem, item) => {
-    foodItem.choice = item;
+  const selectChoice = (foodItem, choice) => {
+    foodItem.choice = choice;
+
+    const clonedChoices = [...choicesSelected];
+    const index = clonedChoices.indexOf(choice);
+
+    if (index !== -1) {
+      clonedChoices.split(index, 1);
+    } else {
+      clonedChoices.push(choice);
+    }
+
+    if (clonedChoices.length <= numberOfChoices) {
+      setChoicesSelected(clonedChoices);
+    }
   };
 
   const addItem = (item, index, subsIndex) => {
@@ -69,7 +100,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
     }
 
     if (item.choice !== undefined) {
-      item["choices"] = item.choice;
+      item["choices"] = choicesSelected;
       flag = true;
     }
 
@@ -98,7 +129,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
       });
       dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
     } else {
-      item["choices"] = item.choice;
+      item["choices"] = choicesSelected;
       item["options"] = item.food_option;
       item["add_ons"] = uniqBy(item.addon, (e) => {
         return e.hasOwnProperty("_id") ? e._id.$oid : e;
@@ -424,7 +455,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
                               selectedChoice = 0;
                               foodItem.indexSelected = 0;
                               foodItem.choiceSelected = true;
-                              selectChoice(foodItem, item2);
+                              selectChoice(foodItem, item2, item);
                             }
 
                             const checkChoiceIndexValue = (index) => {
@@ -434,7 +465,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
                               item.list_of_options.forEach(
                                 (val, checkIndex) => {
                                   if (index === checkIndex) {
-                                    selectChoice(foodItem, val);
+                                    selectChoice(foodItem, val, item);
                                   }
                                 }
                               );
@@ -445,7 +476,9 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
                                   <input
                                     id={idx}
                                     type="checkbox"
-                                    checked={idx === selectedChoice}
+                                    checked={
+                                      choicesSelected.indexOf(item2) !== -1
+                                    }
                                     onClick={() => checkChoiceIndexValue(idx)}
                                     value={item2}
                                     name="choicesRadio"
@@ -455,6 +488,14 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
                               </div>
                             );
                           })}
+                          {numberOfChoices > 0 && (
+                            <p style={{ fontSize: "12px" }}>
+                              <em>
+                                You need to select atleast {numberOfChoices}
+                                choices
+                              </em>
+                            </p>
+                          )}
                         </div>
                       );
                     }
@@ -869,6 +910,62 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
     // :
 
     //   <Card></Card> }
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
     /*:*/
     /*:*/
     /*:*/

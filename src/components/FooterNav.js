@@ -62,6 +62,7 @@ const FooterNav = (props) => {
 
   let cartCount = 0;
   let sum = 0;
+
   cart.forEach((item) => {
     if (item.options) {
       sum += parseInt(item.options.option_price) * item.quantity;
