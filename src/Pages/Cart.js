@@ -185,9 +185,16 @@ const Cart = (props) => {
           const addonIndex = item.customization.findIndex(
             (addon) => addon.customization_type === "add_ons"
           );
-          singleObject.customization[
-            addonIndex
-          ].list_of_options = item.addon.map((addon) => addon._id.$oid);
+          try {
+            singleObject.customization[
+              addonIndex
+            ].list_of_options = item.addon.map((addon) => addon._id.$oid);
+          } catch (error) {
+            singleObject.customization[
+              addonIndex
+            ].list_of_options = item.addon.map((addon) => addon);
+            // ...
+          }
         }
       }
       cartToSend.push(singleObject);
@@ -317,13 +324,15 @@ const Cart = (props) => {
         ];
       }
 
-      if (item.addon.length > 0) {
-        const addonIndex = item.customization.findIndex(
-          (addon) => addon.customization_type === "add_ons"
-        );
-        singleObject.customization[addonIndex].list_of_options = item.addon.map(
-          (addon) => addon._id.$oid
-        );
+      if (item.hasOwnProperty("addon")) {
+        if (item.addon.length > 0) {
+          const addonIndex = item.customization.findIndex(
+            (addon) => addon.customization_type === "add_ons"
+          );
+          singleObject.customization[
+            addonIndex
+          ].list_of_options = item.addon.map((addon) => addon._id.$oid);
+        }
       }
       cartToSend.push(singleObject);
     });
@@ -419,11 +428,9 @@ const Cart = (props) => {
             <span className="detail-options">
               {item.add_ons !== undefined
                 ? item.add_ons.map((add_on) => {
-                  if (true) {
-                    return (
-                      <div>
-                      {add_on.name}</div>
-                      );}
+                    if (true) {
+                      return <div>{add_on.name}</div>;
+                    }
                   })
                 : ""}
             </span>

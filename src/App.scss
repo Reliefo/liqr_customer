@@ -9,8 +9,8 @@ $border-dark: #000000;
 }
 // $food_card_color : #ffd900;
 $food_card_color: #faee4a;
-$top_bar_color: #edca00;
-$category-sticky-color: #edca00;
+$top_bar_color: #ffcf31;
+$category-sticky-color: $top_bar_color;
 $add_button_color: #4f3e2c;
 
 body {
@@ -75,7 +75,15 @@ body {
   // top: 2rem;
   padding-bottom: 2rem;
 }
-
+.billing-page {
+  background: repeating-linear-gradient(
+    90deg,
+    #d6c333,
+    #d6c333 10px,
+    #d1a926 10px,
+    #d1a926 20px
+  );
+}
 .home-screen-food-card {
   background: $food_card_color;
   width: 90%;
@@ -1332,7 +1340,6 @@ input[type="radio"] {
 }
 
 .coupon-div {
-  background: white;
   border-radius: 8px;
   padding: 6%;
 }
@@ -1348,4 +1355,8 @@ input[type="radio"] {
 
 .fooditem-card {
   padding-bottom: 0%;
+}
+.SVG-Logo-Class {
+  height: 2rem;
+  width: 2rem;
 }

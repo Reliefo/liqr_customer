@@ -111,7 +111,7 @@ const Coupons = props => {
   return (
     <>
       <div className="order-status-styling">
-        <div className="coupon-div">
+        <div className="coupon-div cart-styling">
           <FormGroup controlId="promocode" bsSize="large">
             <label className="sign-in-label">Enter Discount Code</label>
             <FormControl
@@ -120,7 +120,6 @@ const Coupons = props => {
                 fontFamily: rest_font
               }}
               placeholder="Promotion Code"
-              autoFocus
               value={state.promocode}
               onChange={handleChange}
               type="text"
@@ -156,7 +155,7 @@ const Coupons = props => {
           />
         </div>
         <Card
-          style={{ marginTop: "5%", background: "white", borderRadius: "8px" }}
+          style={{ marginTop: "5%", borderRadius: "8px" }}
           className="cart-card cart-styling"
         >
           <Card.Title
@@ -187,7 +186,7 @@ const Coupons = props => {
           </Card.Body>
         </Card>
         <Card
-          style={{ marginTop: "5%", background: "white", borderRadius: "8px" }}
+          style={{ marginTop: "5%", borderRadius: "8px" }}
           className="cart-card cart-styling"
         >
           <Card.Title

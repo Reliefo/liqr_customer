@@ -6,7 +6,7 @@ import {
   Button,
   Modal,
   FormGroup,
-  FormControl
+  FormControl,
 } from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
 import SocketContext from "../socket-context";
@@ -14,14 +14,21 @@ import SearchFoodItems from "components/SearchFoodItems.js";
 import { ReactComponent as FoodSVG } from "assets/food.svg";
 import { ReactComponent as FlatSVG } from "assets/Flat.svg";
 import { ReactComponent as UiSVG } from "assets/ui.svg";
+import { ReactComponent as AmazonPay } from "assets/amazon.svg";
+import { ReactComponent as GooglePay } from "assets/google-pay.svg";
+import { ReactComponent as Paytm } from "assets/paytm.svg";
+import { ReactComponent as PayPal } from "assets/paypal.svg";
+import VisaMaster from "assets/visa2x.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import * as TYPES from "Store/actionTypes.js";
 
-const PaymentOptions = props => {
-  // $rest-font 
+const PaymentOptions = (props) => {
+  // $rest-font
   const rest_font = "Inconsolata";
+
+  const SVGLogoClass = "SVG-Logo-Class";
 
   const {
     dispatch,
@@ -29,8 +36,8 @@ const PaymentOptions = props => {
       rawData: { food_menu = [] },
       orderSuccess,
       searchClicked,
-      tableUsers
-    }
+      tableUsers,
+    },
   } = React.useContext(StoreContext);
   React.useEffect(() => {
     dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: "" } });
@@ -40,38 +47,36 @@ const PaymentOptions = props => {
     //handling refresh issue
     dispatch({
       type: TYPES.SET_GENERAL_DATA,
-      payload: { searchClicked: false }
+      payload: { searchClicked: false },
     });
     dispatch({ type: TYPES.SET_NAV, payload: "Order" });
 
-    props.socket.off("new_orders").on("new_orders", msg => {
+    props.socket.off("new_orders").on("new_orders", (msg) => {
       dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
     });
 
-    
-
     const body = {
       user_id: localStorage.getItem("user_id"),
-      restaurant_id: localStorage.getItem("restaurant_id")
+      restaurant_id: localStorage.getItem("restaurant_id"),
     };
 
     props.socket.emit("fetch_rest_customer", JSON.stringify(body));
 
-    props.socket.off("table_details").on("table_details", msg => {
+    props.socket.off("table_details").on("table_details", (msg) => {
       const data = JSON.parse(msg);
       dispatch({ type: TYPES.REFRESH_ORDER_CLOUD, payload: data.table_orders });
     });
 
-    props.socket.off("order_updates").on("order_updates", msg => {
+    props.socket.off("order_updates").on("order_updates", (msg) => {
       dispatch({ type: TYPES.UPDATE_ORDER_STATUS, payload: JSON.parse(msg) });
     });
   }, []);
 
-  const fetchSocketBill = isTable => {
+  const fetchSocketBill = (isTable) => {
     const billBody = {
       user_id: localStorage.getItem("user_id"),
       table_id: localStorage.getItem("table_id"),
-      table_bill: isTable
+      table_bill: isTable,
     };
 
     props.socket.emit("fetch_the_bill", JSON.stringify(billBody));
@@ -82,81 +87,91 @@ const PaymentOptions = props => {
   };
 
   const [state, setState] = React.useState({
-    promocode: ""
+    promocode: "",
   });
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     setState({
-      [event.target.id]: event.target.value
+      [event.target.id]: event.target.value,
     });
   };
+
+  const sendAssistance = (name) => {
+    const body = {
+      table: localStorage.getItem("table_id"),
+      user: localStorage.getItem("user_id"),
+      assistance_type: name,
+      after_billing: true
+    };
+
+    dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
+    props.socket.emit("assistance_requests", JSON.stringify(body));
+  };
+
+  const payingBill = (need) => {
+    sendAssistance(need);
+    localStorage.removeItem("table_id");
+  };
+
   return (
     <>
       <div className="order-status-styling" style={{ fontFamily: rest_font }}>
         <div className="coupon-div">
           Wallets
           <div style={{ minHeight: "60px", paddingTop: "5%" }}>
-            <span className="paymentLogo">Logo</span>{" "}
-            <span style={{ fontSize: "12px", fontFamily: rest_font }}>
-              Amazon Pay
-            </span>
+            <AmazonPay className={SVGLogoClass} />
             <span
               style={{
                 fontSize: "12px",
                 float: "right",
-                fontFamily: rest_font
+                fontFamily: rest_font,
               }}
             >
               Link Account
             </span>
           </div>
           <div style={{ minHeight: "60px", paddingTop: "5%" }}>
-            <span className="paymentLogo">Logo</span>{" "}
-            <span style={{ fontSize: "12px", fontFamily: rest_font }}>
-              Paytm
-            </span>
+            <Paytm className={SVGLogoClass} />
             <span
               style={{
                 fontSize: "12px",
                 float: "right",
-                fontFamily: rest_font
+                fontFamily: rest_font,
               }}
             >
               Link Account
             </span>
           </div>
           <div style={{ minHeight: "60px", paddingTop: "5%" }}>
-            <span className="paymentLogo">Logo</span>{" "}
-            <span style={{ fontSize: "12px", fontFamily: rest_font }}>
-              PayPal
-            </span>
+            <PayPal className={SVGLogoClass} />
             <span
               style={{
                 fontSize: "12px",
                 float: "right",
-                fontFamily: rest_font
+                fontFamily: rest_font,
               }}
             >
               Link Account
             </span>
           </div>
           <div style={{ minHeight: "60px", paddingTop: "5%" }}>
-            <span className="paymentLogo">Logo</span>{" "}
+            {/* <span className="paymentLogo">Logo</span>{" "}
             <span style={{ fontSize: "12px", fontFamily: rest_font }}>
               Google Pay
-            </span>
+            </span> */}
+            <GooglePay className={SVGLogoClass} />
             <span
               style={{
                 fontSize: "12px",
                 float: "right",
-                fontFamily: rest_font
+                fontFamily: rest_font,
               }}
             >
               Link Account
             </span>
           </div>
         </div>
-        <Card
+        {/* <Card
           style={{ marginTop: "5%", background: "white", borderRadius: "8px" }}
           className="cart-card cart-styling"
         >
@@ -183,16 +198,16 @@ const PaymentOptions = props => {
               <span className="paymentLogo">HSBC</span>&nbsp;&nbsp;
             </div>
           </Card.Body>
-        </Card>
+        </Card> */}
         <Card
-          style={{ marginTop: "5%", background: "white", borderRadius: "8px" }}
+          style={{ marginTop: "5%", borderRadius: "8px" }}
           className="cart-card cart-styling"
         >
           <Card.Title
             style={{
-              padding: "1.25rem",
+              padding: "1rem",
               fontSize: "12px",
-              fontFamily: rest_font
+              fontFamily: rest_font,
             }}
           >
             <div style={{ float: "left" }}>Credit/ Debit Cards</div>
@@ -200,35 +215,64 @@ const PaymentOptions = props => {
           <Card.Body
             style={{
               fontSize: "12px",
-              fontFamily: rest_font
+              paddingTop: "0rem",
+              fontFamily: rest_font,
             }}
           >
-            Add New
+            {/* < className={SVGLogoClass}/> */}
+            <img
+              src={VisaMaster}
+              style={{ height: "1.5rem", width: "5rem" }}
+            ></img>
+            <br></br>
+            <br></br>
+            <span style={{ padding: "1rem" }}>Add New</span>
+            <br></br>
           </Card.Body>
         </Card>
         <Card
-          style={{ marginTop: "5%", background: "white", borderRadius: "8px" }}
+          style={{ marginTop: "5%", borderRadius: "8px" }}
           className="cart-card cart-styling"
         >
           <Card.Title
             style={{
               padding: "1.25rem",
               fontSize: "12px",
-              fontFamily: rest_font
+              fontFamily: rest_font,
             }}
           >
-            <div style={{ float: "left" }}>Pay the Restaurant</div>
+            <div style={{ float: "left" }}>Pay directly at the Restaurant</div>
           </Card.Title>
           <Card.Body
             style={{
               fontSize: "12px",
-              fontFamily: rest_font
+              paddingTop: "0rem",
+              fontFamily: rest_font,
             }}
           >
-            Cash Only
-            <label style={{ float: "right" }}>
-              <input id={"test"} type="radio" checked={false} />
-            </label>
+            <button
+              className="pay-directly-buttons btn btn-warning"
+              onClick={() => payingBill("Cash Only")}
+            >
+              Cash Only
+            </button>
+            <br></br>
+            <br></br>
+            <button
+              className="pay-directly-buttons btn btn-warning"
+              onClick={() => payingBill("By Card")}
+            >
+              By Card
+            </button>
+            <br></br>
+            <br></br>
+            <button
+              className="pay-directly-buttons btn btn-warning"
+              onClick={() => payingBill("By UPI, bring the QR Code")}
+            >
+              By UPI
+            </button>
+            <br></br>
           </Card.Body>
         </Card>
       </div>
@@ -236,9 +280,9 @@ const PaymentOptions = props => {
   );
 };
 
-const PaymentWithSocket = props => (
+const PaymentWithSocket = (props) => (
   <SocketContext.Consumer>
-    {socket => <PaymentOptions {...props} socket={socket} />}
+    {(socket) => <PaymentOptions {...props} socket={socket} />}
   </SocketContext.Consumer>
 );
 

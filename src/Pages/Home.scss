@@ -62,7 +62,14 @@ $rest-font: "Inconsolata";
   display: inline-block;
   width: 95% !important;
   margin: 4% 4% 4% 4%;
-  background-color: #fdf9f2;
+  // background-color: #fde194;
+  background: repeating-linear-gradient(
+    -45deg,
+    #ffe83d,
+    #ffe83d 1px,
+    #ffcf31 1px,
+    #ffcf31 2px
+  );
 }
 
 .need-help-images {
@@ -77,8 +84,9 @@ $rest-font: "Inconsolata";
   opacity: 1;
   font-family: $rest-font;
   font-size: medium;
+  font-weight: bold;
   height: 4rem;
-  padding-top: 0rem;
+  padding-top: 0.2rem;
 }
 
 .slick-slider {

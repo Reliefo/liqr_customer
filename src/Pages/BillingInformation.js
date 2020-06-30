@@ -28,7 +28,6 @@ const BillingInformation = props => {
 
   let billing = [];
   billing.push(props.location.state.data);
-  localStorage.removeItem("table_id");
 
   React.useEffect(() => {
     dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: "" } });
@@ -55,7 +54,7 @@ const BillingInformation = props => {
             dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
             dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
           }}
-          style={{ backgroundColor: "white" }}
+          className="billing-page"
         >
           <div className="order-status-styling">
             {billing.map((item, idx) => {
@@ -175,36 +174,7 @@ const BillingInformation = props => {
                       })}
                     </div>
                     <hr />
-                    <div
-                      style={{
-                        float: "left",
-                        height: "25px",
-                        paddingLeft: "2%",
-                        width: "100%",
-                        margin: "0 auto"
-                      }}
-                    >
-                      <p
-                        className="table-name-card-billing"
-                        style={{
-                          float: "left",
-                          width: "40%",
-                          textTransform: "capitalize"
-                        }}
-                      >
-                        <b>Order Total</b>
-                      </p>
-                      <p
-                        className="table-name-card-billing"
-                        style={{
-                          float: "right",
-                          paddingRight: "10%",
-                          height: "25px"
-                        }}
-                      >
-                        <b> ₹ {item.bill_structure["Total Amount"]}</b>
-                      </p>
-                    </div>
+                    
                     <div
                       style={{
                         float: "left",
@@ -282,6 +252,36 @@ const BillingInformation = props => {
                         style={{ float: "right", paddingRight: "10%" }}
                       >
                         <b> {item.taxes["Service"]}%</b>
+                      </p>
+                    </div>
+                    <div
+                      style={{
+                        float: "left",
+                        height: "25px",
+                        paddingLeft: "2%",
+                        width: "100%",
+                        margin: "0 auto"
+                      }}
+                    >
+                      <p
+                        className="table-name-card-billing"
+                        style={{
+                          float: "left",
+                          width: "40%",
+                          textTransform: "capitalize"
+                        }}
+                      >
+                        <b>Order Total</b>
+                      </p>
+                      <p
+                        className="table-name-card-billing"
+                        style={{
+                          float: "right",
+                          paddingRight: "10%",
+                          height: "25px"
+                        }}
+                      >
+                        <b> ₹ {item.bill_structure["Total Amount"]}</b>
                       </p>
                     </div>
                   </Card>

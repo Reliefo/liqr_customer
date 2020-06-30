@@ -129,7 +129,10 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
       flag = true;
     }
 
-    // console.log("NIDS--->", item);
+
+    console.log("NIDS--->", item);
+    console.log("NIDS--->", index);
+    console.log("NIDS--->", flag);
 
     if (flag === false) {
       activeData.forEach((item2, index3) => {
@@ -171,6 +174,83 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
       dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
     }
   };
+
+
+  const addItem2 = (item, index, subsIndex) => {
+    if (!item.hasOwnProperty('currentCustomization')) {
+      item['currentCustomization'] = {};
+    }
+
+    item['customization'].forEach((custItem, custIdx) => { 
+      if (item['currentCustomization'][custItem.name] === undefined){
+        item['currentCustomization'][custItem.name] = [];
+      }
+    });
+
+    let flag = false;
+    if (item.food_option !== undefined) {
+      item["options"] = item.food_option;
+      flag = true;
+    }
+
+    if (item.choice !== undefined) {
+      item["choices"] = fetchSelectedChoices();
+      flag = true;
+    }
+
+    if (item.addons !== undefined) {
+      item["addon"] = uniqBy(item.addons, (e) => {
+        return e.hasOwnProperty("_id") ? e._id.$oid : e;
+      });
+      flag = true;
+    }
+
+
+    console.log("NIDS--->", item);
+    console.log("NIDS--->", index);
+    console.log("NIDS--->", flag);
+
+    if (flag === false) {
+      activeData.forEach((item2, index3) => {
+        console.log("inside", item2);
+        if (index3 === subsIndex) {
+          item2.food_list.forEach((item3, idx2) => {
+            if (idx2 === index) {
+              item3.showError = true;
+              delete item3.options;
+              delete item3.food_option;
+              delete item3.choice;
+              delete item3.choices;
+            }
+          });
+        }
+      });
+      dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
+    } else {
+      item["choices"] = fetchSelectedChoices();
+      item["options"] = item.food_option;
+      item["add_ons"] = uniqBy(item.addon, (e) => {
+        return e.hasOwnProperty("_id") ? e._id.$oid : e;
+      });
+      dispatch({ type: TYPES.ADD_ITEM, payload: item }); //dispatcing the whole item
+
+      activeData.forEach((item2, index3) => {
+        if (index3 === subsIndex) {
+          item2.food_list.forEach((item3, idx2) => {
+            if (idx2 === index) {
+              delete item3.showError;
+              item3.showPopup = false;
+              item3.showCustomize = false;
+              delete item3.food_option;
+              delete item3.choice;
+              item3.showOptionsAgain = false;
+            }
+          });
+        }
+      });
+      dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
+    }
+  }
 
   const addItemDetails = (item, index, subsIndex) => {
     activeData.forEach((item2, index3) => {

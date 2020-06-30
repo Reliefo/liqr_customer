@@ -419,7 +419,7 @@ const Home = (props) => {
                           <Card
                             onClick={() =>
                               props.history.push("/submenu", {
-                                data: item[1],
+                                data: item[1]['food_list'],
                                 sbx: index,
                                 foodMenu: activeData,
                               })
@@ -429,7 +429,7 @@ const Home = (props) => {
                           >
                             <Card.Img
                               className="need-help-images"
-                              src="https://liqr-restaurants.s3.ap-south-1.amazonaws.com/default_need_help.jpg"
+                              src={item[1]['image']}
                             />
                             <Card.Footer className="need-help-names">
                               {item[0]}
@@ -459,7 +459,7 @@ const Home = (props) => {
                         variant="primary"
                         onClick={() =>
                           props.history.push("/submenu", {
-                            data: data[1],
+                            data: data[1]['food_list'],
                             sbx: idx,
                             foodMenu: activeData,
                           })
@@ -469,7 +469,7 @@ const Home = (props) => {
                       </Button>
                     </Card.Title>
                     <Slider {...getSettings(idx)} className="custom-slider">
-                      {Object.values(data[1]).map((item, index) => {
+                      {Object.values(data[1]['food_list']).map((item, index) => {
                         if (typeof item === "object") {
                         }
                         return Object.values(activeData).map((food, idx) => {

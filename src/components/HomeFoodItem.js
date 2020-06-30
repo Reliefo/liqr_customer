@@ -7,6 +7,7 @@ import * as TYPES from "Store/actionTypes.js";
 import { StoreContext } from "Store";
 import "./HomeFoodItem.scss";
 import classnames from "classnames";
+import { uniqBy } from "lodash";
 
 const HomeFoodItem = ({
   stateData,
@@ -79,9 +80,12 @@ const HomeFoodItem = ({
     }
 
     if (item.addons !== undefined) {
-      item["addon"] = item.addons;
+      item["addon"] = uniqBy(item.addons, (e) => {
+        return e.hasOwnProperty("_id") ? e._id.$oid : e;
+      });
       flag = true;
     }
+
 
     // console.log("NIDS--->", item);
 
@@ -219,10 +223,7 @@ const HomeFoodItem = ({
   let visibility = foodItem.visibility;
 
   return (
-    <Card
-      id={foodItem.name}
-      className="category-card home-screen-food-card"
-    >
+    <Card id={foodItem.name} className="category-card home-screen-food-card">
       <div className="container" style={{ paddingRight: "0rem" }}>
         {foodItem.image_link ? (
           <div className="row container-row">
@@ -263,17 +264,16 @@ const HomeFoodItem = ({
             </div>
           </div>
         ) : (
-          <div
-            className="row container-row"
-            onClick={() => selectDetails(foodItem, index, subsIndex)}
-          >
+          <div className="row container-row">
             <div className={"col col-7-home-food-card"}>
-              <div
-                className="row-6 row-6-name"
-                onClick={() => selectDetails(foodItem, index, subsIndex)}
-              >
+              <div className="row-6 row-6-name">
                 <div className="col col-7-home-food-card">
-                  <span className="item-name-home">{foodItem.name}</span>
+                  <span
+                    className="item-name-home"
+                    onClick={() => selectDetails(foodItem, index, subsIndex)}
+                  >
+                    {foodItem.name}
+                  </span>
                   <div className="food-desc">{fullDesc}</div>
                 </div>
               </div>

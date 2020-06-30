@@ -106,6 +106,7 @@ const FooterNav = (props) => {
       table: localStorage.getItem("table_id"),
       user: localStorage.getItem("user_id"),
       assistance_type: name,
+      after_billing: false,
     };
 
     dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: !fabClick });
