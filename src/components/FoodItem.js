@@ -44,6 +44,9 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
             toCount: item.that_number,
             items: [],
           };
+          if (item.list_of_options.length > 0) {
+            choicesObject[item.name].items.push(item.list_of_options[0]);
+          }
         }
       });
       setChoices(choicesObject);
@@ -924,6 +927,11 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
     // :
 
     //   <Card></Card> }
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
     /*:*/
     /*:*/
     /*:*/
