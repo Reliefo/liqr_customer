@@ -24,7 +24,7 @@ import { ReactComponent as PersonalSVG } from "assets/personal.svg";
 const Cart = (props) => {
   const {
     dispatch,
-    state: { cart, tableId, tableOrders, placeOrderById, searchClicked },
+    state: { cart, tableId, tableOrders, placeOrderById, searchClicked, orderingAbility },
   } = React.useContext(StoreContext);
   //$rest-font
   const rest_font = "Inconsolata";
@@ -574,7 +574,11 @@ const Cart = (props) => {
         </Modal>
       ) : searchClicked === true ? (
         <SearchFoodItems />
-      ) : (
+      ) : orderingAbility === false ? 
+      (
+        <div style={{ margin:'10%' }} className="default-screen cart-styling">Ordering has been disabled by the restaurant manager</div>
+      ) :
+      (
         <div
           onClick={() => {
             dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });

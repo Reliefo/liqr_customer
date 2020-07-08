@@ -1,13 +1,38 @@
 
-$rest-font: "Inconsolata";
-
-
+/* $rest-font: "Inconsolata"; */
+:root {
+  --theme-font : "Poppins";
+  --first-color : #d6c333;
+  --second-color : #d1a926;
+  --background : repeating-linear-gradient(
+    90deg,
+    var(--first-color),
+    var(--first-color) 10px,
+    var(--second-color) 10px,
+    var(--second-color) 20px
+  );
+}
+.home-screen {
+  background: var(--background);
+  /* background: repeating-linear-gradient(
+    90deg,
+    #d6c333,
+    #d6c333 10px,
+    #d1a926 10px,
+    #d1a926 20px
+  ); */
+  opacity: 1;
+  position: relative;
+  top: 3rem;
+  padding-bottom: 0rem;
+  min-height: 90vh;
+}
 
 .home-screen-images {
   height: -moz-fit-content;
   margin-bottom: -18%;
 }
-// @media only screen and (max-width: 410px) {
+/* // @media only screen and (max-width: 410px) {
 //   .responsive-height {
 //     max-height: 380px;
 //   }
@@ -17,7 +42,7 @@ $rest-font: "Inconsolata";
 //   .responsive-height {
 //     max-height: 420px;
 //   }
-// }
+// } */
 .rest-card-home {
   padding: 5% 5% 0% 3%;
   letter-spacing: 0px;
@@ -40,7 +65,7 @@ $rest-font: "Inconsolata";
 
 .home-screen-headings {
   padding: 3%;
-  font-family: $rest-font;
+  font-family: var(--theme-font);
   text-align: left;
   font-size: larger;
   letter-spacing: 0.04px;
@@ -56,13 +81,32 @@ $rest-font: "Inconsolata";
   top: 0.3rem;
   left: 0.3rem;
 }
+.full-menu-text{
+  margin-top: 0.7rem;
+  color: black;
+  font-weight: bold;
+}
+.full-menu-button-div {
+  height: 30%;
+  display: flex;
+  width: 75% !important;
+  margin: 0 auto;
+   background-color: #fde194;
+  background: repeating-linear-gradient(
+    -45deg,
+    #ffe83d,
+    #ffe83d 1px,
+    #ffcf31 1px,
+    #ffcf31 2px
+  );
+}
 
 .need-help-div {
   height: 30%;
   display: inline-block;
   width: 95% !important;
   margin: 4% 4% 4% 4%;
-  // background-color: #fde194;
+   background-color: #fde194;
   background: repeating-linear-gradient(
     -45deg,
     #ffe83d,
@@ -73,17 +117,17 @@ $rest-font: "Inconsolata";
 }
 
 .need-help-images {
-  // height: %;
+   /* height: %; */
   scale: 100%;
 }
 
 .need-help-names {
   text-align: center;
-  // text-overflow: initial;
+  /*  text-overflow: initial; */
   letter-spacing: 0px;
   opacity: 1;
-  font-family: $rest-font;
-  font-size: medium;
+  font-family: var(--theme-font);
+  font-size: 1rem;
   font-weight: bold;
   height: 4rem;
   padding-top: 0.2rem;
@@ -101,7 +145,7 @@ $rest-font: "Inconsolata";
   height: inherit !important;
 }
 
-// .custom-slider {
+/* // .custom-slider {
 //   .slick-slide {
 //     margin: 0 -10px;
 //     height: inherit !important;
@@ -109,10 +153,10 @@ $rest-font: "Inconsolata";
 //   .slick-list {
 //     padding: 0px 75px !important;
 //   }
-// }
+// } */
 .desc-home-body {
   min-height: 100px;
-  font-family: $rest-font;
+  font-family: var(--theme-font);
   text-align: left;
   font-size: 12px;
   letter-spacing: 0.04px;
@@ -136,4 +180,4 @@ $rest-font: "Inconsolata";
   color: black !important;
 }
 
-// .slick-list{padding:0 20% 0 0;}
+ /* .slick-list{padding:0 20% 0 0;} */

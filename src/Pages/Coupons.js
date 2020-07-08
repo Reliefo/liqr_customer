@@ -110,7 +110,7 @@ const Coupons = props => {
   };
   return (
     <>
-      <div className="order-status-styling">
+      <div className="coupons-screen">
         <div className="coupon-div cart-styling">
           <FormGroup controlId="promocode" bsSize="large">
             <label className="sign-in-label">Enter Discount Code</label>

@@ -8,7 +8,15 @@ import { StoreContext } from "Store";
 import "./FoodItem.scss";
 import { uniqBy } from "lodash";
 
-const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
+const FoodItem = ({
+  stateData,
+  foodItem,
+  index,
+  subsIndex,
+  subs,
+  from,
+  restOrderingAbility,
+}) => {
   const {
     dispatch,
     state: {
@@ -132,7 +140,6 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
       flag = true;
     }
 
-
     console.log("NIDS--->", item);
     console.log("NIDS--->", index);
     console.log("NIDS--->", flag);
@@ -178,15 +185,14 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
     }
   };
 
-
   const addItem2 = (item, index, subsIndex) => {
-    if (!item.hasOwnProperty('currentCustomization')) {
-      item['currentCustomization'] = {};
+    if (!item.hasOwnProperty("currentCustomization")) {
+      item["currentCustomization"] = {};
     }
 
-    item['customization'].forEach((custItem, custIdx) => { 
-      if (item['currentCustomization'][custItem.name] === undefined){
-        item['currentCustomization'][custItem.name] = [];
+    item["customization"].forEach((custItem, custIdx) => {
+      if (item["currentCustomization"][custItem.name] === undefined) {
+        item["currentCustomization"][custItem.name] = [];
       }
     });
 
@@ -207,7 +213,6 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
       });
       flag = true;
     }
-
 
     console.log("NIDS--->", item);
     console.log("NIDS--->", index);
@@ -253,7 +258,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
       });
       dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
     }
-  }
+  };
 
   const addItemDetails = (item, index, subsIndex) => {
     activeData.forEach((item2, index3) => {
@@ -385,11 +390,21 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
               <div className="food-desc-menu">{fullDesc}</div>
               <div>
                 <p className="item-price">₹ {foodItem.price}</p>
-                <PlusWithAddRemove
-                  item={foodItem}
-                  idx={index}
-                  subs={subsIndex}
-                />
+                {restOrderingAbility ? (
+                  <PlusWithAddRemove
+                    item={foodItem}
+                    idx={index}
+                    subs={subsIndex}
+                    orderingAbility={restOrderingAbility}
+                  />
+                ) : (
+                  <button
+                    className="add-button-item"
+                    onClick={() => selectDetails(foodItem, index, subsIndex)}
+                  >
+                    Details
+                  </button>
+                )}
                 {/* <PlusWithAddRemove item={foodItem} idx={index} subs={subsIndex} /> */}
               </div>
             </div>
@@ -403,11 +418,21 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
               <div className="food-desc-menu">{fullDesc}</div>
               <div>
                 <p className="item-price">₹ {foodItem.price}</p>
-                <PlusWithAddRemove
-                  item={foodItem}
-                  idx={index}
-                  subs={subsIndex}
-                />
+                {restOrderingAbility ? (
+                  <PlusWithAddRemove
+                    item={foodItem}
+                    idx={index}
+                    subs={subsIndex}
+                    orderingAbility={restOrderingAbility}
+                  />
+                ) : (
+                  <button
+                    className="add-button-item"
+                    onClick={() => selectDetails(foodItem, index, subsIndex)}
+                  >
+                    Details
+                  </button>
+                )}
                 {/* <PlusWithAddRemove item={foodItem} idx={index} subs={subsIndex} /> */}
               </div>
             </div>
@@ -899,7 +924,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
 
       {foodItem.showDetails && foodItem.showDetails === true ? (
         <Modal
-          style={{ zIndex: 10000 }}
+          style={{ zIndex: 10000, height: "85%" }}
           size="lg"
           centered
           show={foodItem.showDetails}
@@ -943,34 +968,89 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
                   ""
                 )} */}
               <br />
-              {foodItem.food_options
-                ? foodItem.customization
-                  ? ""
-                  : // ? Object.entries(foodItem.food_options).map((item, index) => {
-                    //   if (item[0] === "options")
-                    //     return Object.values(item[1]).map((item1, idx) => {
-                    //       return (
-                    //         <div style={{ textTransform: "capitalize" }}>
-                    //           {item1.option_name} - <b>₹{item1.option_price}</b>
-                    //         </div>
-                    //       );
-                    //     });
-                    //   if (item[0] === "choices" && item[1].length > 0)
-                    //     return (
-                    //       <div className="radio-div-2">
-                    //         <br />
-                    //           Choices
-                    //         {Object.values(item[1]).map((item1, idx) => {
-                    //           return (
-                    //             <div style={{ textTransform: "capitalize" }}>
-                    //               {item1}
-                    //             </div>
-                    //           );
-                    //         })}
-                    //       </div>
-                    //     );
-                    // })
-                    ""
+              {foodItem.customization
+                ? Object.entries(foodItem.customization).map((item, index) => {
+                    // console.log(item[1].customization_type);
+                    if (
+                      item[1].customization_type === "options" &&
+                      item[1].list_of_options.length > 0
+                    )
+                      return (
+                        <div className="capitalize">
+                          <br />
+                          <div>
+                            <b>{item[1].name}</b>
+                          </div>
+                          {Object.values(item[1].list_of_options).map(
+                            (item1, idx) => {
+                              console.log(item1);
+                              return (
+                                <div style={{ textTransform: "capitalize" }}>
+                                  {item1.option_name} -{" "}
+                                  <b>₹{item1.option_price}</b>
+                                </div>
+                              );
+                            }
+                          )}
+                        </div>
+                      );
+                    if (
+                      item[1].customization_type === "choices" &&
+                      item[1].list_of_options.length > 0
+                    )
+                      return (
+                        <div className="radio-div-2">
+                          <br />
+                          <div>
+                            <b>{item[1].name}</b>
+                          </div>
+                          {Object.values(item[1].list_of_options).map(
+                            (item1, idx) => {
+                              return (
+                                <div style={{ textTransform: "capitalize" }}>
+                                  {item1}
+                                </div>
+                              );
+                            }
+                          )}
+                        </div>
+                      );
+                    if (
+                      item[1].customization_type === "add_ons" &&
+                      item[1].list_of_options.length > 0
+                    )
+                      return (
+                        <div className="radio-div-2">
+                          <br />
+                          <div>
+                            <b>{item[1].name}</b>
+                          </div>
+                          {/* {addons.map((item3) => {
+                            return item.list_of_options.map((item2, idx) => {
+                              if (item3._id.$oid === item2) { */}
+                          {Object.values(item[1].list_of_options).map(
+                            (item1, idx) => {
+                              return addons.map((addonItem) => {
+                                if (addonItem._id.$oid === item1) {
+                                  return (
+                                    <div
+                                      style={{ textTransform: "capitalize" }}
+                                    >
+                                      <div
+                                        style={{ textTransform: "capitalize" }}
+                                      >
+                                        {addonItem.name} -{" "}
+                                        <b>₹{addonItem.price}</b>
+                                      </div>
+                                    </div>
+                                  );
+                                }
+                              });
+                            }
+                          )}
+                        </div>
+                      );
+                  })
                 : ""}
             </div>
           </Modal.Body>
@@ -996,6 +1076,7 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
                 item={foodItem}
                 idx={index}
                 subs={subsIndex}
+                orderingAbility={restOrderingAbility}
               />
             )}
           </Modal.Footer>
@@ -1007,6 +1088,13 @@ const FoodItem = ({ stateData, foodItem, index, subsIndex, subs, from }) => {
     // :
 
     //   <Card></Card> }
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
+    /*:*/
     /*:*/
     /*:*/
     /*:*/

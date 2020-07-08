@@ -7,7 +7,7 @@ import FoodItem from "components/FoodItem";
 const SearchFoodItems = () => {
   const {
     dispatch,
-    state: { searchValue, justMenuItems, activeData }
+    state: { searchValue, justMenuItems, activeData, orderingAbility }
   } = React.useContext(StoreContext);
 
   return (
@@ -28,6 +28,7 @@ const SearchFoodItems = () => {
                     subsIndex={idx}
                     index={idx3}
                     key={`food-item-${idx3}`}
+                    restOrderingAbility={orderingAbility}
                   />
                 </li>
               );

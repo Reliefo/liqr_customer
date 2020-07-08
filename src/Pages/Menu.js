@@ -9,11 +9,11 @@ import Search from "./Search.js";
 import * as TYPES from "Store/actionTypes.js";
 import SocketContext from "../socket-context";
 import FoodItem from "components/FoodItem";
-import HomeFoodItem from "components/HomeFoodItem";
 import { InputGroup, FormControl, Modal, Button } from "react-bootstrap";
 import SearchFoodItems from "components/SearchFoodItems.js";
 import classnames from "classnames";
 import "../components/NavBar.css";
+import AnchorLink from "react-anchor-link-smooth-scroll";
 
 const Menu = (props) => {
   const [prevScrollpos, setPrevScrollpos] = React.useState(window.pageYOffset);
@@ -24,6 +24,7 @@ const Menu = (props) => {
       rawData: { food_menu = [], bar_menu = [] },
       searchClicked,
       activeData,
+      orderingAbility,
     },
   } = React.useContext(StoreContext);
 
@@ -88,6 +89,10 @@ const Menu = (props) => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+  const closeMenu = () => {
+    dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
+    dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
+  };
 
   return (
     <>
@@ -154,6 +159,31 @@ const Menu = (props) => {
                 ) : null}
             </nav>
             <div className="category">
+            {/* <div className="floating-container-menu-items">
+                        <div
+                          className="floating-container menu-button"
+                          style={{ marginBottom: "2.5rem" }}
+                        >
+                          {activeData.map((item, idx) => {
+                            return (
+                              <div
+                                class="floating-menu-items"
+                                key={idx}
+                                onClick={() => closeMenu(idx)}
+                              >
+                                <AnchorLink
+                                  className="anchor-menu"
+                                  offset="90"
+                                  href={`#menu-${idx}`}
+                                >
+                                  {item.name}
+                                </AnchorLink>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div> */}
+
               {activeData.length &&
                 activeData.map((item, idx) => (
                   <React.Fragment key={`Category-${idx}`}>
@@ -180,6 +210,7 @@ const Menu = (props) => {
                       subs={item}
                       categories={idx}
                       key={`category-cards-${idx}`}
+                      subOrderingAbility={orderingAbility}
                     />
                   </React.Fragment>
                 ))}
@@ -191,7 +222,7 @@ const Menu = (props) => {
   );
 };
 
-const SubCategory = ({ subs, categories, activeData }) => (
+const SubCategory = ({ subs, categories, activeData, subOrderingAbility }) => (
   <>
     <p
       id={`menu-${categories}`}
@@ -207,6 +238,7 @@ const SubCategory = ({ subs, categories, activeData }) => (
             subsIndex={categories}
             index={idx3}
             key={`food-item-${idx3}`}
+            restOrderingAbility={subOrderingAbility}
           />
         ) : null}
       </div>

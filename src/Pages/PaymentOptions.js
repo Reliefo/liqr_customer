@@ -115,8 +115,8 @@ const PaymentOptions = (props) => {
 
   return (
     <>
-      <div className="order-status-styling" style={{ fontFamily: rest_font }}>
-        <div className="coupon-div">
+      <div className="coupons-screen" style={{ fontFamily: rest_font }}>
+        <div className="coupon-div cart-styling">
           Wallets
           <div style={{ minHeight: "60px", paddingTop: "5%" }}>
             <AmazonPay className={SVGLogoClass} />

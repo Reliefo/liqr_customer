@@ -23,7 +23,8 @@ const Table = props => {
       rawData: { food_menu = [] },
       orderSuccess,
       searchClicked,
-      tableUsers
+      tableUsers,
+      orderingAbility
     }
   } = React.useContext(StoreContext);
   React.useEffect(() => {
@@ -141,7 +142,11 @@ const Table = props => {
         </Modal>
       ) : searchClicked === true ? (
         <SearchFoodItems />
-      ) : isEmpty() ? (
+      ) : orderingAbility === false ? 
+      (
+        <div style={{ margin:'10%' }} className="default-screen cart-styling">Ordering has been disabled by the restaurant manager</div>
+      ) :
+      isEmpty() ? (
         <div className="default-screen order-status-styling">
           <div className="empty-cart">
             <p style={{ margin: 10 }}>

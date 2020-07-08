@@ -245,7 +245,13 @@ function reducer(state, action) {
       st.restImages = payload;
       return st;
     case TYPES.ADD_REST_LOGO:
-      st.restLogo= payload;
+      st.restLogo = payload;
+      return st;
+    case TYPES.ORDERING_ABILITY:
+      st.orderingAbility = payload;
+      return st;
+    case TYPES.DISPLAY_ORDER_BUTTONS:
+      st.displayOrderButtons = payload;
       return st;
     default:
       return state;

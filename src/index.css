@@ -32,3 +32,6 @@ code {
   padding: 10%;
   text-align: center;
 }
+html, body, #app, #app>div {
+  height: 100%
+}

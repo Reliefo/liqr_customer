@@ -29,3 +29,5 @@ export const UPDATE_FAB_CLICK = 70;
 export const UPDATE_MENU_CLICK = 80;
 export const ADD_REST_IMAGES = 81;
 export const ADD_REST_LOGO = 82;
+export const ORDERING_ABILITY = 83;
+export const DISPLAY_ORDER_BUTTONS = 84;

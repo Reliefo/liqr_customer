@@ -10,14 +10,15 @@ import Slider from "react-slick";
 import { StoreContext } from "Store";
 import * as TYPES from "Store/actionTypes.js";
 
-const SubMenu = props => {
+const SubMenu = (props) => {
   const {
     dispatch,
     state: {
       homeItems,
       activeData,
-      rawData: { food_menu = [] }
-    }
+      orderingAbility,
+      rawData: { food_menu = [] },
+    },
   } = React.useContext(StoreContext);
 
   React.useEffect(() => {
@@ -38,35 +39,40 @@ const SubMenu = props => {
           slidesToShow: 3,
           slidesToScroll: 3,
           infinite: true,
-          dots: false
-        }
+          dots: false,
+        },
       },
       {
         breakpoint: 600,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
-          initialSlide: 2
-        }
+          initialSlide: 2,
+        },
       },
       {
         breakpoint: 480,
         settings: {
           slidesToShow: 1,
-          slidesToScroll: 1
-        }
-      }
-    ]
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
 
   return (
     <>
       <div className="category default-screen">
+      <p className="category-subs" style={{zIndex:4}}>
+                      {props.location.state.subMenuName}
+                    </p>
         {Object.values(props.location.state.data).map((item, index) => {
           return Object.values(props.location.state.foodMenu).map(
             (food, idx) => {
               return Object.values(food.food_list).map((list, ix) => {
-                let desc = list.description ? list.description.substring(0, 40) + "..." : "";
+                let desc = list.description
+                  ? list.description.substring(0, 40) + "..."
+                  : "";
                 if (list._id.$oid === item) {
                   return (
                     <FoodItem
@@ -77,6 +83,7 @@ const SubMenu = props => {
                       subsIndex={idx}
                       index={ix}
                       key={`food-item-${index}`}
+                      restOrderingAbility={orderingAbility}
                     />
                   );
                 }
@@ -89,9 +96,9 @@ const SubMenu = props => {
   );
 };
 
-const SubMenuWithSocket = props => (
+const SubMenuWithSocket = (props) => (
   <SocketContext.Consumer>
-    {socket => <SubMenu {...props} socket={socket} />}
+    {(socket) => <SubMenu {...props} socket={socket} />}
   </SocketContext.Consumer>
 );
 
