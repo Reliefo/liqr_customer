@@ -1,6 +1,33 @@
+:root {
+  --theme-font : "Poppins";
+  --add-button-color : #4f3e2c;
+}
+.add-button-item-menu {
+  float: right;
+  width: 90px;
+  padding: 0rem;
+  height: 30px;
+  background: var(--add-button-color) 0% 0% no-repeat padding-box;
+  border-radius: 6px;
+  border-color: var(--add-button-color);
+  font-family: var(--theme-font);
+  letter-spacing: 0px;
+  color: #ffffff;
+  opacity: 1;
+}
 
-$rest-font: "Inconsolata";
-
+.add-button-item-menu-disabled {
+  float: right;
+  width: 90px;
+  height: 30px;
+  background: var(--add-button-color) 0% 0% no-repeat padding-box;
+  border-radius: 6px;
+  border-color: var(--add-button-color);
+  font-family: var(--theme-font);
+  letter-spacing: 0px;
+  color: #ffffff;
+  opacity: 1;
+}
 
 .col-5-menu-food-card {
   padding: 0rem;
@@ -8,8 +35,6 @@ $rest-font: "Inconsolata";
 }
 
 .col-7-menu-food-card {
-  // padding: 0rem;
-  // padding-left: 0.0rem;
   padding-right: 0.0rem;
 }
 
@@ -31,7 +56,7 @@ $rest-font: "Inconsolata";
   letter-spacing: 0px;
   color: #000000;
   opacity: 1;
-  font-family: $rest-font;
+  font-family: var(--theme-font);
   font-size: 0.9rem;
 }
 
@@ -39,13 +64,12 @@ $rest-font: "Inconsolata";
   text-align: left;
   color: #000000;
   opacity: 0.6;
-  font-family: $rest-font;
+  /* font-family: $rest-font; */
   font-size: small;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   letter-spacing: 0px;
-  // padding-left: 0.5rem;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 }

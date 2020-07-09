@@ -249,13 +249,15 @@ const Home = (props) => {
       dispatch({ type: TYPES.UPDATE_REST_ID, payload: resp._id.$oid });
       dispatch({ type: TYPES.ADD_SELECT_DATA, payload: resp.food_menu });
 
-      document
-      .documentElement.style.setProperty("--theme-font", "Inconsolata");
-      // document
-      // .documentElement.style.setProperty("--first-color", "Inconsolata");
-      // document
-      // .documentElement.style.setProperty("--theme-font", "Inconsolata");
-
+      // if CAFE_MEDLEY:
+      document.documentElement.style.setProperty("--theme-font", "Inconsolata");
+      document.documentElement.style.setProperty("--first-color", "#d6c333");
+      document.documentElement.style.setProperty("--second-color", "#d1a926");
+      document.documentElement.style.setProperty("--first-light-color", "#ffe83d");
+      document.documentElement.style.setProperty("--second-light-color", "#ffcf31");
+      document.documentElement.style.setProperty("--food-card-color", "#faee4a");
+      document.documentElement.style.setProperty("--welcome-card-color", "#4f3e2c");
+      document.documentElement.style.setProperty("--welcome-card-text-color", "#ffffff");
 
       let justBarItems = [];
       let justFoodItems = [];
@@ -405,37 +407,35 @@ const Home = (props) => {
                 );
               })}
             </Carousel>
-            <Card className="home-title-card-carousel">
-              <div style={{ backgroundColor: "#4f3e2c" }}>
-                {restLogo == undefined ? (
-                  <Card.Title className="rest-card-home text-center">
-                    {" "}
-                    Welcome to {restName}
-                  </Card.Title>
-                ) : (
-                  <Card.Img variant="top" src={restLogo} />
-                )}
-                <Card.Body className="text-center" text="white">
-                  {restAddress}
-                </Card.Body>
-              </div>
+            <Card className="welcome-card-carousel">
+              {restLogo == undefined ? (
+                <Card.Title className="welcome-card-home welcome-card-text">
+                  {" "}
+                  Welcome to {restName}
+                </Card.Title>
+              ) : (
+                <Card.Img variant="top" src={restLogo} />
+              )}
+              <Card.Body className="welcome-card-text">
+                {restAddress}
+              </Card.Body>
             </Card>
           </div>
           <Link to="/menu" className="styled-link">
-          <Card className="full-menu-button-div">
-            <div>
-              <Card.Title className="full-menu-text text-center">
-                Full Menu
-              </Card.Title>
-            </div>
-          </Card>
+            <Card className="full-menu-button-div">
+              <div>
+                <Card.Title className="full-menu-text">
+                  Full Menu
+                </Card.Title>
+              </div>
+            </Card>
           </Link>
-          <div className="home-screen-rest">
+          <div className="rest-of-home-screen">
             {Object.entries(homeItems).map((data, idx) => {
               if (idx === 0) {
                 return (
                   <div>
-                    <span className="home-title home-screen-headings">
+                    <span className="home-screen-headings">
                       {data[0]}
                     </span>
                     <Slider {...settings2}>
@@ -474,10 +474,10 @@ const Home = (props) => {
               if (idx !== 0) {
                 return (
                   <Card
-                    className="main-home-card"
+                    className="home-screen-lists-card"
                     key={`category-cards-${idx}`}
                   >
-                    <Card.Title className="home-title home-screen-headings">
+                    <Card.Title className="home-screen-headings">
                       <span className="home-screen-headings-text">
                         {data[0]}
                       </span>

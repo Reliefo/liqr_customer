@@ -19,6 +19,7 @@ import { ReactComponent as TissueSVG } from "assets/tissue.svg";
 import { ReactComponent as DoubleArrow } from "assets/double-arrow.svg";
 import * as TYPES from "Store/actionTypes.js";
 import AnchorLink from "react-anchor-link-smooth-scroll";
+import "./FooterNav.css"
 const FooterNav = (props) => {
   //$rest-font
   const rest_font = "Inconsolata";
@@ -52,6 +53,10 @@ const FooterNav = (props) => {
         progress: undefined,
       });
     });
+
+    // if CAFE_MEDLEY:
+    document.documentElement.style.setProperty("--first-footer-color", "#ffe83d");
+    document.documentElement.style.setProperty("--second-footer-color", "#ffcf31");
   }, [props, props.socket, props.location, dispatch]);
 
   const divClasses = (name) => disablingOrdering(name) + " " + fillDiv(name);
@@ -129,7 +134,7 @@ const FooterNav = (props) => {
   };
 
   const footerDiv =
-    activeNav === "Home" ? "footer-nav custom-home-nav" : "footer-nav";
+    activeNav === "Home" ? "footer-nav footer-color custom-home-nav" : "footer-nav footer-color";
 
   return (
     <>
@@ -159,7 +164,7 @@ const FooterNav = (props) => {
               // color: "black",
               //   display: "block",
               // }}
-              className="footer-nav go-to-cart-footer"
+              className="footer-nav footer-color go-to-cart-footer"
             >
               {activeNav === "Menu" && (
                 <div className="floating-container-menu">
@@ -168,7 +173,7 @@ const FooterNav = (props) => {
                   </div>
                 </div>
               )}
-              <div style={{ width: "50%" }}>
+              <div className="floating-menu-div">
                 {menuClick && (
                   <div className="floating-container-menu-items">
                     <div

@@ -1,12 +1,42 @@
-$rest-font: "Inconsolata";
+:root {
+  --theme-font : "Poppins";
+  /* --add-button-color : #4f3e2c; */
+  --add-button-color : #ffb023;
+}
 
 
+.add-button-item {
+  float: right;
+  width: 90px;
+  height: 30px;
+  background: var(--add-button-color) 0% 0% no-repeat padding-box;
+  border-radius: 6px;
+  border-color: var(--add-button-color);
+  font-family: var(--theme-font);
+  letter-spacing: 0px;
+  color: #ffffff;
+  opacity: 1;
+}
+
+.add-button-item-disabled {
+  float: right;
+  width: 90px;
+  padding: 0rem;
+  height: 30px;
+  background: var(--add-button-color) 0% 0% no-repeat padding-box;
+  border-radius: 6px;
+  border-color: var(--add-button-color);
+  font-family: var(--theme-font);
+  letter-spacing: 0px;
+  color: #ffffff;
+  opacity: 1;
+}
 .item-name-home {
   text-align: left;
   letter-spacing: 0px;
   color: #000000;
   opacity: 1;
-  font-family: $rest-font;
+  /* font-family: $rest-font; */
   font-size: large;
   height: 5rem;
   font-weight: bold;
@@ -18,7 +48,7 @@ $rest-font: "Inconsolata";
   color: #000000;
   opacity: 1;
   float: left;
-  font-family: $rest-font;
+  /* font-family: $rest-font; */
   padding-top: 0.5rem;
   padding-left: 0.5rem;
   margin-bottom: 0rem;
@@ -41,10 +71,6 @@ $rest-font: "Inconsolata";
   height: 100%;
   opacity: 1;
   border-radius: 6px;
-}
-.container-row {
-  // margin-right: 0rem;
-  // margin-left: 0rem;
 }
 
 .row-6-name {

@@ -5,7 +5,7 @@ import { Card, Accordion, Modal, Button, Form } from "react-bootstrap";
 import sampleImage from "../assets/300.png";
 import * as TYPES from "Store/actionTypes.js";
 import { StoreContext } from "Store";
-import "./FoodItem.scss";
+import "./FoodItem.css";
 import { uniqBy } from "lodash";
 
 const FoodItem = ({
