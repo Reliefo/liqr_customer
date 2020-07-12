@@ -12,7 +12,7 @@ const Search = props => {
       rawData: { food_menu = [], bar_menu = [] },
       searchClicked,
       searchValue,
-      activeData
+      cartData
     }
   } = React.useContext(StoreContext);
 

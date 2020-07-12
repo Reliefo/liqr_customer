@@ -9,7 +9,7 @@ import * as TYPES from "Store/actionTypes.js";
 const PlusWithAddRemove = ({ item, idx, subs, from, fromhome, orderingAbility }) => {
   const {
     dispatch,
-    state: { cart, activeData },
+    state: { cart, cartData },
   } = React.useContext(StoreContext);
 
   const [state, setState] = React.useState({
@@ -100,7 +100,7 @@ const PlusWithAddRemove = ({ item, idx, subs, from, fromhome, orderingAbility })
   /*For Internally */
   const decHndlr = () => {
     let data = true;
-    activeData.forEach((item, index3) => {
+    cartData.forEach((item, index3) => {
       if (index3 === subs) {
         item.food_list.forEach((item1, idx2) => {
           if (idx2 === idx) {
@@ -120,7 +120,7 @@ const PlusWithAddRemove = ({ item, idx, subs, from, fromhome, orderingAbility })
     }
   };
   const incHndlr = () => {
-    activeData.forEach((item, index3) => {
+    cartData.forEach((item, index3) => {
       if (index3 === subs) {
         item.food_list.forEach((item1, idx2) => {
           if (idx2 === idx) {
@@ -143,7 +143,7 @@ const PlusWithAddRemove = ({ item, idx, subs, from, fromhome, orderingAbility })
       return;
     }
     let data = true;
-    activeData.forEach((item, index3) => {
+    cartData.forEach((item, index3) => {
       if (index3 === subs) {
         item.food_list.forEach((item1, idx2) => {
           if (idx2 === idx) {
@@ -157,7 +157,7 @@ const PlusWithAddRemove = ({ item, idx, subs, from, fromhome, orderingAbility })
       }
     });
 
-    activeData.forEach((item) => {
+    cartData.forEach((item) => {
       item.food_list.forEach((item1, idx2) => {
         cart.forEach((cartItem) => {
           if (cartItem._id.$oid === item1._id.$oid) {
@@ -167,7 +167,7 @@ const PlusWithAddRemove = ({ item, idx, subs, from, fromhome, orderingAbility })
       });
     });
 
-    dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
+    dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
     if (data) {
       dispatch({ type: TYPES.ADD_ITEM, payload: item }); //dispatcing the whole item
       setState((state) => ({

@@ -23,14 +23,14 @@ const HomeFoodItem = ({
     dispatch,
     state: {
       rawData: { food_menu = [], bar_menu = [] },
-      activeData,
+      cartData,
       addons,
       cart,
     },
   } = React.useContext(StoreContext);
 
   const [state, setState] = React.useState({
-    food_item: activeData, //0: Personal cart, 1: Table cart
+    food_item: cartData, //0: Personal cart, 1: Table cart
   });
 
   const [show, setShow] = React.useState(false);
@@ -92,7 +92,7 @@ const HomeFoodItem = ({
     // console.log("NIDS--->", item);
 
     if (flag === false) {
-      activeData.forEach((item2, index3) => {
+      cartData.forEach((item2, index3) => {
         if (index3 === subsIndex) {
           item2.food_list.forEach((item3, idx2) => {
             if (idx2 === index) {
@@ -105,14 +105,14 @@ const HomeFoodItem = ({
           });
         }
       });
-      dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
+      dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
     } else {
       item["choices"] = item.choice;
       item["options"] = item.food_option;
       item["add_ons"] = item.addon;
       dispatch({ type: TYPES.ADD_ITEM, payload: item }); //dispatcing the whole item
 
-      activeData.forEach((item2, index3) => {
+      cartData.forEach((item2, index3) => {
         if (index3 === subsIndex) {
           item2.food_list.forEach((item3, idx2) => {
             if (idx2 === index) {
@@ -126,12 +126,12 @@ const HomeFoodItem = ({
           });
         }
       });
-      dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
+      dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
     }
   };
 
   const addItemDetails = (item, index, subsIndex) => {
-    activeData.forEach((item2, index3) => {
+    cartData.forEach((item2, index3) => {
       if (index3 === subsIndex) {
         item2.food_list.forEach((item3, idx2) => {
           if (idx2 === index) {
@@ -143,14 +143,14 @@ const HomeFoodItem = ({
         });
       }
     });
-    dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
+    dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
   };
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const setIndex = (foodItem, index, subsIndex) => {
-    activeData.forEach((item, index3) => {
+    cartData.forEach((item, index3) => {
       if (index3 === subsIndex) {
         item.food_list.forEach((item1, idx2) => {
           if (idx2 === index) {
@@ -159,11 +159,11 @@ const HomeFoodItem = ({
         });
       }
     });
-    dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
+    dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
   };
 
   const closePopUp = (foodItem, index, subsIndex) => {
-    activeData.forEach((item, index3) => {
+    cartData.forEach((item, index3) => {
       if (index3 === subsIndex) {
         item.food_list.forEach((item1, idx2) => {
           if (idx2 === index) {
@@ -176,11 +176,11 @@ const HomeFoodItem = ({
         });
       }
     });
-    dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
+    dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
   };
 
   const closeDetails = (foodItem, index, subsIndex) => {
-    activeData.forEach((item, index3) => {
+    cartData.forEach((item, index3) => {
       if (index3 === subsIndex) {
         item.food_list.forEach((item1, idx2) => {
           if (idx2 === index) {
@@ -189,11 +189,11 @@ const HomeFoodItem = ({
         });
       }
     });
-    dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
+    dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
   };
 
   const selectDetails = (foodItem, index, subsIndex) => {
-    activeData.forEach((item, index3) => {
+    cartData.forEach((item, index3) => {
       if (index3 === subsIndex) {
         item.food_list.forEach((item1, idx2) => {
           if (idx2 === index) {
@@ -202,11 +202,11 @@ const HomeFoodItem = ({
         });
       }
     });
-    dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
+    dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
   };
 
   const showOptions = (foodItem, index, subsIndex) => {
-    activeData.forEach((item, index3) => {
+    cartData.forEach((item, index3) => {
       if (index3 === subsIndex) {
         item.food_list.forEach((item1, idx2) => {
           if (idx2 === index) {
@@ -215,7 +215,7 @@ const HomeFoodItem = ({
         });
       }
     });
-    dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
+    dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
   };
   let desc = foodItem.description
     ? foodItem.description.substring(0, 40) + "..."

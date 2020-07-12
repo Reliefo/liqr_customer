@@ -8,7 +8,7 @@ const CollapseDetails = props => {
 
   const {
     dispatch,
-    state: { activeData }
+    state: { cartData }
   } = React.useContext(StoreContext);
 
   function handleChange(event) {

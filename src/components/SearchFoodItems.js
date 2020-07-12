@@ -7,7 +7,7 @@ import FoodItem from "components/FoodItem";
 const SearchFoodItems = () => {
   const {
     dispatch,
-    state: { searchValue, justMenuItems, activeData, orderingAbility }
+    state: { searchValue, justMenuItems, cartData, orderingAbility }
   } = React.useContext(StoreContext);
 
   return (

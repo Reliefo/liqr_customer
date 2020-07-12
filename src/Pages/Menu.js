@@ -14,6 +14,7 @@ import SearchFoodItems from "components/SearchFoodItems.js";
 import classnames from "classnames";
 import "../components/NavBar.css";
 import AnchorLink from "react-anchor-link-smooth-scroll";
+import "./Menu.css";
 
 const Menu = (props) => {
   const [prevScrollpos, setPrevScrollpos] = React.useState(window.pageYOffset);
@@ -23,8 +24,10 @@ const Menu = (props) => {
     state: {
       rawData: { food_menu = [], bar_menu = [] },
       searchClicked,
-      activeData,
+      cartData,
       orderingAbility,
+      menuClick,
+      restId,
     },
   } = React.useContext(StoreContext);
 
@@ -58,6 +61,26 @@ const Menu = (props) => {
     //     }, 2000);
     //   });
     // }
+
+
+/////THEMEING //////
+
+    if (restId === "BNGKOR004") {
+      document.documentElement.style.setProperty("--theme-font", "Inconsolata");
+    document.documentElement.style.setProperty(
+      "--first-menu-background-color",
+      "#d6c333"
+    );
+    document.documentElement.style.setProperty(
+      "--second-menu-background-color",
+      "#d1a926"
+    );
+    document.documentElement.style.setProperty("--food-card-color", "#faee4a");
+    document.documentElement.style.setProperty("--add-button-color", "#4f3e2c");
+    }
+    /////THEMEING //////
+
+
     console.log("Menu screen");
     window.addEventListener("scroll", handleScroll);
     dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
@@ -79,11 +102,11 @@ const Menu = (props) => {
 
   const setMenu = (name, type) => {
     setState((state) => ({ ...state, activeMenu: name }));
-    dispatch({ type: TYPES.ADD_SELECT_DATA, payload: type });
+    dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: type });
   };
   const handleClose = () => setState({ showData: false });
   const handleShow = () => setState({ showData: true });
-  // console.log(activeData[0].food_list[1]);
+  // console.log(cartData[0].food_list[1]);
   React.useEffect(() => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -129,22 +152,22 @@ const Menu = (props) => {
             className="menu-screen"
           >
             <nav
-              className={classnames("navbar-menu", {
-                "navbar--hidden": !visible,
+              className={classnames("food-bar-menu", {
+                "food-bar--hidden": !visible,
               })}
             >
-                {bar_menu.length > 0 ? (
-              <ul className="menu-btn">
-                <li
-                  className={
-                    state.activeMenu === "food"
-                      ? "menu-active bar-active"
-                      : "menu-inactive bar-inactive"
-                  }
-                  onClick={() => setMenu("food", food_menu)}
-                >
-                  <div className="menu-item-names">Food Menu</div>
-                </li>
+              {bar_menu.length > 0 ? (
+                <ul className="menu-btn">
+                  <li
+                    className={
+                      state.activeMenu === "food"
+                        ? "menu-active bar-active"
+                        : "menu-inactive bar-inactive"
+                    }
+                    onClick={() => setMenu("food", food_menu)}
+                  >
+                    <div className="menu-item-names">Food Menu</div>
+                  </li>
                   <li
                     className={
                       state.activeMenu === "bar"
@@ -155,16 +178,16 @@ const Menu = (props) => {
                   >
                     <div className="menu-item-names">Bar Menu</div>
                   </li>
-              </ul>
-                ) : null}
+                </ul>
+              ) : null}
             </nav>
             <div className="category">
-            {/* <div className="floating-container-menu-items">
+              {/* <div className="floating-container-menu-items">
                         <div
                           className="floating-container menu-button"
                           style={{ marginBottom: "2.5rem" }}
                         >
-                          {activeData.map((item, idx) => {
+                          {cartData.map((item, idx) => {
                             return (
                               <div
                                 class="floating-menu-items"
@@ -184,8 +207,8 @@ const Menu = (props) => {
                         </div>
                       </div> */}
 
-              {activeData.length &&
-                activeData.map((item, idx) => (
+              {cartData.length &&
+                cartData.map((item, idx) => (
                   <React.Fragment key={`Category-${idx}`}>
                     <p className="category-subs" style={{ zIndex: idx + 1 }}>
                       {item.name}
@@ -206,7 +229,7 @@ const Menu = (props) => {
                       </Dropdown.Menu>
                     </Dropdown> */}
                     <SubCategory
-                      activeData={state.activeData}
+                      cartData={state.cartData}
                       subs={item}
                       categories={idx}
                       key={`category-cards-${idx}`}
@@ -222,17 +245,22 @@ const Menu = (props) => {
   );
 };
 
-const SubCategory = ({ subs, categories, activeData, subOrderingAbility }) => (
+const SubCategory = ({ subs, categories, cartData, subOrderingAbility }) => (
   <>
     <p
       id={`menu-${categories}`}
-      style={{ fontSize: "1.1rem", color: "#334252", fontWeight: 600, marginBottom:"0rem"}}
+      style={{
+        fontSize: "1.1rem",
+        color: "#334252",
+        fontWeight: 600,
+        marginBottom: "0rem",
+      }}
     ></p>
     {subs.food_list.map((foodItem, idx3) => (
       <div>
         {foodItem.visibility ? (
           <FoodItem
-            stateData={activeData}
+            stateData={cartData}
             foodItem={foodItem}
             subs={subs}
             subsIndex={categories}

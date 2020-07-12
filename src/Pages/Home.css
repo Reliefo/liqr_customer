@@ -4,34 +4,34 @@
   --theme-font : "Poppins";
 
 
+  --add-button-color : #ffb023;
   /* --first-color : #d6c333; */
-  --first-color : #f4f4f4;
-  --second-color : #f4f4f4;
-  --first-light-color : #e0e0e0;
-  --second-light-color : #e0e0e0;
+  --first-background-color : #ffffff;
+  --second-background-color : #ffffff;
+  --first-pattern-light-color : #ffffff;
+  --second-pattern-light-color: #ffffff;
+  --first-light-color: #f0f0f0;
+  --second-light-color: #f0f0f0;
   /* --second-light-color : #f0f0f0; */
-  --food-card-color : #ffffff;
+  --food-card-color: #ffffff;
 
-  --welcome-card-color : #dddddd;
-  --welcome-card-text-color : #000000;
-  --food-menu-button-color : #ffb023;
+  --welcome-card-color: #ffffff;
+  --welcome-card-shadow-color: #666666;
+  --welcome-card-text-color: #000000;
+  --first-food-button-color: #ffffff;
+  --second-food-button-color: #ffffff;
+  --food-menu-button-color: #ffb023;
+  --food-menu-button-shadow-color: #a86b00;
 
-  --background : repeating-linear-gradient(
+  --pattern-1: repeating-linear-gradient(
     90deg,
-    var(--first-color),
-    var(--first-color) 10px,
-    var(--second-color) 10px,
-    var(--second-color) 20px
+    var(--first-background-color),
+    var(--first-background-color) 10px,
+    var(--second-background-color) 10px,
+    var(--second-background-color) 20px
   );
 
-  --small-light-gradient : repeating-linear-gradient(
-    -45deg,
-    var(--first-light-color),
-    var(--first-light-color) 1px,
-    var(--second-light-color) 1px,
-    var(--second-light-color) 2px
-  );
-  --big-light-gradient : repeating-linear-gradient(
+  --pattern-2: repeating-linear-gradient(
     -45deg,
     var(--first-light-color),
     var(--first-light-color) 10px,
@@ -39,10 +39,57 @@
     var(--second-light-color) 20px
   );
 
+  --pattern-light: repeating-linear-gradient(
+    -45deg,
+    var(--first-pattern-light-color),
+    var(--first-pattern-light-color) 10px,
+    var(--second-pattern-light-color) 10px,
+    var(--second-pattern-light-color) 20px
+  );
+
+  --home-background: var(--pattern-1);
+
+  --small-light-gradient: repeating-linear-gradient(
+    -45deg,
+    var(--first-light-color),
+    var(--first-light-color) 1px,
+    var(--second-light-color) 1px,
+    var(--second-light-color) 2px
+  );
+  --big-light-gradient: var(--pattern-2);
+
+  --full-menu-button-color: repeating-linear-gradient(
+    -45deg,
+    var(--first-food-button-color),
+    var(--first-food-button-color) 1px,
+    var(--second-food-button-color) 1px,
+    var(--second-food-button-color) 2px,
+  );
+
+  --top-bar-color : #ffb023;
+  --search-background-color : #ffc45c;
+  --burger-menu-background-color: #c0841d;
 }
 
+.default-screen {
+  background: var(--menu-background);  
+  position: relative;
+  padding: 0rem;
+  top: 3rem;
+  padding-bottom: 4rem;
+  min-height: calc(100vh - 30vw);
+}
+.coupons-screen {
+  background: var(--menu-background);
+  position: relative;
+  padding: 1.5rem;
+  top: 3rem;
+  padding-bottom: 4rem;
+  min-height: 90vh;
+
+}
 .home-screen {
-  background: var(--background);
+  background: var(--home-background);
   opacity: 1;
   position: relative;
   top: 3rem;
@@ -54,7 +101,7 @@
   height: -moz-fit-content;
   margin-bottom: -15%;
 }
- /* @media only screen and (max-width: 410px) {
+/* @media only screen and (max-width: 410px) {
    .responsive-height {
      max-height: 380px;
    }
@@ -76,6 +123,7 @@
   background-color: var(--welcome-card-color);
   width: 80%;
   border: none;
+  box-shadow: 1px 2px var(--welcome-card-shadow-color);
 }
 .welcome-card-home {
   padding: 5% 5% 0% 3%;
@@ -87,32 +135,37 @@
   font-weight: bold;
   font-size: x-large;
 }
-.welcome-card-text {
+.welcome-card-title {
   text-align: center;
   color: var(--welcome-card-text-color);
   padding: 1rem 1rem 0.2rem 1rem;
+  margin-bottom: 0rem;
+}
+.welcome-card-text {
+  text-align: center;
+  color: var(--welcome-card-text-color);
+  padding: 0.5rem 1rem 0.2rem 1rem;
+  margin-bottom: 0rem;
 }
 
-
-.full-menu-text{
-  margin-top: 0.7rem;
+.full-menu-text {
+  margin: 0.4rem 0;
   color: black;
   font-weight: bold;
   text-align: center;
   padding: 0 1rem;
 }
 .full-menu-button-div {
-  height: 30%;
   display: flex;
-  width: 85% !important;
+  width: 90% !important;
   margin: 0 auto;
-  background-color: var(--food-menu-button-color);
+  margin-bottom: 1rem;
+  background: var(--food-menu-button-color);
   /* background: var(--small-light-gradient); */
   /* border: 3px solid #af8000; */
-  border: none;
-  box-shadow: 0px 4px 4px #a86b00;
+  border: 0px solid #ffb023;
+  box-shadow: 0px 2px 2px var(--food-menu-button-shadow-color);
 }
-
 
 .view-all-home-screen {
   background-color: transparent;
@@ -156,8 +209,6 @@
   padding-bottom: 2rem;
 }
 
-
-
 .need-help-div {
   height: 30%;
   display: inline-block;
@@ -167,7 +218,7 @@
 }
 
 .need-help-images {
-   /* height: %; */
+  /* height: %; */
   scale: 100%;
 }
 
@@ -234,4 +285,24 @@
   color: black !important;
 }
 
- /* .slick-list{padding:0 20% 0 0;} */
+/* .slick-list{padding:0 20% 0 0;} */
+.modal-header {
+  font-weight: bold !important;
+  background: var(--pattern-light);
+}
+.modal-body {
+  background-color: var(--categories-list-item-color);
+}
+.modal-footer {
+  background: var(--pattern-light);
+}
+.options-title {
+  text-align: center;
+  font-family: var(--theme-font);
+  font-size: x-large;
+  font-weight: bold;
+  letter-spacing: 1.2px;
+  color: #000000;
+  text-transform: capitalize;
+  opacity: 1;
+}

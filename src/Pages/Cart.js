@@ -20,11 +20,12 @@ import Bill from "components/Bill.js";
 import CollapseDetails from "./Collapse.js";
 import { ReactComponent as TableFilledIMG } from "assets/Table-Filled.svg";
 import { ReactComponent as PersonalSVG } from "assets/personal.svg";
+import "./Cart.css"
 
 const Cart = (props) => {
   const {
     dispatch,
-    state: { cart, tableId, tableOrders, placeOrderById, searchClicked, orderingAbility },
+    state: { cart, tableId, tableOrders, placeOrderById, searchClicked, orderingAbility, restId },
   } = React.useContext(StoreContext);
   //$rest-font
   const rest_font = "Inconsolata";
@@ -72,6 +73,21 @@ const Cart = (props) => {
       type: TYPES.SET_GENERAL_DATA,
       payload: { searchClicked: false },
     });
+
+
+
+/////THEMEING //////
+
+    if (restId === "BNGKOR004") {
+    document.documentElement.style.setProperty("--theme-font", "Inconsolata");
+    document.documentElement.style.setProperty("--first-menu-background-color", "#d6c333");
+    document.documentElement.style.setProperty("--second-menu-background-color", "#d1a926");
+    document.documentElement.style.setProperty("--first-pattern-light-color", "#ffe83d");
+    document.documentElement.style.setProperty("--second-pattern-light-color", "#ffcf31");
+    }
+/////THEMEING //////
+
+
     //handling refresh issue
     dispatch({ type: TYPES.SET_NAV, payload: "Cart" });
   }, []);
@@ -141,7 +157,7 @@ const Cart = (props) => {
       props.socket.off("restaurant_object").on("restaurant_object", (data) => {
         const resp = JSON.parse(data);
         dispatch({ type: TYPES.ADD_DATA, payload: resp });
-        dispatch({ type: TYPES.ADD_SELECT_DATA, payload: resp.food_menu });
+        dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: resp.food_menu });
         setState((state) => ({ ...state, activeCart: 1 - state.activeCart }));
       });
     });
@@ -253,7 +269,7 @@ const Cart = (props) => {
       props.socket.off("restaurant_object").on("restaurant_object", (data) => {
         const resp = JSON.parse(data);
         dispatch({ type: TYPES.ADD_DATA, payload: resp });
-        dispatch({ type: TYPES.ADD_SELECT_DATA, payload: resp.food_menu });
+        dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: resp.food_menu });
       });
       dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
       dispatch({ type: TYPES.RESET_CART });
@@ -576,7 +592,9 @@ const Cart = (props) => {
         <SearchFoodItems />
       ) : orderingAbility === false ? 
       (
-        <div style={{ margin:'10%' }} className="default-screen cart-styling">Ordering has been disabled by the restaurant manager</div>
+        <div className="cart-screen">
+          <p className="cart-styling">Ordering has been disabled by the restaurant manager</p>
+          </div>
       ) :
       (
         <div
@@ -584,7 +602,7 @@ const Cart = (props) => {
             dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
             dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
           }}
-          className="default-screen"
+          className="cart-screen"
         >
           <ul className="menu-btn">
             <li
@@ -654,12 +672,12 @@ const Cart = (props) => {
                 {state.activeCart === 0 && (
                   <Row>
                     <Col style={{ marginTop: "1rem" }}>
-                      <div className="bill-btn" onClick={setCartPlaceOrder}>
+                      <div className="bill-btn personal-order-btn" onClick={setCartPlaceOrder}>
                         <p>Place Order</p>
                       </div>
                     </Col>
                     <Col style={{ marginTop: "1rem" }}>
-                      <div className="bill-btn table-btn" onClick={setCart}>
+                      <div className="bill-btn push-to-table-btn" onClick={setCart}>
                         <p>Push To Table</p>
                       </div>
                     </Col>
@@ -672,7 +690,7 @@ const Cart = (props) => {
                 <Bill orderTotal={sum} />
                 <div
                   onClick={setOrderTable}
-                  className="bill-btn table-btn mt-3"
+                  className="bill-btn push-to-table-btn mt-3"
                 >
                   <div className="d-flex">
                     <p className="ml-3">Confirm Order</p>

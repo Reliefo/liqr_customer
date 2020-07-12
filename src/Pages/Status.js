@@ -9,6 +9,7 @@ import { ReactComponent as FlatSVG } from "assets/Flat.svg";
 import { ReactComponent as UiSVG } from "assets/ui.svg";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "./Status.css"
 
 import * as TYPES from "Store/actionTypes.js";
 
@@ -38,6 +39,23 @@ const Table = props => {
       payload: { searchClicked: false }
     });
     dispatch({ type: TYPES.SET_NAV, payload: "Order" });
+
+
+
+/////THEMEING //////
+    //   document.documentElement.style.setProperty("--theme-font", "Inconsolata");
+    // document.documentElement.style.setProperty(
+    //   "--first-menu-background-color",
+    //   "#d6c333"
+    // );
+    // document.documentElement.style.setProperty(
+    //   "--second-menu-background-color",
+    //   "#d1a926"
+    // );
+    // document.documentElement.style.setProperty("--first-pattern-light-color", "#ffe83d");
+    // document.documentElement.style.setProperty("--second-pattern-light-color", "#ffcf31");
+    /////THEMEING //////
+
 
     props.socket.off("cancel_items_request").on("cancel_items_request", msg => {
       const data = JSON.parse(msg);
@@ -144,10 +162,11 @@ const Table = props => {
         <SearchFoodItems />
       ) : orderingAbility === false ? 
       (
-        <div style={{ margin:'10%' }} className="default-screen cart-styling">Ordering has been disabled by the restaurant manager</div>
-      ) :
+        <div className="status-screen">
+          <p className="cart-styling">Ordering has been disabled by the restaurant manager</p>
+          </div>      ) :
       isEmpty() ? (
-        <div className="default-screen order-status-styling">
+        <div className="status-screen order-status-styling">
           <div className="empty-cart">
             <p style={{ margin: 10 }}>
               Oops looks like you have no orders placed?
@@ -194,7 +213,7 @@ const Table = props => {
             dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
           }}
           style={{ backgroundColor: "white" }}
-          className="default-screen"
+          className="status-screen"
         >
           <div className="order-status-styling">
             <div style={{ paddingBottom: "10%" }}>

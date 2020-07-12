@@ -15,7 +15,7 @@ const SubMenu = (props) => {
     dispatch,
     state: {
       homeItems,
-      activeData,
+      cartData,
       orderingAbility,
       rawData: { food_menu = [] },
     },

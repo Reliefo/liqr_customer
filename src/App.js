@@ -12,7 +12,7 @@ import JM from "./Pages/jm";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import Cart from "./Pages/Cart";
-import Table from "./Pages/Table";
+import Table from "./Pages/Status";
 import Visits from "./Pages/Visits";
 import BillingInformation from "./Pages/BillingInformation";
 import SearchItems from "./Pages/searchItems";

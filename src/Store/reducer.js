@@ -66,10 +66,10 @@ function reducer(state, action) {
     case TYPES.ADD_DATA:
       st.rawData = payload;
       return st;
-    case TYPES.ADD_SELECT_DATA:
+    case TYPES.ADD_TO_CART_DATA:
       return {
         ...st,
-        activeData: payload,
+        cartData: payload,
       };
     case TYPES.ADD_ITEM:
       if (payload.options) {
@@ -160,7 +160,7 @@ function reducer(state, action) {
       return st;
     case TYPES.DEL_ITEM:
       if (payload.options) {
-        st.activeData.forEach((data) => {
+        st.cartData.forEach((data) => {
           data.food_list.forEach((item) => {
             if (item.name === payload.name) {
               delete item.choices;
@@ -178,7 +178,7 @@ function reducer(state, action) {
             item.options.option_name === payload.options.option_name
         );
       } else if (payload.options === undefined && payload.choices) {
-        st.activeData.forEach((data) => {
+        st.cartData.forEach((data) => {
           data.food_list.forEach((item) => {
             if (item.name === payload.name) {
               delete item.choices;

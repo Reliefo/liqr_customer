@@ -35,7 +35,7 @@ const Home = (props) => {
     state: {
       homeItems,
       rawData: { food_menu = [] },
-      activeData,
+      cartData,
       restName,
       restAddress,
       restImages,
@@ -43,6 +43,7 @@ const Home = (props) => {
       cart,
       searchClicked,
       orderingAbility,
+      restId,
     },
   } = React.useContext(StoreContext);
 
@@ -246,18 +247,47 @@ const Home = (props) => {
         payload: resp.display_order_buttons,
       });
       dispatch({ type: TYPES.ADD_DATA, payload: resp });
-      dispatch({ type: TYPES.UPDATE_REST_ID, payload: resp._id.$oid });
-      dispatch({ type: TYPES.ADD_SELECT_DATA, payload: resp.food_menu });
+      dispatch({ type: TYPES.UPDATE_REST_ID, payload: resp.restaurant_id});
+      // dispatch({ type: TYPES.UPDATE_REST_ID, payload: resp._id.$oid });
+      dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: resp.food_menu });
 
+
+/////THEMEING //////
       // if CAFE_MEDLEY:
+    if (resp.restaurant_id === "BNGKOR004") {
       document.documentElement.style.setProperty("--theme-font", "Inconsolata");
-      document.documentElement.style.setProperty("--first-color", "#d6c333");
-      document.documentElement.style.setProperty("--second-color", "#d1a926");
+      document.documentElement.style.setProperty("--first-background-color", "#d6c333");
+      document.documentElement.style.setProperty("--second-background-color", "#d1a926");
+      document.documentElement.style.setProperty("--first-menu-background-color", "#d6c333");
+      document.documentElement.style.setProperty("--second-menu-background-color", "#d1a926");
       document.documentElement.style.setProperty("--first-light-color", "#ffe83d");
       document.documentElement.style.setProperty("--second-light-color", "#ffcf31");
+      document.documentElement.style.setProperty("--first-pattern-light-color", "#ffe83d");
+      document.documentElement.style.setProperty("--second-pattern-light-color", "#ffcf31");
       document.documentElement.style.setProperty("--food-card-color", "#faee4a");
       document.documentElement.style.setProperty("--welcome-card-color", "#4f3e2c");
       document.documentElement.style.setProperty("--welcome-card-text-color", "#ffffff");
+      document.documentElement.style.setProperty("--food-menu-button-color", "#ffcf31");
+      document.documentElement.style.setProperty("--add-button-color", "#4f3e2c");
+      //Nav Bar//
+      document.documentElement.style.setProperty("--top-bar-color", "#ffcf31");
+      document.documentElement.style.setProperty("--search-background-color", "#ffe83d");
+      document.documentElement.style.setProperty("--burger-menu-background-color", "#a89214");
+      //Footer//
+      document.documentElement.style.setProperty("--first-footer-color", "#ffe83d");
+      document.documentElement.style.setProperty("--second-footer-color", "#ffcf31");
+      document.documentElement.style.setProperty("--categories-button-color", "#ffcf31");
+      document.documentElement.style.setProperty("--categories-list-item-color", "#ffcf31");
+    }
+    else {
+      //Nav Bar//
+      document.documentElement.style.setProperty("--top-bar-color", "#ffb023");
+      document.documentElement.style.setProperty("--search-background-color", "#ffc45c");
+      document.documentElement.style.setProperty("--burger-menu-background-color", "#c0841d");
+
+    }
+/////THEMEING //////
+
 
       let justBarItems = [];
       let justFoodItems = [];
@@ -286,7 +316,7 @@ const Home = (props) => {
     item["options"] = item.food_option;
     dispatch({ type: TYPES.ADD_ITEM, payload: item }); //dispatcing the whole item
 
-    activeData.forEach((item2, index3) => {
+    cartData.forEach((item2, index3) => {
       if (index3 === subsIndex) {
         item2.food_list.forEach((item3, idx2) => {
           if (idx2 === index) {
@@ -297,11 +327,11 @@ const Home = (props) => {
         });
       }
     });
-    dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
+    dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
   };
 
   const setIndex = (foodItem, index, subsIndex) => {
-    activeData.forEach((item, index3) => {
+    cartData.forEach((item, index3) => {
       if (index3 === subsIndex) {
         item.food_list.forEach((item1, idx2) => {
           if (idx2 === index) {
@@ -310,11 +340,11 @@ const Home = (props) => {
         });
       }
     });
-    dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
+    dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
   };
 
   const closePopUp = (foodItem, index, subsIndex) => {
-    activeData.forEach((item, index3) => {
+    cartData.forEach((item, index3) => {
       if (index3 === subsIndex) {
         item.food_list.forEach((item1, idx2) => {
           if (idx2 === index) {
@@ -324,11 +354,11 @@ const Home = (props) => {
         });
       }
     });
-    dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
+    dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
   };
 
   const showOptions = (foodItem, index, subsIndex) => {
-    activeData.forEach((item, index3) => {
+    cartData.forEach((item, index3) => {
       if (index3 === subsIndex) {
         item.food_list.forEach((item1, idx2) => {
           if (idx2 === index) {
@@ -337,7 +367,7 @@ const Home = (props) => {
         });
       }
     });
-    dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
+    dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
   };
 
   const handleClose = () => setState({ showData: false });
@@ -409,7 +439,7 @@ const Home = (props) => {
             </Carousel>
             <Card className="welcome-card-carousel">
               {restLogo == undefined ? (
-                <Card.Title className="welcome-card-home welcome-card-text">
+                <Card.Title className="welcome-card-home welcome-card-title">
                   {" "}
                   Welcome to {restName}
                 </Card.Title>
@@ -419,8 +449,6 @@ const Home = (props) => {
               <Card.Body className="welcome-card-text">
                 {restAddress}
               </Card.Body>
-            </Card>
-          </div>
           <Link to="/menu" className="styled-link">
             <Card className="full-menu-button-div">
               <div>
@@ -430,6 +458,8 @@ const Home = (props) => {
               </div>
             </Card>
           </Link>
+            </Card>
+          </div>
           <div className="rest-of-home-screen">
             {Object.entries(homeItems).map((data, idx) => {
               if (idx === 0) {
@@ -447,7 +477,7 @@ const Home = (props) => {
                               props.history.push("/submenu", {
                                 data: item[1]["food_list"],
                                 sbx: index,
-                                foodMenu: activeData,
+                                foodMenu: cartData,
                                 subMenuName: item[0],
                               })
                             }
@@ -488,7 +518,7 @@ const Home = (props) => {
                           props.history.push("/submenu", {
                             data: data[1]["food_list"],
                             sbx: idx,
-                            foodMenu: activeData,
+                            foodMenu: cartData,
                             subMenuName: data[0],
                           })
                         }
@@ -501,14 +531,14 @@ const Home = (props) => {
                         (item, index) => {
                           if (typeof item === "object") {
                           }
-                          return Object.values(activeData).map((food, idx) => {
+                          return Object.values(cartData).map((food, idx) => {
                             return Object.values(food.food_list).map(
                               (list, ix) => {
                                 if (list._id.$oid === item) {
                                   return (
                                     <div id="card-home-screen">
                                       <HomeFoodItem
-                                        stateData={activeData}
+                                        stateData={cartData}
                                         foodItem={list}
                                         subs={food}
                                         subsIndex={idx}

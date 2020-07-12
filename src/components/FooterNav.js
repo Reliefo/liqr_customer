@@ -19,7 +19,7 @@ import { ReactComponent as TissueSVG } from "assets/tissue.svg";
 import { ReactComponent as DoubleArrow } from "assets/double-arrow.svg";
 import * as TYPES from "Store/actionTypes.js";
 import AnchorLink from "react-anchor-link-smooth-scroll";
-import "./FooterNav.css"
+import "./FooterNav.css";
 const FooterNav = (props) => {
   //$rest-font
   const rest_font = "Inconsolata";
@@ -30,7 +30,7 @@ const FooterNav = (props) => {
       cart,
       fabClick,
       menuClick,
-      activeData,
+      cartData,
       orderingAbility,
       displayOrderButtons,
       placeOrderById,
@@ -54,9 +54,34 @@ const FooterNav = (props) => {
       });
     });
 
+    /////THEMEING //////
     // if CAFE_MEDLEY:
-    document.documentElement.style.setProperty("--first-footer-color", "#ffe83d");
-    document.documentElement.style.setProperty("--second-footer-color", "#ffcf31");
+    // document.documentElement.style.setProperty("--theme-font", "Inconsolata");
+    // document.documentElement.style.setProperty(
+    //   "--first-footer-color",
+    //   "#ffe83d"
+    // );
+    // document.documentElement.style.setProperty(
+    //   "--second-footer-color",
+    //   "#ffcf31"
+    // );
+    // document.documentElement.style.setProperty(
+    //   "--first-goto-footer-color",
+    //   "#ffe83d"
+    // );
+    // document.documentElement.style.setProperty(
+    //   "--second-goto-footer-color",
+    //   "#ffcf31"
+    // );
+    // document.documentElement.style.setProperty(
+    //   "--categories-button-color",
+    //   "#ffcf31"
+    // );
+    // document.documentElement.style.setProperty(
+    //   "--categories-list-item-color",
+    //   "#ffcf31"
+    // );
+    /////THEMEING //////
   }, [props, props.socket, props.location, dispatch]);
 
   const divClasses = (name) => disablingOrdering(name) + " " + fillDiv(name);
@@ -134,7 +159,9 @@ const FooterNav = (props) => {
   };
 
   const footerDiv =
-    activeNav === "Home" ? "footer-nav footer-color custom-home-nav" : "footer-nav footer-color";
+    activeNav === "Home"
+      ? "footer-nav footer-theme custom-home-nav"
+      : "footer-nav footer-theme";
 
   return (
     <>
@@ -164,11 +191,11 @@ const FooterNav = (props) => {
               // color: "black",
               //   display: "block",
               // }}
-              className="footer-nav footer-color go-to-cart-footer"
+              className="footer-nav footer-theme go-to-cart-footer"
             >
               {activeNav === "Menu" && (
-                <div className="floating-container-menu">
-                  <div className="menu-button-footer" onClick={MenuClick}>
+                <div className="floating-container-menu" onClick={MenuClick}>
+                  <div className="menu-button-footer">
                     <span>Categories</span>
                   </div>
                 </div>
@@ -176,11 +203,8 @@ const FooterNav = (props) => {
               <div className="floating-menu-div">
                 {menuClick && (
                   <div className="floating-container-menu-items">
-                    <div
-                      className="floating-container menu-button"
-                      style={{ marginBottom: "2.5rem" }}
-                    >
-                      {activeData.map((item, idx) => {
+                    <div className="floating-container menu-button">
+                      {cartData.map((item, idx) => {
                         return (
                           <div
                             class="floating-menu-items"
@@ -212,25 +236,46 @@ const FooterNav = (props) => {
                 {fabClick && (
                   <div className="floating-container">
                     <div className="floating-menu">
-                      <div onClick={() => sendAssistance("water")}>
+                      <div
+                        className="floating-assistance"
+                        onClick={() => sendAssistance("water")}
+                      >
                         Ask for Water
                       </div>
-                      <div onClick={() => sendAssistance("help")}>
+                      <div
+                        className="floating-assistance"
+                        onClick={() => sendAssistance("help")}
+                      >
                         Call for Assistance
                       </div>
-                      <div onClick={() => sendAssistance("cutlery")}>
+                      <div
+                        className="floating-assistance"
+                        onClick={() => sendAssistance("cutlery")}
+                      >
                         Call for Cutlery
                       </div>
-                      <div onClick={() => sendAssistance("tissue")}>
+                      <div
+                        className="floating-assistance"
+                        onClick={() => sendAssistance("tissue")}
+                      >
                         Ask for Tissue
                       </div>
-                      <div onClick={() => sendAssistance("cleaning")}>
+                      <div
+                        className="floating-assistance"
+                        onClick={() => sendAssistance("cleaning")}
+                      >
                         Ask for Cleaning
                       </div>
-                      <div onClick={() => sendAssistance("menu")}>
+                      <div
+                        className="floating-assistance"
+                        onClick={() => sendAssistance("menu")}
+                      >
                         Ask for Physical Menu
                       </div>
-                      <div onClick={() => sendAssistance("ketchup")}>
+                      <div
+                        className="floating-assistance"
+                        onClick={() => sendAssistance("ketchup")}
+                      >
                         Ask for Ketchup
                       </div>
                     </div>
@@ -263,11 +308,8 @@ const FooterNav = (props) => {
               )}
               {menuClick && (
                 <div className="floating-container-menu-items">
-                  <div
-                    className="floating-container menu-button"
-                    style={{ marginBottom: "2.5rem" }}
-                  >
-                    {activeData.map((item, idx) => {
+                  <div className="floating-container menu-button">
+                    {cartData.map((item, idx) => {
                       return (
                         <div
                           class="floating-menu-items"
@@ -298,25 +340,46 @@ const FooterNav = (props) => {
                 {fabClick && (
                   <div className="floating-container">
                     <div className="floating-menu">
-                      <div onClick={() => sendAssistance("water")}>
+                      <div
+                        className="floating-assistance"
+                        onClick={() => sendAssistance("water")}
+                      >
                         Ask for Water
                       </div>
-                      <div onClick={() => sendAssistance("help")}>
+                      <div
+                        className="floating-assistance"
+                        onClick={() => sendAssistance("help")}
+                      >
                         Call for Assistance
                       </div>
-                      <div onClick={() => sendAssistance("cutlery")}>
+                      <div
+                        className="floating-assistance"
+                        onClick={() => sendAssistance("cutlery")}
+                      >
                         Call for Cutlery
                       </div>
-                      <div onClick={() => sendAssistance("tissue")}>
+                      <div
+                        className="floating-assistance"
+                        onClick={() => sendAssistance("tissue")}
+                      >
                         Ask for Tissue
                       </div>
-                      <div onClick={() => sendAssistance("cleaning")}>
+                      <div
+                        className="floating-assistance"
+                        onClick={() => sendAssistance("cleaning")}
+                      >
                         Ask for Cleaning
                       </div>
-                      <div onClick={() => sendAssistance("menu")}>
+                      <div
+                        className="floating-assistance"
+                        onClick={() => sendAssistance("menu")}
+                      >
                         Ask for Physical Menu
                       </div>
-                      <div onClick={() => sendAssistance("ketchup")}>
+                      <div
+                        className="floating-assistance"
+                        onClick={() => sendAssistance("ketchup")}
+                      >
                         Ask for Ketchup
                       </div>
                     </div>
