@@ -1,7 +1,6 @@
 import React from "react";
 import { slide as Menu } from "react-burger-menu";
 import location from "../assets/location.png";
-import { ReactComponent as SearchSVG } from "assets/searchIcon.svg";
 import login from "../assets/login.png";
 import notifications from "../assets/notifications.png";
 import SocketContext from "../socket-context";
@@ -11,48 +10,48 @@ import tableChange from "../assets/tableChange.png";
 import * as TYPES from "Store/actionTypes.js";
 import { StoreContext } from "Store";
 import "./NavBar.css";
-import classnames from "classnames";
 import Search from "../Pages/Search.js";
 import { Container, Row, Col } from "react-bootstrap";
 import Burger from "react-css-burger";
 
 const Navbar = (props) => {
-  const [showCollapse, setShowCollapse] = React.useState(false);
-  const [prevScrollpos, setPrevScrollpos] = React.useState(window.pageYOffset);
+  // const [prevScrollpos, setPrevScrollpos] = React.useState(window.pageYOffset);
   const [visible, setVisible] = React.useState(false);
-  const sideDrawerInner = React.useRef();
-  const menuRef = React.useRef();
-  const inputNode = React.useRef();
-  const Logo =
-    "https://liqr-restaurants.s3.ap-south-1.amazonaws.com/liqr_logo.jpg";
   const {
     dispatch,
     state: {
-      searchClicked,
-      searchValue,
-      rawData: { name },
+      // rawData: { name },
       tableName,
       restId,
+      themeProperties
     },
   } = React.useContext(StoreContext);
 
-  const searchValueChange = ({ target: { value } }) => {
-    dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: value } });
-  };
+  // const searchValueChange = ({ target: { value } }) => {
+  //   dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: value } });
+  // };
 
   React.useEffect(() => {
     dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
     dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
 
     /////THEMEING //////
-    console.log("REST ID");
-    console.log(restId);
-    if (restId === "BNGKOR004") {
-      document.documentElement.style.setProperty("--theme-font", "Inconsolata");
-      //Nav Bar//
-      document.documentElement.style.setProperty("--top-bar-color", "#ffcf31");
-      document.documentElement.style.setProperty("--search-background-color", "#ffe83d");
-      document.documentElement.style.setProperty("--burger-menu-background-color", "#a89214");
+    if (themeProperties['theme'] === true) {
+      let cssVariables = [
+        '--theme-font', 
+        '--top-bar-color', 
+        '--search-background-color', 
+        '--burger-menu-background-color'
+      ];
+      cssVariables.map((item, key) => {
+        // console.log(item,key);
+        document.documentElement.style.setProperty(item, themeProperties['variables'][item]);
+      });
+      // document.documentElement.style.setProperty("--theme-font", "Inconsolata");
+      // //Nav Bar//
+      // document.documentElement.style.setProperty("--top-bar-color", "#ffcf31");
+      // document.documentElement.style.setProperty("--search-background-color", "#ffe83d");
+      // document.documentElement.style.setProperty("--burger-menu-background-color", "#a89214");
 
       //Home Screen//
       // document.documentElement.style.setProperty("--first-background-color", "#d6c333");
@@ -80,21 +79,21 @@ const Navbar = (props) => {
 /////THEMEING //////
 
 
-  }, []);
+  }, [ dispatch, restId, themeProperties ]);
 
-  const searchIconClick = () => {
-    inputNode.current.focus();
-    dispatch({
-      type: TYPES.SET_GENERAL_DATA,
-      payload: { searchClicked: true },
-    });
-  };
-  const closeSearchHndlr = () => {
-    dispatch({
-      type: TYPES.SET_GENERAL_DATA,
-      payload: { searchClicked: false },
-    });
-  };
+  // const searchIconClick = () => {
+  //   inputNode.current.focus();
+  //   dispatch({
+  //     type: TYPES.SET_GENERAL_DATA,
+  //     payload: { searchClicked: true },
+  //   });
+  // };
+  // const closeSearchHndlr = () => {
+  //   dispatch({
+  //     type: TYPES.SET_GENERAL_DATA,
+  //     payload: { searchClicked: false },
+  //   });
+  // };
 
   const logoutUser = () => {
     localStorage.removeItem("table_id");
@@ -109,14 +108,14 @@ const Navbar = (props) => {
   };
 
   // Hide or show the menu.
-  const handleScroll = () => {
-    const currentScrollPos = window.pageYOffset;
-    const visible = prevScrollpos > currentScrollPos;
-    console.log(window.pageYOffset);
-    console.log(prevScrollpos);
-    setPrevScrollpos(currentScrollPos);
-    setVisible(visible);
-  };
+  // const handleScroll = () => {
+  //   const currentScrollPos = window.pageYOffset;
+  //   const visible = prevScrollpos > currentScrollPos;
+  //   console.log(window.pageYOffset);
+  //   console.log(prevScrollpos);
+  //   setPrevScrollpos(currentScrollPos);
+  //   setVisible(visible);
+  // };
   // window.addEventListener("scroll", handleScroll);
 
   // React.useEffect(() => window.addEventListener("scroll", handleScroll));

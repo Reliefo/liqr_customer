@@ -1,12 +1,10 @@
 /* eslint-disable no-unused-expressions */
+/* eslint-disable */
 import React from "react";
 import { StoreContext } from "Store";
-import { Card, Accordion, Button } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import SocketContext from "../socket-context";
 import SearchFoodItems from "components/SearchFoodItems.js";
-import { ReactComponent as FoodSVG } from "assets/food.svg";
-import { ReactComponent as FlatSVG } from "assets/Flat.svg";
-import { ReactComponent as UiSVG } from "assets/ui.svg";
 
 import * as TYPES from "Store/actionTypes.js";
 
@@ -14,20 +12,34 @@ const PreviousVisits = props => {
   const {
     dispatch,
     state: {
-      rawData: { food_menu = [] },
+      // rawData: { food_menu = [] },
       searchClicked,
-      tableUsers,
       restId,
-      dineHistory
+      dineHistory,
+      themeProperties,
     }
   } = React.useContext(StoreContext);
-  let id = "";
   React.useEffect(() => {
     dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: "" } });
     dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
     dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
     console.log("Previous Visits screen");
     //handling refresh issue
+    /////THEMEING //////
+    if (themeProperties['theme'] === true) {
+      let cssVariables = [
+        '--theme-font', 
+        '--first-menu-background-color', 
+        '--second-menu-background-color', 
+        '--first-pattern-light-color', 
+        '--second-pattern-light-color', 
+      ];
+      cssVariables.map((item, key) => {
+        // console.log(item,key);
+        document.documentElement.style.setProperty(item, themeProperties['variables'][item]);
+      });
+    }
+    /////THEMEING //////
     dispatch({
       type: TYPES.SET_GENERAL_DATA,
       payload: { searchClicked: false }
@@ -65,10 +77,11 @@ const PreviousVisits = props => {
             dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
             dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
           }}
-          style={{ backgroundColor: "white" }}
+          className="default-screen"
         >
           <div className="order-status-styling">
             {dineHistory.map((item, idx) => {
+              console.log(item);
               if (item.restaurant_id === restId) {
                 let sum = 0;
                 let orderTime = item.timestamp.split(" ");

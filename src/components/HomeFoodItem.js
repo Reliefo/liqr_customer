@@ -1,12 +1,11 @@
+/* eslint-disable */
 import React from "react";
 import PlusWithAddRemove from "components/PlusWithAddRemove";
 import AddRemoveItem from "components/AddRemoveItem.js";
-import { Card, Accordion, Modal, Button, Form } from "react-bootstrap";
-import sampleImage from "../assets/300.png";
+import { Card, Modal, Button} from "react-bootstrap";
 import * as TYPES from "Store/actionTypes.js";
 import { StoreContext } from "Store";
 import "./HomeFoodItem.css";
-import classnames from "classnames";
 import { uniqBy } from "lodash";
 
 const HomeFoodItem = ({
@@ -22,16 +21,16 @@ const HomeFoodItem = ({
   const {
     dispatch,
     state: {
-      rawData: { food_menu = [], bar_menu = [] },
+      // rawData: { food_menu = [], bar_menu = [] },
       cartData,
       addons,
       cart,
     },
   } = React.useContext(StoreContext);
 
-  const [state, setState] = React.useState({
-    food_item: cartData, //0: Personal cart, 1: Table cart
-  });
+  // const [state, setState] = React.useState({
+  //   food_item: cartData, //0: Personal cart, 1: Table cart
+  // });
 
   const [show, setShow] = React.useState(false);
 
@@ -147,20 +146,20 @@ const HomeFoodItem = ({
   };
 
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  // const handleShow = () => setShow(true);
 
-  const setIndex = (foodItem, index, subsIndex) => {
-    cartData.forEach((item, index3) => {
-      if (index3 === subsIndex) {
-        item.food_list.forEach((item1, idx2) => {
-          if (idx2 === index) {
-            item1.open = !item1.open;
-          }
-        });
-      }
-    });
-    dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
-  };
+  // const setIndex = (foodItem, index, subsIndex) => {
+  //   cartData.forEach((item, index3) => {
+  //     if (index3 === subsIndex) {
+  //       item.food_list.forEach((item1, idx2) => {
+  //         if (idx2 === index) {
+  //           item1.open = !item1.open;
+  //         }
+  //       });
+  //     }
+  //   });
+  //   dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
+  // };
 
   const closePopUp = (foodItem, index, subsIndex) => {
     cartData.forEach((item, index3) => {
@@ -217,12 +216,12 @@ const HomeFoodItem = ({
     });
     dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
   };
-  let desc = foodItem.description
-    ? foodItem.description.substring(0, 40) + "..."
-    : "";
+  // let desc = foodItem.description
+  //   ? foodItem.description.substring(0, 40) + "..."
+  //   : "";
   let fullDesc = foodItem.description;
 
-  let visibility = foodItem.visibility;
+  // let visibility = foodItem.visibility;
 
   return (
     <Card id={foodItem.name} className="category-card home-screen-food-card">

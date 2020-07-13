@@ -1,25 +1,15 @@
+/* eslint-disable */
 import React from "react";
 import { StoreContext } from "Store";
 import {
   Card,
-  Accordion,
-  Button,
-  Modal,
-  FormGroup,
-  FormControl,
 } from "react-bootstrap";
-import LoaderButton from "../components/LoaderButton";
 import SocketContext from "../socket-context";
-import SearchFoodItems from "components/SearchFoodItems.js";
-import { ReactComponent as FoodSVG } from "assets/food.svg";
-import { ReactComponent as FlatSVG } from "assets/Flat.svg";
-import { ReactComponent as UiSVG } from "assets/ui.svg";
 import { ReactComponent as AmazonPay } from "assets/amazon.svg";
 import { ReactComponent as GooglePay } from "assets/google-pay.svg";
 import { ReactComponent as Paytm } from "assets/paytm.svg";
 import { ReactComponent as PayPal } from "assets/paypal.svg";
 import VisaMaster from "assets/visa2x.png";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import * as TYPES from "Store/actionTypes.js";
@@ -32,12 +22,10 @@ const PaymentOptions = (props) => {
 
   const {
     dispatch,
-    state: {
-      rawData: { food_menu = [] },
-      orderSuccess,
-      searchClicked,
-      tableUsers,
-    },
+    // state: {
+      // rawData: { food_menu = [] },
+      // orderSuccess,
+    // },
   } = React.useContext(StoreContext);
   React.useEffect(() => {
     dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: "" } });
@@ -72,29 +60,29 @@ const PaymentOptions = (props) => {
     });
   }, []);
 
-  const fetchSocketBill = (isTable) => {
-    const billBody = {
-      user_id: localStorage.getItem("user_id"),
-      table_id: localStorage.getItem("table_id"),
-      table_bill: isTable,
-    };
+  // const fetchSocketBill = (isTable) => {
+  //   const billBody = {
+  //     user_id: localStorage.getItem("user_id"),
+  //     table_id: localStorage.getItem("table_id"),
+  //     table_bill: isTable,
+  //   };
 
-    props.socket.emit("fetch_the_bill", JSON.stringify(billBody));
-  };
+  //   props.socket.emit("fetch_the_bill", JSON.stringify(billBody));
+  // };
 
-  const isEmpty = () => {
-    if (orderSuccess.length === 0) return true;
-  };
+  // const isEmpty = () => {
+  //   if (orderSuccess.length === 0) return true;
+  // };
 
-  const [state, setState] = React.useState({
-    promocode: "",
-  });
+  // const [state, setState] = React.useState({
+  //   promocode: "",
+  // });
 
-  const handleChange = (event) => {
-    setState({
-      [event.target.id]: event.target.value,
-    });
-  };
+  // const handleChange = (event) => {
+  //   setState({
+  //     [event.target.id]: event.target.value,
+  //   });
+  // };
 
   const sendAssistance = (name) => {
     const body = {

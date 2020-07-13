@@ -1,15 +1,14 @@
 import React from "react";
-import { Table as RBTable, Button, Collapse, Form } from "react-bootstrap";
-import { StoreContext } from "Store";
+import { Table as Collapse, Form } from "react-bootstrap";
 
 const CollapseDetails = props => {
   //$rest-font 
   const rest_font = 'Inconsolata';
 
-  const {
-    dispatch,
-    state: { cartData }
-  } = React.useContext(StoreContext);
+  // const {
+    // dispatch,
+    // state: { cartData }
+  // } = React.useContext(StoreContext);
 
   function handleChange(event) {
     props.item.instructions = event.target.value;

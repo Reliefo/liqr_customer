@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./App.scss";
-import ReactDOM from "react-dom";
 import { BrowserRouter, Route } from "react-router-dom";
 import axios from "axios";
 import Home from "./Pages/Home";
@@ -8,7 +7,7 @@ import Coupons from "./Pages/Coupons";
 import PaymentOptions from "./Pages/PaymentOptions";
 import SubMenu from "./Pages/SubMenu";
 import Menu from "./Pages/Menu";
-import JM from "./Pages/jm";
+// import JM from "./Pages/jm";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import Cart from "./Pages/Cart";
@@ -23,9 +22,7 @@ import "./components/Login.css";
 import { Store } from "Store";
 import NavBar from "components/NavBar";
 import FooterNav from "components/FooterNav";
-import * as TYPES from "Store/actionTypes.js";
 import SocketContext from "./socket-context";
-import { StoreContext } from "Store";
 import io from "socket.io-client";
 
 export default function AppWrapper() {
@@ -38,7 +35,7 @@ export default function AppWrapper() {
       },
     },
   });
-
+  console.disableYellowBox = true;
   axios({
     method: "post",
     headers: {
@@ -84,7 +81,7 @@ export default function AppWrapper() {
             exact
           />
           <Route path="/cart" render={(props) => <Cart {...props} />} exact />
-          <Route path="/jm" render={(props) => <JM {...props} />} exact />
+          {/* <Route path="/jm" render={(props) => <JM {...props} />} exact /> */}
           <Route
             path="/visits"
             render={(props) => <Visits {...props} />}

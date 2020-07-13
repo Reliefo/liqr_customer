@@ -3,16 +3,14 @@ import { StoreContext } from "Store";
 import { ReactComponent as SearchSVG } from "assets/searchIcon.svg";
 import { ReactComponent as CloseSearchSVG } from "assets/closeSearch.svg";
 import * as TYPES from "Store/actionTypes.js";
-import { Link, withRouter, useLocation } from "react-router-dom";
-import SearchFoodItems from "components/SearchFoodItems.js";
+import { withRouter, useLocation } from "react-router-dom";
 const Search = (props) => {
   const {
     dispatch,
     state: {
-      rawData: { food_menu = [], bar_menu = [] },
+      // rawData: { food_menu = [], bar_menu = [] },
       searchClicked,
       searchValue,
-      cartData,
     },
   } = React.useContext(StoreContext);
 
@@ -29,7 +27,7 @@ const Search = (props) => {
       props.history.push("/searchItems");
     }
     //handling refresh issue
-  }, []);
+  }, [ props.history, searchClicked ]);
 
   const searchValueChange = ({ target: { value } }) => {
     props.history.push("/searchItems");
@@ -63,7 +61,7 @@ const Search = (props) => {
 
   const closeButtonClick = () => {
     console.log(currentLocation);
-    if (currentLocation == "/searchItems"){
+    if (currentLocation === "/searchItems"){
       props.history.goBack();
       console.log('asdf');
       setState({closeSearch: false });
@@ -85,14 +83,14 @@ const Search = (props) => {
   return (
     <>
       <div>
-        <div class="form-group col-md-4">
-          <div class="form-group has-feedback" style={{ marginTop: "-1.2rem", marginBottom:"0px"}}>
-            <label class="control-label" for="inputValidation"></label>
+        <div className="form-group col-md-4">
+          <div className="form-group has-feedback" style={{ marginTop: "-1.2rem", marginBottom:"0px"}}>
+            <label className="control-label" htmlFor="inputValidation"></label>
             <input
               type="text"
-              class="form-control search-bar"
+              className="form-control search-bar"
               ref={inputNode}
-              autocomplete="off"
+              autoComplete="off"
               value={searchValue}
               onChange={searchValueChange}
               onFocus={searchValueChange}

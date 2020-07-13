@@ -2,10 +2,7 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import { FormGroup, FormControl, Button } from "react-bootstrap";
 import LoaderButton from "./LoaderButton";
-import { StoreContext } from "Store";
 import axios from "axios";
-import { Auth } from "aws-amplify";
-import * as TYPES from "Store/actionTypes.js";
 import AppWrapper from "../App";
 import { v4 as uuidv4 } from "uuid";
 
@@ -14,7 +11,7 @@ export default class Login extends Component {
     super(props);
 
     this.state = {
-      isLoading: false,
+      isloading: false,
       email: "",
       password: "",
       errorMessage: ""
@@ -98,7 +95,6 @@ export default class Login extends Component {
 
   skipSignIn = async event => {
     event.preventDefault();
-    let jwt = "";
     let parm = window.location.href;
     parm = parm.split("=");
     let table_id =
@@ -151,7 +147,7 @@ export default class Login extends Component {
   handleSubmit = async event => {
     event.preventDefault();
     try {
-      this.setState({ isLoading: true });
+      this.setState({ isloading: true });
 
       let parm = window.location.href;
       parm = parm.split("=");
@@ -216,7 +212,7 @@ export default class Login extends Component {
             });
           }
         });
-        this.setState({ isLoading: false });
+        this.setState({ isloading: false });
       }
     } catch (e) {
       alert(e.message);
@@ -225,7 +221,7 @@ export default class Login extends Component {
 
   // handleSubmit = async event => {
   //   event.preventDefault();
-  //   this.setState({ isLoading: true });
+  //   this.setState({ isloading: true });
   //   try {
   //     // await Auth.signIn(this.state.email, this.state.password);
 
@@ -233,7 +229,7 @@ export default class Login extends Component {
   //     Auth.signIn(this.state.email, this.state.password)
   //     .then(user => {
   //       console.log('NIDS---->', user);
-  //       this.setState({ isLoading: false });
+  //       this.setState({ isloading: false });
   //       const { history, location } = this.props;
   //       const { from } = location.state || {
   //         from: {
@@ -258,7 +254,7 @@ export default class Login extends Component {
       <div className="Login">
         <div className="sign-in">Sign In</div>
         <form>
-          <FormGroup controlId="email" bsSize="large">
+          <FormGroup controlId="email">
             <label className="sign-in-label">Email ID</label>
             <FormControl
               style={{
@@ -272,7 +268,7 @@ export default class Login extends Component {
               onChange={this.handleChange}
             />
           </FormGroup>
-          <FormGroup controlId="password" bsSize="large">
+          <FormGroup controlId="password">
             <label className="sign-in-label">Password</label>
             <FormControl
               style={{
@@ -292,11 +288,10 @@ export default class Login extends Component {
           )}
           <Button
             block
-            bsSize="large"
             onClick={this.handleSubmit}
-            isLoading={this.state.isLoading}
+            // isloading={this.state.isloading}
             className="sign-in-button"
-            loadingText="Logging in…"
+            loadingtext="Logging in…"
           >
             {localStorage.getItem("registeredUser") !== null ? (
               localStorage.getItem("registeredUser") === "true" ? (
@@ -313,10 +308,9 @@ export default class Login extends Component {
         <div>
           <LoaderButton
             block
-            bsSize="large"
             disabled={!this.validateForm()}
             type="submit"
-            isLoading={this.state.isLoading}
+            isloading={this.state.isloading}
             text="Google"
             style={{
               marginRight: "10%",
@@ -324,20 +318,19 @@ export default class Login extends Component {
               width: "45%"
             }}
             className="sign-in-google"
-            loadingText="Logging in…"
+            loadingtext="Logging in…"
           />
           <LoaderButton
             block
-            bsSize="large"
             disabled={!this.validateForm()}
             type="submit"
             style={{
               width: "45%"
             }}
-            isLoading={this.state.isLoading}
+            isloading={this.state.isloading}
             text="Facebook"
             className="sign-in-facebook"
-            loadingText="Logging in…"
+            loadingtext="Logging in…"
           />
         </div>
         <div className="sign-in-member">
@@ -354,9 +347,8 @@ export default class Login extends Component {
         </div>
         <Button
           block
-          bsSize="large"
           style={{ marginTop: "5%" }}
-          isLoading={this.state.isLoading}
+          // isloading={this.state.isloading}
           text="Skip Sign In"
           onClick={this.skipSignIn}
           className="sign-in-button"

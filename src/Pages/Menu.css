@@ -139,12 +139,13 @@
   margin-right: 0.5rem;
   /* background-color:#f8f9fa; */
   /* background-color:#f0efef; */
+  background-color: var(--food-card-color);
 }
 .category-card:first-child {
   font-size: 1rem;
   font-weight: 600;
   padding: 0.5rem;
-  background-color: var(--food-card-color);
+  /* background-color: var(--food-card-color); */
 }
 p.category-card {
   margin: 0;

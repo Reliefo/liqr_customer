@@ -4,7 +4,6 @@ function reducer(state, action) {
   let st = { ...state };
   const { payload } = action;
   let idx;
-  let idx1;
   switch (action.type) {
     case TYPES.UPDATE_HOME_ITEMS:
       st.homeItems = payload;
@@ -252,6 +251,9 @@ function reducer(state, action) {
       return st;
     case TYPES.DISPLAY_ORDER_BUTTONS:
       st.displayOrderButtons = payload;
+      return st;
+    case TYPES.THEME_PROPERTIES:
+      st.themeProperties = payload;
       return st;
     default:
       return state;

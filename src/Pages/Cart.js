@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-expressions */
+// /* eslint-disable */
 import React from "react";
 import { Link } from "react-router-dom";
 import { Card, Row, Col, Form, Modal, Button } from "react-bootstrap";
@@ -25,7 +26,7 @@ import "./Cart.css"
 const Cart = (props) => {
   const {
     dispatch,
-    state: { cart, tableId, tableOrders, placeOrderById, searchClicked, orderingAbility, restId },
+    state: { cart, tableId, tableOrders, placeOrderById, searchClicked, orderingAbility, themeProperties, restId },
   } = React.useContext(StoreContext);
   //$rest-font
   const rest_font = "Inconsolata";
@@ -78,12 +79,23 @@ const Cart = (props) => {
 
 /////THEMEING //////
 
-    if (restId === "BNGKOR004") {
-    document.documentElement.style.setProperty("--theme-font", "Inconsolata");
-    document.documentElement.style.setProperty("--first-menu-background-color", "#d6c333");
-    document.documentElement.style.setProperty("--second-menu-background-color", "#d1a926");
-    document.documentElement.style.setProperty("--first-pattern-light-color", "#ffe83d");
-    document.documentElement.style.setProperty("--second-pattern-light-color", "#ffcf31");
+    if (themeProperties['theme'] === true) {
+      let cssVariables = [
+        '--theme-font', 
+        '--first-menu-background-color', 
+        '--second-menu-background-color', 
+        '--first-pattern-light-color', 
+        '--second-pattern-light-color', 
+      ];
+      cssVariables.map((item, key) => {
+        // console.log(item,key);
+        document.documentElement.style.setProperty(item, themeProperties['variables'][item]);
+      });
+    // document.documentElement.style.setProperty("--theme-font", "Inconsolata");
+    // document.documentElement.style.setProperty("--first-menu-background-color", "#d6c333");
+    // document.documentElement.style.setProperty("--second-menu-background-color", "#d1a926");
+    // document.documentElement.style.setProperty("--first-pattern-light-color", "#ffe83d");
+    // document.documentElement.style.setProperty("--second-pattern-light-color", "#ffcf31");
     }
 /////THEMEING //////
 

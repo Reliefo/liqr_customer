@@ -1,49 +1,34 @@
+/* eslint-disable */
 import React from "react";
 import {
   Card,
-  CardDeck,
-  Image,
-  Accordion,
   Modal,
   Button,
-  Form,
 } from "react-bootstrap";
-import ReactDOM from "react-dom";
-import axios from "axios";
-import sampleImage from "../assets/300.png";
-import sample from "../assets/sample.png";
-import PlusWithAddRemove from "components/PlusWithAddRemove";
-import Search from "./Search";
-import dummyPic from "assets/dummypic.jpeg";
-import HomeItem from "components/HomeItem";
 import { Carousel } from "react-bootstrap";
-import vodkaPic from "assets/vodka.jpg";
 import SearchFoodItems from "components/SearchFoodItems.js";
 import SocketContext from "../socket-context";
 import Slider from "react-slick";
 import { StoreContext } from "Store";
 import * as TYPES from "Store/actionTypes.js";
-import AppWrapper from "../App";
 import HomeFoodItem from "components/HomeFoodItem";
 import Loader from "./Loader";
 import "./Home.css";
-import { Link, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Home = (props) => {
   const {
     dispatch,
     state: {
       homeItems,
-      rawData: { food_menu = [] },
+      // rawData: { food_menu = [] },
       cartData,
       restName,
       restAddress,
       restImages,
       restLogo,
-      cart,
       searchClicked,
       orderingAbility,
-      restId,
     },
   } = React.useContext(StoreContext);
 
@@ -144,11 +129,10 @@ const Home = (props) => {
     subMenu: [], //0: Personal cart, 1: Table cart
     showData: true,
     imageLinks: {},
-    isLoading: true,
+    isloading: true,
   });
 
   React.useEffect(() => {
-    console.log("home screen");
     dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
     dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
     dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: "" } });
@@ -202,7 +186,6 @@ const Home = (props) => {
     props.socket.emit("fetch_rest_customer", JSON.stringify(body));
 
     props.socket.off("user_details").on("user_details", (msg) => {
-      console.log("USER DETAILS--->", JSON.parse(msg));
       const data = JSON.parse(msg);
       dispatch({
         type: TYPES.SET_DINE_HISTORY,
@@ -232,7 +215,6 @@ const Home = (props) => {
     });
     props.socket.off("restaurant_object").on("restaurant_object", (msg) => {
       const resp = JSON.parse(msg);
-      console.log(resp);
       dispatch({ type: TYPES.ADD_REST_IMAGES, payload: resp.home_page_images });
       dispatch({ type: TYPES.ADDONS, payload: resp.add_ons });
       dispatch({ type: TYPES.SET_RESTAURANT_NAME, payload: resp.name });
@@ -250,34 +232,64 @@ const Home = (props) => {
       dispatch({ type: TYPES.UPDATE_REST_ID, payload: resp.restaurant_id});
       // dispatch({ type: TYPES.UPDATE_REST_ID, payload: resp._id.$oid });
       dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: resp.food_menu });
+      dispatch({ type: TYPES.THEME_PROPERTIES, payload: resp.theme_properties });
 
 
 /////THEMEING //////
       // if CAFE_MEDLEY:
-    if (resp.restaurant_id === "BNGKOR004") {
-      document.documentElement.style.setProperty("--theme-font", "Inconsolata");
-      document.documentElement.style.setProperty("--first-background-color", "#d6c333");
-      document.documentElement.style.setProperty("--second-background-color", "#d1a926");
-      document.documentElement.style.setProperty("--first-menu-background-color", "#d6c333");
-      document.documentElement.style.setProperty("--second-menu-background-color", "#d1a926");
-      document.documentElement.style.setProperty("--first-light-color", "#ffe83d");
-      document.documentElement.style.setProperty("--second-light-color", "#ffcf31");
-      document.documentElement.style.setProperty("--first-pattern-light-color", "#ffe83d");
-      document.documentElement.style.setProperty("--second-pattern-light-color", "#ffcf31");
-      document.documentElement.style.setProperty("--food-card-color", "#faee4a");
-      document.documentElement.style.setProperty("--welcome-card-color", "#4f3e2c");
-      document.documentElement.style.setProperty("--welcome-card-text-color", "#ffffff");
-      document.documentElement.style.setProperty("--food-menu-button-color", "#ffcf31");
-      document.documentElement.style.setProperty("--add-button-color", "#4f3e2c");
-      //Nav Bar//
-      document.documentElement.style.setProperty("--top-bar-color", "#ffcf31");
-      document.documentElement.style.setProperty("--search-background-color", "#ffe83d");
-      document.documentElement.style.setProperty("--burger-menu-background-color", "#a89214");
-      //Footer//
-      document.documentElement.style.setProperty("--first-footer-color", "#ffe83d");
-      document.documentElement.style.setProperty("--second-footer-color", "#ffcf31");
-      document.documentElement.style.setProperty("--categories-button-color", "#ffcf31");
-      document.documentElement.style.setProperty("--categories-list-item-color", "#ffcf31");
+      console.log(resp.theme_properties['variables']);
+    if (resp.theme_properties['theme'] === true) {
+      let cssVariables = [
+        '--theme-font', 
+        '--first-background-color', 
+        '--second-background-color', 
+        '--first-menu-background-color', 
+        '--second-menu-background-color', 
+        '--first-light-color', 
+        '--second-light-color', 
+        '--first-pattern-light-color', 
+        '--second-pattern-light-color', 
+        '--food-card-color', 
+        '--welcome-card-color', 
+        '--welcome-card-text-color', 
+        '--food-menu-button-color', 
+        '--add-button-color', 
+        '--top-bar-color', 
+        '--search-background-color', 
+        '--burger-menu-background-color', 
+        '--first-footer-color', 
+        '--second-footer-color', 
+        '--categories-button-color', 
+        '--categories-list-item-color'
+      ]
+      cssVariables.map((item, key) => {
+        // console.log(item,key);
+        document.documentElement.style.setProperty(item, resp.theme_properties['variables'][item]);
+      }
+      );
+      // document.documentElement.style.setProperty("--theme-font", "Inconsolata");
+      // document.documentElement.style.setProperty("--first-background-color", "#d6c333");
+      // document.documentElement.style.setProperty("--second-background-color", "#d1a926");
+      // document.documentElement.style.setProperty("--first-menu-background-color", "#d6c333");
+      // document.documentElement.style.setProperty("--second-menu-background-color", "#d1a926");
+      // document.documentElement.style.setProperty("--first-light-color", "#ffe83d");
+      // document.documentElement.style.setProperty("--second-light-color", "#ffcf31");
+      // document.documentElement.style.setProperty("--first-pattern-light-color", "#ffe83d");
+      // document.documentElement.style.setProperty("--second-pattern-light-color", "#ffcf31");
+      // document.documentElement.style.setProperty("--food-card-color", "#faee4a");
+      // document.documentElement.style.setProperty("--welcome-card-color", "#4f3e2c");
+      // document.documentElement.style.setProperty("--welcome-card-text-color", "#ffffff");
+      // document.documentElement.style.setProperty("--food-menu-button-color", "#ffcf31");
+      // document.documentElement.style.setProperty("--add-button-color", "#4f3e2c");
+      // //Nav Bar//
+      // document.documentElement.style.setProperty("--top-bar-color", "#ffcf31");
+      // document.documentElement.style.setProperty("--search-background-color", "#ffe83d");
+      // document.documentElement.style.setProperty("--burger-menu-background-color", "#a89214");
+      // //Footer//
+      // document.documentElement.style.setProperty("--first-footer-color", "#ffe83d");
+      // document.documentElement.style.setProperty("--second-footer-color", "#ffcf31");
+      // document.documentElement.style.setProperty("--categories-button-color", "#ffcf31");
+      // document.documentElement.style.setProperty("--categories-list-item-color", "#ffcf31");
     }
     else {
       //Nav Bar//
@@ -286,12 +298,16 @@ const Home = (props) => {
       document.documentElement.style.setProperty("--top-bar-color", "#ffb023");
       document.documentElement.style.setProperty("--search-background-color", "#ffc45c");
       document.documentElement.style.setProperty("--burger-menu-background-color", "#c0841d");
+      //Footer//
+      document.documentElement.style.setProperty("--first-footer-color", "#ffb023");
+      document.documentElement.style.setProperty("--second-footer-color", "#ffb023");
+      document.documentElement.style.setProperty("--categories-button-color", "#ffffff");
+      document.documentElement.style.setProperty("--categories-list-item-color", "#4f3e2c");
 
     }
 /////THEMEING //////
 
 
-      let justBarItems = [];
       let justFoodItems = [];
 
       justFoodItems.push(resp.bar_menu);
@@ -304,76 +320,76 @@ const Home = (props) => {
 
     props.socket.off("home_screen_lists").on("home_screen_lists", (msg) => {
       dispatch({ type: TYPES.UPDATE_HOME_ITEMS, payload: JSON.parse(msg) });
-      setState({ isLoading: false });
+      setState({ isloading: false });
     });
   }, [props.socket, dispatch, props.location]);
 
-  const selectOption = (foodItem, item) => {
-    foodItem.food_option = item;
-  };
-  const addItem = (item, index, subsIndex) => {
-    if (item["options"] === undefined) {
-      item["options"] = {};
-    }
-    item["options"] = item.food_option;
-    dispatch({ type: TYPES.ADD_ITEM, payload: item }); //dispatcing the whole item
+  // const selectOption = (foodItem, item) => {
+  //   foodItem.food_option = item;
+  // };
+  // const addItem = (item, index, subsIndex) => {
+    // if (item["options"] === undefined) {
+    //   item["options"] = {};
+    // }
+    // item["options"] = item.food_option;
+    // dispatch({ type: TYPES.ADD_ITEM, payload: item }); //dispatcing the whole item
 
-    cartData.forEach((item2, index3) => {
-      if (index3 === subsIndex) {
-        item2.food_list.forEach((item3, idx2) => {
-          if (idx2 === index) {
-            item3.showPopup = false;
-            item3.showCustomize = false;
-            item3.showOptionsAgain = false;
-          }
-        });
-      }
-    });
-    dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
-  };
+  //   cartData.forEach((item2, index3) => {
+  //     if (index3 === subsIndex) {
+  //       item2.food_list.forEach((item3, idx2) => {
+  //         if (idx2 === index) {
+  //           item3.showPopup = false;
+  //           item3.showCustomize = false;
+  //           item3.showOptionsAgain = false;
+  //         }
+  //       });
+  //     }
+  //   });
+  //   dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
+  // };
 
-  const setIndex = (foodItem, index, subsIndex) => {
-    cartData.forEach((item, index3) => {
-      if (index3 === subsIndex) {
-        item.food_list.forEach((item1, idx2) => {
-          if (idx2 === index) {
-            item1.open = !item1.open;
-          }
-        });
-      }
-    });
-    dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
-  };
+  // const setIndex = (foodItem, index, subsIndex) => {
+  //   cartData.forEach((item, index3) => {
+  //     if (index3 === subsIndex) {
+  //       item.food_list.forEach((item1, idx2) => {
+  //         if (idx2 === index) {
+  //           item1.open = !item1.open;
+  //         }
+  //       });
+  //     }
+  //   });
+  //   dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
+  // };
 
-  const closePopUp = (foodItem, index, subsIndex) => {
-    cartData.forEach((item, index3) => {
-      if (index3 === subsIndex) {
-        item.food_list.forEach((item1, idx2) => {
-          if (idx2 === index) {
-            item1.showPopup = !item1.showPopup;
-            item1.showCustomize = false;
-          }
-        });
-      }
-    });
-    dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
-  };
+  // const closePopUp = (foodItem, index, subsIndex) => {
+  //   cartData.forEach((item, index3) => {
+  //     if (index3 === subsIndex) {
+  //       item.food_list.forEach((item1, idx2) => {
+  //         if (idx2 === index) {
+  //           item1.showPopup = !item1.showPopup;
+  //           item1.showCustomize = false;
+  //         }
+  //       });
+  //     }
+  //   });
+  //   dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
+  // };
 
-  const showOptions = (foodItem, index, subsIndex) => {
-    cartData.forEach((item, index3) => {
-      if (index3 === subsIndex) {
-        item.food_list.forEach((item1, idx2) => {
-          if (idx2 === index) {
-            item1.showOptionsAgain = true;
-          }
-        });
-      }
-    });
-    dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
-  };
+  // const showOptions = (foodItem, index, subsIndex) => {
+  //   cartData.forEach((item, index3) => {
+  //     if (index3 === subsIndex) {
+  //       item.food_list.forEach((item1, idx2) => {
+  //         if (idx2 === index) {
+  //           item1.showOptionsAgain = true;
+  //         }
+  //       });
+  //     }
+  //   });
+  //   dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
+  // };
 
   const handleClose = () => setState({ showData: false });
-  const handleShow = () => setState({ showData: true });
+  // const handleShow = () => setState({ showData: true });
 
   // console.log(state.imageLinks);
   // state.imageLinks.map((image,idx) => {
@@ -405,7 +421,7 @@ const Home = (props) => {
         </Modal>
       ) : searchClicked === true ? (
         <SearchFoodItems />
-      ) : state.isLoading === true ? (
+      ) : state.isloading === true ? (
         <Loader />
       ) : (
         <div
@@ -423,7 +439,7 @@ const Home = (props) => {
             >
               {Object.entries(restImages).map((data, idx) => {
                 return (
-                  <Carousel.Item>
+                  <Carousel.Item key={idx}>
                     <img
                       className="d-block w-100"
                       src={data[1]}
@@ -466,7 +482,7 @@ const Home = (props) => {
             {Object.entries(homeItems).map((data, idx) => {
               if (idx === 0) {
                 return (
-                  <div>
+                  <div key={idx}>
                     <span className="home-screen-headings">
                       {data[0]}
                     </span>

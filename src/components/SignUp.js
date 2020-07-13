@@ -10,7 +10,7 @@ export default class Signup extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: false,
+      isloading: false,
       email: "",
       name: "",
       password: "",
@@ -40,7 +40,7 @@ export default class Signup extends Component {
 
   handleSubmit = async event => {
     event.preventDefault();
-    this.setState({ isLoading: true });
+    this.setState({ isloading: true });
     const uniqueId = `${uuidv4().substring(0, 15)}`;
     let parm = window.location.href;
     parm = parm.split("=");
@@ -78,7 +78,7 @@ export default class Signup extends Component {
       ReactDOM.render(<AppWrapper />, document.getElementById("root"));
       this.props.history.push("/");
     });
-    this.setState({ isLoading: false });
+    this.setState({ isloading: false });
   };
 
   renderConfirmationForm() {
@@ -108,9 +108,9 @@ export default class Signup extends Component {
           bsSize="large"
           disabled={!this.validateConfirmationForm()}
           type="submit"
-          isLoading={this.state.isLoading}
+          isloading={this.state.isloading}
           text="Verify"
-          loadingText="Verifying…"
+          loadingtext="Verifying…"
         />
       </form>
     );
@@ -177,10 +177,10 @@ export default class Signup extends Component {
           bsSize="large"
           disabled={!this.validateForm()}
           type="submit"
-          isLoading={this.state.isLoading}
+          isloading={this.state.isloading}
           text="Sign Up"
           className="sign-in-button"
-          loadingText="Logging in…"
+          loadingtext="Logging in…"
         />
       </form>
     );

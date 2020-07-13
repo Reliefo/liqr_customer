@@ -1,19 +1,14 @@
+/* eslint-disable */
 import React from "react";
 import { StoreContext } from "Store";
-import { ReactComponent as SearchSVG } from "assets/searchIcon.svg";
 import smoothScroll from "smoothscroll";
-import ReactDOM from "react-dom";
-import AppWrapper from "../App";
-import axios from "axios";
-import Search from "./Search.js";
 import * as TYPES from "Store/actionTypes.js";
 import SocketContext from "../socket-context";
 import FoodItem from "components/FoodItem";
-import { InputGroup, FormControl, Modal, Button } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
 import SearchFoodItems from "components/SearchFoodItems.js";
 import classnames from "classnames";
 import "../components/NavBar.css";
-import AnchorLink from "react-anchor-link-smooth-scroll";
 import "./Menu.css";
 
 const Menu = (props) => {
@@ -26,8 +21,8 @@ const Menu = (props) => {
       searchClicked,
       cartData,
       orderingAbility,
-      menuClick,
       restId,
+      themeProperties,
     },
   } = React.useContext(StoreContext);
 
@@ -37,7 +32,7 @@ const Menu = (props) => {
   });
   const handleScroll = () => {
     const currentScrollPos = window.pageYOffset;
-    const visible = prevScrollpos > currentScrollPos;
+    // const visible = prevScrollpos > currentScrollPos;
     setPrevScrollpos((prevScrollpos) => currentScrollPos);
     // setVisible(visible);
   };
@@ -65,18 +60,19 @@ const Menu = (props) => {
 
 /////THEMEING //////
 
-    if (restId === "BNGKOR004") {
-      document.documentElement.style.setProperty("--theme-font", "Inconsolata");
-    document.documentElement.style.setProperty(
-      "--first-menu-background-color",
-      "#d6c333"
-    );
-    document.documentElement.style.setProperty(
-      "--second-menu-background-color",
-      "#d1a926"
-    );
-    document.documentElement.style.setProperty("--food-card-color", "#faee4a");
-    document.documentElement.style.setProperty("--add-button-color", "#4f3e2c");
+
+    if (themeProperties['theme'] === true) {
+      let cssVariables = [
+        '--theme-font', 
+        '--first-menu-background-color', 
+        '--second-menu-background-color', 
+        '--food-card-color', 
+        '--add-button-color', 
+      ];
+      cssVariables.map((item, key) => {
+        // console.log(item,key);
+        document.documentElement.style.setProperty(item, themeProperties['variables'][item]);
+      });
     }
     /////THEMEING //////
 
@@ -105,17 +101,17 @@ const Menu = (props) => {
     dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: type });
   };
   const handleClose = () => setState({ showData: false });
-  const handleShow = () => setState({ showData: true });
+  // const handleShow = () => setState({ showData: true });
   // console.log(cartData[0].food_list[1]);
   React.useEffect(() => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-  const closeMenu = () => {
-    dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
-    dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
-  };
+  // const closeMenu = () => {
+  //   dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
+  //   dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
+  // };
 
   return (
     <>
@@ -257,7 +253,7 @@ const SubCategory = ({ subs, categories, cartData, subOrderingAbility }) => (
       }}
     ></p>
     {subs.food_list.map((foodItem, idx3) => (
-      <div>
+      <div key={idx3}>
         {foodItem.visibility ? (
           <FoodItem
             stateData={cartData}

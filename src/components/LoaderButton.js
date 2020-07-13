@@ -3,17 +3,17 @@ import { Button } from "react-bootstrap";
 import "./LoaderButton.css";
 
 export default ({
-  isLoading,
+  isloading,
   text,
-  loadingText,
+  loadingtext,
   className = "",
   disabled = false,
   ...props
 }) =>
   <Button
     className={`LoaderButton ${className}`}
-    disabled={disabled || isLoading}
+    disabled={disabled || isloading}
     {...props}
   >
-    {!isLoading ? text : loadingText}
+    {!isloading ? text : loadingtext}
   </Button>;

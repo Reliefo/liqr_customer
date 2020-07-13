@@ -1,35 +1,32 @@
+/* eslint-disable */
 import React from "react";
 import PlusWithAddRemove from "components/PlusWithAddRemove";
 import AddRemoveItem from "components/AddRemoveItem.js";
-import { Card, Accordion, Modal, Button, Form } from "react-bootstrap";
-import sampleImage from "../assets/300.png";
+import { Card, Modal, Button } from "react-bootstrap";
 import * as TYPES from "Store/actionTypes.js";
 import { StoreContext } from "Store";
 import "./FoodItem.css";
 import { uniqBy } from "lodash";
 
 const FoodItem = ({
-  stateData,
   foodItem,
   index,
   subsIndex,
-  subs,
-  from,
   restOrderingAbility,
 }) => {
   const {
     dispatch,
     state: {
-      rawData: { food_menu = [], bar_menu = [] },
+      // rawData: { food_menu = [], bar_menu = [] },
       cartData,
       addons,
       cart,
     },
   } = React.useContext(StoreContext);
 
-  const [state, setState] = React.useState({
-    food_item: cartData, //0: Personal cart, 1: Table cart
-  });
+  // const [state, setState] = React.useState({
+  //   food_item: cartData, //0: Personal cart, 1: Table cart
+  // });
 
   const [show, setShow] = React.useState(false);
   const [choicesSelected, setChoicesSelected] = React.useState([]);
@@ -187,80 +184,80 @@ const FoodItem = ({
     }
   };
 
-  const addItem2 = (item, index, subsIndex) => {
-    if (!item.hasOwnProperty("currentCustomization")) {
-      item["currentCustomization"] = {};
-    }
+  // const addItem2 = (item, index, subsIndex) => {
+  //   if (!item.hasOwnProperty("currentCustomization")) {
+  //     item["currentCustomization"] = {};
+  //   }
 
-    item["customization"].forEach((custItem, custIdx) => {
-      if (item["currentCustomization"][custItem.name] === undefined) {
-        item["currentCustomization"][custItem.name] = [];
-      }
-    });
+  //   item["customization"].forEach((custItem, custIdx) => {
+  //     if (item["currentCustomization"][custItem.name] === undefined) {
+  //       item["currentCustomization"][custItem.name] = [];
+  //     }
+  //   });
 
-    let flag = false;
-    if (item.food_option !== undefined) {
-      item["options"] = item.food_option;
-      flag = true;
-    }
+  //   let flag = false;
+  //   if (item.food_option !== undefined) {
+  //     item["options"] = item.food_option;
+  //     flag = true;
+  //   }
 
-    if (item.choice !== undefined) {
-      item["choices"] = fetchSelectedChoices();
-      flag = true;
-    }
+  //   if (item.choice !== undefined) {
+  //     item["choices"] = fetchSelectedChoices();
+  //     flag = true;
+  //   }
 
-    if (item.addons !== undefined) {
-      item["addon"] = uniqBy(item.addons, (e) => {
-        return e.hasOwnProperty("_id") ? e._id.$oid : e;
-      });
-      flag = true;
-    }
+  //   if (item.addons !== undefined) {
+  //     item["addon"] = uniqBy(item.addons, (e) => {
+  //       return e.hasOwnProperty("_id") ? e._id.$oid : e;
+  //     });
+  //     flag = true;
+  //   }
 
-    console.log("NIDS--->", item);
-    console.log("NIDS--->", index);
-    console.log("NIDS--->", flag);
+  //   console.log("NIDS--->", item);
+  //   console.log("NIDS--->", index);
+  //   console.log("NIDS--->", flag);
 
-    if (flag === false) {
-      cartData.forEach((item2, index3) => {
-        console.log("inside", item2);
-        if (index3 === subsIndex) {
-          item2.food_list.forEach((item3, idx2) => {
-            if (idx2 === index) {
-              item3.showError = true;
-              delete item3.options;
-              delete item3.food_option;
-              delete item3.choice;
-              delete item3.choices;
-            }
-          });
-        }
-      });
-      dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
-    } else {
-      item["choices"] = fetchSelectedChoices();
-      item["options"] = item.food_option;
-      item["add_ons"] = uniqBy(item.addon, (e) => {
-        return e.hasOwnProperty("_id") ? e._id.$oid : e;
-      });
-      dispatch({ type: TYPES.ADD_ITEM, payload: item }); //dispatcing the whole item
+  //   if (flag === false) {
+  //     cartData.forEach((item2, index3) => {
+  //       console.log("inside", item2);
+  //       if (index3 === subsIndex) {
+  //         item2.food_list.forEach((item3, idx2) => {
+  //           if (idx2 === index) {
+  //             item3.showError = true;
+  //             delete item3.options;
+  //             delete item3.food_option;
+  //             delete item3.choice;
+  //             delete item3.choices;
+  //           }
+  //         });
+  //       }
+  //     });
+  //     dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
+  //   } else {
+  //     item["choices"] = fetchSelectedChoices();
+  //     item["options"] = item.food_option;
+  //     item["add_ons"] = uniqBy(item.addon, (e) => {
+  //       return e.hasOwnProperty("_id") ? e._id.$oid : e;
+  //     });
+  //     dispatch({ type: TYPES.ADD_ITEM, payload: item }); //dispatcing the whole item
 
-      cartData.forEach((item2, index3) => {
-        if (index3 === subsIndex) {
-          item2.food_list.forEach((item3, idx2) => {
-            if (idx2 === index) {
-              delete item3.showError;
-              item3.showPopup = false;
-              item3.showCustomize = false;
-              delete item3.food_option;
-              delete item3.choice;
-              item3.showOptionsAgain = false;
-            }
-          });
-        }
-      });
-      dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
-    }
-  };
+  //     cartData.forEach((item2, index3) => {
+  //       if (index3 === subsIndex) {
+  //         item2.food_list.forEach((item3, idx2) => {
+  //           if (idx2 === index) {
+  //             delete item3.showError;
+  //             item3.showPopup = false;
+  //             item3.showCustomize = false;
+  //             delete item3.food_option;
+  //             delete item3.choice;
+  //             item3.showOptionsAgain = false;
+  //           }
+  //         });
+  //       }
+  //     });
+  //     dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
+  //   }
+  // };
 
   const addItemDetails = (item, index, subsIndex) => {
     cartData.forEach((item2, index3) => {
@@ -279,20 +276,20 @@ const FoodItem = ({
   };
 
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  // const handleShow = () => setShow(true);
 
-  const setIndex = (foodItem, index, subsIndex) => {
-    cartData.forEach((item, index3) => {
-      if (index3 === subsIndex) {
-        item.food_list.forEach((item1, idx2) => {
-          if (idx2 === index) {
-            item1.open = !item1.open;
-          }
-        });
-      }
-    });
-    dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
-  };
+  // const setIndex = (foodItem, index, subsIndex) => {
+  //   cartData.forEach((item, index3) => {
+  //     if (index3 === subsIndex) {
+  //       item.food_list.forEach((item1, idx2) => {
+  //         if (idx2 === index) {
+  //           item1.open = !item1.open;
+  //         }
+  //       });
+  //     }
+  //   });
+  //   dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
+  // };
 
   const closePopUp = (foodItem, index, subsIndex) => {
     cartData.forEach((item, index3) => {
@@ -349,12 +346,12 @@ const FoodItem = ({
     });
     dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
   };
-  let desc = foodItem.description
-    ? foodItem.description.substring(0, 40) + "..."
-    : "";
+  // let desc = foodItem.description
+  //   ? foodItem.description.substring(0, 40) + "..."
+  //   : "";
   let fullDesc = foodItem.description;
 
-  let visibility = foodItem.visibility;
+  // let visibility = foodItem.visibility;
 
   // if (foodItem.customization.length > 0){
   //   console.log('true');

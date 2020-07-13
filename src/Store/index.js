@@ -1,12 +1,5 @@
 import React from "react";
-import ReactDOM from "react"
 import reducer from "./reducer.js";
-import axios from "axios";
-import * as TYPES from "./actionTypes";
-import { v4 as uuidv4 } from "uuid";
-import tempData from "json_with_class.json";
-import AppWrapper from "../App";
-import io from "socket.io-client";
 
 const initialState = {
   activeNav: "",
@@ -31,7 +24,8 @@ const initialState = {
   orderSuccess: [],
   orderStatus: [],
   cartData: {},
-  rawData: {}
+  rawData: {},
+  themeProperties: {}
 };
 
 const localState = JSON.parse(sessionStorage.getItem("relief"));

@@ -1,13 +1,11 @@
 import React from "react";
 import { StoreContext } from "Store";
-import Search from "../Pages/Search";
-import * as TYPES from "Store/actionTypes.js";
 import FoodItem from "components/FoodItem";
 
 const SearchFoodItems = () => {
   const {
-    dispatch,
-    state: { searchValue, justMenuItems, cartData, orderingAbility }
+    // dispatch,
+    state: { searchValue, justMenuItems, orderingAbility }
   } = React.useContext(StoreContext);
 
   return (

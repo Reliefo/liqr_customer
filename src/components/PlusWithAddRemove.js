@@ -1,7 +1,5 @@
 import React from "react";
 import AddRemoveItem from "components/AddRemoveItem.js";
-import { ReactComponent as PlusSVG } from "assets/plus.svg";
-import { Modal, Button } from "react-bootstrap";
 import { StoreContext } from "Store";
 import * as TYPES from "Store/actionTypes.js";
 
@@ -86,7 +84,7 @@ const PlusWithAddRemove = ({ item, idx, subs, from, fromhome, orderingAbility })
         itemName: item.name,
       }));
     }
-  }, []);
+  }, [ cart, item._id.$oid, item.foodOptions,item.name, item.quantity, item.showCustomize ]);
 
   //if count is 0, then we show plus button.
   React.useEffect(() => {
@@ -95,7 +93,7 @@ const PlusWithAddRemove = ({ item, idx, subs, from, fromhome, orderingAbility })
 
       dispatch({ type: TYPES.DEL_ITEM, payload: item });
     }
-  }, [state.quantity]);
+  }, [state.quantity, dispatch, item ]);
 
   /*For Internally */
   const decHndlr = () => {

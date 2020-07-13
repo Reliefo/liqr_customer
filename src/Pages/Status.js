@@ -1,13 +1,14 @@
+/* eslint-disable */
 import React from "react";
 import { StoreContext } from "Store";
-import { Card, Accordion, Button, Modal } from "react-bootstrap";
+import { Card, Button, Modal } from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
 import SocketContext from "../socket-context";
 import SearchFoodItems from "components/SearchFoodItems.js";
 import { ReactComponent as FoodSVG } from "assets/food.svg";
 import { ReactComponent as FlatSVG } from "assets/Flat.svg";
 import { ReactComponent as UiSVG } from "assets/ui.svg";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Status.css"
 
@@ -24,8 +25,9 @@ const Table = props => {
       rawData: { food_menu = [] },
       orderSuccess,
       searchClicked,
-      tableUsers,
-      orderingAbility
+      // tableUsers,
+      orderingAbility,
+      themeProperties,
     }
   } = React.useContext(StoreContext);
   React.useEffect(() => {
@@ -43,19 +45,20 @@ const Table = props => {
 
 
 /////THEMEING //////
-    //   document.documentElement.style.setProperty("--theme-font", "Inconsolata");
-    // document.documentElement.style.setProperty(
-    //   "--first-menu-background-color",
-    //   "#d6c333"
-    // );
-    // document.documentElement.style.setProperty(
-    //   "--second-menu-background-color",
-    //   "#d1a926"
-    // );
-    // document.documentElement.style.setProperty("--first-pattern-light-color", "#ffe83d");
-    // document.documentElement.style.setProperty("--second-pattern-light-color", "#ffcf31");
+    if (themeProperties['theme'] === true) {
+      let cssVariables = [
+        '--theme-font', 
+        '--first-menu-background-color', 
+        '--second-menu-background-color', 
+        '--first-pattern-light-color', 
+        '--second-pattern-light-color', 
+      ];
+      cssVariables.map((item, key) => {
+        // console.log(item,key);
+        document.documentElement.style.setProperty(item, themeProperties['variables'][item]);
+      });
+    }
     /////THEMEING //////
-
 
     props.socket.off("cancel_items_request").on("cancel_items_request", msg => {
       const data = JSON.parse(msg);

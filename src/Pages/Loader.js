@@ -5,7 +5,7 @@ const Loader = props => {
     <div
       className='loading-screen'
     >
-      <img className="loading-logo" src="https://liqr-restaurants.s3.ap-south-1.amazonaws.com/BNGKOR004/logo.png"
+      <img className="loading-logo" alt="Welcome to LiQR" src="https://liqr-restaurants.s3.ap-south-1.amazonaws.com/BNGKOR004/logo.png"
                   />
       {/* <span>Loading ...</span> */}
     </div>

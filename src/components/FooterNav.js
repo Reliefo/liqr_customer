@@ -1,40 +1,31 @@
+/* eslint-disable */
 import React from "react";
 import home from "../assets/home.png";
 import menu from "../assets/menu.png";
 import { ToastContainer, toast } from "react-toastify";
 import { Button } from "react-bootstrap";
-import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import cartImage from "../assets/cart.png";
-import AppWrapper from "../App";
-import ReactDOM from "react-dom";
 import order from "../assets/order.png";
 import { Badge } from "react-bootstrap";
 import { Link, withRouter } from "react-router-dom";
 import SocketContext from "../socket-context";
 import { StoreContext } from "Store";
-import { ReactComponent as WaterSVG } from "assets/water.svg";
-import { ReactComponent as TissueSVG } from "assets/tissue.svg";
-// import { ReactComponent as HelpSVG } from "assets/help.svg";
-import { ReactComponent as DoubleArrow } from "assets/double-arrow.svg";
 import * as TYPES from "Store/actionTypes.js";
 import AnchorLink from "react-anchor-link-smooth-scroll";
 import "./FooterNav.css";
 const FooterNav = (props) => {
   //$rest-font
-  const rest_font = "Inconsolata";
   const {
     state: {
       activeNav,
-      tableId,
       cart,
       fabClick,
       menuClick,
       cartData,
       orderingAbility,
       displayOrderButtons,
-      placeOrderById,
-      rawData: { food_menu = [] },
+      // rawData: { food_menu = [] },
     },
     dispatch,
   } = React.useContext(StoreContext);
@@ -56,15 +47,15 @@ const FooterNav = (props) => {
 
     /////THEMEING //////
     // if CAFE_MEDLEY:
-    // document.documentElement.style.setProperty("--theme-font", "Inconsolata");
-    // document.documentElement.style.setProperty(
-    //   "--first-footer-color",
-    //   "#ffe83d"
-    // );
-    // document.documentElement.style.setProperty(
-    //   "--second-footer-color",
-    //   "#ffcf31"
-    // );
+    document.documentElement.style.setProperty("--theme-font", "Inconsolata");
+    document.documentElement.style.setProperty(
+      "--first-footer-color",
+      "#ffe83d"
+    );
+    document.documentElement.style.setProperty(
+      "--second-footer-color",
+      "#ffcf31"
+    );
     // document.documentElement.style.setProperty(
     //   "--first-goto-footer-color",
     //   "#ffe83d"
@@ -73,14 +64,14 @@ const FooterNav = (props) => {
     //   "--second-goto-footer-color",
     //   "#ffcf31"
     // );
-    // document.documentElement.style.setProperty(
-    //   "--categories-button-color",
-    //   "#ffcf31"
-    // );
-    // document.documentElement.style.setProperty(
-    //   "--categories-list-item-color",
-    //   "#ffcf31"
-    // );
+    document.documentElement.style.setProperty(
+      "--categories-button-color",
+      "#ffcf31"
+    );
+    document.documentElement.style.setProperty(
+      "--categories-list-item-color",
+      "#ffcf31"
+    );
     /////THEMEING //////
   }, [props, props.socket, props.location, dispatch]);
 
@@ -124,7 +115,7 @@ const FooterNav = (props) => {
     cartCount++;
   });
   const trfm = `rotate(${deg}deg)`;
-  const revtrfm = `rotate(${-deg}deg)`;
+  // const revtrfm = `rotate(${-deg}deg)`;
 
   const FABClick = () => {
     console.log("clicked...");

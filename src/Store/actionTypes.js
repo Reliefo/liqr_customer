@@ -31,3 +31,4 @@ export const ADD_REST_IMAGES = 81;
 export const ADD_REST_LOGO = 82;
 export const ORDERING_ABILITY = 83;
 export const DISPLAY_ORDER_BUTTONS = 84;
+export const THEME_PROPERTIES = 85;

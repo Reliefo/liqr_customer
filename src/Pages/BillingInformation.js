@@ -1,26 +1,21 @@
 /* eslint-disable no-unused-expressions */
+/* eslint-disable */
 import React from "react";
 import { StoreContext } from "Store";
-import { Card, Accordion, Button } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import SocketContext from "../socket-context";
 import LoaderButton from "../components/LoaderButton";
 import SearchFoodItems from "components/SearchFoodItems.js";
-import { ReactComponent as FoodSVG } from "assets/food.svg";
-import { ReactComponent as FlatSVG } from "assets/Flat.svg";
-import { ReactComponent as UiSVG } from "assets/ui.svg";
 
 import * as TYPES from "Store/actionTypes.js";
-import { auto, left } from "@popperjs/core";
 
 const BillingInformation = props => {
 
-  //$rest-font 
-  const rest_font = 'Inconsolata';
 
   const {
     dispatch,
     state: {
-      rawData: { food_menu = [] },
+      // rawData: { food_menu = [] },
       searchClicked,
       restName
     }

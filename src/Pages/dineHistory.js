@@ -1,24 +1,22 @@
 /* eslint-disable no-unused-expressions */
+/* eslint-disable */
 import React from "react";
 import { StoreContext } from "Store";
-import { Card, Accordion, Button } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import SocketContext from "../socket-context";
 import SearchFoodItems from "components/SearchFoodItems.js";
-import { ReactComponent as FoodSVG } from "assets/food.svg";
-import { ReactComponent as FlatSVG } from "assets/Flat.svg";
-import { ReactComponent as UiSVG } from "assets/ui.svg";
 
 import * as TYPES from "Store/actionTypes.js";
 
-const DineHistory = props => {
+const DineHistory = (props) => {
   const {
     dispatch,
     state: {
-      rawData: { food_menu = [] },
+      // rawData: { food_menu = [] },
       searchClicked,
-      tableUsers,
-      dineHistory
-    }
+      dineHistory,
+      themeProperties,
+    },
   } = React.useContext(StoreContext);
 
   React.useEffect(() => {
@@ -27,29 +25,44 @@ const DineHistory = props => {
     dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
     console.log("Dine in History screen");
     //handling refresh issue
+    /////THEMEING //////
+    if (themeProperties['theme'] === true) {
+      let cssVariables = [
+        '--theme-font', 
+        '--first-menu-background-color', 
+        '--second-menu-background-color', 
+        '--first-pattern-light-color', 
+        '--second-pattern-light-color', 
+      ];
+      cssVariables.map((item, key) => {
+        // console.log(item,key);
+        document.documentElement.style.setProperty(item, themeProperties['variables'][item]);
+      });
+    }
+    /////THEMEING //////
     dispatch({
       type: TYPES.SET_GENERAL_DATA,
-      payload: { searchClicked: false }
+      payload: { searchClicked: false },
     });
     dispatch({ type: TYPES.SET_NAV, payload: "Order" });
 
-    props.socket.off("new_orders").on("new_orders", msg => {
+    props.socket.off("new_orders").on("new_orders", (msg) => {
       dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
     });
 
     const body = {
       user_id: localStorage.getItem("user_id"),
-      restaurant_id: localStorage.getItem("restaurant_id")
+      restaurant_id: localStorage.getItem("restaurant_id"),
     };
 
     props.socket.emit("fetch_rest_customer", JSON.stringify(body));
 
-    props.socket.off("table_details").on("table_details", msg => {
+    props.socket.off("table_details").on("table_details", (msg) => {
       const data = JSON.parse(msg);
       dispatch({ type: TYPES.REFRESH_ORDER_CLOUD, payload: data.table_orders });
     });
 
-    props.socket.off("order_updates").on("order_updates", msg => {
+    props.socket.off("order_updates").on("order_updates", (msg) => {
       dispatch({ type: TYPES.UPDATE_ORDER_STATUS, payload: JSON.parse(msg) });
     });
   }, []);
@@ -66,11 +79,10 @@ const DineHistory = props => {
             dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
             dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
           }}
-          style={{ backgroundColor: "white" }}
+          className="default-screen"
         >
           <div className="order-status-styling">
             {dineHistory.map((item, idx) => {
-              let sum = 0;
               let orderTime = item.timestamp.split(" ");
               let orderDate = orderTime[0];
               orderTime = orderTime[1].split(".");
@@ -81,7 +93,7 @@ const DineHistory = props => {
                     onClick={() =>
                       props.history.push("/visits", {
                         data: item,
-                        index: idx
+                        index: idx,
                       })
                     }
                     className="cart-card cart-styling margin-styling"
@@ -91,7 +103,7 @@ const DineHistory = props => {
                         style={{
                           width: "100%",
                           padding: "2%",
-                          minHeight: "50px"
+                          minHeight: "50px",
                         }}
                       >
                         <p
@@ -99,7 +111,7 @@ const DineHistory = props => {
                           style={{
                             float: "left",
                             textTransform: "capitalize",
-                            fontWeight: 700
+                            fontWeight: 700,
                           }}
                         >
                           {item.restaurant_name}
@@ -109,7 +121,7 @@ const DineHistory = props => {
                           style={{
                             paddingRight: "5%",
                             float: "right",
-                            textTransform: "capitalize"
+                            textTransform: "capitalize",
                           }}
                         >
                           {orderDate}
@@ -119,7 +131,7 @@ const DineHistory = props => {
                         style={{
                           width: "100%",
                           padding: "2%",
-                          minHeight: "50px"
+                          minHeight: "50px",
                         }}
                       >
                         <p
@@ -134,7 +146,7 @@ const DineHistory = props => {
                           style={{
                             paddingRight: "5%",
                             float: "right",
-                            textTransform: "capitalize"
+                            textTransform: "capitalize",
                           }}
                         >
                           {orderTime[0]}
@@ -152,9 +164,9 @@ const DineHistory = props => {
   );
 };
 
-const dineSocket = props => (
+const dineSocket = (props) => (
   <SocketContext.Consumer>
-    {socket => <DineHistory {...props} socket={socket} />}
+    {(socket) => <DineHistory {...props} socket={socket} />}
   </SocketContext.Consumer>
 );
 
