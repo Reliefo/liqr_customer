@@ -103,7 +103,6 @@ const FoodItem = ({
       setChoices(clonedChoices);
     }
   };
-
   const fetchSelectedChoices = () => {
     const selectedChoices = [];
     for (let key in choices) {

@@ -10,8 +10,8 @@
   --second-background-color : #ffffff;
   --first-pattern-light-color : #ffffff;
   --second-pattern-light-color: #ffffff;
-  --first-light-color: #f0f0f0;
-  --second-light-color: #f0f0f0;
+  --first-light-color: #ffc967;
+  --second-light-color: #ffa813;
   /* --second-light-color : #f0f0f0; */
   --food-card-color: #ffffff;
 
@@ -34,9 +34,9 @@
   --pattern-2: repeating-linear-gradient(
     -45deg,
     var(--first-light-color),
-    var(--first-light-color) 10px,
-    var(--second-light-color) 10px,
-    var(--second-light-color) 20px
+    var(--first-light-color) 5px,
+    var(--second-light-color) 5px,
+    var(--second-light-color) 10px
   );
 
   --pattern-light: repeating-linear-gradient(

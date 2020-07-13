@@ -281,6 +281,8 @@ const Home = (props) => {
     }
     else {
       //Nav Bar//
+      // document.documentElement.style.setProperty("--first-light-color", "#ffb023");
+      // document.documentElement.style.setProperty("--second-light-color", "#ffc967");
       document.documentElement.style.setProperty("--top-bar-color", "#ffb023");
       document.documentElement.style.setProperty("--search-background-color", "#ffc45c");
       document.documentElement.style.setProperty("--burger-menu-background-color", "#c0841d");
