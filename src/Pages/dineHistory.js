@@ -34,7 +34,7 @@ const DineHistory = (props) => {
         '--first-pattern-light-color', 
         '--second-pattern-light-color', 
       ];
-      cssVariables.map((item, key) => {
+      cssVariables.forEach((item, key) => {
         // console.log(item,key);
         document.documentElement.style.setProperty(item, themeProperties['variables'][item]);
       });

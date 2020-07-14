@@ -69,7 +69,7 @@ const Menu = (props) => {
         '--food-card-color', 
         '--add-button-color', 
       ];
-      cssVariables.map((item, key) => {
+      cssVariables.forEach((item, key) => {
         // console.log(item,key);
         document.documentElement.style.setProperty(item, themeProperties['variables'][item]);
       });

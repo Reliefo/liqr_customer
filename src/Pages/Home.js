@@ -262,7 +262,7 @@ const Home = (props) => {
         '--categories-button-color', 
         '--categories-list-item-color'
       ]
-      cssVariables.map((item, key) => {
+      cssVariables.forEach((item, key) => {
         // console.log(item,key);
         document.documentElement.style.setProperty(item, resp.theme_properties['variables'][item]);
       }

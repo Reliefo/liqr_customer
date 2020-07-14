@@ -43,7 +43,7 @@ const Coupons = props => {
         '--first-pattern-light-color', 
         '--second-pattern-light-color', 
       ];
-      cssVariables.map((item, key) => {
+      cssVariables.forEach((item, key) => {
         // console.log(item,key);
         document.documentElement.style.setProperty(item, themeProperties['variables'][item]);
       });
@@ -87,7 +87,7 @@ const Coupons = props => {
     props.socket.off("order_updates").on("order_updates", msg => {
       dispatch({ type: TYPES.UPDATE_ORDER_STATUS, payload: JSON.parse(msg) });
     });
-  }, [ dispatch, props.socket ]);
+  }, [ dispatch, props.socket, themeProperties ]);
 
   // const fetchSocketBill = isTable => {
   //   const billBody = {

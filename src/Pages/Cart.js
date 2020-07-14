@@ -23,7 +23,6 @@ const Cart = (props) => {
   const rest_font = "Inconsolata";
 
   let orderId = [];
-  console.log(cart);
   if (tableOrders && Object.keys(tableOrders).length > 0) {
     Object.values(tableOrders.orders).forEach((item) => {
       if (item.food_list.length > 0 && !orderId.includes(item.placed_by.name)) {
@@ -57,7 +56,6 @@ const Cart = (props) => {
     //     }, 2000);
     //   });
     // }
-    console.log("Cart screen");
     dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
     dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
     dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: "" } });
