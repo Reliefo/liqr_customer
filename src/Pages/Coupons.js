@@ -14,10 +14,10 @@ import * as TYPES from "Store/actionTypes.js";
 const Coupons = props => {
   const {
     dispatch,
-    // state: {
-    //   rawData: { food_menu = [] },
-    //   orderSuccess,
-    // }
+    state: {
+      // rawData: { food_menu = [] },
+      themeProperties,
+    }
   } = React.useContext(StoreContext);
 
 
@@ -34,7 +34,21 @@ const Coupons = props => {
       payload: { searchClicked: false }
     });
     dispatch({ type: TYPES.SET_NAV, payload: "Order" });
-
+    /////THEMEING //////
+    if (themeProperties['theme'] === true) {
+      let cssVariables = [
+        '--theme-font', 
+        '--first-menu-background-color', 
+        '--second-menu-background-color', 
+        '--first-pattern-light-color', 
+        '--second-pattern-light-color', 
+      ];
+      cssVariables.map((item, key) => {
+        // console.log(item,key);
+        document.documentElement.style.setProperty(item, themeProperties['variables'][item]);
+      });
+    }
+    /////THEMEING //////
     props.socket.off("new_orders").on("new_orders", msg => {
       dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
     });

@@ -8,12 +8,7 @@ import { StoreContext } from "Store";
 import "./FoodItem.css";
 import { uniqBy } from "lodash";
 
-const FoodItem = ({
-  foodItem,
-  index,
-  subsIndex,
-  restOrderingAbility,
-}) => {
+const FoodItem = ({ foodItem, index, subsIndex, restOrderingAbility }) => {
   const {
     dispatch,
     state: {
@@ -55,7 +50,7 @@ const FoodItem = ({
         }
       });
       setChoices(choicesObject);
-      if (foodItem._id.$oid === "5f05afe801a3fd27419a4240"){
+      if (foodItem._id.$oid === "5f05afe801a3fd27419a4240") {
         console.log(foodItem.name);
       }
     }
@@ -184,80 +179,80 @@ const FoodItem = ({
     }
   };
 
-  // const addItem2 = (item, index, subsIndex) => {
-  //   if (!item.hasOwnProperty("currentCustomization")) {
-  //     item["currentCustomization"] = {};
-  //   }
+  const addItem2 = (item, index, subsIndex) => {
+    if (!item.hasOwnProperty("currentCustomization")) {
+      item["currentCustomization"] = {};
+    }
 
-  //   item["customization"].forEach((custItem, custIdx) => {
-  //     if (item["currentCustomization"][custItem.name] === undefined) {
-  //       item["currentCustomization"][custItem.name] = [];
-  //     }
-  //   });
+    item["customization"].forEach((custItem, custIdx) => {
+      if (item["currentCustomization"][custItem.name] === undefined) {
+        item["currentCustomization"][custItem.name] = [];
+      }
+    });
 
-  //   let flag = false;
-  //   if (item.food_option !== undefined) {
-  //     item["options"] = item.food_option;
-  //     flag = true;
-  //   }
+    let flag = false;
+    if (item.food_option !== undefined) {
+      item["options"] = item.food_option;
+      flag = true;
+    }
 
-  //   if (item.choice !== undefined) {
-  //     item["choices"] = fetchSelectedChoices();
-  //     flag = true;
-  //   }
+    if (item.choice !== undefined) {
+      item["choices"] = fetchSelectedChoices();
+      flag = true;
+    }
 
-  //   if (item.addons !== undefined) {
-  //     item["addon"] = uniqBy(item.addons, (e) => {
-  //       return e.hasOwnProperty("_id") ? e._id.$oid : e;
-  //     });
-  //     flag = true;
-  //   }
+    if (item.addons !== undefined) {
+      item["addon"] = uniqBy(item.addons, (e) => {
+        return e.hasOwnProperty("_id") ? e._id.$oid : e;
+      });
+      flag = true;
+    }
 
-  //   console.log("NIDS--->", item);
-  //   console.log("NIDS--->", index);
-  //   console.log("NIDS--->", flag);
+    console.log("NIDS--->", item);
+    console.log("NIDS--->", index);
+    console.log("NIDS--->", flag);
 
-  //   if (flag === false) {
-  //     cartData.forEach((item2, index3) => {
-  //       console.log("inside", item2);
-  //       if (index3 === subsIndex) {
-  //         item2.food_list.forEach((item3, idx2) => {
-  //           if (idx2 === index) {
-  //             item3.showError = true;
-  //             delete item3.options;
-  //             delete item3.food_option;
-  //             delete item3.choice;
-  //             delete item3.choices;
-  //           }
-  //         });
-  //       }
-  //     });
-  //     dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
-  //   } else {
-  //     item["choices"] = fetchSelectedChoices();
-  //     item["options"] = item.food_option;
-  //     item["add_ons"] = uniqBy(item.addon, (e) => {
-  //       return e.hasOwnProperty("_id") ? e._id.$oid : e;
-  //     });
-  //     dispatch({ type: TYPES.ADD_ITEM, payload: item }); //dispatcing the whole item
+    if (flag === false) {
+      cartData.forEach((item2, index3) => {
+        console.log("inside", item2);
+        if (index3 === subsIndex) {
+          item2.food_list.forEach((item3, idx2) => {
+            if (idx2 === index) {
+              item3.showError = true;
+              delete item3.options;
+              delete item3.food_option;
+              delete item3.choice;
+              delete item3.choices;
+            }
+          });
+        }
+      });
+      dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
+    } else {
+      item["choices"] = fetchSelectedChoices();
+      item["options"] = item.food_option;
+      item["add_ons"] = uniqBy(item.addon, (e) => {
+        return e.hasOwnProperty("_id") ? e._id.$oid : e;
+      });
+      dispatch({ type: TYPES.ADD_ITEM, payload: item }); //dispatcing the whole item
 
-  //     cartData.forEach((item2, index3) => {
-  //       if (index3 === subsIndex) {
-  //         item2.food_list.forEach((item3, idx2) => {
-  //           if (idx2 === index) {
-  //             delete item3.showError;
-  //             item3.showPopup = false;
-  //             item3.showCustomize = false;
-  //             delete item3.food_option;
-  //             delete item3.choice;
-  //             item3.showOptionsAgain = false;
-  //           }
-  //         });
-  //       }
-  //     });
-  //     dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
-  //   }
-  // };
+      cartData.forEach((item2, index3) => {
+        if (index3 === subsIndex) {
+          item2.food_list.forEach((item3, idx2) => {
+            if (idx2 === index) {
+              delete item3.showError;
+              item3.showPopup = false;
+              item3.showCustomize = false;
+              delete item3.food_option;
+              delete item3.choice;
+              item3.showOptionsAgain = false;
+            }
+          });
+        }
+      });
+      dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
+    }
+  };
 
   const addItemDetails = (item, index, subsIndex) => {
     cartData.forEach((item2, index3) => {
@@ -1087,6 +1082,7 @@ const FoodItem = ({
     // :
 
     //   <Card></Card> }
+    /*:*/
     /*:*/
     /*:*/
     /*:*/

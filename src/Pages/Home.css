@@ -123,7 +123,7 @@
   background-color: var(--welcome-card-color);
   width: 80%;
   border: none;
-  box-shadow: 1px 2px var(--welcome-card-shadow-color);
+  /* box-shadow: 1px 2px var(--welcome-card-shadow-color); */
 }
 .welcome-card-home {
   padding: 5% 5% 0% 3%;
@@ -299,10 +299,17 @@
 .options-title {
   text-align: center;
   font-family: var(--theme-font);
-  font-size: x-large;
+  /* font-size: x-large; */
   font-weight: bold;
   letter-spacing: 1.2px;
   color: #000000;
   text-transform: capitalize;
   opacity: 1;
+}
+.options-modal {
+  color: #000000;
+  opacity: 0.6;
+   /* font-family: $rest-font; */
+  font-size: 12px;
+  letter-spacing: 0px;
 }

@@ -7,6 +7,7 @@ import { Button } from "react-bootstrap";
 import "react-toastify/dist/ReactToastify.css";
 import cartImage from "../assets/cart.png";
 import order from "../assets/order.png";
+import assist from "../assets/assist.png";
 import { Badge } from "react-bootstrap";
 import { Link, withRouter } from "react-router-dom";
 import SocketContext from "../socket-context";
@@ -25,6 +26,7 @@ const FooterNav = (props) => {
       cartData,
       orderingAbility,
       displayOrderButtons,
+      themeProperties,
       // rawData: { food_menu = [] },
     },
     dispatch,
@@ -46,32 +48,22 @@ const FooterNav = (props) => {
     });
 
     /////THEMEING //////
-    // if CAFE_MEDLEY:
-    document.documentElement.style.setProperty("--theme-font", "Inconsolata");
-    document.documentElement.style.setProperty(
-      "--first-footer-color",
-      "#ffe83d"
-    );
-    document.documentElement.style.setProperty(
-      "--second-footer-color",
-      "#ffcf31"
-    );
-    // document.documentElement.style.setProperty(
-    //   "--first-goto-footer-color",
-    //   "#ffe83d"
-    // );
-    // document.documentElement.style.setProperty(
-    //   "--second-goto-footer-color",
-    //   "#ffcf31"
-    // );
-    document.documentElement.style.setProperty(
-      "--categories-button-color",
-      "#ffcf31"
-    );
-    document.documentElement.style.setProperty(
-      "--categories-list-item-color",
-      "#ffcf31"
-    );
+    if (themeProperties["theme"] === true) {
+      let cssVariables = [
+        "--theme-font",
+        "--first-footer-color",
+        "--second-footer-color",
+        "--categories-button-color",
+        "--categories-list-item-color",
+      ];
+      cssVariables.map((item, key) => {
+        // console.log(item,key);
+        document.documentElement.style.setProperty(
+          item,
+          themeProperties["variables"][item]
+        );
+      });
+    }
     /////THEMEING //////
   }, [props, props.socket, props.location, dispatch]);
 
@@ -222,7 +214,8 @@ const FooterNav = (props) => {
                 style={{ transform: trfm }} //this rotation takes care of all other rotations.
               >
                 <div className="FAB" onClick={FABClick}>
-                  <span>Assist</span>
+                  <span className="assist-button-text">Assist</span>
+                  <img src={assist} alt="Table" className="assist-button-image" />
                 </div>
                 {fabClick && (
                   <div className="floating-container">
@@ -326,7 +319,8 @@ const FooterNav = (props) => {
                 style={{ transform: trfm }} //this rotation takes care of all other rotations.
               >
                 <div className="FAB" onClick={FABClick}>
-                  <span>Assist</span>
+                  <span className="assist-button-text">Assist</span>
+                  <img src={assist} alt="Table" className="assist-button-image" />
                 </div>
                 {fabClick && (
                   <div className="floating-container">

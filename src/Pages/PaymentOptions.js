@@ -1,9 +1,7 @@
 /* eslint-disable */
 import React from "react";
 import { StoreContext } from "Store";
-import {
-  Card,
-} from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import SocketContext from "../socket-context";
 import { ReactComponent as AmazonPay } from "assets/amazon.svg";
 import { ReactComponent as GooglePay } from "assets/google-pay.svg";
@@ -22,10 +20,10 @@ const PaymentOptions = (props) => {
 
   const {
     dispatch,
-    // state: {
+    state: {
       // rawData: { food_menu = [] },
-      // orderSuccess,
-    // },
+      themeProperties,
+    },
   } = React.useContext(StoreContext);
   React.useEffect(() => {
     dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: "" } });
@@ -58,6 +56,24 @@ const PaymentOptions = (props) => {
     props.socket.off("order_updates").on("order_updates", (msg) => {
       dispatch({ type: TYPES.UPDATE_ORDER_STATUS, payload: JSON.parse(msg) });
     });
+    /////THEMEING //////
+    if (themeProperties["theme"] === true) {
+      let cssVariables = [
+        "--theme-font",
+        "--first-menu-background-color",
+        "--second-menu-background-color",
+        "--first-pattern-light-color",
+        "--second-pattern-light-color",
+      ];
+      cssVariables.map((item, key) => {
+        // console.log(item,key);
+        document.documentElement.style.setProperty(
+          item,
+          themeProperties["variables"][item]
+        );
+      });
+    }
+    /////THEMEING //////
   }, []);
 
   // const fetchSocketBill = (isTable) => {
@@ -89,7 +105,7 @@ const PaymentOptions = (props) => {
       table: localStorage.getItem("table_id"),
       user: localStorage.getItem("user_id"),
       assistance_type: name,
-      after_billing: true
+      after_billing: true,
     };
 
     dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });

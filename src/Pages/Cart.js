@@ -1,32 +1,23 @@
 /* eslint-disable no-unused-expressions */
 // /* eslint-disable */
 import React from "react";
-import { Link } from "react-router-dom";
-import { Card, Row, Col, Form, Modal, Button } from "react-bootstrap";
+import { Card, Row, Col, Modal, Button } from "react-bootstrap";
 import AddRemoveItem from "components/AddRemoveItem.js";
 import { StoreContext } from "Store";
-import ReactDOM from "react-dom";
-import AppWrapper from "../App";
-import axios from "axios";
 import SocketContext from "../socket-context";
 import * as TYPES from "Store/actionTypes.js";
 import SearchFoodItems from "components/SearchFoodItems.js";
-import { ReactComponent as FoodTraySVG } from "assets/food-tray.svg";
-import { ReactComponent as TableSVG } from "assets/table.svg";
 import { ReactComponent as EmptyCartSadIMG } from "assets/empty-card-sad.svg";
 import CloseSVG from "components/CloseSVG.js";
-import _ from "lodash";
-import { Table as RBTable, Collapse } from "react-bootstrap";
+import { Table as RBTable } from "react-bootstrap";
 import Bill from "components/Bill.js";
 import CollapseDetails from "./Collapse.js";
-import { ReactComponent as TableFilledIMG } from "assets/Table-Filled.svg";
-import { ReactComponent as PersonalSVG } from "assets/personal.svg";
 import "./Cart.css"
 
 const Cart = (props) => {
   const {
     dispatch,
-    state: { cart, tableId, tableOrders, placeOrderById, searchClicked, orderingAbility, themeProperties, restId },
+    state: { cart, tableOrders, searchClicked, orderingAbility, themeProperties },
   } = React.useContext(StoreContext);
   //$rest-font
   const rest_font = "Inconsolata";
@@ -87,7 +78,7 @@ const Cart = (props) => {
         '--first-pattern-light-color', 
         '--second-pattern-light-color', 
       ];
-      cssVariables.map((item, key) => {
+      cssVariables.forEach((item, key) => {
         // console.log(item,key);
         document.documentElement.style.setProperty(item, themeProperties['variables'][item]);
       });
@@ -102,7 +93,7 @@ const Cart = (props) => {
 
     //handling refresh issue
     dispatch({ type: TYPES.SET_NAV, payload: "Cart" });
-  }, []);
+  }, [ dispatch, themeProperties ]);
 
   props.socket.off("new_orders").on("new_orders", (msg) => {
     const data = JSON.parse(msg);
@@ -459,6 +450,9 @@ const Cart = (props) => {
                     if (true) {
                       return <div>{add_on.name}</div>;
                     }
+                    else {
+                      return ''
+                    }
                   })
                 : ""}
             </span>
@@ -523,7 +517,13 @@ const Cart = (props) => {
                   </React.Fragment>
                 );
               }
+              else{
+                return ''
+              }
             });
+          }
+          else {
+            return ''
           }
         });
       })}

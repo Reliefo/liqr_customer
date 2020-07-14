@@ -1,5 +1,5 @@
 import React from "react";
-import { Table as Collapse, Form } from "react-bootstrap";
+import { Table as RBTable, Button, Collapse, Form } from "react-bootstrap";
 
 const CollapseDetails = props => {
   //$rest-font 

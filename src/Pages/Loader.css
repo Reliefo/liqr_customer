@@ -1,0 +1,16 @@
+.loading-logo {
+    height: 10rem;
+    width: 16rem;
+    
+  }
+  
+  .loading-screen {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+     /* flex-wrap: wrap; */
+    align-items: center;
+    justify-content: center;
+    background: #ffb023 0% 0% no-repeat padding-box
+  }
+  

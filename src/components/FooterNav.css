@@ -187,14 +187,32 @@
   display: flex;
   flex-direction: column;
   padding: 10%;
-  font-size: 20px;
   align-items: center;
 }
 
 .floating-assistance {
   color: black;
-  border-top: 1px solid #33b0f8 ;
+  border-top: 1px solid #00b7ff ;
 }
 .floating-assistance:first-child {
   border: none;
+}
+
+.anchor-menu {
+  color: var(--categories-list-border-color);
+  font-weight: bold;
+}
+
+.anchor-menu:hover {
+  color: var(--second-footer-color);
+  font-weight: bold;
+}
+
+.assist-button-image {
+  height: 3rem;
+  width: 3rem;
+}
+
+.assist-button-text {
+  font-size: small;
 }

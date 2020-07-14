@@ -11,7 +11,7 @@ $border-dark: #000000;
 $food_card_color: #faee4a;
 $top_bar_color: #ffcf31;
 $category-sticky-color: $top_bar_color;
-$add_button_color: #4f3e2c;
+$add_button_color: #ffb023;
 
 body {
   margin: 0;
@@ -33,18 +33,6 @@ body {
   -webkit-user-select: none; /* Chrome, Safari, and Opera */
   -webkit-touch-callout: none; /* Disable Android and iOS callouts*/
   -moz-osx-font-smoothing: grayscale;
-}
-.loading-logo {
-  height: 10rem;
-  width: 16rem;
-}
-
-.loading-screen {
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: $add_button_color 0% 0% no-repeat padding-box
 }
 
 
@@ -440,12 +428,7 @@ body {
 }
 
 
-.anchor-menu {
-  color: $add_button_color;
-  font-weight: bold;
-}
 .options-modal {
-  text-align: left;
   color: #000000;
   opacity: 0.6;
   // font-family: $rest-font;

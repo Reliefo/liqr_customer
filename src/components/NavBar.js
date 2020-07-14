@@ -34,7 +34,11 @@ const Navbar = (props) => {
   React.useEffect(() => {
     dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
     dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
-
+      // document.documentElement.style.setProperty("--theme-font", "Inconsolata");
+      // //Nav Bar//
+      // document.documentElement.style.setProperty("--top-bar-color", "#ffcf31");
+      // document.documentElement.style.setProperty("--search-background-color", "#ffe83d");
+      // document.documentElement.style.setProperty("--burger-menu-background-color", "#a89214")
     /////THEMEING //////
     if (themeProperties['theme'] === true) {
       let cssVariables = [
@@ -47,35 +51,7 @@ const Navbar = (props) => {
         // console.log(item,key);
         document.documentElement.style.setProperty(item, themeProperties['variables'][item]);
       });
-      // document.documentElement.style.setProperty("--theme-font", "Inconsolata");
-      // //Nav Bar//
-      // document.documentElement.style.setProperty("--top-bar-color", "#ffcf31");
-      // document.documentElement.style.setProperty("--search-background-color", "#ffe83d");
-      // document.documentElement.style.setProperty("--burger-menu-background-color", "#a89214");
-
-      //Home Screen//
-      // document.documentElement.style.setProperty("--first-background-color", "#d6c333");
-      // document.documentElement.style.setProperty("--second-background-color", "#d1a926");
-      // document.documentElement.style.setProperty("--first-light-color", "#ffe83d");
-      // document.documentElement.style.setProperty("--second-light-color", "#ffcf31");
-      // document.documentElement.style.setProperty("--first-pattern-light-color", "#ffe83d");
-      // document.documentElement.style.setProperty("--second-pattern-light-color", "#ffcf31");
-      // document.documentElement.style.setProperty("--food-card-color", "#faee4a");
-      // document.documentElement.style.setProperty("--welcome-card-color", "#4f3e2c");
-      // document.documentElement.style.setProperty("--welcome-card-text-color", "#ffffff");
-      // document.documentElement.style.setProperty("--first-food-button-color", "#ffe83d");
-      // document.documentElement.style.setProperty("--second-food-button-color", "#ffcf31");
-      // document.documentElement.style.setProperty("--add-button-color", "#4f3e2c");
-      // document.documentElement.style.setProperty("--theme-font", "Inconsolata");
-      // document.documentElement.style.setProperty("--first-menu-background-color", "#d6c333");
-      // document.documentElement.style.setProperty("--second-menu-background-color", "#d1a926");
-      // document.documentElement.style.setProperty("--food-card-color", "#faee4a");
-      // document.documentElement.style.setProperty("--first-footer-color", "#ffe83d");
-      // document.documentElement.style.setProperty("--second-footer-color", "#ffcf31");
-      // document.documentElement.style.setProperty("--categories-button-color", "#ffcf31");
-      // document.documentElement.style.setProperty("--categories-list-item-color", "#ffcf31");
     }
-;
 /////THEMEING //////
 
 
