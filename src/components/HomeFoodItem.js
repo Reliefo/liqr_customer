@@ -323,7 +323,7 @@ const HomeFoodItem = ({
       </Card.Body> */}
       {foodItem.foodOptions && foodItem.foodOptions === true ? (
         <Modal
-          style={{ zIndex: 10000 }}
+          style={{ zIndex: 1420 }}
           size="lg"
           aria-labelledby="contained-modal-title-vcenter"
           centered
@@ -789,7 +789,7 @@ const HomeFoodItem = ({
 
       {foodItem.showDetails && foodItem.showDetails === true ? (
         <Modal
-          style={{ zIndex: 10000, height: "85%" }}
+          style={{ zIndex: 1420, height: "85%" }}
           size="lg"
           centered
           show={foodItem.showDetails}

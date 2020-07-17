@@ -16,7 +16,7 @@ const initialState = {
   addons: [],
   placeOrderById: "",
   restAddress: "",
-  tableOrders: [],
+  tableCartOrders: [],
   tableUsers: [],
   justBarItems: [],
   dineHistory: [],
@@ -25,7 +25,8 @@ const initialState = {
   orderStatus: [],
   cartData: {},
   rawData: {},
-  themeProperties: {}
+  themeProperties: {},
+  // barFoodMenuCats: {},
 };
 
 const localState = JSON.parse(sessionStorage.getItem("relief"));

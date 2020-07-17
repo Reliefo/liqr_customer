@@ -12,19 +12,26 @@ import CloseSVG from "components/CloseSVG.js";
 import { Table as RBTable } from "react-bootstrap";
 import Bill from "components/Bill.js";
 import CollapseDetails from "./Collapse.js";
-import "./Cart.css"
+import "./Cart.css";
 
 const Cart = (props) => {
   const {
     dispatch,
-    state: { cart, tableOrders, searchClicked, orderingAbility, themeProperties },
+    state: {
+      cart,
+      tableCartOrders,
+      searchClicked,
+      orderingAbility,
+      themeProperties,
+      currency,
+    },
   } = React.useContext(StoreContext);
   //$rest-font
   const rest_font = "Inconsolata";
 
   let orderId = [];
-  if (tableOrders && Object.keys(tableOrders).length > 0) {
-    Object.values(tableOrders.orders).forEach((item) => {
+  if (tableCartOrders && Object.keys(tableCartOrders).length > 0) {
+    Object.values(tableCartOrders.orders).forEach((item) => {
       if (item.food_list.length > 0 && !orderId.includes(item.placed_by.name)) {
         orderId.push(item.placed_by.name);
       }
@@ -64,34 +71,34 @@ const Cart = (props) => {
       payload: { searchClicked: false },
     });
 
+    /////THEMEING //////
 
-
-/////THEMEING //////
-
-    if (themeProperties['theme'] === true) {
+    if (themeProperties["theme"] === true) {
       let cssVariables = [
-        '--theme-font', 
-        '--first-menu-background-color', 
-        '--second-menu-background-color', 
-        '--first-pattern-light-color', 
-        '--second-pattern-light-color', 
+        "--theme-font",
+        "--first-menu-background-color",
+        "--second-menu-background-color",
+        "--first-pattern-light-color",
+        "--second-pattern-light-color",
       ];
       cssVariables.forEach((item, key) => {
         // console.log(item,key);
-        document.documentElement.style.setProperty(item, themeProperties['variables'][item]);
+        document.documentElement.style.setProperty(
+          item,
+          themeProperties["variables"][item]
+        );
       });
-    // document.documentElement.style.setProperty("--theme-font", "Inconsolata");
-    // document.documentElement.style.setProperty("--first-menu-background-color", "#d6c333");
-    // document.documentElement.style.setProperty("--second-menu-background-color", "#d1a926");
-    // document.documentElement.style.setProperty("--first-pattern-light-color", "#ffe83d");
-    // document.documentElement.style.setProperty("--second-pattern-light-color", "#ffcf31");
+      // document.documentElement.style.setProperty("--theme-font", "Inconsolata");
+      // document.documentElement.style.setProperty("--first-menu-background-color", "#d6c333");
+      // document.documentElement.style.setProperty("--second-menu-background-color", "#d1a926");
+      // document.documentElement.style.setProperty("--first-pattern-light-color", "#ffe83d");
+      // document.documentElement.style.setProperty("--second-pattern-light-color", "#ffcf31");
     }
-/////THEMEING //////
-
+    /////THEMEING //////
 
     //handling refresh issue
     dispatch({ type: TYPES.SET_NAV, payload: "Cart" });
-  }, [ dispatch, themeProperties ]);
+  }, [dispatch, themeProperties]);
 
   props.socket.off("new_orders").on("new_orders", (msg) => {
     const data = JSON.parse(msg);
@@ -99,7 +106,7 @@ const Cart = (props) => {
     if (data.personal_order === undefined) {
       dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
       dispatch({
-        type: TYPES.UPDATE_TABLE_ORDER,
+        type: TYPES.UPDATE_TABLE_CART,
         payload: [],
       });
       props.history.push("/table");
@@ -111,16 +118,16 @@ const Cart = (props) => {
 
   props.socket.off("table_cart_orders").on("table_cart_orders", (msg) => {
     if (msg !== undefined) {
-      dispatch({ type: TYPES.UPDATE_TABLE_ORDER, payload: JSON.parse(msg) });
+      dispatch({ type: TYPES.UPDATE_TABLE_CART, payload: JSON.parse(msg) });
       orderId = [];
     }
   });
 
-  const DeleteItemHndlr = (item) => {
+  const deleteItemHndlr = (item) => {
     dispatch({ type: TYPES.DEL_ITEM, payload: item });
   };
 
-  const DeleteItemHndlrTableCart = (item, orderList) => {
+  const deleteItemHndlrTableCart = (item, orderList) => {
     // dispatch({ type: TYPES.DEL_TABLE_ITEM, payload: item });
 
     const body = {
@@ -139,7 +146,7 @@ const Cart = (props) => {
   const setOrderTable = () => {
     const body = { table_id: localStorage.getItem("table_id") };
     props.socket.emit("place_table_order", JSON.stringify(body));
-    dispatch({ type: TYPES.UPDATE_TABLE_ORDER, payload: [] });
+    dispatch({ type: TYPES.UPDATE_TABLE_CART, payload: [] });
     props.socket.off("new_orders").on("new_orders", (msg) => {
       console.log(msg);
       dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
@@ -217,38 +224,6 @@ const Cart = (props) => {
       cartToSend.push(singleObject);
     });
 
-    // cartClone.forEach((item) => {
-    //   item.food_id = item._id.$oid;
-    //   delete item.open;
-    //   delete item.food_options;
-    //   delete item.restaurant;
-    //   delete item.showCustomize;
-    //   delete item.showPopup;
-    //   delete item.showOptionsAgain;
-    //   delete item.foodOptions;
-    //   if (item.options) {
-    //     item.food_options = {};
-    //     item.food_options.options = [];
-    //     item.food_options.options.push(item.options);
-    //     item.price = item.options.option_price;
-    //   }
-    //   if (item.choices) {
-    //     if (item.food_options === undefined) {
-    //       item.food_options = {};
-    //     }
-    //     item.food_options.choices = [];
-    //     item.food_options.choices.push(item.choices);
-    //   }
-    //   delete item.choices;
-    //   delete item.choice;
-    //   delete item.options;
-    //   delete item.food_option;
-    //   delete item.tags;
-    //   delete item._id;
-    // });
-
-    // console.log(cartToSend);
-
     const body = {
       table: localStorage.getItem("table_id"),
       orders: [
@@ -279,37 +254,6 @@ const Cart = (props) => {
   };
 
   const setCart = () => {
-    // const cartClone = _.cloneDeep(cart);
-    // cartClone.forEach((item) => {
-    //   item.food_id = item._id.$oid;
-    //   delete item.open;
-    //   delete item.showPopup;
-    //   delete item.food_options;
-    //   delete item.showCustomize;
-    //   delete item.restaurant;
-    //   if (item.options) {
-    //     item.food_options = {};
-    //     item.food_options.options = [];
-    //     item.food_options.options.push(item.options);
-    //     item.price = item.options.option_price;
-    //   }
-    //   if (item.choices) {
-    //     if (item.food_options === undefined) {
-    //       item.food_options = {};
-    //     }
-    //     item.food_options.choices = [];
-    //     item.food_options.choices.push(item.choices);
-    //   }
-    //   delete item.choices;
-    //   delete item.choice;
-    //   delete item.showOptionsAgain;
-    //   delete item.options;
-    //   delete item.foodOptions;
-    //   delete item.food_option;
-    //   delete item.tags;
-    //   delete item._id;
-    // });
-
     const cartToSend = [];
 
     cart.forEach((item) => {
@@ -374,7 +318,7 @@ const Cart = (props) => {
 
     props.socket.off("table_details").on("table_details", (msg) => {
       const data = JSON.parse(msg);
-      dispatch({ type: TYPES.UPDATE_TABLE_ORDER, payload: data.table_cart });
+      dispatch({ type: TYPES.UPDATE_TABLE_CART, payload: data.table_cart });
     });
 
     dispatch({ type: TYPES.RESET_CART });
@@ -383,83 +327,69 @@ const Cart = (props) => {
 
   const renderPersonalCart = () => (
     <>
-      {cart.map((item, idx) => (
+      {cart.map((cartItem, idx) => (
         <Card className="cart-card cart-styling" key={`cart-card-${idx}`}>
           <Card.Body className="cart-item-body body">
-            <p className="name">{item.name}</p>
+            <p className="name">{cartItem.name}</p>
             <AddRemoveItem
               className="trial"
-              count={item.quantity}
-              id={item}
-              allData={item}
+              count={cartItem.quantity}
+              foodId={cartItem.foodId}
+              allData={cartItem}
             />
-            <p style={{ fontFamily: rest_font, margin: 0, width: "15%" }}>
-              &#8377;{" "}
-              {item.options
-                ? parseInt(item.options.option_price * item.quantity)
-                : item.price * item.quantity}
+            <p style={{ margin: 0, width: "15%", float: "right" }}>
+              {currency} {cartItem.price * cartItem.quantity}
             </p>
-            <div
+            {/* <div
               style={{ padding: ".5rem" }}
-              onClick={DeleteItemHndlr.bind(this, item)}
+              onClick={deleteItemHndlr.bind(this, cartItem)}
             >
               <CloseSVG />
-            </div>
+            </div> */}
           </Card.Body>
-          {item.options !== undefined ? (
-            <span className="detail-options">
-              <strong>{item.options !== undefined ? "Options:" : ""}</strong>
-            </span>
-          ) : (
-            ""
-          )}
-          {item.options !== undefined ? (
-            <span className="detail-options">
-              {item.options !== undefined ? item.options.option_name : ""}
-            </span>
-          ) : (
-            ""
-          )}
-          {item.choices !== undefined ? (
-            <span className="detail-options">
-              <strong>{item.choices !== undefined ? "Choices:" : ""}</strong>
-            </span>
-          ) : (
-            ""
-          )}
-          {item.choices !== undefined ? (
-            <span className="detail-options">
-              {item.choices !== undefined ? item.choices : ""}
-            </span>
-          ) : (
-            ""
-          )}
-          {item.add_ons !== undefined ? (
-            <span className="detail-options">
-              <strong>{item.add_ons !== undefined ? "Addons:" : ""}</strong>
-            </span>
-          ) : (
-            ""
-          )}
-          {item.add_ons !== undefined ? (
-            <span className="detail-options">
-              {item.add_ons !== undefined
-                ? item.add_ons.map((add_on) => {
-                    if (true) {
-                      return <div>{add_on.name}</div>;
+          {cartItem.currentCustomization.map((cust) => {
+            if (cust.customization_type === "add_ons") {
+              return (
+                <span className="detail-options">
+                  {cust.checked.includes(true) ? cust.name + ":  " : ""}
+                  {cust.list_of_options.map((option, optionIndex) => {
+                    if (cust.checked[optionIndex]) {
+                      return (
+                        <strong>
+                          {cust.list_of_options[optionIndex].name} {currency}
+                          {cust.list_of_options[optionIndex].price}{", "}
+                        </strong>
+                      );
                     }
-                    else {
-                      return ''
+                  })}
+                </span>
+              );
+            } else {
+              return (
+                <span className="detail-options">
+                  {cust.name + ":  "}
+                  {cust.list_of_options.map((option, optionIndex) => {
+                    if (cust.checked[optionIndex]) {
+                      if (cust.customization_type === "options") {
+                        return (
+                          <strong>
+                            {cust.list_of_options[optionIndex].option_name} {currency}
+                            {cust.list_of_options[optionIndex].option_price}{", "}
+                          </strong>
+                        );
+                      }
+                      if (cust.customization_type === "choices") {
+                        return <strong>{cust.list_of_options[optionIndex]}{", "}</strong>;
+                      }
                     }
-                  })
-                : ""}
-            </span>
-          ) : (
-            ""
-          )}
+                  })}
+                </span>
+              );
+            }
+          })}
           <span className="detail-instructions">
             {" "}
-            <CollapseDetails item={item} />
+            <CollapseDetails item={cartItem} />
           </span>
 
           <hr className="cart-hr" />
@@ -470,7 +400,7 @@ const Cart = (props) => {
   const renderTableCart = () => (
     <>
       {orderId.map((id) => {
-        return Object.entries(tableOrders).map((item2, idx) => {
+        return Object.entries(tableCartOrders).map((item2, idx) => {
           if (item2[0] === "orders") {
             return item2[1].map((order_list, index) => {
               if (order_list.placed_by.name === id) {
@@ -499,7 +429,7 @@ const Cart = (props) => {
                               <td>{food.quantity}</td>
                               <td>{food.price}</td>
                               <td
-                                onClick={DeleteItemHndlrTableCart.bind(
+                                onClick={deleteItemHndlrTableCart.bind(
                                   this,
                                   food,
                                   order_list
@@ -514,14 +444,12 @@ const Cart = (props) => {
                     </RBTable>
                   </React.Fragment>
                 );
-              }
-              else{
-                return ''
+              } else {
+                return "";
               }
             });
-          }
-          else {
-            return ''
+          } else {
+            return "";
           }
         });
       })}
@@ -553,8 +481,8 @@ const Cart = (props) => {
   });
 
   let sum = 0;
-  tableOrders && Object.keys(tableOrders).length > 0
-    ? Object.entries(tableOrders).forEach((item) => {
+  tableCartOrders && Object.keys(tableCartOrders).length > 0
+    ? Object.entries(tableCartOrders).forEach((item) => {
         if (item[0] === "orders") {
           item[1].forEach((item2) => {
             item2.food_list.forEach((item3) => {
@@ -600,13 +528,13 @@ const Cart = (props) => {
         </Modal>
       ) : searchClicked === true ? (
         <SearchFoodItems />
-      ) : orderingAbility === false ? 
-      (
+      ) : orderingAbility === false ? (
         <div className="cart-screen">
-          <p className="cart-styling">Ordering has been disabled by the restaurant manager</p>
-          </div>
-      ) :
-      (
+          <p className="cart-styling">
+            Ordering has been disabled by the restaurant manager
+          </p>
+        </div>
+      ) : (
         <div
           onClick={() => {
             dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
@@ -636,28 +564,6 @@ const Cart = (props) => {
               <div className="menu-item-names">Table</div>
             </li>
           </ul>
-          {/* <ul className="menu-btn-cart" style={{ justifyContent: "space-evenly" }}>
-            <li onClick={pushToCart}>
-              <div
-                className={
-                  state.activeCart === 0 ? "cart-menu active" : "cart-menu"
-                }
-              >
-                <PersonalSVG height="19px" />
-                &nbsp;&nbsp;Personal
-              </div>
-            </li>
-            <li onClick={pushToCart}>
-              <div
-                className={
-                  state.activeCart === 1 ? "cart-menu active" : "cart-menu"
-                }
-              >
-                <TableSVG height="19px" />
-                &nbsp;&nbsp;Table
-              </div>
-            </li>
-          </ul> */}
           <div
             onClick={() => {
               dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
@@ -680,14 +586,20 @@ const Cart = (props) => {
               <>
                 <Bill orderTotal={orderTotal} addOnTotal={addOnTotal} />
                 {state.activeCart === 0 && (
-                  <Row>
+                  <Row style={{ paddingBottom: "6rem" }}>
                     <Col style={{ marginTop: "1rem" }}>
-                      <div className="bill-btn personal-order-btn" onClick={setCartPlaceOrder}>
+                      <div
+                        className="bill-btn personal-order-btn"
+                        onClick={setCartPlaceOrder}
+                      >
                         <p>Place Order</p>
                       </div>
                     </Col>
                     <Col style={{ marginTop: "1rem" }}>
-                      <div className="bill-btn push-to-table-btn" onClick={setCart}>
+                      <div
+                        className="bill-btn push-to-table-btn"
+                        onClick={setCart}
+                      >
                         <p>Push To Table</p>
                       </div>
                     </Col>

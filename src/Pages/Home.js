@@ -29,6 +29,8 @@ const Home = (props) => {
       restLogo,
       searchClicked,
       orderingAbility,
+      barFoodMenuCats,
+      currentMenu,
     },
   } = React.useContext(StoreContext);
 
@@ -209,7 +211,7 @@ const Home = (props) => {
       });
 
       dispatch({
-        type: TYPES.UPDATE_TABLE_ORDER,
+        type: TYPES.UPDATE_TABLE_CART,
         payload: data.table_cart || [],
       });
     });
@@ -220,6 +222,7 @@ const Home = (props) => {
       dispatch({ type: TYPES.SET_RESTAURANT_NAME, payload: resp.name });
       dispatch({ type: TYPES.ADD_REST_ADDRESS, payload: resp.abs_address });
       dispatch({ type: TYPES.ADD_REST_LOGO, payload: resp.logo });
+      dispatch({ type: TYPES.OPERATING_CURRENCY, payload: resp.currency });
       dispatch({
         type: TYPES.ORDERING_ABILITY,
         payload: resp.ordering_ability,
@@ -231,13 +234,26 @@ const Home = (props) => {
       dispatch({ type: TYPES.ADD_DATA, payload: resp });
       dispatch({ type: TYPES.UPDATE_REST_ID, payload: resp.restaurant_id});
       // dispatch({ type: TYPES.UPDATE_REST_ID, payload: resp._id.$oid });
-      dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: resp.food_menu });
+      // dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: resp.food_menu });
+      var catList = {'food':[],'bar':[]};
+      resp.food_menu?.forEach((category, catIndex) => {
+        catList['food'].push(category.name);
+      });
+      resp.bar_menu?.forEach((category, catIndex) => {
+        catList['bar'].push(category.name);
+      });
+      // console.log(catList);
+      dispatch({ type: TYPES.BAR_FOOD_MENU_CATS, payload: catList });
+      // console.log(currentMenu);
+      if ( currentMenu === undefined ) {
+      dispatch({ type: TYPES.CURRENT_MENU, payload: 'food' });
+    }
       dispatch({ type: TYPES.THEME_PROPERTIES, payload: resp.theme_properties });
 
 
 /////THEMEING //////
       // if CAFE_MEDLEY:
-      console.log(resp.theme_properties['variables']);
+      // console.log(resp.theme_properties['variables']);
     if (resp.theme_properties['theme'] === true) {
       let cssVariables = [
         '--theme-font', 
@@ -302,7 +318,8 @@ const Home = (props) => {
       document.documentElement.style.setProperty("--first-footer-color", "#ffb023");
       document.documentElement.style.setProperty("--second-footer-color", "#ffb023");
       document.documentElement.style.setProperty("--categories-button-color", "#ffffff");
-      document.documentElement.style.setProperty("--categories-list-item-color", "#4f3e2c");
+      document.documentElement.style.setProperty("--categories-list-item-color", "#ffffff");
+      document.documentElement.style.setProperty("--categories-list-border-color", "#4f3e2c");
 
     }
 /////THEMEING //////

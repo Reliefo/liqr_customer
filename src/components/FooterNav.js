@@ -27,6 +27,8 @@ const FooterNav = (props) => {
       orderingAbility,
       displayOrderButtons,
       themeProperties,
+      currentMenu,
+      barFoodMenuCats,
       // rawData: { food_menu = [] },
     },
     dispatch,
@@ -104,7 +106,7 @@ const FooterNav = (props) => {
     }
 
     sum += addonPrice;
-    cartCount++;
+    cartCount+=item.quantity;
   });
   const trfm = `rotate(${deg}deg)`;
   // const revtrfm = `rotate(${-deg}deg)`;
@@ -144,6 +146,7 @@ const FooterNav = (props) => {
     activeNav === "Home"
       ? "footer-nav footer-theme custom-home-nav"
       : "footer-nav footer-theme";
+
   const floatingButtons = () => (
     <>
 
@@ -158,7 +161,7 @@ const FooterNav = (props) => {
                 {menuClick && (
                   <div className="floating-container-menu-items">
                     <div className="floating-container menu-button">
-                      {cartData.map((item, idx) => {
+                      {barFoodMenuCats[currentMenu].map((item, idx) => {
                         return (
                           <div
                             className="floating-menu-items"
@@ -171,7 +174,7 @@ const FooterNav = (props) => {
                               offset="90"
                               href={`#menu-${idx}`}
                             >
-                              {item.name}
+                              {item}
                             </AnchorLink>
                           </div>
                         );

@@ -48,14 +48,11 @@ body {
 
 
 
-.food-options-modal{
-  background-color: transparentize($color: #000000, $amount: 0.7);
-  font-weight: 700;
-  height: 90%;
-}
-
-
-
+// .food-options-modal{
+//   background-color: transparentize($color: #000000, $amount: 0.7);
+//   font-weight: 700;
+//   height: 90%;
+// }
 
 
 
@@ -307,7 +304,6 @@ body {
       justify-content: space-between;
       & > p.name {
         width: 46%;
-        font-family: $rest-font;
       }
       & p {
         margin: 0;

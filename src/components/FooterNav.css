@@ -122,10 +122,10 @@
 
 .menu-button {
   overflow-y: scroll;
-  left: -30vw;
+  left: -36vw;
   height: 60vh !important;
   width: 70vw;
-  margin-bottom: 1rem !important;
+  margin-bottom: 3rem !important;
   padding: 5%;
   line-height: 35px;
   /* background: #ffffff 0% 0% no-repeat padding-box; */

@@ -136,7 +136,7 @@ const Navbar = (props) => {
                 </Col>
               </Row>
             </Container>
-            <div style={{ zIndex: 1001 }}>
+            <div style={{ zIndex: 422 }}>
               <div>
                 {/* <span className="restaurant-header">
           {name}
@@ -175,7 +175,7 @@ const Navbar = (props) => {
             isOpen={visible}
             onStateChange={isMenuOpen}
             width={"70%"}
-            style={{ zIndex: 1003 }}
+            style={{ zIndex: 424 }}
             customBurgerIcon={
               false
               // <Burger

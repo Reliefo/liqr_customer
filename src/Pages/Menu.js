@@ -19,10 +19,10 @@ const Menu = (props) => {
     state: {
       rawData: { food_menu = [], bar_menu = [] },
       searchClicked,
-      cartData,
       orderingAbility,
       restId,
       themeProperties,
+      currentMenu,
     },
   } = React.useContext(StoreContext);
 
@@ -30,6 +30,7 @@ const Menu = (props) => {
     activeMenu: "food",
     showData: true,
   });
+
   const handleScroll = () => {
     const currentScrollPos = window.pageYOffset;
     // const visible = prevScrollpos > currentScrollPos;
@@ -57,27 +58,26 @@ const Menu = (props) => {
     //   });
     // }
 
+    /////THEMEING //////
 
-/////THEMEING //////
-
-
-    if (themeProperties['theme'] === true) {
+    if (themeProperties["theme"] === true) {
       let cssVariables = [
-        '--theme-font', 
-        '--first-menu-background-color', 
-        '--second-menu-background-color', 
-        '--food-card-color', 
-        '--add-button-color', 
+        "--theme-font",
+        "--first-menu-background-color",
+        "--second-menu-background-color",
+        "--food-card-color",
+        "--add-button-color",
       ];
       cssVariables.forEach((item, key) => {
         // console.log(item,key);
-        document.documentElement.style.setProperty(item, themeProperties['variables'][item]);
+        document.documentElement.style.setProperty(
+          item,
+          themeProperties["variables"][item]
+        );
       });
     }
     /////THEMEING //////
 
-
-    console.log("Menu screen");
     window.addEventListener("scroll", handleScroll);
     dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
     dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
@@ -98,11 +98,10 @@ const Menu = (props) => {
 
   const setMenu = (name, type) => {
     setState((state) => ({ ...state, activeMenu: name }));
-    dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: type });
+    dispatch({ type: TYPES.CURRENT_MENU, payload: name });
   };
   const handleClose = () => setState({ showData: false });
   // const handleShow = () => setState({ showData: true });
-  // console.log(cartData[0].food_list[1]);
   React.useEffect(() => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -156,7 +155,7 @@ const Menu = (props) => {
                 <ul className="menu-btn">
                   <li
                     className={
-                      state.activeMenu === "food"
+                      currentMenu === "food"
                         ? "menu-active bar-active"
                         : "menu-inactive bar-inactive"
                     }
@@ -166,7 +165,7 @@ const Menu = (props) => {
                   </li>
                   <li
                     className={
-                      state.activeMenu === "bar"
+                      currentMenu === "bar"
                         ? "menu-active food-active"
                         : "menu-inactive food-inactive"
                     }
@@ -178,38 +177,14 @@ const Menu = (props) => {
               ) : null}
             </nav>
             <div className="category">
-              {/* <div className="floating-container-menu-items">
-                        <div
-                          className="floating-container menu-button"
-                          style={{ marginBottom: "2.5rem" }}
-                        >
-                          {cartData.map((item, idx) => {
-                            return (
-                              <div
-                                class="floating-menu-items"
-                                key={idx}
-                                onClick={() => closeMenu(idx)}
-                              >
-                                <AnchorLink
-                                  className="anchor-menu"
-                                  offset="90"
-                                  href={`#menu-${idx}`}
-                                >
-                                  {item.name}
-                                </AnchorLink>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </div> */}
-
-              {cartData.length &&
-                cartData.map((item, idx) => (
-                  <React.Fragment key={`Category-${idx}`}>
-                    <p className="category-subs" style={{ zIndex: idx + 1 }}>
-                      {item.name}
-                    </p>
-                    {/* <Dropdown>
+              {currentMenu === "food"
+                ? food_menu.map((item, idx) => (
+                    <React.Fragment key={`Category-${idx}`}>
+                      <p className="category-subs" style={{ zIndex: idx + 1 }}>
+                        {item.name}
+                      </p>
+                      <>
+                        {/* <Dropdown>
                       <Dropdown.Toggle variant="success" id="dropdown-basic">
                         Category
                       </Dropdown.Toggle>
@@ -224,15 +199,45 @@ const Menu = (props) => {
                         </Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown> */}
-                    <SubCategory
-                      cartData={state.cartData}
-                      subs={item}
-                      categories={idx}
-                      key={`category-cards-${idx}`}
-                      subOrderingAbility={orderingAbility}
-                    />
-                  </React.Fragment>
-                ))}
+                      </>
+                      <SubCategory
+                        subs={item}
+                        categories={idx}
+                        key={`category-cards-${idx}`}
+                        subOrderingAbility={orderingAbility}
+                      />
+                    </React.Fragment>
+                  ))
+                : bar_menu.map((item, idx) => (
+                    <React.Fragment key={`Category-${idx}`}>
+                      <p className="category-subs" style={{ zIndex: idx + 1 }}>
+                        {item.name}
+                      </p>
+                      <>
+                        {/* <Dropdown>
+                      <Dropdown.Toggle variant="success" id="dropdown-basic">
+                        Category
+                      </Dropdown.Toggle>
+
+                      <Dropdown.Menu>
+                        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                        <Dropdown.Item href="#/action-2">
+                          Another action
+                        </Dropdown.Item>
+                        <Dropdown.Item href="#/action-3">
+                          Something else
+                        </Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown> */}
+                      </>
+                      <SubCategory
+                        subs={item}
+                        categories={idx}
+                        key={`category-cards-${idx}`}
+                        subOrderingAbility={orderingAbility}
+                      />
+                    </React.Fragment>
+                  ))}
             </div>
           </div>
         </>
@@ -241,7 +246,7 @@ const Menu = (props) => {
   );
 };
 
-const SubCategory = ({ subs, categories, cartData, subOrderingAbility }) => (
+const SubCategory = ({ subs, categories, subOrderingAbility }) => (
   <>
     <p
       id={`menu-${categories}`}
@@ -256,7 +261,6 @@ const SubCategory = ({ subs, categories, cartData, subOrderingAbility }) => (
       <div key={idx3}>
         {foodItem.visibility ? (
           <FoodItem
-            stateData={cartData}
             foodItem={foodItem}
             subs={subs}
             subsIndex={categories}
