@@ -205,6 +205,7 @@ const Menu = (props) => {
                         categories={idx}
                         key={`category-cards-${idx}`}
                         subOrderingAbility={orderingAbility}
+                        menuType="food"
                       />
                     </React.Fragment>
                   ))
@@ -235,6 +236,7 @@ const Menu = (props) => {
                         categories={idx}
                         key={`category-cards-${idx}`}
                         subOrderingAbility={orderingAbility}
+                        menuType="bar"
                       />
                     </React.Fragment>
                   ))}
@@ -246,7 +248,7 @@ const Menu = (props) => {
   );
 };
 
-const SubCategory = ({ subs, categories, subOrderingAbility }) => (
+const SubCategory = ({ subs, categories, subOrderingAbility, menuType }) => (
   <>
     <p
       id={`menu-${categories}`}
@@ -267,6 +269,7 @@ const SubCategory = ({ subs, categories, subOrderingAbility }) => (
             index={idx3}
             key={`food-item-${idx3}`}
             restOrderingAbility={subOrderingAbility}
+            menuType={menuType}
           />
         ) : null}
       </div>

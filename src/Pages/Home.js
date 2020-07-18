@@ -1,17 +1,13 @@
 /* eslint-disable */
 import React from "react";
-import {
-  Card,
-  Modal,
-  Button,
-} from "react-bootstrap";
+import { Card, Modal, Button } from "react-bootstrap";
 import { Carousel } from "react-bootstrap";
 import SearchFoodItems from "components/SearchFoodItems.js";
 import SocketContext from "../socket-context";
 import Slider from "react-slick";
 import { StoreContext } from "Store";
 import * as TYPES from "Store/actionTypes.js";
-import HomeFoodItem from "components/HomeFoodItem";
+import FoodItem from "components/FoodItem";
 import Loader from "./Loader";
 import "./Home.css";
 import { Link } from "react-router-dom";
@@ -21,7 +17,7 @@ const Home = (props) => {
     dispatch,
     state: {
       homeItems,
-      // rawData: { food_menu = [] },
+      rawData: { food_menu = [], bar_menu=[] },
       cartData,
       restName,
       restAddress,
@@ -232,98 +228,123 @@ const Home = (props) => {
         payload: resp.display_order_buttons,
       });
       dispatch({ type: TYPES.ADD_DATA, payload: resp });
-      dispatch({ type: TYPES.UPDATE_REST_ID, payload: resp.restaurant_id});
+      dispatch({ type: TYPES.UPDATE_REST_ID, payload: resp.restaurant_id });
       // dispatch({ type: TYPES.UPDATE_REST_ID, payload: resp._id.$oid });
       // dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: resp.food_menu });
-      var catList = {'food':[],'bar':[]};
+      var catList = { food: [], bar: [] };
       resp.food_menu?.forEach((category, catIndex) => {
-        catList['food'].push(category.name);
+        catList["food"].push(category.name);
       });
       resp.bar_menu?.forEach((category, catIndex) => {
-        catList['bar'].push(category.name);
+        catList["bar"].push(category.name);
       });
       // console.log(catList);
       dispatch({ type: TYPES.BAR_FOOD_MENU_CATS, payload: catList });
       // console.log(currentMenu);
-      if ( currentMenu === undefined ) {
-      dispatch({ type: TYPES.CURRENT_MENU, payload: 'food' });
-    }
-      dispatch({ type: TYPES.THEME_PROPERTIES, payload: resp.theme_properties });
+      if (currentMenu === undefined) {
+        dispatch({ type: TYPES.CURRENT_MENU, payload: "food" });
+      }
+      dispatch({
+        type: TYPES.THEME_PROPERTIES,
+        payload: resp.theme_properties,
+      });
 
-
-/////THEMEING //////
+      /////THEMEING //////
       // if CAFE_MEDLEY:
       // console.log(resp.theme_properties['variables']);
-    if (resp.theme_properties['theme'] === true) {
-      let cssVariables = [
-        '--theme-font', 
-        '--first-background-color', 
-        '--second-background-color', 
-        '--first-menu-background-color', 
-        '--second-menu-background-color', 
-        '--first-light-color', 
-        '--second-light-color', 
-        '--first-pattern-light-color', 
-        '--second-pattern-light-color', 
-        '--food-card-color', 
-        '--welcome-card-color', 
-        '--welcome-card-text-color', 
-        '--food-menu-button-color', 
-        '--add-button-color', 
-        '--top-bar-color', 
-        '--search-background-color', 
-        '--burger-menu-background-color', 
-        '--first-footer-color', 
-        '--second-footer-color', 
-        '--categories-button-color', 
-        '--categories-list-item-color'
-      ]
-      cssVariables.forEach((item, key) => {
-        // console.log(item,key);
-        document.documentElement.style.setProperty(item, resp.theme_properties['variables'][item]);
+      if (resp.theme_properties["theme"] === true) {
+        let cssVariables = [
+          "--theme-font",
+          "--first-background-color",
+          "--second-background-color",
+          "--first-menu-background-color",
+          "--second-menu-background-color",
+          "--first-light-color",
+          "--second-light-color",
+          "--first-pattern-light-color",
+          "--second-pattern-light-color",
+          "--food-card-color",
+          "--welcome-card-color",
+          "--welcome-card-text-color",
+          "--food-menu-button-color",
+          "--add-button-color",
+          "--top-bar-color",
+          "--search-background-color",
+          "--burger-menu-background-color",
+          "--first-footer-color",
+          "--second-footer-color",
+          "--categories-button-color",
+          "--categories-list-item-color",
+        ];
+        cssVariables.forEach((item, key) => {
+          // console.log(item,key);
+          document.documentElement.style.setProperty(
+            item,
+            resp.theme_properties["variables"][item]
+          );
+        });
+        // document.documentElement.style.setProperty("--theme-font", "Inconsolata");
+        // document.documentElement.style.setProperty("--first-background-color", "#d6c333");
+        // document.documentElement.style.setProperty("--second-background-color", "#d1a926");
+        // document.documentElement.style.setProperty("--first-menu-background-color", "#d6c333");
+        // document.documentElement.style.setProperty("--second-menu-background-color", "#d1a926");
+        // document.documentElement.style.setProperty("--first-light-color", "#ffe83d");
+        // document.documentElement.style.setProperty("--second-light-color", "#ffcf31");
+        // document.documentElement.style.setProperty("--first-pattern-light-color", "#ffe83d");
+        // document.documentElement.style.setProperty("--second-pattern-light-color", "#ffcf31");
+        // document.documentElement.style.setProperty("--food-card-color", "#faee4a");
+        // document.documentElement.style.setProperty("--welcome-card-color", "#4f3e2c");
+        // document.documentElement.style.setProperty("--welcome-card-text-color", "#ffffff");
+        // document.documentElement.style.setProperty("--food-menu-button-color", "#ffcf31");
+        // document.documentElement.style.setProperty("--add-button-color", "#4f3e2c");
+        // //Nav Bar//
+        // document.documentElement.style.setProperty("--top-bar-color", "#ffcf31");
+        // document.documentElement.style.setProperty("--search-background-color", "#ffe83d");
+        // document.documentElement.style.setProperty("--burger-menu-background-color", "#a89214");
+        // //Footer//
+        // document.documentElement.style.setProperty("--first-footer-color", "#ffe83d");
+        // document.documentElement.style.setProperty("--second-footer-color", "#ffcf31");
+        // document.documentElement.style.setProperty("--categories-button-color", "#ffcf31");
+        // document.documentElement.style.setProperty("--categories-list-item-color", "#ffcf31");
+      } else {
+        //Nav Bar//
+        // document.documentElement.style.setProperty("--first-light-color", "#ffb023");
+        // document.documentElement.style.setProperty("--second-light-color", "#ffc967");
+        document.documentElement.style.setProperty(
+          "--top-bar-color",
+          "#ffb023"
+        );
+        document.documentElement.style.setProperty(
+          "--search-background-color",
+          "#ffc45c"
+        );
+        document.documentElement.style.setProperty(
+          "--burger-menu-background-color",
+          "#c0841d"
+        );
+        //Footer//
+        document.documentElement.style.setProperty(
+          "--first-footer-color",
+          "#ffb023"
+        );
+        document.documentElement.style.setProperty(
+          "--second-footer-color",
+          "#ffb023"
+        );
+        document.documentElement.style.setProperty(
+          "--categories-button-color",
+          "#ffffff"
+        );
+        document.documentElement.style.setProperty(
+          "--categories-list-item-color",
+          "#ffffff"
+        );
+        document.documentElement.style.setProperty(
+          "--categories-list-border-color",
+          "#4f3e2c"
+        );
       }
-      );
-      // document.documentElement.style.setProperty("--theme-font", "Inconsolata");
-      // document.documentElement.style.setProperty("--first-background-color", "#d6c333");
-      // document.documentElement.style.setProperty("--second-background-color", "#d1a926");
-      // document.documentElement.style.setProperty("--first-menu-background-color", "#d6c333");
-      // document.documentElement.style.setProperty("--second-menu-background-color", "#d1a926");
-      // document.documentElement.style.setProperty("--first-light-color", "#ffe83d");
-      // document.documentElement.style.setProperty("--second-light-color", "#ffcf31");
-      // document.documentElement.style.setProperty("--first-pattern-light-color", "#ffe83d");
-      // document.documentElement.style.setProperty("--second-pattern-light-color", "#ffcf31");
-      // document.documentElement.style.setProperty("--food-card-color", "#faee4a");
-      // document.documentElement.style.setProperty("--welcome-card-color", "#4f3e2c");
-      // document.documentElement.style.setProperty("--welcome-card-text-color", "#ffffff");
-      // document.documentElement.style.setProperty("--food-menu-button-color", "#ffcf31");
-      // document.documentElement.style.setProperty("--add-button-color", "#4f3e2c");
-      // //Nav Bar//
-      // document.documentElement.style.setProperty("--top-bar-color", "#ffcf31");
-      // document.documentElement.style.setProperty("--search-background-color", "#ffe83d");
-      // document.documentElement.style.setProperty("--burger-menu-background-color", "#a89214");
-      // //Footer//
-      // document.documentElement.style.setProperty("--first-footer-color", "#ffe83d");
-      // document.documentElement.style.setProperty("--second-footer-color", "#ffcf31");
-      // document.documentElement.style.setProperty("--categories-button-color", "#ffcf31");
-      // document.documentElement.style.setProperty("--categories-list-item-color", "#ffcf31");
-    }
-    else {
-      //Nav Bar//
-      // document.documentElement.style.setProperty("--first-light-color", "#ffb023");
-      // document.documentElement.style.setProperty("--second-light-color", "#ffc967");
-      document.documentElement.style.setProperty("--top-bar-color", "#ffb023");
-      document.documentElement.style.setProperty("--search-background-color", "#ffc45c");
-      document.documentElement.style.setProperty("--burger-menu-background-color", "#c0841d");
-      //Footer//
-      document.documentElement.style.setProperty("--first-footer-color", "#ffb023");
-      document.documentElement.style.setProperty("--second-footer-color", "#ffb023");
-      document.documentElement.style.setProperty("--categories-button-color", "#ffffff");
-      document.documentElement.style.setProperty("--categories-list-item-color", "#ffffff");
-      document.documentElement.style.setProperty("--categories-list-border-color", "#4f3e2c");
-
-    }
-/////THEMEING //////
-
+      /////THEMEING //////
 
       let justFoodItems = [];
 
@@ -340,70 +361,6 @@ const Home = (props) => {
       setState({ isloading: false });
     });
   }, [props.socket, dispatch, props.location]);
-
-  // const selectOption = (foodItem, item) => {
-  //   foodItem.food_option = item;
-  // };
-  // const addItem = (item, index, subsIndex) => {
-    // if (item["options"] === undefined) {
-    //   item["options"] = {};
-    // }
-    // item["options"] = item.food_option;
-    // dispatch({ type: TYPES.ADD_ITEM, payload: item }); //dispatcing the whole item
-
-  //   cartData.forEach((item2, index3) => {
-  //     if (index3 === subsIndex) {
-  //       item2.food_list.forEach((item3, idx2) => {
-  //         if (idx2 === index) {
-  //           item3.showPopup = false;
-  //           item3.showCustomize = false;
-  //           item3.showOptionsAgain = false;
-  //         }
-  //       });
-  //     }
-  //   });
-  //   dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
-  // };
-
-  // const setIndex = (foodItem, index, subsIndex) => {
-  //   cartData.forEach((item, index3) => {
-  //     if (index3 === subsIndex) {
-  //       item.food_list.forEach((item1, idx2) => {
-  //         if (idx2 === index) {
-  //           item1.open = !item1.open;
-  //         }
-  //       });
-  //     }
-  //   });
-  //   dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
-  // };
-
-  // const closePopUp = (foodItem, index, subsIndex) => {
-  //   cartData.forEach((item, index3) => {
-  //     if (index3 === subsIndex) {
-  //       item.food_list.forEach((item1, idx2) => {
-  //         if (idx2 === index) {
-  //           item1.showPopup = !item1.showPopup;
-  //           item1.showCustomize = false;
-  //         }
-  //       });
-  //     }
-  //   });
-  //   dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
-  // };
-
-  // const showOptions = (foodItem, index, subsIndex) => {
-  //   cartData.forEach((item, index3) => {
-  //     if (index3 === subsIndex) {
-  //       item.food_list.forEach((item1, idx2) => {
-  //         if (idx2 === index) {
-  //           item1.showOptionsAgain = true;
-  //         }
-  //       });
-  //     }
-  //   });
-  //   dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
-  // };
 
   const handleClose = () => setState({ showData: false });
   // const handleShow = () => setState({ showData: true });
@@ -481,18 +438,16 @@ const Home = (props) => {
               ) : (
                 <Card.Img variant="top" src={restLogo} />
               )}
-              <Card.Body className="welcome-card-text">
-                {restAddress}
-              </Card.Body>
-          <Link to="/menu" className="styled-link">
-            <Card className="full-menu-button-div">
-              <div>
-                <Card.Title className="full-menu-text">
-                  Full Menu
-                </Card.Title>
-              </div>
-            </Card>
-          </Link>
+              <Card.Body className="welcome-card-text">{restAddress}</Card.Body>
+              <Link to="/menu" className="styled-link">
+                <Card className="full-menu-button-div">
+                  <div>
+                    <Card.Title className="full-menu-text">
+                      Full Menu
+                    </Card.Title>
+                  </div>
+                </Card>
+              </Link>
             </Card>
           </div>
           <div className="rest-of-home-screen">
@@ -500,9 +455,7 @@ const Home = (props) => {
               if (idx === 0) {
                 return (
                   <div key={idx}>
-                    <span className="home-screen-headings">
-                      {data[0]}
-                    </span>
+                    <span className="home-screen-headings">{data[0]}</span>
                     <Slider {...settings2}>
                       {Object.entries(data[1]).map((item, index) => {
                         return (
@@ -563,214 +516,25 @@ const Home = (props) => {
                     </Card.Title>
                     <Slider {...getSettings(idx)} className="custom-slider">
                       {Object.values(data[1]["food_list"]).map(
-                        (item, index) => {
-                          if (typeof item === "object") {
-                          }
-                          return Object.values(cartData).map((food, idx) => {
-                            return Object.values(food.food_list).map(
-                              (list, ix) => {
-                                if (list._id.$oid === item) {
+                        (foodId, foodIdIndex) => {
+                          return Object.values(food_menu.concat(bar_menu)).map((subCategory, idx) => {
+                            return Object.values(subCategory.food_list).map(
+                              (foodItem, foodItemIndex) => {
+                                if (foodItem._id.$oid === foodId) {
                                   return (
                                     <div id="card-home-screen">
-                                      <HomeFoodItem
+                                      <FoodItem
                                         stateData={cartData}
-                                        foodItem={list}
-                                        subs={food}
+                                        foodItem={foodItem}
+                                        subs={subCategory}
                                         subsIndex={idx}
-                                        index={ix}
-                                        key={`food-item-${ix}`}
+                                        index={foodItemIndex}
+                                        key={`food-item-${foodItemIndex}`}
                                         restOrderingAbility={orderingAbility}
+                                        fromhome="home"
+                                        menuType="food"
                                       />
                                     </div>
-                                    // <Card
-                                    //   className="category card home-item"
-                                    //   key={`category-cards-${ix}`}
-                                    // >
-                                    //   <div>
-                                    //     <div>
-                                    //       <img
-                                    //         onClick={() =>
-                                    //           props.history.push("/menu", {
-                                    //             data: list.name
-                                    //           })
-                                    //         }
-                                    //         style={{ float: "left" }}
-                                    //         className="card-image card-home-image"
-                                    //         src={sampleImage}
-                                    //         alt="sample"
-                                    //       />
-                                    //     </div>
-                                    //     <div
-                                    //       style={{
-                                    //         marginLeft: "35%"
-                                    //       }}
-                                    //     >
-                                    //       <p className="item-name item-home">
-                                    //         {list.name}
-                                    //       </p>
-                                    //       <div className="options-modal options-home">
-                                    //         {desc}
-                                    //       </div>
-                                    //       <div>
-                                    //         <p className="item-price">
-                                    //           ₹ {list.price}
-                                    //         </p>
-                                    //         <PlusWithAddRemove
-                                    //           item={list}
-                                    //           idx={ix}
-                                    //           subs={idx}
-                                    //         />
-                                    //       </div>
-                                    //     </div>
-                                    //   </div>
-                                    //   {list.foodOptions &&
-                                    //   list.foodOptions === true ? (
-                                    //     <Modal
-                                    //       size="lg"
-                                    //       aria-labelledby="contained-modal-title-vcenter"
-                                    //       centered
-                                    //       show={list.showPopup}
-                                    //       onHide={handleClose}
-                                    //     >
-                                    //       <Modal.Header>
-                                    //         <Modal.Title className="options-title">
-                                    //           {list.name} <br />{" "}
-                                    //           <div className="options-modal">
-                                    //             {list.description}
-                                    //           </div>
-                                    //         </Modal.Title>
-                                    //       </Modal.Header>
-                                    //       <Modal.Body>
-                                    //         {cart.length
-                                    //           ? cart.map(item => {
-                                    //               if (
-                                    //                 list._id.$oid === item._id.$oid
-                                    //               ) {
-                                    //                 return (
-                                    //                   <div>
-                                    //                     <div>
-                                    //                       <p
-                                    //                         style={{
-                                    //                           width: "69%",
-                                    //                           fontSize: ".9rem",
-                                    //                           float: "left"
-                                    //                         }}
-                                    //                       >
-                                    //                         Rs{" "}
-                                    //                         {
-                                    //                           item.options
-                                    //                             .option_price
-                                    //                         }{" "}
-                                    //                         <br />
-                                    //                         Option:
-                                    //                         {
-                                    //                           item.options.option_name
-                                    //                         }{" "}
-                                    //                         <br />
-                                    //                       </p>
-                                    //                       <PlusWithAddRemove
-                                    //                         item={list}
-                                    //                         idx={ix}
-                                    //                         subs={idx}
-                                    //                       />
-                                    //                       <br />
-                                    //                     </div>
-                                    //                   </div>
-                                    //                 );
-                                    //               }
-                                    //             })
-                                    //           : ""}
-                                    //         {list.options
-                                    //           ? ""
-                                    //           : Object.entries(list.food_options).map(
-                                    //               (item, index) => {
-                                    //                 return Object.values(item[1]).map(
-                                    //                   (item1, idx) => {
-                                    //                     return (
-                                    //                       <div key={idx}>
-                                    //                         <Form.Check
-                                    //                           onClick={() =>
-                                    //                             selectOption(
-                                    //                               list,
-                                    //                               item1
-                                    //                             )
-                                    //                           }
-                                    //                           type="radio"
-                                    //                           label={
-                                    //                             item1.option_name
-                                    //                           }
-                                    //                           name="test"
-                                    //                         />
-                                    //                       </div>
-                                    //                     );
-                                    //                   }
-                                    //                 );
-                                    //               }
-                                    //             )}
-                                    //         {list.showCustomize ? (
-                                    //           <div
-                                    //             className="modal-customization"
-                                    //             onClick={() =>
-                                    //               showOptions(list, ix, idx)
-                                    //             }
-                                    //           >
-                                    //             Add More Customization
-                                    //           </div>
-                                    //         ) : (
-                                    //           ""
-                                    //         )}
-                                    //         {list.showOptionsAgain
-                                    //           ? Object.entries(list.food_options).map(
-                                    //               (item, index) => {
-                                    //                 return Object.values(item[1]).map(
-                                    //                   (item1, idx) => {
-                                    //                     return (
-                                    //                       <div key={idx}>
-                                    //                         <Form.Check
-                                    //                           onClick={() =>
-                                    //                             selectOption(
-                                    //                               list,
-                                    //                               item1
-                                    //                             )
-                                    //                           }
-                                    //                           type="radio"
-                                    //                           label={
-                                    //                             item1.option_name
-                                    //                           }
-                                    //                           name="test"
-                                    //                         />
-                                    //                       </div>
-                                    //                     );
-                                    //                   }
-                                    //                 );
-                                    //               }
-                                    //             )
-                                    //           : ""}
-                                    //       </Modal.Body>
-
-                                    //       <Modal.Footer>
-                                    //         <Button
-                                    //           variant="secondary"
-                                    //           onClick={() =>
-                                    //             closePopUp(list, ix, idx)
-                                    //           }
-                                    //           className="options-button-close"
-                                    //         >
-                                    //           Close
-                                    //         </Button>
-                                    //         <Button
-                                    //            className="options-button-add"
-                                    //           variant="primary"
-                                    //           onClick={() => addItem(list, ix, idx)}
-                                    //         >
-                                    //           Add
-                                    //         </Button>
-                                    //       </Modal.Footer>
-                                    //     </Modal>
-                                    //   ) : (
-                                    //     ""
-                                    //   )}
-                                    // </Card>
                                   );
                                 }
                               }

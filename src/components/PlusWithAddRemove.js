@@ -13,6 +13,7 @@ const PlusWithAddRemove = ({
   subs,
   from,
   fromhome,
+  setShowPopup,
   orderingAbility,
 }) => {
   const {
@@ -90,6 +91,7 @@ const PlusWithAddRemove = ({
   React.useEffect(() => {
     if (state.quantity === 0) {
       setState((state) => ({ ...state, showAddRemove: false }));
+      foodItem.showCustomize = true;
 
       dispatch({ type: TYPES.DEL_ITEM, payload: foodItem });
     }
@@ -110,7 +112,8 @@ const PlusWithAddRemove = ({
       return;
     }
     if (foodItem.customization.length > 0) {
-      foodItem.showPopup = true;
+      // showPopup = true;
+      setShowPopup(true);
       return;
     }
     if (foodItem.customization.length > 0) {
@@ -148,7 +151,10 @@ const PlusWithAddRemove = ({
             </div>
             {state.quantity}
             <div className="icon">
-              <MyPlusSVG onClick={onClickPlus} className="cart-plus-minus-svg" />
+              <MyPlusSVG
+                onClick={onClickPlus}
+                className="cart-plus-minus-svg"
+              />
             </div>
           </div>
         </div>

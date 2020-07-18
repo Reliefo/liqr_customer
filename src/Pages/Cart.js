@@ -26,8 +26,6 @@ const Cart = (props) => {
       currency,
     },
   } = React.useContext(StoreContext);
-  //$rest-font
-  const rest_font = "Inconsolata";
 
   let orderId = [];
   if (tableCartOrders && Object.keys(tableCartOrders).length > 0) {
@@ -123,9 +121,9 @@ const Cart = (props) => {
     }
   });
 
-  const deleteItemHndlr = (item) => {
-    dispatch({ type: TYPES.DEL_ITEM, payload: item });
-  };
+  // const deleteItemHndlr = (item) => {
+  //   dispatch({ type: TYPES.DEL_ITEM, payload: item });
+  // };
 
   const deleteItemHndlrTableCart = (item, orderList) => {
     // dispatch({ type: TYPES.DEL_TABLE_ITEM, payload: item });
@@ -143,7 +141,7 @@ const Cart = (props) => {
     setState((state) => ({ ...state, activeCart: 1 - state.activeCart }));
   };
 
-  const setOrderTable = () => {
+  const confirmTheTableOrders = () => {
     const body = { table_id: localStorage.getItem("table_id") };
     props.socket.emit("place_table_order", JSON.stringify(body));
     dispatch({ type: TYPES.UPDATE_TABLE_CART, payload: [] });
@@ -171,58 +169,38 @@ const Cart = (props) => {
     });
   };
 
-  const setCartPlaceOrder = () => {
+  const placePersonalOrder = () => {
     // const cartClone = _.cloneDeep(cart);
     const cartToSend = [];
 
-    cart.forEach((item) => {
-      const singleObject = {
-        food_id: item._id.$oid,
-        customization: item.customization,
-        price: item.price,
-        quantity: item.quantity,
-        name: item.name,
-        restaurant_id: item.restaurant_id,
+    cart.forEach((cartItem) => {
+      let singleFoodObject = {
+        food_id: cartItem._id.$oid,
+        price: cartItem.price,
+        quantity: cartItem.quantity,
+        name: cartItem.name,
+        restaurant_id: cartItem.restaurant_id,
       };
-
-      if (item.options) {
-        const optionIndex = item.customization.findIndex(
-          (option) => option.customization_type === "options"
-        );
-        singleObject.customization[optionIndex].list_of_options = [
-          item.options,
-        ];
-        singleObject.price = item.options.option_price;
-      }
-
-      if (item.choices) {
-        const choiceIndex = item.customization.findIndex(
-          (choice) => choice.customization_type === "choices"
-        );
-        singleObject.customization[choiceIndex].list_of_options = [
-          ...item.choices,
-        ];
-      }
-
-      if (item.hasOwnProperty("addon")) {
-        if (item.addon.length > 0) {
-          const addonIndex = item.customization.findIndex(
-            (addon) => addon.customization_type === "add_ons"
-          );
-          try {
-            singleObject.customization[
-              addonIndex
-            ].list_of_options = item.addon.map((addon) => addon._id.$oid);
-          } catch (error) {
-            singleObject.customization[
-              addonIndex
-            ].list_of_options = item.addon.map((addon) => addon);
-            // ...
+      singleFoodObject.customization = []
+      cartItem.currentCustomization.forEach((cust)=>{
+        let singleCust = {
+          name: cust.name,
+          that_number: cust.that_number,
+          less_more: cust.less_more,
+          list_of_options: [],
+          customization_type: cust.customization_type,
+        };
+        cust.list_of_options.forEach((option, optionIndex) => {
+          if (cust.checked[optionIndex]){
+            singleCust.list_of_options.push(option);
           }
-        }
-      }
-      cartToSend.push(singleObject);
+        });
+        singleFoodObject.customization.push(singleCust);
+      });
+
+      cartToSend.push(singleFoodObject);
     });
+    console.log(cartToSend);
 
     const body = {
       table: localStorage.getItem("table_id"),
@@ -253,49 +231,35 @@ const Cart = (props) => {
     });
   };
 
-  const setCart = () => {
+  const pushToTable = () => {
     const cartToSend = [];
 
-    cart.forEach((item) => {
-      const singleObject = {
-        food_id: item._id.$oid,
-        customization: item.customization,
-        price: item.price,
-        quantity: item.quantity,
-        name: item.name,
-        restaurant_id: item.restaurant_id,
+    cart.forEach((cartItem) => {
+      let singleFoodObject = {
+        food_id: cartItem._id.$oid,
+        price: cartItem.price,
+        quantity: cartItem.quantity,
+        name: cartItem.name,
+        restaurant_id: cartItem.restaurant_id,
       };
+      singleFoodObject.customization = []
+      cartItem.currentCustomization.forEach((cust)=>{
+        let singleCust = {
+          name: cust.name,
+          that_number: cust.that_number,
+          less_more: cust.less_more,
+          list_of_options: [],
+          customization_type: cust.customization_type,
+        };
+        cust.list_of_options.forEach((option, optionIndex) => {
+          if (cust.checked[optionIndex]){
+            singleCust.list_of_options.push(option);
+          }
+        });
+        singleFoodObject.customization.push(singleCust);
+      });
 
-      if (item.options) {
-        const optionIndex = item.customization.findIndex(
-          (option) => option.customization_type === "options"
-        );
-        singleObject.customization[optionIndex].list_of_options = [
-          item.options,
-        ];
-        singleObject.price = item.options.option_price;
-      }
-
-      if (item.choices) {
-        const choiceIndex = item.customization.findIndex(
-          (choice) => choice.customization_type === "choices"
-        );
-        singleObject.customization[choiceIndex].list_of_options = [
-          ...item.choices,
-        ];
-      }
-
-      if (item.hasOwnProperty("addon")) {
-        if (item.addon.length > 0) {
-          const addonIndex = item.customization.findIndex(
-            (addon) => addon.customization_type === "add_ons"
-          );
-          singleObject.customization[
-            addonIndex
-          ].list_of_options = item.addon.map((addon) => addon._id.$oid);
-        }
-      }
-      cartToSend.push(singleObject);
+      cartToSend.push(singleFoodObject);
     });
 
     console.log(cartToSend);
@@ -347,7 +311,7 @@ const Cart = (props) => {
               <CloseSVG />
             </div> */}
           </Card.Body>
-          {cartItem.currentCustomization.map((cust) => {
+          {cartItem.currentCustomization && cartItem.currentCustomization.map((cust) => {
             if (cust.customization_type === "add_ons") {
               return (
                 <span className="detail-options">
@@ -590,7 +554,7 @@ const Cart = (props) => {
                     <Col style={{ marginTop: "1rem" }}>
                       <div
                         className="bill-btn personal-order-btn"
-                        onClick={setCartPlaceOrder}
+                        onClick={placePersonalOrder}
                       >
                         <p>Place Order</p>
                       </div>
@@ -598,7 +562,7 @@ const Cart = (props) => {
                     <Col style={{ marginTop: "1rem" }}>
                       <div
                         className="bill-btn push-to-table-btn"
-                        onClick={setCart}
+                        onClick={pushToTable}
                       >
                         <p>Push To Table</p>
                       </div>
@@ -611,7 +575,7 @@ const Cart = (props) => {
               <>
                 <Bill orderTotal={sum} />
                 <div
-                  onClick={setOrderTable}
+                  onClick={confirmTheTableOrders}
                   className="bill-btn push-to-table-btn mt-3"
                 >
                   <div className="d-flex">

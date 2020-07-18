@@ -227,7 +227,7 @@ const HomeFoodItem = ({
     <Card id={foodItem.name} className="category-card home-screen-food-card">
       <div className="container" style={{ paddingRight: "0rem" }}>
         {foodItem.image_link ? (
-          <div className="row container-row">
+          <div className="row">
             <div
               className="col-4 col-5-home-food-card"
               onClick={() => selectDetails(foodItem, index, subsIndex)}

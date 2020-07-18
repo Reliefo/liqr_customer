@@ -6,22 +6,36 @@ import { Card, Modal, Button } from "react-bootstrap";
 import * as TYPES from "Store/actionTypes.js";
 import { StoreContext } from "Store";
 import "./FoodItem.css";
+import "./HomeFoodItem.css";
 import { uniqBy } from "lodash";
 
-const FoodItem = ({ foodItem, index, subsIndex, restOrderingAbility }) => {
+const FoodItem = ({
+  foodItem,
+  index,
+  subsIndex,
+  restOrderingAbility,
+  fromhome,
+  menuType,
+}) => {
   const {
     dispatch,
     state: { cartData, addons, cart, currency },
   } = React.useContext(StoreContext);
 
-  const [show, setShow] = React.useState(false);
-  const [newQuantity, setNewQuantity] = React.useState(0);
-  const [currentCustomization, setCurrentCustomization] = React.useState([]);
+  const [currentCustomization, setCurrentCustomization] = React.useState({
+    food: [],
+    bar: [],
+  });
+  const [showPopup, setShowPopup] = React.useState(false);
+  const [showError, setShowError] = React.useState(false);
 
   React.useEffect(() => {
-    if (foodItem.hasOwnProperty("customization")) {
-      if (currentCustomization.length === 0) {
-        let tempCustomization = [];
+    if (
+      foodItem.hasOwnProperty("customization") &&
+      foodItem.customization.length > 0
+    ) {
+      if (currentCustomization[menuType].length === 0) {
+        let tempCustomization = _.cloneDeep(currentCustomization);
         foodItem.customization.forEach((cust) => {
           let tempCust = { ...cust };
           tempCust.checked = [];
@@ -46,56 +60,59 @@ const FoodItem = ({ foodItem, index, subsIndex, restOrderingAbility }) => {
             });
           }
 
-          tempCustomization.push(tempCust);
+          tempCustomization[menuType].push(tempCust);
         });
         setCurrentCustomization(tempCustomization);
+        foodItem.showCustomize = true;
+        cart.forEach((cartItem) => {
+          if (foodItem._id.$oid === cartItem._id.$oid) {
+            foodItem.showCustomize = false;
+          }
+        });
       }
     }
   }, [foodItem]);
 
   const addItem = (foodItem) => {
     let cartItem = _.cloneDeep(foodItem);
-    cartItem["currentCustomization"] = _.cloneDeep(currentCustomization);
-
-    dispatch({ type: TYPES.ADD_ITEM, payload: cartItem }); //dispatcing the whole item
-    setNewQuantity(1);
-    closePopUp(foodItem);
-  };
-
-  const addItemDetails = (item, index, subsIndex) => {
-    cartData.forEach((item2, index3) => {
-      if (index3 === subsIndex) {
-        item2.food_list.forEach((item3, idx2) => {
-          if (idx2 === index) {
-            console.log("item3", item3);
-            item3.showDetails = false;
-            item3.foodOptions = true;
-            item3.showPopup = true;
-          }
-        });
+    cartItem["currentCustomization"] = _.cloneDeep(
+      currentCustomization[menuType]
+    );
+    let everythingCorrect = true;
+    currentCustomization[menuType].forEach((cust) => {
+      let selectedNo = 0;
+      cust.checked.forEach((check) => {
+        if (check) {
+          ++selectedNo;
+        }
+      });
+      if (cust.less_more === -1) {
+        if (selectedNo > cust.that_number) {
+          everythingCorrect = false;
+        }
+      } else if (cust.less_more === 1) {
+        if (selectedNo < cust.that_number) {
+          everythingCorrect = false;
+        }
+      } else if (cust.less_more === 0) {
+        if (selectedNo != cust.that_number) {
+          everythingCorrect = false;
+        }
       }
     });
-    dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
+    if (!everythingCorrect) {
+      setShowError(true);
+      return;
+    }
+
+    dispatch({ type: TYPES.ADD_ITEM, payload: cartItem }); //dispatcing the whole item
+    closePopUp(foodItem);
+    foodItem.showCustomize = false;
   };
 
-  const handleClose = () => setShow(false);
-
-  // const setIndex = (foodItem, index, subsIndex) => {
-  //   cartData.forEach((item, index3) => {
-  //     if (index3 === subsIndex) {
-  //       item.food_list.forEach((item1, idx2) => {
-  //         if (idx2 === index) {
-  //           item1.open = !item1.open;
-  //         }
-  //       });
-  //     }
-  //   });
-  //   dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: cartData });
-  // };
-
   const closePopUp = (foodItem) => {
-    foodItem.showPopup = false;
-    // this.forceUpdate();
+    setShowPopup(false);
+    setShowError(false);
   };
 
   const closeDetails = (foodItem, index, subsIndex) => {
@@ -110,19 +127,46 @@ const FoodItem = ({ foodItem, index, subsIndex, restOrderingAbility }) => {
 
   const chooseThemOptions = (custIndex, optionIndex) => {
     var tempCustomization = _.cloneDeep(currentCustomization);
-    if (tempCustomization[custIndex].that_number === 1) {
-      tempCustomization[custIndex].list_of_options.forEach(
+    if (tempCustomization[menuType][custIndex].that_number === 1) {
+      tempCustomization[menuType][custIndex].list_of_options.forEach(
         (option, thisIndex) => {
-          tempCustomization[custIndex].checked[thisIndex] = false;
+          tempCustomization[menuType][custIndex].checked[thisIndex] = false;
         }
       );
-      tempCustomization[custIndex].checked[optionIndex] = true;
+      tempCustomization[menuType][custIndex].checked[optionIndex] = true;
     } else {
-      tempCustomization[custIndex].checked[optionIndex] = !tempCustomization[
-        custIndex
-      ].checked[optionIndex];
+      tempCustomization[menuType][custIndex].checked[
+        optionIndex
+      ] = !tempCustomization[menuType][custIndex].checked[optionIndex];
     }
     setCurrentCustomization(tempCustomization);
+  };
+
+  const homeCardOrNot = (fromhome) => {
+    return fromhome === "home"
+      ? "category-card home-screen-food-card"
+      : "category-card food-item";
+  };
+
+  const addButton = (restOrderingAbility) => {
+    if (restOrderingAbility) {
+      return (
+        <PlusWithAddRemove
+          foodItem={foodItem}
+          idx={index}
+          subs={subsIndex}
+          orderingAbility={restOrderingAbility}
+          setShowPopup={setShowPopup}
+        />
+      );
+    } else {
+      <button
+        className="add-button-item"
+        onClick={() => selectDetails(foodItem, index, subsIndex)}
+      >
+        Details
+      </button>;
+    }
   };
 
   return (
@@ -131,89 +175,123 @@ const FoodItem = ({ foodItem, index, subsIndex, restOrderingAbility }) => {
       style={{
         paddingBottom: "0%",
       }}
-      className="category-card food-item"
+      className={homeCardOrNot(fromhome)}
     >
-      <div className="container">
-        {/* {foodItem.image_link ? ( */}
-        {foodItem.image_link ? (
-          <div className="row container-row-home">
-            <div
-              className="col-3 col-5-menu-food-card"
-              onClick={() => selectDetails(foodItem, index, subsIndex)}
-            >
-              <img
-                className="card-image-menu"
-                src={foodItem.image_link}
-                alt="sample"
-              />
-            </div>
-            <div className={"col-9 col-7-menu-food-card"}>
-              <div onClick={() => selectDetails(foodItem, index, subsIndex)}>
-                <p className="item-name-menu">{foodItem.name}</p>
+      {fromhome === "home" ? (
+        <div className="container" style={{ paddingRight: "0rem" }}>
+          {foodItem.image_link ? (
+            <div className="row">
+              <div
+                className="col-4 col-5-home-food-card"
+                onClick={() => selectDetails(foodItem, index, subsIndex)}
+              >
+                <img
+                  className="card-image-home"
+                  src={foodItem.image_link}
+                  alt="sample"
+                />
               </div>
-              <div className="food-desc-menu">{fullDesc}</div>
-              <div>
-                <p className="item-price">₹ {foodItem.price}</p>
-                {restOrderingAbility ? (
-                  <PlusWithAddRemove
-                    foodItem={foodItem}
-                    idx={index}
-                    subs={subsIndex}
-                    quantity={newQuantity}
-                    orderingAbility={restOrderingAbility}
-                  />
-                ) : (
-                  <button
-                    className="add-button-item"
-                    onClick={() => selectDetails(foodItem, index, subsIndex)}
-                  >
-                    Details
-                  </button>
-                )}
-                {/* <PlusWithAddRemove item={foodItem} idx={index} subs={subsIndex} /> */}
+              <div className={"col-8 col-7-home-food-card"}>
+                <div
+                  className="row-6 row-6-name"
+                  onClick={() => selectDetails(foodItem, index, subsIndex)}
+                >
+                  <span className="item-name-home">{foodItem.name}</span>
+                </div>
+                <div className="row-6 row-6-addprice">
+                  {/* <div className="food-desc">{fullDesc}</div> */}
+                  {/* </div> */}
+                  <div className="col-6 col-6-price">
+                    <p className="item-price-home">₹ {foodItem.price}</p>
+                  </div>
+                  <div className="col-6 col-6-add">
+                    <div className="add-button-home">
+                      {addButton(restOrderingAbility)}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        ) : (
-          <div className="row">
-            <div className={"col"}>
-              <div onClick={() => selectDetails(foodItem, index, subsIndex)}>
-                <p className="item-name-menu">{foodItem.name}</p>
-              </div>
-              <div className="food-desc-menu">{fullDesc}</div>
-              <div>
-                <p className="item-price">₹ {foodItem.price}</p>
-                {restOrderingAbility ? (
-                  <PlusWithAddRemove
-                    foodItem={foodItem}
-                    idx={index}
-                    subs={subsIndex}
-                    orderingAbility={restOrderingAbility}
-                  />
-                ) : (
-                  <button
-                    className="add-button-item"
-                    onClick={() => selectDetails(foodItem, index, subsIndex)}
-                  >
-                    Details
-                  </button>
-                )}
-                {/* <PlusWithAddRemove item={foodItem} idx={index} subs={subsIndex} /> */}
+          ) : (
+            <div className="row container-row">
+              <div className={"col col-7-home-food-card"}>
+                <div className="row-6 row-6-name">
+                  <div className="col col-7-home-food-card">
+                    <span
+                      className="item-name-home"
+                      onClick={() => selectDetails(foodItem, index, subsIndex)}
+                    >
+                      {foodItem.name}
+                    </span>
+                    <div className="food-desc">{fullDesc}</div>
+                  </div>
+                </div>
+                <div className="row-6 row-6-addprice">
+                  <div className="col-6 col-6-price">
+                    <p className="item-price-home">₹ {foodItem.price}</p>
+                  </div>
+                  <div className="col-6 col-6-add">
+                    <div className="add-button-home">
+                      {addButton(restOrderingAbility)}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        )}
-        {/* // ) : (
+          )}
+        </div>
+      ) : (
+        <div className="container">
+          {foodItem.image_link ? (
+            <div className="row container-row-home">
+              <div
+                className="col-3 col-5-menu-food-card"
+                onClick={() => selectDetails(foodItem, index, subsIndex)}
+              >
+                <img
+                  className="card-image-menu"
+                  src={foodItem.image_link}
+                  alt="sample"
+                />
+              </div>
+              <div className={"col-9 col-7-menu-food-card"}>
+                <div onClick={() => selectDetails(foodItem, index, subsIndex)}>
+                  <p className="item-name-menu">{foodItem.name}</p>
+                </div>
+                <div className="food-desc-menu">{fullDesc}</div>
+                <div>
+                  <p className="item-price">₹ {foodItem.price}</p>
+                  {addButton(restOrderingAbility)}
+                  {/* <PlusWithAddRemove item={foodItem} idx={index} subs={subsIndex} /> */}
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="row">
+              <div className={"col"}>
+                <div onClick={() => selectDetails(foodItem, index, subsIndex)}>
+                  <p className="item-name-menu">{foodItem.name}</p>
+                </div>
+                <div className="food-desc-menu">{fullDesc}</div>
+                <div>
+                  <p className="item-price">₹ {foodItem.price}</p>
+                  {addButton(restOrderingAbility)}
+                  {/* <PlusWithAddRemove item={foodItem} idx={index} subs={subsIndex} /> */}
+                </div>
+              </div>
+            </div>
+          )}
+          {/* // ) : (
         //   ""
         // )} */}
-      </div>
+        </div>
+      )}
       {foodItem.customization.length > 0 ? (
         <Modal
           size="lg"
           aria-labelledby="contained-modal-title-vcenter"
           centered
-          show={foodItem.showPopup}
-          onHide={handleClose}
+          show={showPopup}
           className="food-options-modal"
         >
           <Modal.Header>
@@ -224,163 +302,192 @@ const FoodItem = ({ foodItem, index, subsIndex, restOrderingAbility }) => {
           </Modal.Header>
 
           <Modal.Body style={{ overflowY: "auto" }}>
-
-            {cart.length
-              ? cart.map((cartItem) => {
-                  if (foodItem._id.$oid === cartItem._id.$oid) {
-                    return (
-                      <div style={{ display: "flex", marginBottom: "1rem" }}>
-                        {cartItem.currentCustomization.map((cartCust) => {
-                          if (cartCust.customization_type === "add_ons") {
-                            return (
-                              <span className="detail-options">
-                                {cartCust.list_of_options.map(
-                                  (option, optionIndex) => {
-                                    if (cartCust.checked[optionIndex]) {
-                                      return (
-                                        <strong>
-                                          {
-                                            cartCust.list_of_options[
-                                              optionIndex
-                                            ].name
-                                          }
-                                          {", "}
-                                        </strong>
-                                      );
-                                    }
-                                  }
-                                )}
-                              </span>
-                            );
-                          } else {
-                            return (
-                              <span className="detail-options">
-                                {cartCust.list_of_options.map(
-                                  (option, optionIndex) => {
-                                    if (cartCust.checked[optionIndex]) {
-                                      if (
-                                        cartCust.customization_type ===
-                                        "options"
-                                      ) {
+            <div className="old-customizations">
+              {cart.length
+                ? cart.map((cartItem) => {
+                    if (foodItem._id.$oid === cartItem._id.$oid) {
+                      return (
+                        <div className="old-cust-data">
+                          {cartItem.currentCustomization.map((cartCust) => {
+                            if (cartCust.customization_type === "add_ons") {
+                              return (
+                                <span className="old-cust-data-rows">
+                                  {cartCust.list_of_options.map(
+                                    (option, optionIndex) => {
+                                      if (cartCust.checked[optionIndex]) {
                                         return (
                                           <strong>
                                             {
                                               cartCust.list_of_options[
                                                 optionIndex
-                                              ].option_name
-                                            }
-                                            {", "}
-                                          </strong>
-                                        );
-                                      }
-                                      if (
-                                        cartCust.customization_type ===
-                                        "choices"
-                                      ) {
-                                        return (
-                                          <strong>
-                                            {
-                                              cartCust.list_of_options[
-                                                optionIndex
-                                              ]
+                                              ].name
                                             }
                                             {", "}
                                           </strong>
                                         );
                                       }
                                     }
-                                  }
-                                )}
-                              </span>
-                            );
-                          }
-                        })}
-                        <p
-                          style={{
-                            fontSize: ".9rem",
-                            float: "left",
-                          }}
-                        >
-                          {cartItem.price}{" "}
-                        </p>
-                        <AddRemoveItem
-                          className="trial-fooditem"
-                          count={cartItem.quantity}
-                          foodId={cartItem.foodId}
-                          allData={cartItem}
-                        />
-                        {/* <PlusWithAddRemove
+                                  )}
+                                </span>
+                              );
+                            } else {
+                              return (
+                                <span className="old-cust-data-rows">
+                                  {cartCust.list_of_options.map(
+                                    (option, optionIndex) => {
+                                      if (cartCust.checked[optionIndex]) {
+                                        if (
+                                          cartCust.customization_type ===
+                                          "options"
+                                        ) {
+                                          return (
+                                            <strong>
+                                              {
+                                                cartCust.list_of_options[
+                                                  optionIndex
+                                                ].option_name
+                                              }
+                                              {", "}
+                                            </strong>
+                                          );
+                                        }
+                                        if (
+                                          cartCust.customization_type ===
+                                          "choices"
+                                        ) {
+                                          return (
+                                            <strong>
+                                              {
+                                                cartCust.list_of_options[
+                                                  optionIndex
+                                                ]
+                                              }
+                                              {", "}
+                                            </strong>
+                                          );
+                                        }
+                                      }
+                                    }
+                                  )}
+                                </span>
+                              );
+                            }
+                          })}
+                          <p
+                            style={{
+                              fontSize: ".9rem",
+                              float: "left",
+                            }}
+                          >
+                            {cartItem.price}{" "}
+                          </p>
+                          <AddRemoveItem
+                            className="trial-fooditem"
+                            count={cartItem.quantity}
+                            foodId={cartItem.foodId}
+                            allData={cartItem}
+                          />
+                          {/* <PlusWithAddRemove
                             item={foodItem}
                             idx={index}
                             subs={subsIndex}
                           /> */}
-                        <br />
-                      </div>
-                    );
-                  }
-                })
-              : ""}
-                          {true
-              ? Object.values(currentCustomization).map((cust, custIndex) => {
-                  if (cust.customization_type === "options") {
-                    return (
-                      <div key={custIndex + "_div"}>
-                        {cust.name}
-                        {cust.list_of_options.map((option, optionIndex) => {
-                          return (
-                            <div key={custIndex + "div_key_" + optionIndex}>
-                              <label>
-                                <input
-                                  id={optionIndex}
-                                  key={custIndex + "option_key_" + optionIndex}
-                                  type="checkbox"
-                                  checked={cust.checked[optionIndex]}
-                                  onClick={() =>
-                                    chooseThemOptions(custIndex, optionIndex)
-                                  }
-                                  onChange={(e) => {}}
-                                  value={option}
-                                  name="choicesRadio"
-                                />
-                                &nbsp;&nbsp;{option.option_name}
-                                <p
-                                  style={{
-                                    display: "inline",
-                                    position: "absolute",
-                                    right: "2rem",
-                                  }}
-                                >
-                                  {currency} {option.option_price}
-                                </p>
-                              </label>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    );
-                  }
-                  if (cust.customization_type === "choices") {
-                    return (
-                      <div key={custIndex + "_div"}>
-                        {cust.name}
-                        {cust.list_of_options.map((option, optionIndex) => {
-                          return (
-                            <div key={custIndex + "div_key_" + optionIndex}>
-                              <label>
-                                <input
-                                  id={optionIndex}
-                                  key={custIndex + "option_key_" + optionIndex}
-                                  type="checkbox"
-                                  checked={cust.checked[optionIndex]}
-                                  onClick={() =>
-                                    chooseThemOptions(custIndex, optionIndex)
-                                  }
-                                  onChange={(e) => {}}
-                                  value={option}
-                                  name="choicesRadio"
-                                />
-                                &nbsp;&nbsp;{option}
-                                {/* <p
+                          <br />
+                        </div>
+                      );
+                    }
+                  })
+                : ""}
+            </div>
+            <div className="new-customizations">
+              {foodItem.showCustomize ? (
+                Object.values(currentCustomization[menuType]).map(
+                  (cust, custIndex) => {
+                    if (cust.customization_type === "options") {
+                      return (
+                        <div key={custIndex + "_div"}>
+                          {cust.name}
+                          <br />
+                          <p className="choosing-instructions">
+                            {" "}
+                            (Please choose{" "}
+                            {cust.less_more === -1
+                              ? " up-to "
+                              : cust.less_more === 0
+                              ? "exactly"
+                              : "a minimum of "}{" "}
+                            {cust.that_number} option/s)
+                          </p>
+                          {cust.list_of_options.map((option, optionIndex) => {
+                            return (
+                              <div key={custIndex + "div_key_" + optionIndex}>
+                                <label>
+                                  <input
+                                    id={optionIndex}
+                                    key={
+                                      custIndex + "option_key_" + optionIndex
+                                    }
+                                    type="checkbox"
+                                    checked={cust.checked[optionIndex]}
+                                    onClick={() =>
+                                      chooseThemOptions(custIndex, optionIndex)
+                                    }
+                                    onChange={(e) => {}}
+                                    value={option}
+                                    name="choicesRadio"
+                                  />
+                                  &nbsp;&nbsp;{option.option_name}
+                                  <p
+                                    style={{
+                                      display: "inline",
+                                      position: "absolute",
+                                      right: "2rem",
+                                    }}
+                                  >
+                                    {currency} {option.option_price}
+                                  </p>
+                                </label>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      );
+                    }
+                    if (cust.customization_type === "choices") {
+                      return (
+                        <div key={custIndex + "_div"}>
+                          {cust.name}
+                          <br />
+                          <p className="choosing-instructions">
+                            {" "}
+                            (Please choose{" "}
+                            {cust.less_more === -1
+                              ? " up-to "
+                              : cust.less_more === 0
+                              ? "exactly"
+                              : "a minimum of "}{" "}
+                            {cust.that_number} option/s)
+                          </p>
+                          {cust.list_of_options.map((option, optionIndex) => {
+                            return (
+                              <div key={custIndex + "div_key_" + optionIndex}>
+                                <label>
+                                  <input
+                                    id={optionIndex}
+                                    key={
+                                      custIndex + "option_key_" + optionIndex
+                                    }
+                                    type="checkbox"
+                                    checked={cust.checked[optionIndex]}
+                                    onClick={() =>
+                                      chooseThemOptions(custIndex, optionIndex)
+                                    }
+                                    onChange={(e) => {}}
+                                    value={option}
+                                    name="choicesRadio"
+                                  />
+                                  &nbsp;&nbsp;{option}
+                                  {/* <p
                                   style={{
                                     display: "inline",
                                     position: "absolute",
@@ -389,59 +496,73 @@ const FoodItem = ({ foodItem, index, subsIndex, restOrderingAbility }) => {
                                 >
                                   ₹ {option.option_price}
                                 </p> */}
-                              </label>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    );
+                                </label>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      );
+                    }
+                    if (cust.customization_type === "add_ons") {
+                      return (
+                        <div key={custIndex + "_div"}>
+                          {cust.name}
+                          {cust.list_of_options.map((option, optionIndex) => {
+                            return (
+                              <div
+                                key={custIndex + "div_key_" + optionIndex}
+                                className="addon-item"
+                              >
+                                <label>
+                                  <input
+                                    id={optionIndex}
+                                    key={
+                                      custIndex + "option_key_" + optionIndex
+                                    }
+                                    type="checkbox"
+                                    checked={cust.checked[optionIndex]}
+                                    onClick={() =>
+                                      chooseThemOptions(custIndex, optionIndex)
+                                    }
+                                    onChange={(e) => {}}
+                                    value={option.name}
+                                    name="choicesRadio"
+                                  />
+                                  &nbsp;&nbsp;{option.name}
+                                  <p
+                                    style={{
+                                      display: "inline",
+                                      position: "absolute",
+                                      right: "2rem",
+                                    }}
+                                  >
+                                    {currency} {option.price}
+                                  </p>
+                                </label>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      );
+                    }
                   }
-                  if (cust.customization_type === "add_ons") {
-                    return (
-                      <div key={custIndex + "_div"}>
-                        {cust.name}
-                        {cust.list_of_options.map((option, optionIndex) => {
-                          return (
-                            <div
-                              key={custIndex + "div_key_" + optionIndex}
-                              className="addon-item"
-                            >
-                              <label>
-                                <input
-                                  id={optionIndex}
-                                  key={custIndex + "option_key_" + optionIndex}
-                                  type="checkbox"
-                                  checked={cust.checked[optionIndex]}
-                                  onClick={() =>
-                                    chooseThemOptions(custIndex, optionIndex)
-                                  }
-                                  onChange={(e) => {}}
-                                  value={option.name}
-                                  name="choicesRadio"
-                                />
-                                &nbsp;&nbsp;{option.name}
-                                <p
-                                  style={{
-                                    display: "inline",
-                                    position: "absolute",
-                                    right: "2rem",
-                                  }}
-                                >
-                                  {currency} {option.price}
-                                </p>
-                              </label>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    );
-                  }
-                })
-              : ""}
+                )
+              ) : (
+                // foodItem.showCustomize ? (
+                <div
+                  className="modal-customization"
+                  onClick={() => {
+                    foodItem.showCustomize = true;
+                  }}
+                >
+                  Add New Customization
+                </div>
+              )}
+            </div>
           </Modal.Body>
-          {foodItem.showError === true ? (
+          {showError === true ? (
             <span style={{ textAlign: "center", color: "red" }}>
-              Please Select an Option / Choice
+              Please choose appropriate number of options
             </span>
           ) : (
             ""
@@ -450,14 +571,18 @@ const FoodItem = ({ foodItem, index, subsIndex, restOrderingAbility }) => {
             <Button
               className="options-button-close"
               variant="secondary"
-              onClick={() => closePopUp(foodItem)}
+              onClick={() => {
+                setShowPopup(false);
+              }}
             >
               Close
             </Button>
             <Button
               className="options-button-add"
               variant="primary"
-              onClick={() => addItem(foodItem)}
+              onClick={() => {
+                foodItem.showCustomize ? addItem(foodItem) : () => {};
+              }}
             >
               Add
             </Button>
@@ -474,7 +599,6 @@ const FoodItem = ({ foodItem, index, subsIndex, restOrderingAbility }) => {
           size="lg"
           centered
           show={foodItem.showDetails}
-          onHide={handleClose}
         >
           <Modal.Header>
             <Modal.Title className="details-title">
@@ -612,7 +736,7 @@ const FoodItem = ({ foodItem, index, subsIndex, restOrderingAbility }) => {
               <Button
                 className="options-button-add"
                 variant="primary"
-                onClick={() => addItemDetails(foodItem, index, subsIndex)}
+                onClick={() => addItem(foodItem, index, subsIndex)}
               >
                 Add
               </Button>

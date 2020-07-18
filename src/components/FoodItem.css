@@ -1,6 +1,6 @@
 :root {
-  --theme-font : "Poppins";
-  --add-button-color : #4f3e2c;
+  --theme-font: "Poppins";
+  --add-button-color: #4f3e2c;
 }
 .add-button-item-menu {
   float: right;
@@ -35,7 +35,7 @@
 }
 
 .col-7-menu-food-card {
-  padding-right: 0.0rem;
+  padding-right: 0rem;
 }
 
 .card-image-menu {
@@ -43,12 +43,6 @@
   height: 100%;
   opacity: 1;
   border-radius: 6px;
-}
-
-
-.container-row-home {
-  margin-right: 0rem;
-  margin-left: 0rem;
 }
 
 .item-name-menu {
@@ -85,9 +79,40 @@
   margin-bottom: 0;
 }
 
-.food-options-modal{
+.food-options-modal {
   z-index: 1420;
-  background-color: rgba(0,0,0, 0.3);
+  background-color: rgba(0, 0, 0, 0.3);
   font-weight: 700;
   height: 90%;
+}
+
+.old-customizations {
+  border-bottom: 1px solid #dee2e6;
+}
+.new-customizations {
+  margin-top: 1rem;
+}
+.modal-customization {
+  width: auto;
+  text-align: center;
+}
+.old-cust-data:last-child {
+  display: flex;
+  border-bottom:  none;
+  margin-bottom: 1rem;
+}
+.old-cust-data {
+  display: flex;
+  border-bottom: 1px solid #dee2e6;
+  margin-bottom: 1rem;
+}
+
+.old-cust-data-rows {
+  padding: 0 0.2rem;
+  color: #666666;
+  font-size: 0.9rem;
+}
+.choosing-instructions {
+  font-size: small;
+  color: #7f8285;
 }
