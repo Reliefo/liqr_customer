@@ -217,6 +217,7 @@ const Home = (props) => {
       dispatch({ type: TYPES.ADDONS, payload: resp.add_ons });
       dispatch({ type: TYPES.SET_RESTAURANT_NAME, payload: resp.name });
       dispatch({ type: TYPES.ADD_REST_ADDRESS, payload: resp.abs_address });
+      dispatch({ type: TYPES.ADD_REST_TAXES, payload: resp.taxes});
       dispatch({ type: TYPES.ADD_REST_LOGO, payload: resp.logo });
       dispatch({ type: TYPES.OPERATING_CURRENCY, payload: resp.currency });
       dispatch({
@@ -283,34 +284,8 @@ const Home = (props) => {
             resp.theme_properties["variables"][item]
           );
         });
-        // document.documentElement.style.setProperty("--theme-font", "Inconsolata");
-        // document.documentElement.style.setProperty("--first-background-color", "#d6c333");
-        // document.documentElement.style.setProperty("--second-background-color", "#d1a926");
-        // document.documentElement.style.setProperty("--first-menu-background-color", "#d6c333");
-        // document.documentElement.style.setProperty("--second-menu-background-color", "#d1a926");
-        // document.documentElement.style.setProperty("--first-light-color", "#ffe83d");
-        // document.documentElement.style.setProperty("--second-light-color", "#ffcf31");
-        // document.documentElement.style.setProperty("--first-pattern-light-color", "#ffe83d");
-        // document.documentElement.style.setProperty("--second-pattern-light-color", "#ffcf31");
-        // document.documentElement.style.setProperty("--food-card-color", "#faee4a");
-        // document.documentElement.style.setProperty("--welcome-card-color", "#4f3e2c");
-        // document.documentElement.style.setProperty("--welcome-card-text-color", "#ffffff");
-        // document.documentElement.style.setProperty("--food-menu-button-color", "#ffcf31");
-        // document.documentElement.style.setProperty("--add-button-color", "#4f3e2c");
-        // //Nav Bar//
-        // document.documentElement.style.setProperty("--top-bar-color", "#ffcf31");
-        // document.documentElement.style.setProperty("--search-background-color", "#ffe83d");
-        // document.documentElement.style.setProperty("--burger-menu-background-color", "#a89214");
-        // //Footer//
-        // document.documentElement.style.setProperty("--first-footer-color", "#ffe83d");
-        // document.documentElement.style.setProperty("--second-footer-color", "#ffcf31");
-        // document.documentElement.style.setProperty("--categories-button-color", "#ffcf31");
-        // document.documentElement.style.setProperty("--categories-list-item-color", "#ffcf31");
-      } else {
-        //Nav Bar//
-        // document.documentElement.style.setProperty("--first-light-color", "#ffb023");
-        // document.documentElement.style.setProperty("--second-light-color", "#ffc967");
-        document.documentElement.style.setProperty(
+     } else {
+       document.documentElement.style.setProperty(
           "--top-bar-color",
           "#ffb023"
         );
@@ -364,11 +339,6 @@ const Home = (props) => {
 
   const handleClose = () => setState({ showData: false });
   // const handleShow = () => setState({ showData: true });
-
-  // console.log(state.imageLinks);
-  // state.imageLinks.map((image,idx) => {
-  //   console.log(image,idx);
-  // });
 
   return (
     <>

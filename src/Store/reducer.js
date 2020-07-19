@@ -211,6 +211,9 @@ function reducer(state, action) {
     case TYPES.OPERATING_CURRENCY:
       st.currency = payload;
       return st;
+    case TYPES.ADD_REST_TAXES:
+      st.taxes = payload;
+      return st;
     default:
       return state;
   }

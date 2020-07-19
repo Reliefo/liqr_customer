@@ -35,3 +35,4 @@ export const THEME_PROPERTIES = 85;
 export const BAR_FOOD_MENU_CATS= 86;
 export const CURRENT_MENU = 87;
 export const OPERATING_CURRENCY = 88;
+export const ADD_REST_TAXES= 89;

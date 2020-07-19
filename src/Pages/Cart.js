@@ -24,6 +24,7 @@ const Cart = (props) => {
       orderingAbility,
       themeProperties,
       currency,
+      taxes,
     },
   } = React.useContext(StoreContext);
 
@@ -169,8 +170,7 @@ const Cart = (props) => {
     });
   };
 
-  const placePersonalOrder = () => {
-    // const cartClone = _.cloneDeep(cart);
+  const createOrderBody = () => {
     const cartToSend = [];
 
     cart.forEach((cartItem) => {
@@ -179,10 +179,11 @@ const Cart = (props) => {
         price: cartItem.price,
         quantity: cartItem.quantity,
         name: cartItem.name,
+        kitchen: cartItem.kitchen,
         restaurant_id: cartItem.restaurant_id,
+        customization: [],
       };
-      singleFoodObject.customization = []
-      cartItem.currentCustomization.forEach((cust)=>{
+      cartItem.currentCustomization?.forEach((cust) => {
         let singleCust = {
           name: cust.name,
           that_number: cust.that_number,
@@ -191,8 +192,12 @@ const Cart = (props) => {
           customization_type: cust.customization_type,
         };
         cust.list_of_options.forEach((option, optionIndex) => {
-          if (cust.checked[optionIndex]){
-            singleCust.list_of_options.push(option);
+          if (cust.checked[optionIndex]) {
+            if (cust.customization_type === "add_ons") {
+              singleCust.list_of_options.push(option._id.$oid);
+            } else {
+              singleCust.list_of_options.push(option);
+            }
           }
         });
         singleFoodObject.customization.push(singleCust);
@@ -208,6 +213,12 @@ const Cart = (props) => {
         { placed_by: localStorage.getItem("user_id"), food_list: cartToSend },
       ],
     };
+    return body;
+  }
+
+  const placePersonalOrder = () => {
+    // const cartClone = _.cloneDeep(cart);
+    const body = createOrderBody();
     // console.log(body);
 
     props.socket.emit("place_personal_order", JSON.stringify(body));
@@ -232,44 +243,8 @@ const Cart = (props) => {
   };
 
   const pushToTable = () => {
-    const cartToSend = [];
 
-    cart.forEach((cartItem) => {
-      let singleFoodObject = {
-        food_id: cartItem._id.$oid,
-        price: cartItem.price,
-        quantity: cartItem.quantity,
-        name: cartItem.name,
-        restaurant_id: cartItem.restaurant_id,
-      };
-      singleFoodObject.customization = []
-      cartItem.currentCustomization.forEach((cust)=>{
-        let singleCust = {
-          name: cust.name,
-          that_number: cust.that_number,
-          less_more: cust.less_more,
-          list_of_options: [],
-          customization_type: cust.customization_type,
-        };
-        cust.list_of_options.forEach((option, optionIndex) => {
-          if (cust.checked[optionIndex]){
-            singleCust.list_of_options.push(option);
-          }
-        });
-        singleFoodObject.customization.push(singleCust);
-      });
-
-      cartToSend.push(singleFoodObject);
-    });
-
-    console.log(cartToSend);
-
-    const body = {
-      table: localStorage.getItem("table_id"),
-      orders: [
-        { placed_by: localStorage.getItem("user_id"), food_list: cartToSend },
-      ],
-    };
+    const body = createOrderBody();
 
     const body1 = {
       user_id: localStorage.getItem("user_id"),
@@ -311,46 +286,55 @@ const Cart = (props) => {
               <CloseSVG />
             </div> */}
           </Card.Body>
-          {cartItem.currentCustomization && cartItem.currentCustomization.map((cust) => {
-            if (cust.customization_type === "add_ons") {
-              return (
-                <span className="detail-options">
-                  {cust.checked.includes(true) ? cust.name + ":  " : ""}
-                  {cust.list_of_options.map((option, optionIndex) => {
-                    if (cust.checked[optionIndex]) {
-                      return (
-                        <strong>
-                          {cust.list_of_options[optionIndex].name} {currency}
-                          {cust.list_of_options[optionIndex].price}{", "}
-                        </strong>
-                      );
-                    }
-                  })}
-                </span>
-              );
-            } else {
-              return (
-                <span className="detail-options">
-                  {cust.name + ":  "}
-                  {cust.list_of_options.map((option, optionIndex) => {
-                    if (cust.checked[optionIndex]) {
-                      if (cust.customization_type === "options") {
+          {cartItem.currentCustomization &&
+            cartItem.currentCustomization.map((cust) => {
+              if (cust.customization_type === "add_ons") {
+                return (
+                  <span className="detail-options">
+                    {cust.checked.includes(true) ? cust.name + ":  " : ""}
+                    {cust.list_of_options.map((option, optionIndex) => {
+                      if (cust.checked[optionIndex]) {
                         return (
                           <strong>
-                            {cust.list_of_options[optionIndex].option_name} {currency}
-                            {cust.list_of_options[optionIndex].option_price}{", "}
+                            {cust.list_of_options[optionIndex].name} {currency}
+                            {cust.list_of_options[optionIndex].price}
+                            {", "}
                           </strong>
                         );
                       }
-                      if (cust.customization_type === "choices") {
-                        return <strong>{cust.list_of_options[optionIndex]}{", "}</strong>;
+                    })}
+                  </span>
+                );
+              } else {
+                return (
+                  <span className="detail-options">
+                    {cust.name + ":  "}
+                    {cust.list_of_options.map((option, optionIndex) => {
+                      if (cust.checked[optionIndex]) {
+                        if (cust.customization_type === "options") {
+                          return (
+                            <strong>
+                              {cust.list_of_options[optionIndex].option_name}{" "}
+                              {currency}
+                              {cust.list_of_options[optionIndex].option_price}
+                              {", "}
+                            </strong>
+                          );
+                        }
+                        if (cust.customization_type === "choices") {
+                          return (
+                            <strong>
+                              {cust.list_of_options[optionIndex]}
+                              {", "}
+                            </strong>
+                          );
+                        }
                       }
-                    }
-                  })}
-                </span>
-              );
-            }
-          })}
+                    })}
+                  </span>
+                );
+              }
+            })}
           <span className="detail-instructions">
             {" "}
             <CollapseDetails item={cartItem} />
@@ -431,18 +415,6 @@ const Cart = (props) => {
           0
         )
       : "";
-
-  let addOnTotal = 0;
-
-  cart.forEach((item) => {
-    if (item.hasOwnProperty("addon")) {
-      item.addon.forEach((addon) => {
-        if (typeof addon === "object") {
-          addOnTotal += parseInt(addon.price);
-        }
-      });
-    }
-  });
 
   let sum = 0;
   tableCartOrders && Object.keys(tableCartOrders).length > 0
@@ -548,7 +520,7 @@ const Cart = (props) => {
             {state.activeCart === 1 && renderTableCart()}
             {state.activeCart === 0 && cart.length !== 0 && (
               <>
-                <Bill orderTotal={orderTotal} addOnTotal={addOnTotal} />
+                <Bill orderTotal={orderTotal} taxes={taxes} currency={currency} />
                 {state.activeCart === 0 && (
                   <Row style={{ paddingBottom: "6rem" }}>
                     <Col style={{ marginTop: "1rem" }}>
@@ -573,7 +545,7 @@ const Cart = (props) => {
             )}
             {state.activeCart === 1 && (
               <>
-                <Bill orderTotal={sum} />
+                <Bill orderTotal={sum}  taxes={taxes} currency={currency} />
                 <div
                   onClick={confirmTheTableOrders}
                   className="bill-btn push-to-table-btn mt-3"

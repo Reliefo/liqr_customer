@@ -92,15 +92,15 @@ const FooterNav = (props) => {
 
   cart.forEach((item) => {
     if (item.options) {
-      sum += parseInt(item.options.option_price) * item.quantity;
+      sum += parseFloat(item.options.option_price) * item.quantity;
     } else {
-      sum += parseInt(item.price * item.quantity);
+      sum += parseFloat(item.price * item.quantity);
     }
     let addonPrice = 0;
     if (item.hasOwnProperty("addon")) {
       item.addon.forEach((addon) => {
         if (typeof addon === "object") {
-          addonPrice += parseInt(addon.price);
+          addonPrice += parseFloat(addon.price);
         }
       });
     }

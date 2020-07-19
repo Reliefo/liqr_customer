@@ -1,13 +1,17 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 
-const Bill = ({ orderTotal, addOnTotal }) => {
+const Bill = ({ orderTotal, taxes, currency }) => {
 
   //$rest-font
-  const rest_font = "Inconsolata"; 
+  const rest_font = "Inconsolata";
   let tax = 0;
 
-  tax = (11 * parseFloat(orderTotal)) / 100;
+  let totalTaxes = 0;
+  Object.keys(taxes).forEach((key, value)=>{
+    totalTaxes+=taxes[key]
+  })
+  tax = (totalTaxes * parseFloat(orderTotal)) / 100;
   return (
     <Card className="cart-bill cart-styling">
       <Card.Title
@@ -37,28 +41,6 @@ const Bill = ({ orderTotal, addOnTotal }) => {
             }}
           >
             &#8377; {orderTotal}
-          </p>
-        </div>
-        <div className="d-flex justify-content-between">
-          <p
-            style={{
-              fontFamily: rest_font,
-              color: "#000000",
-              opacity: 0.5,
-              fontWeight: 500,
-            }}
-          >
-            Addon total
-          </p>
-          <p
-            style={{
-              fontFamily: rest_font,
-              color: "#000000",
-              opacity: 1,
-              fontWeight: 600,
-            }}
-          >
-            &#8377; {addOnTotal}
           </p>
         </div>
         <div className="d-flex justify-content-between">
@@ -102,7 +84,7 @@ const Bill = ({ orderTotal, addOnTotal }) => {
               fontWeight: 600,
             }}
           >
-            &#8377; {orderTotal + tax + addOnTotal}
+            &#8377; {orderTotal + tax}
           </p>
         </div>
       </Card.Body>
