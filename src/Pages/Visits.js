@@ -19,6 +19,7 @@ const Visits = props => {
       searchClicked,
       dineHistory,
       themeProperties,
+      currency,
     }
   } = React.useContext(StoreContext);
 
@@ -137,7 +138,7 @@ const Visits = props => {
                               textTransform: "capitalize"
                             }}
                           >
-                            Order Total <br />₹{" "}
+                            Order Total <br />{currency}{" "}
                             {item.bill_structure["Total Amount"]}
                           </p>
                           <p
@@ -242,7 +243,7 @@ const Visits = props => {
                           className="table-name-card-billing"
                           style={{ float: "right", paddingRight: "10%", height: "25px", }}
                         >
-                          <b> ₹ {item.bill_structure["Total Amount"]}</b>
+                          <b> {currency} {item.bill_structure["Total Amount"]}</b>
                         </p>
                       </div>
                       <div

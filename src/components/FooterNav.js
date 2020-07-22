@@ -29,6 +29,7 @@ const FooterNav = (props) => {
       themeProperties,
       currentMenu,
       barFoodMenuCats,
+      currency,
       // rawData: { food_menu = [] },
     },
     dispatch,
@@ -279,7 +280,7 @@ const FooterNav = (props) => {
               {floatingButtons()}
               <div className="footerOrderTotal">
                 <span>
-                  {cartCount} {cartCount < 2 ? "Item" : "Items"} | ₹{sum}{" "}
+                  {cartCount} {cartCount < 2 ? "Item" : "Items"} | {currency}{sum}{" "}
                 </span>{" "}
               </div>
               <div className="footerOrder">

@@ -17,7 +17,8 @@ const BillingInformation = props => {
     state: {
       // rawData: { food_menu = [] },
       searchClicked,
-      restName
+      restName,
+      currency,
     }
   } = React.useContext(StoreContext);
 
@@ -98,7 +99,7 @@ const BillingInformation = props => {
                             fontWeight: 700
                           }}
                         >
-                          Order Total <br />₹{" "}
+                          Order Total <br />{currency}{" "}
                           {item.bill_structure["Total Amount"]}
                         </p>
                       </div>
@@ -276,7 +277,7 @@ const BillingInformation = props => {
                           height: "25px"
                         }}
                       >
-                        <b> ₹ {item.bill_structure["Total Amount"]}</b>
+                        <b> {currency} {item.bill_structure["Total Amount"]}</b>
                       </p>
                     </div>
                   </Card>

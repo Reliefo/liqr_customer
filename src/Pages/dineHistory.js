@@ -16,6 +16,7 @@ const DineHistory = (props) => {
       searchClicked,
       dineHistory,
       themeProperties,
+      currency,
     },
   } = React.useContext(StoreContext);
 
@@ -138,7 +139,7 @@ const DineHistory = (props) => {
                           className="table-name-card"
                           style={{ float: "left", textTransform: "capitalize" }}
                         >
-                          Order Total <br />₹{" "}
+                          Order Total <br />{currency}{" "}
                           {item.bill_structure["Total Amount"]}
                         </p>
                         <p

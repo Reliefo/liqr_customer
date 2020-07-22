@@ -252,7 +252,7 @@ const Home = (props) => {
 
       /////THEMEING //////
       // if CAFE_MEDLEY:
-      // console.log(resp.theme_properties['variables']);
+      console.log(resp);
       if (resp.theme_properties["theme"] === true) {
         let cssVariables = [
           "--theme-font",

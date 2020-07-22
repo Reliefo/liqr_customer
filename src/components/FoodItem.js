@@ -202,7 +202,7 @@ const FoodItem = ({
                   {/* <div className="food-desc">{fullDesc}</div> */}
                   {/* </div> */}
                   <div className="col-6 col-6-price">
-                    <p className="item-price-home">₹ {foodItem.price}</p>
+                    <p className="item-price-home">{currency} {foodItem.price}</p>
                   </div>
                   <div className="col-6 col-6-add">
                     <div className="add-button-home">
@@ -228,7 +228,7 @@ const FoodItem = ({
                 </div>
                 <div className="row-6 row-6-addprice">
                   <div className="col-6 col-6-price">
-                    <p className="item-price-home">₹ {foodItem.price}</p>
+                    <p className="item-price-home">{currency} {foodItem.price}</p>
                   </div>
                   <div className="col-6 col-6-add">
                     <div className="add-button-home">
@@ -260,7 +260,7 @@ const FoodItem = ({
                 </div>
                 <div className="food-desc-menu">{fullDesc}</div>
                 <div>
-                  <p className="item-price">₹ {foodItem.price}</p>
+                  <p className="item-price">{currency} {foodItem.price}</p>
                   {addButton(restOrderingAbility)}
                   {/* <PlusWithAddRemove item={foodItem} idx={index} subs={subsIndex} /> */}
                 </div>
@@ -274,7 +274,7 @@ const FoodItem = ({
                 </div>
                 <div className="food-desc-menu">{fullDesc}</div>
                 <div>
-                  <p className="item-price">₹ {foodItem.price}</p>
+                  <p className="item-price">{currency} {foodItem.price}</p>
                   {addButton(restOrderingAbility)}
                   {/* <PlusWithAddRemove item={foodItem} idx={index} subs={subsIndex} /> */}
                 </div>
@@ -304,19 +304,19 @@ const FoodItem = ({
           <Modal.Body style={{ overflowY: "auto" }}>
             <div className="old-customizations">
               {cart.length
-                ? cart.map((cartItem) => {
+                ? cart.map((cartItem, cartItemIndex) => {
                     if (foodItem._id.$oid === cartItem._id.$oid) {
                       return (
-                        <div className="old-cust-data">
-                          {cartItem.currentCustomization.map((cartCust) => {
+                        <div className="old-cust-data" key={"div_"+cartItemIndex}>
+                          {cartItem.currentCustomization.map((cartCust, cartCustIndex) => {
                             if (cartCust.customization_type === "add_ons") {
                               return (
-                                <span className="old-cust-data-rows">
+                                <span className="old-cust-data-rows" key={cartItemIndex+"_check_"+cartCustIndex}>
                                   {cartCust.list_of_options.map(
                                     (option, optionIndex) => {
                                       if (cartCust.checked[optionIndex]) {
                                         return (
-                                          <strong>
+                                          <strong key={cartItemIndex+"_check_"+optionIndex}>
                                             {
                                               cartCust.list_of_options[
                                                 optionIndex
@@ -494,7 +494,7 @@ const FoodItem = ({
                                     right: "2rem",
                                   }}
                                 >
-                                  ₹ {option.option_price}
+                                  {currency} {option.option_price}
                                 </p> */}
                                 </label>
                               </div>
@@ -616,7 +616,7 @@ const FoodItem = ({
           <Modal.Body>
             <p style={{ float: "left" }}> {foodItem.name}</p>{" "}
             <b>
-              <p style={{ float: "right" }}>₹ {foodItem.price}</p>
+              <p style={{ float: "right" }}>{currency} {foodItem.price}</p>
             </b>
             <div>
               <div
@@ -657,7 +657,7 @@ const FoodItem = ({
                               return (
                                 <div style={{ textTransform: "capitalize" }}>
                                   {item1.option_name} -{" "}
-                                  <b>₹{item1.option_price}</b>
+                                  <b>{currency}{item1.option_price}</b>
                                 </div>
                               );
                             }
@@ -710,7 +710,7 @@ const FoodItem = ({
                                         style={{ textTransform: "capitalize" }}
                                       >
                                         {addonItem.name} -{" "}
-                                        <b>₹{addonItem.price}</b>
+                                        <b>{currency}{addonItem.price}</b>
                                       </div>
                                     </div>
                                   );
@@ -741,13 +741,7 @@ const FoodItem = ({
                 Add
               </Button>
             ) : (
-              <PlusWithAddRemove
-                from="details"
-                foodItem={foodItem}
-                idx={index}
-                subs={subsIndex}
-                orderingAbility={restOrderingAbility}
-              />
+              addButton(restOrderingAbility)
             )}
           </Modal.Footer>
         </Modal>

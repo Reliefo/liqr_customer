@@ -17,6 +17,7 @@ const PreviousVisits = props => {
       restId,
       dineHistory,
       themeProperties,
+      currency,
     }
   } = React.useContext(StoreContext);
   React.useEffect(() => {
@@ -165,7 +166,7 @@ const PreviousVisits = props => {
                                 }
                               }
                             })}
-                            ₹ {sum}
+                            {currency} {sum}
                           </p>
                           <p
                             className="table-name-card"

@@ -75,6 +75,7 @@ function reducer(state, action) {
       let foodId = newCartItem._id.$oid;
       if (newCartItem.currentCustomization !== undefined) {
         let price = 0;
+        let optionsOrNot= false;
         foodId += "#";
         newCartItem.currentCustomization.forEach((cust, custIndex) => {
           cust.list_of_options.forEach((option, optionIndex) => {
@@ -83,6 +84,7 @@ function reducer(state, action) {
 
               if (cust.customization_type === "options") {
                 price += parseFloat(option.option_price);
+                optionsOrNot = true;
               }
               if (cust.customization_type === "add_ons") {
                 price += parseFloat(option.price);
@@ -90,10 +92,10 @@ function reducer(state, action) {
             }
           });
         });
-        if (price === 0) {
-          price = newCartItem.price;
-        } else {
+        if (optionsOrNot) {
           newCartItem.price = price;
+        } else {
+          newCartItem.price = parseFloat(newCartItem.price) + price;
         }
       }
       newCartItem["foodId"] = foodId;

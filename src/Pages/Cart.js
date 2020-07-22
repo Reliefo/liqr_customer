@@ -214,7 +214,7 @@ const Cart = (props) => {
       ],
     };
     return body;
-  }
+  };
 
   const placePersonalOrder = () => {
     // const cartClone = _.cloneDeep(cart);
@@ -243,7 +243,6 @@ const Cart = (props) => {
   };
 
   const pushToTable = () => {
-
     const body = createOrderBody();
 
     const body1 = {
@@ -301,6 +300,8 @@ const Cart = (props) => {
                             {", "}
                           </strong>
                         );
+                      } else {
+                        return "";
                       }
                     })}
                   </span>
@@ -320,15 +321,19 @@ const Cart = (props) => {
                               {", "}
                             </strong>
                           );
-                        }
-                        if (cust.customization_type === "choices") {
+                        } else if (cust.customization_type === "choices") {
                           return (
                             <strong>
                               {cust.list_of_options[optionIndex]}
                               {", "}
                             </strong>
                           );
+                        } else {
+                          return "";
                         }
+                      }
+                      else {
+                        return "";
                       }
                     })}
                   </span>
@@ -520,7 +525,11 @@ const Cart = (props) => {
             {state.activeCart === 1 && renderTableCart()}
             {state.activeCart === 0 && cart.length !== 0 && (
               <>
-                <Bill orderTotal={orderTotal} taxes={taxes} currency={currency} />
+                <Bill
+                  orderTotal={orderTotal}
+                  taxes={taxes}
+                  currency={currency}
+                />
                 {state.activeCart === 0 && (
                   <Row style={{ paddingBottom: "6rem" }}>
                     <Col style={{ marginTop: "1rem" }}>
@@ -545,7 +554,7 @@ const Cart = (props) => {
             )}
             {state.activeCart === 1 && (
               <>
-                <Bill orderTotal={sum}  taxes={taxes} currency={currency} />
+                <Bill orderTotal={sum} taxes={taxes} currency={currency} />
                 <div
                   onClick={confirmTheTableOrders}
                   className="bill-btn push-to-table-btn mt-3"
