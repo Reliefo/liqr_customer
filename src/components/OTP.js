@@ -5,6 +5,7 @@ import Auth from "@aws-amplify/auth";
 import awsconfig from "../aws-exports";
 Amplify.configure(awsconfig);
 /*CloseSVG when imported as ReactComponent , doesn't passes fill prop to svg, hence using the code of that svg itself*/
+
 const NOTSIGNIN = "You are NOT logged in";
 const SIGNEDIN = "You have logged in successfully";
 const SIGNEDOUT = "You have logged out successfully";
