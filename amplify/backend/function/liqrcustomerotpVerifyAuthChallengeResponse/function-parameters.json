@@ -1,0 +1,15 @@
+{
+  "trigger": true,
+  "modules": [
+    "custom"
+  ],
+  "parentResource": "liqrcustomerotp",
+  "functionName": "liqrcustomerotpVerifyAuthChallengeResponse",
+  "resourceName": "liqrcustomerotpVerifyAuthChallengeResponse",
+  "parentStack": "auth",
+  "triggerEnvs": [],
+  "triggerDir": "/home/alexis/.nvm/versions/node/v12.18.2/lib/node_modules/@aws-amplify/cli/node_modules/amplify-category-auth/provider-utils/awscloudformation/utils/../triggers/VerifyAuthChallengeResponse",
+  "triggerTemplate": "VerifyAuthChallengeResponse.json.ejs",
+  "roleName": "liqrcustomerotpVerifyAuthChallengeResponse",
+  "skipEdit": true
+}

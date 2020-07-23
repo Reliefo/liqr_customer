@@ -5,6 +5,7 @@ import LoaderButton from "./LoaderButton";
 import axios from "axios";
 import AppWrapper from "../App";
 import { v4 as uuidv4 } from "uuid";
+import OTPComponent from "./OTP"
 
 export default class Login extends Component {
   constructor(props) {
@@ -14,10 +15,9 @@ export default class Login extends Component {
       isloading: false,
       email: "",
       password: "",
-      errorMessage: ""
+      errorMessage: "",
     };
   }
-
 
   componentDidMount() {
     let parm = window.location.href;
@@ -35,24 +35,24 @@ export default class Login extends Component {
         axios({
           method: "post",
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("refreshToken")}`
+            Authorization: `Bearer ${localStorage.getItem("refreshToken")}`,
           },
           url: "https://liqr.cc/refresh",
-          data: bodyFormData
-        }).then(response => {
+          data: bodyFormData,
+        }).then((response) => {
           const { data } = response;
 
           localStorage.setItem("table_id", parm[1]);
           localStorage.setItem("restaurant_id", data.restaurant_id);
           ReactDOM.render(<AppWrapper />, document.getElementById("root"));
           this.props.history.push("/home", {
-            login: true
+            login: true,
           });
         });
       } else {
         ReactDOM.render(<AppWrapper />, document.getElementById("root"));
         this.props.history.push("/home", {
-          login: true
+          login: true,
         });
       }
     } else if (
@@ -68,11 +68,11 @@ export default class Login extends Component {
         axios({
           method: "post",
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("refreshToken")}`
+            Authorization: `Bearer ${localStorage.getItem("refreshToken")}`,
           },
           url: "https://liqr.cc/refresh",
-          data: bodyFormData
-        }).then(response => {
+          data: bodyFormData,
+        }).then((response) => {
           const { data } = response;
           localStorage.setItem("table_id", parm[1]);
           localStorage.setItem("restaurant_id", data.restaurant_id);
@@ -87,13 +87,13 @@ export default class Login extends Component {
     return this.state.email.length > 0 && this.state.password.length > 0;
   }
 
-  handleChange = event => {
+  handleChange = (event) => {
     this.setState({
-      [event.target.id]: event.target.value
+      [event.target.id]: event.target.value,
     });
   };
 
-  skipSignIn = async event => {
+  skipSignIn = async (event) => {
     event.preventDefault();
     let parm = window.location.href;
     parm = parm.split("=");
@@ -121,9 +121,9 @@ export default class Login extends Component {
     axios({
       method: "post",
       url: "https://liqr.cc/user_login",
-      data: bodyFormData
+      data: bodyFormData,
     })
-      .then(response => {
+      .then((response) => {
         const { data } = response;
         localStorage.setItem("jwt", data.jwt);
         localStorage.setItem("table_id", table_id);
@@ -135,7 +135,7 @@ export default class Login extends Component {
         localStorage.setItem("name", data.name);
         ReactDOM.render(<AppWrapper />, document.getElementById("root"));
         this.props.history.push("/home", {
-          login: true
+          login: true,
         });
       })
       .catch(function(response) {
@@ -144,7 +144,7 @@ export default class Login extends Component {
       });
   };
 
-  handleSubmit = async event => {
+  handleSubmit = async (event) => {
     event.preventDefault();
     try {
       this.setState({ isloading: true });
@@ -153,7 +153,7 @@ export default class Login extends Component {
       parm = parm.split("=");
       let table_id =
         parm[1] !== undefined ? parm[1] : localStorage.getItem("table_id");
-        const uniqueId = `${uuidv4().substring(0, 15)}`;
+      const uniqueId = `${uuidv4().substring(0, 15)}`;
       if (localStorage.getItem("registeredUser") === "true") {
         let bodyFormData = new FormData();
         bodyFormData.set("table_id", parm[1]);
@@ -168,18 +168,18 @@ export default class Login extends Component {
         axios({
           method: "post",
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("refreshToken")}`
+            Authorization: `Bearer ${localStorage.getItem("refreshToken")}`,
           },
           url: "https://liqr.cc/refresh",
-          data: bodyFormData
-        }).then(response => {
+          data: bodyFormData,
+        }).then((response) => {
           const { data } = response;
 
           localStorage.setItem("table_id", parm[1]);
           localStorage.setItem("restaurant_id", data.restaurant_id);
           ReactDOM.render(<AppWrapper />, document.getElementById("root"));
           this.props.history.push("/home", {
-            login: true
+            login: true,
           });
         });
       } else {
@@ -192,8 +192,8 @@ export default class Login extends Component {
         axios({
           method: "post",
           url: "https://liqr.cc/user_login",
-          data: bodyFormData
-        }).then(response => {
+          data: bodyFormData,
+        }).then((response) => {
           const { data } = response;
           if (data.code === "401") {
             this.setState({ errorMessage: data.status });
@@ -208,7 +208,7 @@ export default class Login extends Component {
             localStorage.setItem("name", data.name);
             ReactDOM.render(<AppWrapper />, document.getElementById("root"));
             this.props.history.push("/home", {
-              login: true
+              login: true,
             });
           }
         });
@@ -237,21 +237,20 @@ export default class Login extends Component {
   //         }
   //       };
   //     })
-     
+
   //     // this.props.history.push("/home");
   //   } catch (e) {
   //     alert(e.message);
   //   }
   // };
 
-
   render() {
-
     //$base-font
     const base_font = "Poppins";
     const { errorMessage } = this.state;
     return (
       <div className="Login">
+        <div style={{display:"none"}}>
         <div className="sign-in">Sign In</div>
         <form>
           <FormGroup controlId="email">
@@ -259,7 +258,7 @@ export default class Login extends Component {
             <FormControl
               style={{
                 fontSize: "15px",
-                fontFamily: base_font
+                fontFamily: base_font,
               }}
               placeholder="sample@emailid.com"
               autoFocus
@@ -273,7 +272,7 @@ export default class Login extends Component {
             <FormControl
               style={{
                 fontSize: "15px",
-                fontFamily: base_font
+                fontFamily: base_font,
               }}
               placeholder="********"
               value={this.state.password}
@@ -315,7 +314,7 @@ export default class Login extends Component {
             style={{
               marginRight: "10%",
               float: "left",
-              width: "45%"
+              width: "45%",
             }}
             className="sign-in-google"
             loadingtext="Logging in…"
@@ -325,7 +324,7 @@ export default class Login extends Component {
             disabled={!this.validateForm()}
             type="submit"
             style={{
-              width: "45%"
+              width: "45%",
             }}
             isloading={this.state.isloading}
             text="Facebook"
@@ -363,6 +362,8 @@ export default class Login extends Component {
             "Skip Sign In"
           )}
         </Button>
+        </div>
+        <OTPComponent/>
       </div>
     );
   }

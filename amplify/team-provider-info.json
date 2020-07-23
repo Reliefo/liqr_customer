@@ -1,0 +1,26 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-liqrcustomer-dev-141246-authRole",
+            "UnauthRoleArn": "arn:aws:iam::020452232211:role/amplify-liqrcustomer-dev-141246-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::020452232211:role/amplify-liqrcustomer-dev-141246-authRole",
+            "Region": "ap-south-1",
+            "DeploymentBucketName": "amplify-liqrcustomer-dev-141246-deployment",
+            "UnauthRoleName": "amplify-liqrcustomer-dev-141246-unauthRole",
+            "StackName": "amplify-liqrcustomer-dev-141246",
+            "StackId": "arn:aws:cloudformation:ap-south-1:020452232211:stack/amplify-liqrcustomer-dev-141246/8beaf600-ccc0-11ea-96ab-02abaae9da36",
+            "AmplifyAppId": "d1ktx3xtto4l5y"
+        },
+        "categories": {
+            "auth": {
+                "liqrcustomerotp": {}
+            },
+            "function": {
+                "liqrcustomerotpCreateAuthChallenge": {},
+                "liqrcustomerotpDefineAuthChallenge": {},
+                "liqrcustomerotpPreSignup": {},
+                "liqrcustomerotpVerifyAuthChallengeResponse": {}
+            }
+        }
+    }
+}
