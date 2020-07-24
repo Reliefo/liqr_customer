@@ -260,8 +260,7 @@ export default class Login extends Component {
             text="Skip Sign In"
             onClick={this.skipSignIn}
             className="sign-in-button"
-          > */}
-            {/* {localStorage.getItem("registeredUser") !== null ? (
+          >  {localStorage.getItem("registeredUser") !== null ? (
               localStorage.getItem("registeredUser") === "false" ? (
                 <div>Continue as {localStorage.getItem("name")}</div>
               ) : (
