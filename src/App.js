@@ -8,7 +8,7 @@ import PaymentOptions from "./Pages/PaymentOptions";
 import SubMenu from "./Pages/SubMenu";
 import Menu from "./Pages/Menu";
 // import JM from "./Pages/jm";
-import Login from "./components/Login";
+import Login from "./components/LoginPhone";
 import SignUp from "./components/SignUp";
 import Cart from "./Pages/Cart";
 import Table from "./Pages/Status";

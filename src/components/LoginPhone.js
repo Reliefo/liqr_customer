@@ -253,107 +253,15 @@ export default class Login extends Component {
         {/* <div style={{display:"none"}}> */}
         <div>
           <div className="sign-in">LiQR Login Page</div>
-          <form>
-            <FormGroup controlId="email">
-              <label className="sign-in-label">Email ID</label>
-              <FormControl
-                style={{
-                  fontSize: "15px",
-                  fontFamily: base_font,
-                }}
-                placeholder="sample@emailid.com"
-                autoFocus
-                type="email"
-                value={this.state.email}
-                onChange={this.handleChange}
-              />
-            </FormGroup>
-            <FormGroup controlId="password">
-              <label className="sign-in-label">Password</label>
-              <FormControl
-                style={{
-                  fontSize: "15px",
-                  fontFamily: base_font,
-                }}
-                placeholder="********"
-                value={this.state.password}
-                onChange={this.handleChange}
-                type="password"
-              />
-            </FormGroup>
-            {errorMessage ? (
-              <div className="error-handling">{errorMessage} </div>
-            ) : (
-              ""
-            )}
-            <Button
-              block
-              onClick={this.handleSubmit}
-              // isloading={this.state.isloading}
-              className="sign-in-button"
-              loadingtext="Logging in…"
-            >
-              {localStorage.getItem("registeredUser") !== null ? (
-                localStorage.getItem("registeredUser") === "true" ? (
-                  <div>Login as {localStorage.getItem("name")}</div>
-                ) : (
-                  "Log In"
-                )
-              ) : (
-                "Log In"
-              )}
-            </Button>
-          </form>
-          <div className="sign-in-or">or</div>
-          <div>
-            <LoaderButton
-              block
-              disabled={!this.validateForm()}
-              type="submit"
-              isloading={this.state.isloading}
-              text="Google"
-              style={{
-                marginRight: "10%",
-                float: "left",
-                width: "45%",
-              }}
-              className="sign-in-google"
-              loadingtext="Logging in…"
-            />
-            <LoaderButton
-              block
-              disabled={!this.validateForm()}
-              type="submit"
-              style={{
-                width: "45%",
-              }}
-              isloading={this.state.isloading}
-              text="Facebook"
-              className="sign-in-facebook"
-              loadingtext="Logging in…"
-            />
-          </div>
-          <div className="sign-in-member">
-            Not a member yet ?{" "}
-            <span
-              onClick={() => {
-                this.props.history.push("/register");
-              }}
-              style={{ color: "#ffb023" }}
-            >
-              {" "}
-              Sign Up
-            </span>
-          </div>
-          <Button
+          {/* <Button
             block
             style={{ marginTop: "5%" }}
             // isloading={this.state.isloading}
             text="Skip Sign In"
             onClick={this.skipSignIn}
             className="sign-in-button"
-          >
-            {localStorage.getItem("registeredUser") !== null ? (
+          > */}
+            {/* {localStorage.getItem("registeredUser") !== null ? (
               localStorage.getItem("registeredUser") === "false" ? (
                 <div>Continue as {localStorage.getItem("name")}</div>
               ) : (
@@ -362,9 +270,9 @@ export default class Login extends Component {
             ) : (
               "Skip Sign In"
             )}
-          </Button>
-        </div>
+          </Button> */}
         <OTPComponent />
+        </div>
       </div>
     );
   }
