@@ -1,15 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-// exports.handler = (event, context) => {
-//   if (event.request.session.length === 2 && event.request.challengeName === 'CUSTOM_CHALLENGE') {
-//     event.response.publicChallengeParameters = { trigger: 'true' };
-
-//     event.response.privateChallengeParameters = {};
-//     event.response.privateChallengeParameters.answer = process.env.CHALLENGEANSWER;
-//   }
-//   context.done(null, event);
-// };
 const AWS = require("aws-sdk");
 exports.handler = (event, context, callback) => {
   //Create a random number for otp
@@ -20,7 +11,7 @@ exports.handler = (event, context, callback) => {
   const sns = new AWS.SNS({ region: "ap-south-1" });
   sns.publish(
     {
-      Message: "Your OTP for logging in to the LiQR associated restaurant is : " + challengeAnswer,
+      Message: "Your OTP is :  " + challengeAnswer + " for logging in to the LiQR associated restaurant.",
       PhoneNumber: phoneNumber,
       MessageStructure: "string",
       MessageAttributes: {

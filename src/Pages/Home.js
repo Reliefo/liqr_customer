@@ -409,7 +409,7 @@ const Home = (props) => {
                 <Card.Img variant="top" src={restLogo} />
               )}
               <Card.Body className="welcome-card-text">{restAddress}</Card.Body>
-              <Link to="/menu" className="styled-link">
+              <Link to="/menu" className="styled-link-home">
                 <Card className="full-menu-button-div">
                   <div>
                     <Card.Title className="full-menu-text">

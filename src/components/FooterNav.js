@@ -2,11 +2,12 @@
 import React from "react";
 import home from "../assets/home.png";
 import menu from "../assets/menu.png";
+import basket from "../assets/basket.png";
+import status from "../assets/status.png";
+import profile from "../assets/profile.png";
 import { ToastContainer, toast } from "react-toastify";
 import { Button } from "react-bootstrap";
 import "react-toastify/dist/ReactToastify.css";
-import cartImage from "../assets/cart.png";
-import order from "../assets/order.png";
 import assist from "../assets/assist.png";
 import { Badge } from "react-bootstrap";
 import { Link, withRouter } from "react-router-dom";
@@ -107,13 +108,12 @@ const FooterNav = (props) => {
     }
 
     sum += addonPrice;
-    cartCount+=item.quantity;
+    cartCount += item.quantity;
   });
   const trfm = `rotate(${deg}deg)`;
   // const revtrfm = `rotate(${-deg}deg)`;
 
   const FABClick = () => {
-
     dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: !fabClick });
     dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
   };
@@ -150,101 +150,96 @@ const FooterNav = (props) => {
 
   const floatingButtons = () => (
     <>
-
       {activeNav === "Menu" && (
-                <div className="floating-container-menu" onClick={MenuClick}>
-                  <div className="menu-button-footer">
-                    <span>Categories</span>
+        <div className="floating-container-menu" onClick={MenuClick}>
+          <div className="menu-button-footer">
+            <span>Categories</span>
+          </div>
+        </div>
+      )}
+      <div className="floating-menu-div">
+        {menuClick && (
+          <div className="floating-container-menu-items">
+            <div className="floating-container menu-button">
+              {barFoodMenuCats[currentMenu].map((item, idx) => {
+                return (
+                  <div
+                    className="floating-menu-items"
+                    key={idx}
+                    onClick={() => closeMenu(idx)}
+                  >
+                    {/* <a href={`#menu-${idx}`}> <span>{item.name}</span></a> */}
+                    <AnchorLink
+                      className="anchor-menu"
+                      offset="90"
+                      href={`#menu-${idx}`}
+                    >
+                      {item}
+                    </AnchorLink>
                   </div>
-                </div>
-              )}
-              <div className="floating-menu-div">
-                {menuClick && (
-                  <div className="floating-container-menu-items">
-                    <div className="floating-container menu-button">
-                      {barFoodMenuCats[currentMenu].map((item, idx) => {
-                        return (
-                          <div
-                            className="floating-menu-items"
-                            key={idx}
-                            onClick={() => closeMenu(idx)}
-                          >
-                            {/* <a href={`#menu-${idx}`}> <span>{item.name}</span></a> */}
-                            <AnchorLink
-                              className="anchor-menu"
-                              offset="90"
-                              href={`#menu-${idx}`}
-                            >
-                              {item}
-                            </AnchorLink>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </div>
+      <div
+        className={`floating-container ${fabClick ? "rotate-fab" : ""}`}
+        style={{ transform: trfm }} //this rotation takes care of all other rotations.
+      >
+        <div className="FAB" onClick={FABClick}>
+          <span className="assist-button-text">Assist</span>
+          <img src={assist} alt="Table" className="assist-button-image" />
+        </div>
+        {fabClick && (
+          <div className="floating-container">
+            <div className="floating-menu">
+              <div
+                className="floating-assistance"
+                onClick={() => sendAssistance("water")}
+              >
+                Ask for Water
               </div>
               <div
-                className={`floating-container ${fabClick ? "rotate-fab" : ""}`}
-                style={{ transform: trfm }} //this rotation takes care of all other rotations.
+                className="floating-assistance"
+                onClick={() => sendAssistance("help")}
               >
-                <div className="FAB" onClick={FABClick}>
-                  <span className="assist-button-text">Assist</span>
-                  <img
-                    src={assist}
-                    alt="Table"
-                    className="assist-button-image"
-                  />
-                </div>
-                {fabClick && (
-                  <div className="floating-container">
-                    <div className="floating-menu">
-                      <div
-                        className="floating-assistance"
-                        onClick={() => sendAssistance("water")}
-                      >
-                        Ask for Water
-                      </div>
-                      <div
-                        className="floating-assistance"
-                        onClick={() => sendAssistance("help")}
-                      >
-                        Call for Assistance
-                      </div>
-                      <div
-                        className="floating-assistance"
-                        onClick={() => sendAssistance("cutlery")}
-                      >
-                        Call for Cutlery
-                      </div>
-                      <div
-                        className="floating-assistance"
-                        onClick={() => sendAssistance("tissue")}
-                      >
-                        Ask for Tissue
-                      </div>
-                      <div
-                        className="floating-assistance"
-                        onClick={() => sendAssistance("cleaning")}
-                      >
-                        Ask for Cleaning
-                      </div>
-                      <div
-                        className="floating-assistance"
-                        onClick={() => sendAssistance("menu")}
-                      >
-                        Ask for Physical Menu
-                      </div>
-                      <div
-                        className="floating-assistance"
-                        onClick={() => sendAssistance("ketchup")}
-                      >
-                        Ask for Ketchup
-                      </div>
-                    </div>
-                  </div>
-                )}
+                Call for Assistance
               </div>
+              <div
+                className="floating-assistance"
+                onClick={() => sendAssistance("cutlery")}
+              >
+                Call for Cutlery
+              </div>
+              <div
+                className="floating-assistance"
+                onClick={() => sendAssistance("tissue")}
+              >
+                Ask for Tissue
+              </div>
+              <div
+                className="floating-assistance"
+                onClick={() => sendAssistance("cleaning")}
+              >
+                Ask for Cleaning
+              </div>
+              <div
+                className="floating-assistance"
+                onClick={() => sendAssistance("menu")}
+              >
+                Ask for Physical Menu
+              </div>
+              <div
+                className="floating-assistance"
+                onClick={() => sendAssistance("ketchup")}
+              >
+                Ask for Ketchup
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </>
   );
   return (
@@ -268,19 +263,13 @@ const FooterNav = (props) => {
         <div>
           {cartCount > 0 && props.location.pathname === "/menu" ? (
             <div
-              // style={{
-              //   fontSize: "16px",
-              //   fontFamily: rest_font,
-              //   height: "100px",
-              // color: "black",
-              //   display: "block",
-              // }}
               className="footer-nav footer-theme go-to-cart-footer"
             >
               {floatingButtons()}
               <div className="footerOrderTotal">
                 <span>
-                  {cartCount} {cartCount < 2 ? "Item" : "Items"} | {currency}{sum}{" "}
+                  {cartCount} {cartCount < 2 ? "Item" : "Items"} | {currency}
+                  {sum}{" "}
                 </span>{" "}
               </div>
               <div className="footerOrder">
@@ -297,7 +286,7 @@ const FooterNav = (props) => {
             <div className={footerDiv}>
               {floatingButtons()}
               <Link
-                to="/Home"
+                to="/home"
                 className="styled-link"
                 onClick={() =>
                   setState((state) => ({ ...state, menuClick: false }))
@@ -334,15 +323,15 @@ const FooterNav = (props) => {
                   className={divClasses("Cart")}
                   style={{ marginBottom: "calc(.7rem - 3px)" }}
                 >
-                  {cartCount > 0 ? (
+                  {/* {cartCount > 0 ? (
                     <Badge
                       variant="danger"
                       style={{ position: "absolute", top: "-7px" }}
                     >
                       {cartCount}
                     </Badge>
-                  ) : null}{" "}
-                  <img src={cartImage} alt="Cart" className={fillSvg("Cart")} />
+                  ) : null}{" "} */}
+                  <img src={basket} alt="Cart" className={fillSvg("Cart")} />
                   <span className="icon-text">Cart</span>
                 </div>
               </Link>
@@ -360,23 +349,26 @@ const FooterNav = (props) => {
                   className={divClasses("Order")}
                   style={{ marginBottom: "calc(.7rem - 3px)" }}
                 >
-                  <img src={order} alt="Table" className={fillSvg("Order")} />
+                  <img src={status} alt="Order" className={fillSvg("Order")} />
                   <span className="icon-text">Status</span>
                 </div>
               </Link>
               {/* <Link
-                to="/order"
+                to="/profile"
                 className="styled-link"
-                onClick={() =>
-                  setState(state => ({ ...state, menuClick: false }))
-                }
+                onClick={(event) => {
+                  setState((state) => ({ ...state, menuClick: false }));
+                  if (!displayOrderButtons) {
+                    event.preventDefault();
+                  }
+                }}
               >
                 <div
-                  className={fillDiv("Order")}
+                  className={divClasses("Profile")}
                   style={{ marginBottom: "calc(.7rem - 3px)" }}
                 >
-                  <img src={order} alt="Table" className={fillSvg("Order")} />
-                  <span className="icon-text">Order</span>
+                  <img src={profile} alt="Profile" className={fillSvg("Profile")} />
+                  <span className="icon-text">Profile</span>
                 </div>
               </Link> */}
             </div>

@@ -98,3 +98,9 @@
   color: #222222;
   font-size: 0.9rem;
 }
+
+.table-cart-layout {
+  /* background: transparentize($color: #ffee00, $amount: 0); */
+  background-color: var(--table-cart-color);
+  opacity: 0.7;
+}

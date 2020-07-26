@@ -79,6 +79,7 @@ const Cart = (props) => {
         "--second-menu-background-color",
         "--first-pattern-light-color",
         "--second-pattern-light-color",
+        "--table-cart-color",
       ];
       cssVariables.forEach((item, key) => {
         // console.log(item,key);

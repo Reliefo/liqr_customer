@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import { FormGroup, FormControl, Button } from "react-bootstrap";
-import LoaderButton from "./LoaderButton";
-import axios from "axios";
+import { Button } from "react-bootstrap";
 import AppWrapper from "../App";
+import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import OTPComponent from "./OTP";
 
@@ -246,32 +245,10 @@ export default class Login extends Component {
 
   render() {
     //$base-font
-    const base_font = "Poppins";
-    const { errorMessage } = this.state;
     return (
       <div className="Login">
-        {/* <div style={{display:"none"}}> */}
-        <div>
-          <div className="sign-in">LiQR Login Page</div>
-          {/* <Button
-            block
-            style={{ marginTop: "5%" }}
-            // isloading={this.state.isloading}
-            text="Skip Sign In"
-            onClick={this.skipSignIn}
-            className="sign-in-button"
-          >  {localStorage.getItem("registeredUser") !== null ? (
-              localStorage.getItem("registeredUser") === "false" ? (
-                <div>Continue as {localStorage.getItem("name")}</div>
-              ) : (
-                "Skip Sign In"
-              )
-            ) : (
-              "Skip Sign In"
-            )}
-          </Button> */}
-        <OTPComponent />
-        </div>
+        <OTPComponent props={this.props} fromLogin={true} skipSignIn={this.skipSignIn} />
+
       </div>
     );
   }

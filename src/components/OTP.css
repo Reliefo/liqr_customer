@@ -1,0 +1,64 @@
+.sign-out-button {
+  background-color: #ff1e1e;
+  color: white;
+  padding: 0.3rem;
+  position: absolute;
+  right: 0.5rem;
+  top: 0.5rem;
+}
+.OTP-Component {
+  top: 1rem;
+  position: relative;
+}
+.sign-in {
+  text-align: center;
+  letter-spacing: 0px;
+  color: #000000;
+  opacity: 1;
+  font-weight: 900;
+  font-size: 1.7rem;
+}
+.status-message-login {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: medium;
+}
+.two-buttons {
+    display: flex;
+    flex-direction: column;
+}
+.country-code-desc {
+    font-size: small;
+    margin-bottom: 0%;
+    text-align: center;
+    margin-top: 1rem;
+    color: slategray;
+}
+.name-placeholder {
+    font-size: medium;
+}
+.refresh-sign-in {
+    border-radius: 6px !important;
+    background: transparent;
+    color: black;
+    border: 2px solid #ffb023;
+    font-size: medium;
+    margin-top: 0.5rem;
+    display: none;
+}
+.continue-with-otp {
+    border-radius: 6px !important;
+    margin-top: 0.5rem;
+    border: 0px solid #ffb023;
+    background-color: #ffb023;
+}
+.sign-in-or {
+    margin: 1rem;
+    padding-top: 0rem;
+}
+.get-otp-button {
+    background-color: rgb(26, 160, 223);
+}
+.confirm-otp {
+    background-color: seagreen;
+}

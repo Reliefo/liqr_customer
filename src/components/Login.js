@@ -364,7 +364,7 @@ export default class Login extends Component {
             )}
           </Button>
         </div>
-        <OTPComponent />
+        {/* <OTPComponent /> */}
       </div>
     );
   }
