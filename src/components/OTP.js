@@ -161,8 +161,8 @@ const OTPComponent = ({ props, fromLogin, skipSignIn }) => {
     bodyFormData.set("from_login", fromLogin);
     axios({
       method: "post",
-      // url: "https://liqr.cc/phone_login",
-      url: "http://localhost:5050/phone_login",
+      url: "https://liqr.cc/phone_login",
+      // url: "http://localhost:5050/phone_login",
       data: bodyFormData,
       headers: {
         "X-LiQR-Authorization": accessToken,
@@ -312,16 +312,11 @@ const OTPComponent = ({ props, fromLogin, skipSignIn }) => {
               className="sign-in-button"
             >
               {" "}
-              {localStorage.getItem("registeredUser") !== null ? (
-                localStorage.getItem("registeredUser") === "false" ? (
-                  <div>Continue as {givenName}</div>
-                ) : (
-                  "Skip Sign In"
-                )
-              ) : (
-                "Skip Sign In"
-              )}
+              {
+                "Skip Sign In for Now"
+              }
             </Button>
+            <p className="country-code-desc">(You need to authenticate with your number before placing an order)</p>
           </div>
         )}
       </div>
