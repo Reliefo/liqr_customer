@@ -12,6 +12,7 @@ const initialState = {
   tableId: "",
   menuClick : false,
   fabClick: false,
+  phoneRegistered : false,
   restId: "",
   addons: [],
   placeOrderById: "",

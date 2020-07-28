@@ -216,6 +216,9 @@ function reducer(state, action) {
     case TYPES.ADD_REST_TAXES:
       st.taxes = payload;
       return st;
+    case TYPES.SET_REGISTERED:
+      st.phoneRegistered = payload;
+      return st;
     default:
       return state;
   }

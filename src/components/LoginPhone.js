@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import { Button } from "react-bootstrap";
+// import { Button } from "react-bootstrap";
 import AppWrapper from "../App";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
@@ -128,7 +128,6 @@ export default class Login extends Component {
         localStorage.setItem("table_id", table_id);
         localStorage.setItem("restaurant_id", data.restaurant_id);
         localStorage.setItem("unique_id", data.unique_id);
-        localStorage.setItem("registeredUser", false);
         localStorage.setItem("refreshToken", data.refresh_token);
         localStorage.setItem("user_id", data.user_id);
         localStorage.setItem("name", data.name);
@@ -143,112 +142,11 @@ export default class Login extends Component {
       });
   };
 
-  handleSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      this.setState({ isloading: true });
-
-      let parm = window.location.href;
-      parm = parm.split("=");
-      let table_id =
-        parm[1] !== undefined ? parm[1] : localStorage.getItem("table_id");
-      const uniqueId = `${uuidv4().substring(0, 15)}`;
-      if (localStorage.getItem("registeredUser") === "true") {
-        let bodyFormData = new FormData();
-        bodyFormData.set("table_id", parm[1]);
-        bodyFormData.set(
-          "unique_id",
-          localStorage.getItem("unique_id") !== null
-            ? localStorage.getItem("unique_id")
-            : uniqueId
-        );
-
-        bodyFormData.set("email_id", localStorage.getItem("email_id"));
-        axios({
-          method: "post",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("refreshToken")}`,
-          },
-          url: "https://liqr.cc/refresh",
-          data: bodyFormData,
-        }).then((response) => {
-          const { data } = response;
-
-          localStorage.setItem("table_id", parm[1]);
-          localStorage.setItem("restaurant_id", data.restaurant_id);
-          ReactDOM.render(<AppWrapper />, document.getElementById("root"));
-          this.props.history.push("/home", {
-            login: true,
-          });
-        });
-      } else {
-        let bodyFormData = new FormData();
-        bodyFormData.set("password", this.state.password);
-        bodyFormData.set("unique_id", "");
-        bodyFormData.set("email_id", this.state.email);
-        bodyFormData.set("table_id", table_id);
-
-        axios({
-          method: "post",
-          url: "https://liqr.cc/user_login",
-          data: bodyFormData,
-        }).then((response) => {
-          const { data } = response;
-          if (data.code === "401") {
-            this.setState({ errorMessage: data.status });
-          } else {
-            localStorage.setItem("jwt", data.jwt);
-            localStorage.setItem("table_id", table_id);
-            localStorage.setItem("registeredUser", true);
-            localStorage.setItem("email_id", this.state.email);
-            localStorage.setItem("restaurant_id", data.restaurant_id);
-            localStorage.setItem("refreshToken", data.refresh_token);
-            localStorage.setItem("user_id", data.user_id);
-            localStorage.setItem("name", data.name);
-            ReactDOM.render(<AppWrapper />, document.getElementById("root"));
-            this.props.history.push("/home", {
-              login: true,
-            });
-          }
-        });
-        this.setState({ isloading: false });
-      }
-    } catch (e) {
-      alert(e.message);
-    }
-  };
-
-  // handleSubmit = async event => {
-  //   event.preventDefault();
-  //   this.setState({ isloading: true });
-  //   try {
-  //     // await Auth.signIn(this.state.email, this.state.password);
-
-  //     console.log('NIDS--->', this.state.email, this.state.password)
-  //     Auth.signIn(this.state.email, this.state.password)
-  //     .then(user => {
-  //       console.log('NIDS---->', user);
-  //       this.setState({ isloading: false });
-  //       const { history, location } = this.props;
-  //       const { from } = location.state || {
-  //         from: {
-  //           pathname: '/home'
-  //         }
-  //       };
-  //     })
-
-  //     // this.props.history.push("/home");
-  //   } catch (e) {
-  //     alert(e.message);
-  //   }
-  // };
-
   render() {
     //$base-font
     return (
       <div className="Login">
         <OTPComponent props={this.props} fromLogin={true} skipSignIn={this.skipSignIn} />
-
       </div>
     );
   }

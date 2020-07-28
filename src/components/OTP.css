@@ -59,6 +59,11 @@
 .get-otp-button {
     background-color: rgb(26, 160, 223);
 }
+.get-otp-button-sign-up {
+    background-color: rgb(26, 160, 223);
+    text-align: center;
+    width: 90%;
+}
 .confirm-otp {
     background-color: seagreen;
 }

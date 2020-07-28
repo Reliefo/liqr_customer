@@ -13,6 +13,7 @@ import { Table as RBTable } from "react-bootstrap";
 import Bill from "components/Bill.js";
 import CollapseDetails from "./Collapse.js";
 import "./Cart.css";
+import OTPComponent from "../components/OTP";
 
 const Cart = (props) => {
   const {
@@ -25,6 +26,7 @@ const Cart = (props) => {
       themeProperties,
       currency,
       taxes,
+      phoneRegistered,
     },
   } = React.useContext(StoreContext);
 
@@ -41,6 +43,10 @@ const Cart = (props) => {
     activeCart: 0, //0: Personal cart, 1: Table cart
     showData: true,
   });
+  // const [registered, setRegistered] = React.useState(false);
+  const [showRegistrationModal, setShowRegistrationModal] = React.useState(
+    false
+  );
 
   React.useEffect(() => {
     // if (props.socket.connected === false) {
@@ -98,7 +104,7 @@ const Cart = (props) => {
 
     //handling refresh issue
     dispatch({ type: TYPES.SET_NAV, payload: "Cart" });
-  }, [dispatch, themeProperties]);
+  }, [dispatch, themeProperties ]);
 
   props.socket.off("new_orders").on("new_orders", (msg) => {
     const data = JSON.parse(msg);
@@ -332,8 +338,7 @@ const Cart = (props) => {
                         } else {
                           return "";
                         }
-                      }
-                      else {
+                      } else {
                         return "";
                       }
                     })}
@@ -445,6 +450,9 @@ const Cart = (props) => {
   };
 
   const handleClose = () => setState({ showData: false });
+  const showRegistration = () => {
+    setShowRegistrationModal(true);
+  };
   return (
     <>
       {localStorage.getItem("table_id") === null && state.showData === true ? (
@@ -524,6 +532,12 @@ const Cart = (props) => {
               state.activeCart === 0 &&
               renderPersonalCart()}
             {state.activeCart === 1 && renderTableCart()}
+            {!phoneRegistered && (
+              <Modal size="lg" centered show={showRegistrationModal} onHide={() => {setShowRegistrationModal(false)}}>
+                <div className="login-modal-div">
+        <OTPComponent fromLogin={false} /></div>
+              </Modal>
+            )}
             {state.activeCart === 0 && cart.length !== 0 && (
               <>
                 <Bill
@@ -536,7 +550,9 @@ const Cart = (props) => {
                     <Col style={{ marginTop: "1rem" }}>
                       <div
                         className="bill-btn personal-order-btn"
-                        onClick={placePersonalOrder}
+                        onClick={
+                          phoneRegistered ? placePersonalOrder : showRegistration
+                        }
                       >
                         <p>Place Order</p>
                       </div>
@@ -544,7 +560,7 @@ const Cart = (props) => {
                     <Col style={{ marginTop: "1rem" }}>
                       <div
                         className="bill-btn push-to-table-btn"
-                        onClick={pushToTable}
+                        onClick={phoneRegistered ? pushToTable : showRegistration}
                       >
                         <p>Push To Table</p>
                       </div>
