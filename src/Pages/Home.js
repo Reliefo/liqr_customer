@@ -189,6 +189,14 @@ const Home = (props) => {
         type: TYPES.SET_DINE_HISTORY,
         payload: data.dine_in_history || [],
       });
+      if (data._cls === "User.TempUser"){
+
+        dispatch({ type: TYPES.SET_REGISTERED, payload: false });
+      }
+      else{
+
+        dispatch({ type: TYPES.SET_REGISTERED, payload: true });
+      }
     });
 
     props.socket.off("table_details").on("table_details", (msg) => {

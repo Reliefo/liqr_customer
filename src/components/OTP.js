@@ -49,9 +49,6 @@ const OTPComponent = ({ props, fromLogin, skipSignIn }) => {
       setGivenName(localStorage.getItem("name"));
     }
   }, []);
-  if (user != null) {
-    console.log(user["attributes"]["name"]);
-  }
 
   const signUp = async () => {
     const result = await Auth.signUp({
@@ -92,7 +89,6 @@ const OTPComponent = ({ props, fromLogin, skipSignIn }) => {
     Auth.sendCustomChallengeAnswer(session, otp)
       .then((user) => {
         setUser(user); // this is THE cognito user
-        console.log(user); // this is THE cognito user
         setMessage(SIGNEDIN);
         setVerifyOTP(false);
         setLogged(true);
