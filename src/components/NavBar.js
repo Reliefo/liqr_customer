@@ -13,6 +13,10 @@ import "./NavBar.css";
 import Search from "../Pages/Search.js";
 import { Container, Row, Col } from "react-bootstrap";
 import Burger from "react-css-burger";
+import { HamburgerButton } from "react-hamburger-button";
+import { ReactComponent as SearchSVG } from "assets/searchIcon3.svg";
+import AnchorLink from "react-anchor-link-smooth-scroll";
+import { withRouter } from "react-router-dom";
 
 const Navbar = (props) => {
   // const [prevScrollpos, setPrevScrollpos] = React.useState(window.pageYOffset);
@@ -23,7 +27,10 @@ const Navbar = (props) => {
       // rawData: { name },
       tableName,
       restId,
-      themeProperties
+      themeProperties,
+      menuClick,
+      currentMenu,
+      barFoodMenuCats,
     },
   } = React.useContext(StoreContext);
 
@@ -34,28 +41,22 @@ const Navbar = (props) => {
   React.useEffect(() => {
     dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
     dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
-      // document.documentElement.style.setProperty("--theme-font", "Inconsolata");
-      // //Nav Bar//
-      // document.documentElement.style.setProperty("--top-bar-color", "#ffcf31");
-      // document.documentElement.style.setProperty("--search-background-color", "#ffe83d");
-      // document.documentElement.style.setProperty("--burger-menu-background-color", "#a89214")
-    /////THEMEING //////
-    if (themeProperties['theme'] === true) {
+    if (themeProperties["theme"] === true) {
       let cssVariables = [
-        '--theme-font', 
-        '--top-bar-color', 
-        '--search-background-color', 
-        '--burger-menu-background-color'
+        "--theme-font",
+        "--top-bar-color",
+        "--search-background-color",
+        "--burger-menu-background-color",
       ];
       cssVariables.forEach((item, key) => {
         // console.log(item,key);
-        document.documentElement.style.setProperty(item, themeProperties['variables'][item]);
+        document.documentElement.style.setProperty(
+          item,
+          themeProperties["variables"][item]
+        );
       });
     }
-/////THEMEING //////
-
-
-  }, [ dispatch, restId, themeProperties ]);
+  }, [dispatch, restId, themeProperties]);
 
   // const searchIconClick = () => {
   //   inputNode.current.focus();
@@ -83,25 +84,29 @@ const Navbar = (props) => {
     localStorage.removeItem("restaurant_id");
   };
 
-  // Hide or show the menu.
-  // const handleScroll = () => {
-  //   const currentScrollPos = window.pageYOffset;
-  //   const visible = prevScrollpos > currentScrollPos;
-  //   console.log(window.pageYOffset);
-  //   console.log(prevScrollpos);
-  //   setPrevScrollpos(currentScrollPos);
-  //   setVisible(visible);
-  // };
-  // window.addEventListener("scroll", handleScroll);
-
-  // React.useEffect(() => window.addEventListener("scroll", handleScroll));
-
-  const isMenuOpen = function (state) {
+  const isMenuOpen = function(state) {
     setVisible(state.isOpen);
     return state.isOpen;
   };
+  const closeMenu = () => {
+    dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
+    dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
+  };
+  const searchIconClick = () => {
+    props.history.push("/searchItems");
+  };
+  const burgerMenu = {
+    position: "absolute",
+    margin: "0px",
+    paddingBottom: "0px",
+    border: "2px solid #ffffff",
+    borderRadius: "4px",
+    background: "rgba(255, 255, 255, 0.2)",
+    top: "-0.1rem",
+    left: "-0.2rem",
+  };
   return (
-    <div>
+    <>
       {window.location.pathname === "/jm" ||
       window.location.pathname === "/" ||
       window.location.pathname === "/login" ? (
@@ -111,28 +116,50 @@ const Navbar = (props) => {
           <nav className="navbar">
             <Container fluid>
               <Row className="w-100">
-                <Col
-                  sm={1}
-                  lg={1}
-                  xs={1}
-                  md={1}
-                  xl={1}
-                  style={{ padding: "0px" }}
-                >
+                <Col xs={1} md={1} style={{ padding: "0px" }}>
                   <Burger
                     onClick={() => setVisible(!visible)}
                     active={visible}
-                    burger="arrow"
-                    color="black"
-                    hoverOpacity={0.8}
-                    scale={1}
-                    marginTop={"1.0rem"}
-                    marginLeft={"0.5rem"}
-                    style={{ zIndex: 9, position: "absolute" }}
+                    burger="spin"
+                    style={burgerMenu}
                   />
                 </Col>
-                <Col sm={11} lg={11} xs={11} md={11} xl={11}>
-                  <Search />
+                <Col
+                  xs={10}
+                  md={10}
+                  // style={{ padding: "0px" }}
+                >
+                  <div className="floating-menu-div">
+                    {menuClick && (
+                      <div className="floating-container-menu-items">
+                        <div className="floating-container menu-button">
+                          {barFoodMenuCats[currentMenu].map((item, idx) => {
+                            return (
+                              <div
+                                className="floating-menu-items"
+                                key={idx}
+                                onClick={() => closeMenu(idx)}
+                              >
+                                {/* <a href={`#menu-${idx}`}> <span>{item.name}</span></a> */}
+                                <AnchorLink
+                                  className="anchor-menu"
+                                  offset="90"
+                                  href={`#menu-${idx}`}
+                                >
+                                  {item}
+                                </AnchorLink>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  {/* <Search /> */}
+                  {/* <p>Random</p> */}
+                </Col>
+                <Col xs={1} md={1} style={{ padding: "0.5rem 0px" }}>
+                  <SearchSVG onClick={searchIconClick} className="search-svg" />
                 </Col>
               </Row>
             </Container>
@@ -160,11 +187,11 @@ const Navbar = (props) => {
             </span>
           </div> */}
               </div>
-              <div style={{ float: "right", marginRight: "3%" }}>
+              <div style={{ float: "right", marginRight: "2%" }}>
                 {props.socket.connected === true ? (
-                  <span id="connected-socket"></span>
+                  <span className="socket-indicator socket-indicator-green"></span>
                 ) : (
-                  <span id="dis-connected-socket"></span>
+                  <span className="socket-indicator socket-indicator-red"></span>
                 )}
               </div>
             </div>
@@ -195,17 +222,14 @@ const Navbar = (props) => {
             <Burger
               onClick={() => setVisible(!visible)}
               active={visible}
-              burger="arrow"
-              color="white"
+              burger="spin"
+              color="black"
               hoverOpacity={0.8}
-              scale={0.75}
-              marginTop={"0.5rem"}
-              marginLeft={"0.5rem"}
+              scale={0.6}
               style={{
-                zIndex: 9,
+                ...burgerMenu,
                 position: "absolute",
-                left: "78%",
-                top: "0px",
+                left: "72%",
               }}
             />
             {localStorage.getItem("registeredUser") === "false" ? (
@@ -288,7 +312,7 @@ const Navbar = (props) => {
           </Menu>
         </div>
       )}
-    </div>
+    </>
   );
 };
 
@@ -298,4 +322,4 @@ const navbarWithSocket = (props) => (
   </SocketContext.Consumer>
 );
 
-export default navbarWithSocket;
+export default withRouter(navbarWithSocket);

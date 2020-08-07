@@ -131,6 +131,7 @@ const Home = (props) => {
   });
 
   React.useEffect(() => {
+    let isMounted = true;
     dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
     dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
     dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: "" } });
@@ -343,6 +344,7 @@ const Home = (props) => {
       dispatch({ type: TYPES.UPDATE_HOME_ITEMS, payload: JSON.parse(msg) });
       setState({ isloading: false });
     });
+    return () => { isMounted = false };
   }, [props.socket, dispatch, props.location]);
 
   const handleClose = () => setState({ showData: false });
@@ -495,17 +497,16 @@ const Home = (props) => {
                     <Slider {...getSettings(idx)} className="custom-slider">
                       {Object.values(data[1]["food_list"]).map(
                         (foodId, foodIdIndex) => {
-                          return Object.values(food_menu.concat(bar_menu)).map((subCategory, idx) => {
+                          return Object.values(food_menu.concat(bar_menu)).map((subCategory, categoryIdx) => {
                             return Object.values(subCategory.food_list).map(
                               (foodItem, foodItemIndex) => {
                                 if (foodItem._id.$oid === foodId) {
                                   return (
                                     <div id="card-home-screen">
                                       <FoodItem
-                                        stateData={cartData}
                                         foodItem={foodItem}
                                         subs={subCategory}
-                                        subsIndex={idx}
+                                        subsIndex={categoryIdx}
                                         index={foodItemIndex}
                                         key={`food-item-${foodItemIndex}`}
                                         restOrderingAbility={orderingAbility}

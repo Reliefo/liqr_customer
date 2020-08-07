@@ -2,7 +2,7 @@
   background: var(--menu-background);
   position: relative;
   padding: 0rem;
-  top: 3rem;
+  top: 0rem;
   padding-bottom: 4rem;
   min-height: calc(100vh - 30vw);
 }
@@ -20,6 +20,12 @@
   font-weight: bold;
   padding: 0.5rem;
   padding-left: 1rem;
+}
+.bottom-border-active {
+  border-bottom: 4px solid var(--top-bar-color);
+}
+.bottom-border-inactive {
+  border-bottom: 4px solid var(--top-bar-color);
 }
 
 .menu-btn-cart {

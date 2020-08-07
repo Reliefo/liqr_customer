@@ -293,6 +293,7 @@ const FoodItem = ({
           centered
           show={showPopup}
           className="food-options-modal"
+          onHide={() => closePopUp(foodItem)}
         >
           <Modal.Header>
             <Modal.Title className="options-title">
@@ -599,6 +600,7 @@ const FoodItem = ({
           size="lg"
           centered
           show={foodItem.showDetails}
+          onHide={() => closeDetails(foodItem)}
         >
           <Modal.Header>
             <Modal.Title className="details-title">

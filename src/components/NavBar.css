@@ -16,20 +16,7 @@
   ); */
 }
 
-
-.navbar {
-  width: 100%;
-  height: 3rem;
-  padding: 0px;
-  position: fixed;
-  display: block;
-  flex-direction: row;
-  top: 0;
-  transition: top 0.1s;
-  z-index: 8;
-  /* background-color: #ffb023; */
-  background-color: var(--top-bar-color);
-}
+/* Burger menu css */
 
 .menu-item {
   height: auto;
@@ -44,19 +31,13 @@
   opacity: 1;
 }
 
-.search-bar[type=text] {
-  border: 2px solid var(--top-bar-color);
-  /* border: 2px solid var(--top-bar-color); */
-  border-radius: 6px;
-  background-color: var(--search-background-color);
-}
 
 .bm-burger-bars {
   background: var(--top-bar-color);
 }
 
 .bm-menu {
-  padding: 0.5em 0.5em 0;
+  padding: 0.2em 0.2em 0;
   font-size: 1.15em;
   background: var(--burger-menu-background-color) 0% 0% no-repeat padding-box;
   box-shadow: 0px 3px 6px #00000029;
@@ -83,7 +64,6 @@
   margin-bottom: 10px;
   transition: color 0.2s;
 }
-
 /* Change color on hover */
 .bm-item:hover {
   color: white;
@@ -96,8 +76,6 @@
   width: 14%;
   margin-right: 5%;
 }
-/* The rest copied directly from react-burger-menu docs */
-
 /* Position and sizing of burger button */
 .bm-burger-button {
   position: fixed;
@@ -105,13 +83,9 @@
   height: 16px;
   left: 0px;
 }
-
-
 .navbar-menu-hr {
   visibility: hidden;
 }
-/* Color/shape of burger icon bars */
-
 
 /* Position and sizing of clickable cross button */
 .bm-cross-button {
@@ -124,13 +98,9 @@
 }
 
 /* General sidebar styles */
-
-
-/* General sidebar styles */
 .bm-menu-wrap {
   top: 0;
 }
-
 
 .bm-overlay {
   background: transparent !important;
@@ -139,4 +109,68 @@
 /* Morph shape necessary with bubble or elastic */
 .bm-morph-shape {
   fill: #ffd900;
+}
+
+
+
+.navbar {
+  width: 100%;
+  height: 0rem;
+  padding: 0px;
+  position: fixed;
+  display: block;
+  flex-direction: row;
+  top: 0;
+  transition: top 0.1s;
+  z-index: 100;
+  /* background-color: #ffb023; */
+  background-color: var(--top-bar-color);
+}
+.search-bar[type=text] {
+  border: 2px solid var(--top-bar-color);
+  /* border: 2px solid var(--top-bar-color); */
+  border-radius: 6px;
+  background-color: var(--search-background-color);
+}
+
+.search-svg {
+  position: absolute;
+  float: right;
+  right: -1.5rem;
+  top: 0.2rem;
+  padding: 0.1rem;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.4);
+  border: 0px solid rgba(255, 255, 255, 1);
+  border-radius: 33%;
+  height: 1.7rem;
+  width: 1.7rem;
+  /* bottom: 8px; */
+  fill: #262626;
+}
+
+.closesearch-svg {
+  position: absolute;
+  right: -14rem;
+  float: right;
+  z-index: 2;
+  height: 22px;
+  bottom: 8px;
+  fill: #262626;
+}
+.socket-indicator {
+  position: absolute;
+  border-radius: 50%;
+  display: block;
+  width: 5px;
+  height: 5px;
+  top: 0.1rem;
+}
+.socket-indicator-green {
+  background-color: green;
+  background: green;
+}
+.socket-indicator-red{
+  background-color: red;
+  background: red;
 }

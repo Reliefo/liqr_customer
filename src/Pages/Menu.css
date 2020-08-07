@@ -16,7 +16,7 @@
   font-family: var(--theme-font);
   position: relative;
   padding: 0rem;
-  top: 3rem;
+  top: 0rem;
   padding-bottom: 1rem;
   min-height: 90vh;
 }
@@ -56,62 +56,52 @@
 }
 
 .menu-active {
-  height: 2.3rem;
-  width: 50%;
   background: var(--top-bar-color) 0% 0% no-repeat padding-box;
-  color: #000000;
-  /* border-radius: 0px 0px 0px 6px; */
-  font-family: var(--theme-font);
-  font-size: medium;
-  opacity: 1;
-  transition: ease 0.5s;
+  border-top: 2px groove var(--top-bar-color);
 }
 
 .menu-inactive {
-  height: 2.3rem;
-  width: 50%;
   background: #ffffff 0% 0% no-repeat padding-box;
-  color: #000000;
-  /* border-radius: 0px 0px 6px 0px; */
-  /* border-radius: 0px 0px 0px 0px; */
-  font-family: var(--theme-font);
-  opacity: 1;
-  transition: ease 0.5s;
+  border-top: 2px double #ffffff;
+  opacity: 0.8;
 }
 
 .menu-item-names {
-  text-align: center;
   letter-spacing: 0px;
   font-family: var(--theme-font);
-  opacity: 1;
   font-weight: bold;
-  font-size: large;
+  font-size: medium;
   padding-top: 0.3rem;
   /* margin: 4%; */
 }
-
-/* .bar-active {
-  border-radius: 0px 0px 0px 6px;
+.food-menu-button {
+  height: 2.3rem;
+  width: 50%;
+  padding-left: 10%;
+  padding-right: 3%;
+  color: #000000;
+  font-family: var(--theme-font);
+  transition: ease 0.5s;
+  text-align: right;
 }
 
-.food-active {
-  border-radius: 0px 0px 6px 0px;
+.bar-menu-button {
+  height: 2.3rem;
+  width: 50%;
+  color: #000000;
+  padding-right: 10%;
+  padding-left: 3%;
+  font-family: var(--theme-font);
+  transition: ease 0.5s;
 }
 
-.bar-inactive {
-  border-radius: 0px 0px 0px 6px;
-}
-
-.food-inactive {
-  border-radius: 0px 0px 6px 0px;
-} */
 .category-subs {
   text-align: center;
   letter-spacing: 0px;
   color: #000000;
   opacity: 1;
   position: sticky;
-  top: 3rem;
+  top: 0rem;
   background-color: var(--top-bar-color);
   text-shadow: 3px solid var(--top-bar-color);
   font-size: 1.1rem;

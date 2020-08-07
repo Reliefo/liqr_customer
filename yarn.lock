@@ -15854,6 +15854,11 @@ react-error-overlay@^6.0.7:
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.7.tgz#1dcfb459ab671d53f660a991513cb2f0a0553108"
   integrity sha512-TAv1KJFh3RhqxNvhzxj6LeT5NWklP6rDr2a0jaTfsZ5wSZWHOGeqQyejUp3xxLfPt2UpyJEcVQB/zyPcmonNFA==
 
+react-hamburger-button@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/react-hamburger-button/-/react-hamburger-button-0.0.1.tgz#37e0141a4caa19ca68a7e1eb595a5d8c0d154915"
+  integrity sha512-D+Tty/ytGQrxNfhN2EUiv7zdtzWwf++5UabY7qMRSVb7RBZkrZDwz4fk3Tkc5UNG+LK+QZBA0ADE2iLEDDL4cA==
+
 react-image-gallery@^1.0.7:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/react-image-gallery/-/react-image-gallery-1.0.7.tgz#75e0d3f995d1475762f80f5a6958b4a9bb88bf97"

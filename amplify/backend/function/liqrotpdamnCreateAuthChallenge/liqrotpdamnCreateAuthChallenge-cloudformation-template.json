@@ -102,7 +102,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "amplify-liqrotp-dev-193522-deployment",
-					"S3Key": "amplify-builds/liqrotpdamnCreateAuthChallenge-704e47704167506b5751-build.zip"
+					"S3Key": "amplify-builds/liqrotpdamnCreateAuthChallenge-59537736702f766f4c4b-build.zip"
 				}
 			}
 		},

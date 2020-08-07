@@ -104,7 +104,7 @@ const Cart = (props) => {
 
     //handling refresh issue
     dispatch({ type: TYPES.SET_NAV, payload: "Cart" });
-  }, [dispatch, themeProperties ]);
+  }, [dispatch, themeProperties]);
 
   props.socket.off("new_orders").on("new_orders", (msg) => {
     const data = JSON.parse(msg);
@@ -492,28 +492,30 @@ const Cart = (props) => {
           }}
           className="cart-screen"
         >
-          <ul className="menu-btn">
-            <li
-              className={
-                state.activeCart === 0
-                  ? "menu-active bar-active"
-                  : "menu-inactive bar-inactive"
-              }
-              onClick={pushToCart}
-            >
-              <div className="menu-item-names">Personal</div>
-            </li>
-            <li
-              className={
-                state.activeCart === 1
-                  ? "menu-active food-active"
-                  : "food-inactive menu-inactive"
-              }
-              onClick={pushToCart}
-            >
-              <div className="menu-item-names">Table</div>
-            </li>
-          </ul>
+          <nav className="food-bar-menu">
+            <ul className="menu-btn">
+              <li
+                className={
+                  state.activeCart === 0
+                    ? "menu-active food-menu-button bottom-border-active"
+                    : "menu-inactive food-menu-button bottom-border-inactive"
+                }
+                onClick={pushToCart}
+              >
+                <div className="menu-item-names">Personal</div>
+              </li>
+              <li
+                className={
+                  state.activeCart === 1
+                    ? "menu-active bar-menu-button bottom-border-active"
+                    : "menu-inactive bar-menu-button bottom-border-inactive"
+                }
+                onClick={pushToCart}
+              >
+                <div className="menu-item-names">Common</div>
+              </li>
+            </ul>
+          </nav>
           <div
             onClick={() => {
               dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
@@ -533,9 +535,17 @@ const Cart = (props) => {
               renderPersonalCart()}
             {state.activeCart === 1 && renderTableCart()}
             {!phoneRegistered && (
-              <Modal size="lg" centered show={showRegistrationModal} onHide={() => {setShowRegistrationModal(false)}}>
+              <Modal
+                size="lg"
+                centered
+                show={showRegistrationModal}
+                onHide={() => {
+                  setShowRegistrationModal(false);
+                }}
+              >
                 <div className="login-modal-div">
-        <OTPComponent fromLogin={false} /></div>
+                  <OTPComponent fromLogin={false} />
+                </div>
               </Modal>
             )}
             {state.activeCart === 0 && cart.length !== 0 && (
@@ -551,7 +561,9 @@ const Cart = (props) => {
                       <div
                         className="bill-btn personal-order-btn"
                         onClick={
-                          phoneRegistered ? placePersonalOrder : showRegistration
+                          phoneRegistered
+                            ? placePersonalOrder
+                            : showRegistration
                         }
                       >
                         <p>Place Order</p>
@@ -560,7 +572,9 @@ const Cart = (props) => {
                     <Col style={{ marginTop: "1rem" }}>
                       <div
                         className="bill-btn push-to-table-btn"
-                        onClick={phoneRegistered ? pushToTable : showRegistration}
+                        onClick={
+                          phoneRegistered ? pushToTable : showRegistration
+                        }
                       >
                         <p>Push To Table</p>
                       </div>

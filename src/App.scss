@@ -239,26 +239,6 @@ body {
   margin-bottom: 2%;
 }
 
-.search-svg {
-  position: absolute;
-  right: -1.5rem;
-  float: right;
-  z-index: 2;
-  height: 22px;
-  bottom: 8px;
-  fill: #262626;
-}
-
-.closesearch-svg {
-  position: absolute;
-  right: -14rem;
-  float: right;
-  z-index: 2;
-  height: 22px;
-  bottom: 8px;
-  fill: #262626;
-}
-
 .slick-list {
   padding: 0 20% 0 0;
 }
@@ -636,16 +616,7 @@ body {
   background: white;
 }
 
-.options-button-add {
-  background: #ffb023 0% 0% no-repeat padding-box;
-  border-radius: 6px;
-  opacity: 1;
-}
-.options-button-add-disabled {
-  background: #ffb023 0% 0% no-repeat padding-box;
-  border-radius: 6px;
-  opacity: 0;
-}
+
 .slick-prev {
   display: none !important;
 }
@@ -840,27 +811,6 @@ input[type="radio"] {
   box-shadow: 0px 0px 0px 2px #ffb023;
 }
 
-#connected-socket {
-  position: absolute;
-  background-color: green;
-  background: green;
-  border-radius: 50%;
-  display: block;
-  width: 10px;
-  height: 10px;
-  top: 0.2rem;
-}
-
-#dis-connected-socket {
-  position: absolute;
-  background-color: red;
-  background: red;
-  border-radius: 50%;
-  display: block;
-  width: 10px;
-  height: 10px;
-  top: 0.2rem;
-}
 
 .search-items {
   text-transform: capitalize;

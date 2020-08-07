@@ -116,3 +116,13 @@
   font-size: small;
   color: #7f8285;
 }
+.options-button-add {
+  background:var(--add-button-color) 0% 0% no-repeat padding-box;
+  border-radius: 6px;
+  opacity: 1;
+}
+.options-button-add-disabled {
+  background: var(--add-button-color) 0% 0% no-repeat padding-box;
+  border-radius: 6px;
+  opacity: 0;
+}

@@ -151,30 +151,32 @@ const Menu = (props) => {
                 "food-bar--hidden": !visible,
               })}
             >
-              {bar_menu.length > 0 ? (
-                <ul className="menu-btn">
+              <ul className="menu-btn">
+                {food_menu.length > 0 ? (
                   <li
                     className={
                       currentMenu === "food"
-                        ? "menu-active bar-active"
-                        : "menu-inactive bar-inactive"
+                        ? "menu-active food-menu-button"
+                        : "menu-inactive food-menu-button"
                     }
                     onClick={() => setMenu("food", food_menu)}
                   >
                     <div className="menu-item-names">Food Menu</div>
                   </li>
+                ) : null}
+                {bar_menu.length > 0 ? (
                   <li
                     className={
                       currentMenu === "bar"
-                        ? "menu-active food-active"
-                        : "menu-inactive food-inactive"
+                        ? "menu-active bar-menu-button"
+                        : "menu-inactive bar-menu-button"
                     }
                     onClick={() => setMenu("bar", bar_menu)}
                   >
                     <div className="menu-item-names">Bar Menu</div>
                   </li>
-                </ul>
-              ) : null}
+                ) : null}
+              </ul>
             </nav>
             <div className="category">
               {currentMenu === "food"

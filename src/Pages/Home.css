@@ -93,7 +93,7 @@
   background: var(--home-background);
   opacity: 1;
   position: relative;
-  top: 3rem;
+  top: 0rem;
   padding-bottom: 0rem;
   font-family: var(--theme-font);
   min-height: 90vh;

@@ -1,6 +1,6 @@
 import React from "react";
 import { StoreContext } from "Store";
-import { ReactComponent as SearchSVG } from "assets/searchIcon.svg";
+import { ReactComponent as SearchSVG } from "assets/searchIcon3.svg";
 import { ReactComponent as CloseSearchSVG } from "assets/closeSearch.svg";
 import * as TYPES from "Store/actionTypes.js";
 import { withRouter, useLocation } from "react-router-dom";
@@ -84,7 +84,7 @@ const Search = (props) => {
     <>
       <div>
         <div className="form-group col-md-4">
-          <div className="form-group has-feedback" style={{ marginTop: "-1.2rem", marginBottom:"0px"}}>
+        <div className="form-group has-feedback" style={{ marginTop: "0.7rem", marginBottom:"0px",textAlign:'center'}}>
             <label className="control-label" htmlFor="inputValidation"></label>
             <input
               type="text"
@@ -98,6 +98,7 @@ const Search = (props) => {
               id="inputValidation"
               placeholder="Search the Menu..."
             />
+            {/* <span style={{marginTop:"9px"}}>LiQR's App</span> */}
             {/* <input
                 type="button"
                 value="X"

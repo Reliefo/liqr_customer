@@ -5,32 +5,38 @@ import FoodItem from "components/FoodItem";
 const SearchFoodItems = () => {
   const {
     // dispatch,
-    state: { searchValue, justMenuItems, orderingAbility }
+    state: {
+      searchValue,
+      justMenuItems,
+      orderingAbility,
+      rawData: { food_menu = [], bar_menu = [] },
+    },
   } = React.useContext(StoreContext);
 
   return (
     <div className="category default-screen">
       <ul style={{ listStyleType: "none" }}>
-        {justMenuItems.map((foodItem1, idx9) => {
-          return foodItem1.map((foodItem, idx) => {
-            return foodItem.food_list.map((data, idx3) => {
-              const name = data.name.toLowerCase();
-              const mathingValue = searchValue.toLowerCase();
-              const isMatch = name.indexOf(mathingValue) !== -1;
-              return (
-                <li key={idx3} style={{ display: isMatch ? "" : "none" }}>
-                  <FoodItem
-                    stateData={justMenuItems}
-                    foodItem={data}
-                    subs={foodItem}
-                    subsIndex={idx}
-                    index={idx3}
-                    key={`food-item-${idx3}`}
-                    restOrderingAbility={orderingAbility}
-                  />
-                </li>
-              );
-            });
+        {food_menu.concat(bar_menu).map((category, categoryIdx) => {
+          return category.food_list.map((foodItem, foodItemIdx) => {
+            const name = foodItem.name.toLowerCase();
+            const mathingValue = searchValue.toLowerCase();
+            const isMatch = name.indexOf(mathingValue) !== -1;
+            return (
+              <li
+                key={categoryIdx + "_" + foodItemIdx}
+                style={{ display: isMatch ? "" : "none" }}
+              >
+                <FoodItem
+                  foodItem={foodItem}
+                  subs={foodItem}
+                  subsIndex={categoryIdx}
+                  index={foodItemIdx}
+                  key={`food-item-${foodItemIdx}`}
+                  restOrderingAbility={orderingAbility}
+                  menuType="food"
+                />
+              </li>
+            );
           });
         })}
       </ul>
