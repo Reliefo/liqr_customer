@@ -172,9 +172,9 @@ const FoodItem = ({
   return (
     <Card
       id={foodItem.name}
-      style={{
-        paddingBottom: "0%",
-      }}
+      // style={{
+      //   paddingBottom: "0%",
+      // }}
       className={homeCardOrNot(fromhome)}
     >
       {fromhome === "home" ? (
@@ -268,7 +268,7 @@ const FoodItem = ({
             </div>
           ) : (
             <div className="row">
-              <div className={"col"}>
+              <div className="col col-menu-noimage">
                 <div onClick={() => selectDetails(foodItem, index, subsIndex)}>
                   <p className="item-name-menu">{foodItem.name}</p>
                 </div>

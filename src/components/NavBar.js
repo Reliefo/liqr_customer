@@ -205,20 +205,7 @@ const Navbar = (props) => {
             onStateChange={isMenuOpen}
             width={"70%"}
             style={{ zIndex: 424 }}
-            customBurgerIcon={
-              false
-              // <Burger
-              //   onClick={() => setVisible(!visible)}
-              //   active={visible}
-              //   burger="arrow"
-              //   color="black"
-              //   hoverOpacity={0.8}
-              //   scale={1}
-              //   marginTop={"0.5rem"}
-              //   marginLeft={"0.2rem"}
-              //   style={{ zIndex: 9, position: "relative", top: "0px" }}
-              // />
-            }
+            customBurgerIcon={false}
             customCrossIcon={false}
           >
             <Burger

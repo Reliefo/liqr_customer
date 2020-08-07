@@ -2,7 +2,7 @@
   background: var(--menu-background);
   position: relative;
   padding: 0rem;
-  top: 3rem;
+  top: 0rem;
   padding-bottom: 4rem;
   min-height: calc(100vh - 30vw);
 }

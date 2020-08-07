@@ -228,23 +228,6 @@ const Menu = (props) => {
                           })}
                         </Dropdown.Menu>
                       </Dropdown>
-                      <>
-                        {/* <Dropdown>
-                      <Dropdown.Toggle variant="success" id="dropdown-basic">
-                        Category
-                      </Dropdown.Toggle>
-
-                      <Dropdown.Menu>
-                        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                        <Dropdown.Item href="#/action-2">
-                          Another action
-                        </Dropdown.Item>
-                        <Dropdown.Item href="#/action-3">
-                          Something else
-                        </Dropdown.Item>
-                      </Dropdown.Menu>
-                    </Dropdown> */}
-                      </>
                       <SubCategory
                         subs={item}
                         categories={idx}
@@ -258,28 +241,40 @@ const Menu = (props) => {
                     <React.Fragment key={`Category-${idx}`}>
                       <p
                         className="category-subs"
-                        style={{ zIndex: idx + 1 }}
-                        onClick={MenuClick}
+                        style={{ zIndex: idx + 1, display: "none" }}
                       >
                         {item.name}
                       </p>
-                      <>
-                        {/* <Dropdown>
-                      <Dropdown.Toggle variant="success" id="dropdown-basic">
-                        Category
-                      </Dropdown.Toggle>
-
-                      <Dropdown.Menu>
-                        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                        <Dropdown.Item href="#/action-2">
-                          Another action
-                        </Dropdown.Item>
-                        <Dropdown.Item href="#/action-3">
-                          Something else
-                        </Dropdown.Item>
-                      </Dropdown.Menu>
-                    </Dropdown> */}
-                      </>
+                      <Dropdown
+                        style={{
+                          position: "sticky",
+                          top: "0rem",
+                          zIndex: "100",
+                        }}
+                      >
+                        <Dropdown.Toggle className="dropdown-sticky-category">
+                          {item.name}
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu className="dropdown-menu-list">
+                          {barFoodMenuCats[currentMenu].map((item, idx) => {
+                            return (
+                              <Dropdown.Item
+                                className="dropdown-item-menu"
+                                onClick={() => closeMenu(idx)}
+                                href={`#menu-${idx}`}
+                              >
+                                <AnchorLink
+                                  className="anchor-menu"
+                                  offset="40"
+                                  href={`#menu-${idx}`}
+                                >
+                                  {item}
+                                </AnchorLink>
+                              </Dropdown.Item>
+                            );
+                          })}
+                        </Dropdown.Menu>
+                      </Dropdown>
                       <SubCategory
                         subs={item}
                         categories={idx}
