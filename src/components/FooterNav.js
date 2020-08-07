@@ -188,7 +188,7 @@ const FooterNav = (props) => {
         style={{ transform: trfm }} //this rotation takes care of all other rotations.
       >
         <div className="FAB" onClick={FABClick}>
-          <span className="assist-button-text">Assist</span>
+          {/* <span className="assist-button-text">Assist</span> */}
           <img src={assist} alt="Table" className="assist-button-image" />
         </div>
         {fabClick && (
