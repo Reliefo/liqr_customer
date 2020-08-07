@@ -1,0 +1,28 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-liqrotp-dev-193522-authRole",
+            "UnauthRoleArn": "arn:aws:iam::020452232211:role/amplify-liqrotp-dev-193522-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::020452232211:role/amplify-liqrotp-dev-193522-authRole",
+            "Region": "ap-south-1",
+            "DeploymentBucketName": "amplify-liqrotp-dev-193522-deployment",
+            "UnauthRoleName": "amplify-liqrotp-dev-193522-unauthRole",
+            "StackName": "amplify-liqrotp-dev-193522",
+            "StackId": "arn:aws:cloudformation:ap-south-1:020452232211:stack/amplify-liqrotp-dev-193522/91f2def0-cced-11ea-acf2-0a57edc12e34",
+            "AmplifyAppId": "d28nvscskjf16n"
+        },
+        "categories": {
+            "function": {
+                "liqrotpdamnCreateAuthChallenge": {
+                    "CHALLENGEANSWER": "asdf"
+                },
+                "liqrotpdamnDefineAuthChallenge": {},
+                "liqrotpdamnVerifyAuthChallengeResponse": {},
+                "liqrotpdamnPreSignup": {}
+            },
+            "auth": {
+                "liqrotpdamn": {}
+            }
+        }
+    }
+}

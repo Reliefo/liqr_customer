@@ -1,10 +1,17 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 
-const Bill = ({ orderTotal }) => {
+const Bill = ({ orderTotal, taxes, currency }) => {
+
+  //$rest-font
+  const rest_font = "Inconsolata";
   let tax = 0;
 
-  tax = (11 * parseFloat(orderTotal)) / 100;
+  let totalTaxes = 0;
+  Object.keys(taxes).forEach((key, value)=>{
+    totalTaxes+=taxes[key]
+  })
+  tax = (totalTaxes * parseFloat(orderTotal)) / 100;
   return (
     <Card className="cart-bill cart-styling">
       <Card.Title
@@ -17,67 +24,67 @@ const Bill = ({ orderTotal }) => {
         <div className="d-flex justify-content-between">
           <p
             style={{
-              fontFamily: "Poppins",
+              fontFamily: rest_font,
               color: "#000000",
               opacity: 0.5,
-              fontWeight: 500
+              fontWeight: 500,
             }}
           >
             Order total
           </p>
           <p
             style={{
-              fontFamily: "Poppins",
+              fontFamily: rest_font,
               color: "#000000",
               opacity: 1,
-              fontWeight: 600
+              fontWeight: 600,
             }}
           >
-            &#8377; {orderTotal}
+            {currency} {orderTotal}
           </p>
         </div>
         <div className="d-flex justify-content-between">
           <p
             style={{
-              fontFamily: "Poppins",
+              fontFamily: rest_font,
               color: "#000000",
               opacity: 0.5,
-              fontWeight: 500
+              fontWeight: 500,
             }}
           >
             Taxes & Charges
           </p>
           <p
             style={{
-              fontFamily: "Poppins",
+              fontFamily: rest_font,
               color: "#000000",
               opacity: 1,
-              fontWeight: 600
+              fontWeight: 600,
             }}
           >
-            &#8377; {tax}
+            {currency} {tax}
           </p>
         </div>
         <div className="d-flex justify-content-between">
           <p
             style={{
-              fontFamily: "Poppins",
+              fontFamily: rest_font,
               color: "#000000",
               opacity: 0.5,
-              fontWeight: 500
+              fontWeight: 500,
             }}
           >
             Pay
           </p>
           <p
             style={{
-              fontFamily: "Poppins",
+              fontFamily: rest_font,
               color: "#000000",
               opacity: 1,
-              fontWeight: 600
+              fontWeight: 600,
             }}
           >
-            &#8377; {orderTotal + tax}
+            {currency} {orderTotal + tax}
           </p>
         </div>
       </Card.Body>

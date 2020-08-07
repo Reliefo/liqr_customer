@@ -4,13 +4,12 @@ function reducer(state, action) {
   let st = { ...state };
   const { payload } = action;
   let idx;
-  let idx1;
   switch (action.type) {
     case TYPES.UPDATE_HOME_ITEMS:
       st.homeItems = payload;
       return st;
-    case TYPES.UPDATE_TABLE_ORDER:
-      st.tableOrders = payload;
+    case TYPES.UPDATE_TABLE_CART:
+      st.tableCartOrders = payload;
       return st;
     case TYPES.UPDATE_SUCCESS_ORDER:
       st.orderSuccess.push(payload);
@@ -21,12 +20,10 @@ function reducer(state, action) {
       st.orderSuccess = payload;
       return st;
 
-      case TYPES.ADDONS:
-        st.addons = [];
-        st.addons = payload;
-        return st;  
-
-      
+    case TYPES.ADDONS:
+      st.addons = [];
+      st.addons = payload;
+      return st;
 
     case TYPES.SET_RESTAURANT_NAME:
       st.restName = payload;
@@ -45,9 +42,9 @@ function reducer(state, action) {
     case TYPES.UPDATE_ORDER_STATUS:
       st.orderSuccess.forEach((item, index) => {
         if (item._id.$oid === payload.table_order_id) {
-          item.orders.forEach(item1 => {
+          item.orders.forEach((item1) => {
             if (item1._id.$oid === payload.order_id) {
-              item1.food_list.forEach(item2 => {
+              item1.food_list.forEach((item2) => {
                 if (item2.food_id === payload.food_id) {
                   item2.status = payload.type;
                   st.orderSuccess[index] = item;
@@ -68,143 +65,92 @@ function reducer(state, action) {
     case TYPES.ADD_DATA:
       st.rawData = payload;
       return st;
-    case TYPES.ADD_SELECT_DATA:
+    case TYPES.ADD_TO_CART_DATA:
       return {
         ...st,
-        activeData: payload
+        cartData: payload,
       };
     case TYPES.ADD_ITEM:
-      if (payload.options) {
-        idx = st.cart.findIndex(
-          item =>
-            item._id.$oid === payload._id.$oid &&
-            item.options.option_name === payload.options.option_name
-        );
-      } else if (payload.options === undefined && payload.choices) {
-        idx = st.cart.findIndex(
-          item =>
-            item._id.$oid === payload._id.$oid &&
-            item.choices === payload.choices
-        );
-      } else {
-        idx = st.cart.findIndex(item => item._id.$oid === payload._id.$oid);
-      }
-      if (idx === -1) {
-        st.cart.push({
-          ...payload, //payload is the id
-          quantity: 1
+      let newCartItem = payload;
+      let foodId = newCartItem._id.$oid;
+      if (newCartItem.currentCustomization !== undefined) {
+        let price = 0;
+        let optionsOrNot= false;
+        foodId += "#";
+        newCartItem.currentCustomization.forEach((cust, custIndex) => {
+          cust.list_of_options.forEach((option, optionIndex) => {
+            if (cust.checked[optionIndex]) {
+              foodId += custIndex.toString() + optionIndex.toString();
+
+              if (cust.customization_type === "options") {
+                price += parseFloat(option.option_price);
+                optionsOrNot = true;
+              }
+              if (cust.customization_type === "add_ons") {
+                price += parseFloat(option.price);
+              }
+            }
+          });
         });
-      } else {
-        st.cart = st.cart.map(item => {
-          if (
-            (item._id.$oid === payload._id.$oid &&
-              item.options.option_name === payload.options.option_name) ||
-            (item.choices !== undefined && item.choices === payload.choices)
-          ) {
-            ++item.quantity;
+        if (optionsOrNot) {
+          newCartItem.price = price;
+        } else {
+          newCartItem.price = parseFloat(newCartItem.price) + price;
+        }
+      }
+      newCartItem["foodId"] = foodId;
+      let cartIdx = st.cart.findIndex(
+        (cartItem) => cartItem.foodId === newCartItem.foodId
+      );
+      console.log(newCartItem);
+
+      if (cartIdx === -1) {
+        st.cart.push({
+          ...newCartItem, //payload is the id
+          quantity: 0,
+        });
+        st.cart = st.cart.map((cartItem) => {
+          if (cartItem.foodId === newCartItem.foodId) {
+            ++cartItem.quantity;
           }
-          return item;
+          return cartItem;
+        });
+        // return newCartItem;
+      } else {
+        st.cart = st.cart.map((cartItem) => {
+          if (cartItem.foodId === newCartItem.foodId) {
+            ++cartItem.quantity;
+          }
+          return cartItem;
         });
       }
       return st;
     case TYPES.INC_ITEM:
-      if (payload.options) {
-        st.cart = st.cart.map(item => {
-          if (
-            item._id.$oid === payload._id.$oid &&
-            item.options.option_name === payload.options.option_name
-          )
-            ++item.quantity;
-          return item;
-        });
-      } else if (payload.options === undefined && payload.choices) {
-        st.cart = st.cart.map(item => {
-          if (
-            item._id.$oid === payload._id.$oid &&
-            item.choices === payload.choices
-          )
-            ++item.quantity;
-          return item;
-        });
-      } else {
-        st.cart = st.cart.map(item => {
-          if (item._id.$oid === payload._id.$oid) ++item.quantity;
-          return item;
-        });
-      }
+      st.cart = st.cart.map((cartItem) => {
+        if (cartItem.foodId === payload) ++cartItem.quantity;
+        return cartItem;
+      });
 
       return st;
     case TYPES.DEC_ITEM:
-      if (payload.options) {
-        st.cart = st.cart.map(item => {
-          if (
-            item._id.$oid === payload._id.$oid &&
-            item.options.option_name === payload.options.option_name
-          )
-            --item.quantity;
-          return item;
-        });
-      } else if (payload.options === undefined && payload.choices) {
-        st.cart = st.cart.map(item => {
-          if (
-            item._id.$oid === payload._id.$oid &&
-            item.choices === payload.choices
-          )
-            --item.quantity;
-          return item;
-        });
-      } else {
-        st.cart = st.cart.map(item => {
-          if (item._id.$oid === payload._id.$oid) --item.quantity;
-          return item;
-        });
-      }
+      st.cart = st.cart.map((cartItem) => {
+        if (cartItem.foodId === payload) --cartItem.quantity;
+        return cartItem;
+      });
+      // }
       return st;
     case TYPES.DEL_ITEM:
-      if (payload.options) {
-        st.activeData.forEach(data => {
-          data.food_list.forEach(item => {
-            if (item.name === payload.name) {
-              delete item.choices;
-              delete item.options;
-              delete item.showCustomize;
-              delete item.showPopup;
-              delete item.showOptionsAgain;
-              delete item.foodOptions;
-            }
-          });
-        });
-        idx = st.cart.findIndex(
-          item =>
-            item._id.$oid === payload._id.$oid &&
-            item.options.option_name === payload.options.option_name
-        );
-      } else if (payload.options === undefined && payload.choices) {
-        st.activeData.forEach(data => {
-          data.food_list.forEach(item => {
-            if (item.name === payload.name) {
-              delete item.choices;
-              delete item.options;
-              delete item.showCustomize;
-              delete item.showPopup;
-              delete item.showOptionsAgain;
-              delete item.foodOptions;
-            }
-          });
-        });
-      } else {
-        idx = st.cart.findIndex(item => item._id.$oid === payload._id.$oid);
-      }
+      idx = st.cart.findIndex((cartItem) => cartItem.foodId === payload);
       if (idx !== -1) st.cart.splice(idx, 1);
 
       return st;
 
     case TYPES.DEL_TABLE_ITEM:
-      idx = st.tableOrders.orders.findIndex(item =>
-        item.food_list.map(item1 => item1.food_id === payload.food_id)
+      idx = st.tableCartOrders.orders.findIndex((item) =>
+        item.food_list.map((item1) => item1.food_id === payload.food_id)
       );
 
-      if (idx !== -1) st.tableOrders.orders.splice(idx, 1);
+      if (idx !== -1) st.tableCartOrders.orders.splice(idx, 1);
 
       return st;
 
@@ -242,6 +188,36 @@ function reducer(state, action) {
 
     case TYPES.ADD_REST_ADDRESS:
       st.restAddress = payload;
+      return st;
+    case TYPES.ADD_REST_IMAGES:
+      st.restImages = payload;
+      return st;
+    case TYPES.ADD_REST_LOGO:
+      st.restLogo = payload;
+      return st;
+    case TYPES.ORDERING_ABILITY:
+      st.orderingAbility = payload;
+      return st;
+    case TYPES.DISPLAY_ORDER_BUTTONS:
+      st.displayOrderButtons = payload;
+      return st;
+    case TYPES.THEME_PROPERTIES:
+      st.themeProperties = payload;
+      return st;
+    case TYPES.BAR_FOOD_MENU_CATS:
+      st.barFoodMenuCats = payload;
+      return st;
+    case TYPES.CURRENT_MENU:
+      st.currentMenu = payload;
+      return st;
+    case TYPES.OPERATING_CURRENCY:
+      st.currency = payload;
+      return st;
+    case TYPES.ADD_REST_TAXES:
+      st.taxes = payload;
+      return st;
+    case TYPES.SET_REGISTERED:
+      st.phoneRegistered = payload;
       return st;
     default:
       return state;

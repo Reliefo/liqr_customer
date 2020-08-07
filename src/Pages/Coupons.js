@@ -2,19 +2,11 @@ import React from "react";
 import { StoreContext } from "Store";
 import {
   Card,
-  Accordion,
-  Button,
-  Modal,
   FormGroup,
   FormControl
 } from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
 import SocketContext from "../socket-context";
-import SearchFoodItems from "components/SearchFoodItems.js";
-import { ReactComponent as FoodSVG } from "assets/food.svg";
-import { ReactComponent as FlatSVG } from "assets/Flat.svg";
-import { ReactComponent as UiSVG } from "assets/ui.svg";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import * as TYPES from "Store/actionTypes.js";
@@ -23,12 +15,14 @@ const Coupons = props => {
   const {
     dispatch,
     state: {
-      rawData: { food_menu = [] },
-      orderSuccess,
-      searchClicked,
-      tableUsers
+      // rawData: { food_menu = [] },
+      themeProperties,
     }
   } = React.useContext(StoreContext);
+
+
+  // $rest-font 
+  const rest_font = "Inconsolata";
   React.useEffect(() => {
     dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: "" } });
     dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
@@ -40,7 +34,21 @@ const Coupons = props => {
       payload: { searchClicked: false }
     });
     dispatch({ type: TYPES.SET_NAV, payload: "Order" });
-
+    /////THEMEING //////
+    if (themeProperties['theme'] === true) {
+      let cssVariables = [
+        '--theme-font', 
+        '--first-menu-background-color', 
+        '--second-menu-background-color', 
+        '--first-pattern-light-color', 
+        '--second-pattern-light-color', 
+      ];
+      cssVariables.forEach((item, key) => {
+        // console.log(item,key);
+        document.documentElement.style.setProperty(item, themeProperties['variables'][item]);
+      });
+    }
+    /////THEMEING //////
     props.socket.off("new_orders").on("new_orders", msg => {
       dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
     });
@@ -79,21 +87,21 @@ const Coupons = props => {
     props.socket.off("order_updates").on("order_updates", msg => {
       dispatch({ type: TYPES.UPDATE_ORDER_STATUS, payload: JSON.parse(msg) });
     });
-  }, []);
+  }, [ dispatch, props.socket, themeProperties ]);
 
-  const fetchSocketBill = isTable => {
-    const billBody = {
-      user_id: localStorage.getItem("user_id"),
-      table_id: localStorage.getItem("table_id"),
-      table_bill: isTable
-    };
+  // const fetchSocketBill = isTable => {
+  //   const billBody = {
+  //     user_id: localStorage.getItem("user_id"),
+  //     table_id: localStorage.getItem("table_id"),
+  //     table_bill: isTable
+  //   };
 
-    props.socket.emit("fetch_the_bill", JSON.stringify(billBody));
-  };
+  //   props.socket.emit("fetch_the_bill", JSON.stringify(billBody));
+  // };
 
-  const isEmpty = () => {
-    if (orderSuccess.length === 0) return true;
-  };
+  // const isEmpty = () => {
+  //   if (orderSuccess.length === 0) return true;
+  // };
 
   const [state, setState] = React.useState({
     promocode: ""
@@ -106,17 +114,16 @@ const Coupons = props => {
   };
   return (
     <>
-      <div className="order-status-styling">
-        <div className="coupon-div">
+      <div className="coupons-screen">
+        <div className="coupon-div cart-styling">
           <FormGroup controlId="promocode" bsSize="large">
             <label className="sign-in-label">Enter Discount Code</label>
             <FormControl
               style={{
                 fontSize: "15px",
-                fontFamily: "Poppins"
+                fontFamily: rest_font
               }}
               placeholder="Promotion Code"
-              autoFocus
               value={state.promocode}
               onChange={handleChange}
               type="text"
@@ -152,14 +159,14 @@ const Coupons = props => {
           />
         </div>
         <Card
-          style={{ marginTop: "5%", background: "white", borderRadius: "8px" }}
+          style={{ marginTop: "5%", borderRadius: "8px" }}
           className="cart-card cart-styling"
         >
           <Card.Title
             style={{
               padding: "1.25rem",
               fontSize: "12px",
-              fontFamily: "Poppins"
+              fontFamily: rest_font
             }}
           >
             <div style={{ float: "left" }}>Payment Option Logo</div>
@@ -176,21 +183,21 @@ const Coupons = props => {
           <Card.Body
             style={{
               fontSize: "12px",
-              fontFamily: "Poppins"
+              fontFamily: rest_font
             }}
           >
             Promo Code Description
           </Card.Body>
         </Card>
         <Card
-          style={{ marginTop: "5%", background: "white", borderRadius: "8px" }}
+          style={{ marginTop: "5%", borderRadius: "8px" }}
           className="cart-card cart-styling"
         >
           <Card.Title
             style={{
               padding: "1.25rem",
               fontSize: "12px",
-              fontFamily: "Poppins"
+              fontFamily: rest_font
             }}
           >
             <div style={{ float: "left" }}>Payment Option Logo</div>
@@ -207,7 +214,7 @@ const Coupons = props => {
           <Card.Body
             style={{
               fontSize: "12px",
-              fontFamily: "Poppins"
+              fontFamily: rest_font
             }}
           >
             Promo Code Description

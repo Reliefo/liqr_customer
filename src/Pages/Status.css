@@ -1,0 +1,15 @@
+.status-screen {
+  background: var(--menu-background);
+  position: relative;
+  padding: 0rem;
+  top: 3rem;
+  padding-bottom: 4rem;
+  min-height: calc(100vh - 30vw);
+}
+.order-status-styling {
+  padding-bottom: 10%;
+  padding-top: 10%;
+  padding-left: 5%;
+  padding-right: 5%;
+  margin: 0 auto;
+}

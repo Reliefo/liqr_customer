@@ -1,25 +1,33 @@
+/* eslint-disable */
 import React from "react";
 import { StoreContext } from "Store";
-import { Card, Accordion, Button, Modal } from "react-bootstrap";
+import { Card, Button, Modal } from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
 import SocketContext from "../socket-context";
 import SearchFoodItems from "components/SearchFoodItems.js";
 import { ReactComponent as FoodSVG } from "assets/food.svg";
 import { ReactComponent as FlatSVG } from "assets/Flat.svg";
 import { ReactComponent as UiSVG } from "assets/ui.svg";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "./Status.css"
 
 import * as TYPES from "Store/actionTypes.js";
 
 const Table = props => {
+
+  // $rest-font 
+  const rest_font = "Inconsolata";
+
   const {
     dispatch,
     state: {
       rawData: { food_menu = [] },
       orderSuccess,
       searchClicked,
-      tableUsers
+      // tableUsers,
+      orderingAbility,
+      themeProperties,
     }
   } = React.useContext(StoreContext);
   React.useEffect(() => {
@@ -33,6 +41,24 @@ const Table = props => {
       payload: { searchClicked: false }
     });
     dispatch({ type: TYPES.SET_NAV, payload: "Order" });
+
+
+
+/////THEMEING //////
+    if (themeProperties['theme'] === true) {
+      let cssVariables = [
+        '--theme-font', 
+        '--first-menu-background-color', 
+        '--second-menu-background-color', 
+        '--first-pattern-light-color', 
+        '--second-pattern-light-color', 
+      ];
+      cssVariables.forEach((item, key) => {
+        // console.log(item,key);
+        document.documentElement.style.setProperty(item, themeProperties['variables'][item]);
+      });
+    }
+    /////THEMEING //////
 
     props.socket.off("cancel_items_request").on("cancel_items_request", msg => {
       const data = JSON.parse(msg);
@@ -137,8 +163,13 @@ const Table = props => {
         </Modal>
       ) : searchClicked === true ? (
         <SearchFoodItems />
-      ) : isEmpty() ? (
-        <div className="order-status-styling">
+      ) : orderingAbility === false ? 
+      (
+        <div className="status-screen">
+          <p className="cart-styling">Ordering has been disabled by the restaurant manager</p>
+          </div>      ) :
+      isEmpty() ? (
+        <div className="status-screen order-status-styling">
           <div className="empty-cart">
             <p style={{ margin: 10 }}>
               Oops looks like you have no orders placed?
@@ -185,10 +216,11 @@ const Table = props => {
             dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
           }}
           style={{ backgroundColor: "white" }}
+          className="status-screen"
         >
           <div className="order-status-styling">
             <div style={{ paddingBottom: "10%" }}>
-              <LoaderButton
+              {/* <LoaderButton
                 block
                 bsSize="large"
                 onClick={() => {
@@ -208,7 +240,7 @@ const Table = props => {
                   width: "48%"
                 }}
                 className="empty-orders"
-              />
+              /> */}
               <LoaderButton
                 block
                 onClick={() => {
@@ -223,7 +255,7 @@ const Table = props => {
                 bsSize="large"
                 type="button"
                 style={{
-                  width: "42%"
+                  width: "54%",
                 }}
                 text="Fetch Table Bill"
                 className="empty-orders"
@@ -318,7 +350,7 @@ const Table = props => {
                                 {item3.food_options ? (
                                   <div
                                     style={{
-                                      fontFamily: "Poppins",
+                                      fontFamily: rest_font,
                                       fontSize: "12px"
                                     }}
                                   >
@@ -336,7 +368,7 @@ const Table = props => {
                                 )}
                                 {/* {item3.food_options ? 
                                 <div style={{
-                                  fontFamily: 'Poppins',
+                                  fontFamily: rest_font,
                                   fontSize: '12px'
                                 }}>
                                  {item3.food_options.choices[0].option_name}

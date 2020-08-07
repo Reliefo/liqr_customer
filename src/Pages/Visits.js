@@ -1,23 +1,25 @@
 /* eslint-disable no-unused-expressions */
+/* eslint-disable */
 import React from "react";
 import { StoreContext } from "Store";
-import { Card, Accordion, Button } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import SocketContext from "../socket-context";
 import SearchFoodItems from "components/SearchFoodItems.js";
-import { ReactComponent as FoodSVG } from "assets/food.svg";
-import { ReactComponent as FlatSVG } from "assets/Flat.svg";
-import { ReactComponent as UiSVG } from "assets/ui.svg";
 
 import * as TYPES from "Store/actionTypes.js";
 
 const Visits = props => {
+
+  // $rest-font 
+  const rest_font = "Inconsolata";
   const {
     dispatch,
     state: {
-      rawData: { food_menu = [] },
+      // rawData: { food_menu = [] },
       searchClicked,
-      tableUsers,
-      dineHistory
+      dineHistory,
+      themeProperties,
+      currency,
     }
   } = React.useContext(StoreContext);
 
@@ -25,6 +27,21 @@ const Visits = props => {
     dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: "" } });
     console.log("Visits screen");
     //handling refresh issue
+    /////THEMEING //////
+    if (themeProperties['theme'] === true) {
+      let cssVariables = [
+        '--theme-font', 
+        '--first-menu-background-color', 
+        '--second-menu-background-color', 
+        '--first-pattern-light-color', 
+        '--second-pattern-light-color', 
+      ];
+      cssVariables.forEach((item, key) => {
+        // console.log(item,key);
+        document.documentElement.style.setProperty(item, themeProperties['variables'][item]);
+      });
+    }
+    /////THEMEING //////
     dispatch({
       type: TYPES.SET_GENERAL_DATA,
       payload: { searchClicked: false }
@@ -63,11 +80,11 @@ const Visits = props => {
             dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
           }}
           style={{ backgroundColor: "white" }}
+          className="default-screen"
         >
           <div className="order-status-styling">
             {dineHistory.map((item, idx) => {
               if (idx === props.location.state.index) {
-                let sum = 0;
                 let orderTime = item.timestamp.split(" ");
                 let orderDate = orderTime[0];
                 orderTime = orderTime[1].split(".");
@@ -121,7 +138,7 @@ const Visits = props => {
                               textTransform: "capitalize"
                             }}
                           >
-                            Order Total <br />₹{" "}
+                            Order Total <br />{currency}{" "}
                             {item.bill_structure["Total Amount"]}
                           </p>
                           <p
@@ -170,7 +187,7 @@ const Visits = props => {
                                     {item3.food_options ? (
                                       <div
                                         style={{
-                                          fontFamily: "Poppins",
+                                          fontFamily: rest_font,
                                           fontSize: "12px"
                                         }}
                                       >
@@ -189,7 +206,7 @@ const Visits = props => {
                                     )}
                                     {/* {item3.food_options ? 
                                 <div style={{
-                                  fontFamily: 'Poppins',
+                                  fontFamily: rest_json,
                                   fontSize: '12px'
                                 }}>
                                  {item3.food_options.choices[0].option_name}
@@ -226,7 +243,7 @@ const Visits = props => {
                           className="table-name-card-billing"
                           style={{ float: "right", paddingRight: "10%", height: "25px", }}
                         >
-                          <b> ₹ {item.bill_structure["Total Amount"]}</b>
+                          <b> {currency} {item.bill_structure["Total Amount"]}</b>
                         </p>
                       </div>
                       <div

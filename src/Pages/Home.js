@@ -1,118 +1,118 @@
+/* eslint-disable */
 import React from "react";
-import {
-  Card,
-  CardDeck,
-  Image,
-  Accordion,
-  Modal,
-  Button,
-  Form
-} from "react-bootstrap";
-import ReactDOM from "react-dom";
-import axios from "axios";
-import sampleImage from "../assets/300.png";
-import sample from "../assets/sample.png";
-import PlusWithAddRemove from "components/PlusWithAddRemove";
-import Search from "./Search";
-import dummyPic from "assets/dummypic.jpeg";
-import HomeItem from "components/HomeItem";
+import { Card, Modal, Button } from "react-bootstrap";
 import { Carousel } from "react-bootstrap";
-import vodkaPic from "assets/vodka.jpg";
 import SearchFoodItems from "components/SearchFoodItems.js";
 import SocketContext from "../socket-context";
 import Slider from "react-slick";
 import { StoreContext } from "Store";
 import * as TYPES from "Store/actionTypes.js";
-import AppWrapper from "../App";
 import FoodItem from "components/FoodItem";
 import Loader from "./Loader";
+import "./Home.css";
+import { Link } from "react-router-dom";
 
-const Home = props => {
+const Home = (props) => {
   const {
     dispatch,
     state: {
       homeItems,
-      rawData: { food_menu = [] },
-      activeData,
+      rawData: { food_menu = [], bar_menu=[] },
+      cartData,
       restName,
       restAddress,
-      cart,
-      searchClicked
-    }
+      restImages,
+      restLogo,
+      searchClicked,
+      orderingAbility,
+      barFoodMenuCats,
+      currentMenu,
+    },
   } = React.useContext(StoreContext);
 
-  let settings = {
-    dots: false,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 1.5,
-    slidesToScroll: 1,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 1.5,
-          slidesToScroll: 1,
-          infinite: false,
-          dots: false
-        }
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 1.5,
-          slidesToScroll: 1
-        }
-      },
-      {
-        breakpoint: 480,
-
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          customPaging: function(slider, i) {
-            return <a>{slider  + 1}  </a>;
+  function getSettings(idx) {
+    var speed = 3000 + (idx % 2) * 1000;
+    let settings = {
+      dots: false,
+      infinite: false,
+      speed: 500,
+      slidesToShow: 1,
+      centerMode: true,
+      centerPadding: "20px",
+      autoplay: true,
+      autoplaySpeed: speed,
+      slidesToScroll: 1,
+      responsive: [
+        {
+          breakpoint: 1024,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            infinite: false,
+            dots: false,
           },
-          dots: true,
-          infinite: true
-        }
-      }
-    ]
-  };
+        },
+        {
+          breakpoint: 600,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+          },
+        },
+        {
+          breakpoint: 480,
 
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            // dotsClass: "slickDots",
+            // customPaging: function (slider, i) {
+            //   return <a>{slider + 1} </a>;
+            // },
+            dots: true,
+            infinite: true,
+          },
+        },
+      ],
+    };
+    return settings;
+  }
   let settings2 = {
     dots: false,
-    infinite: false,
+    infinite: true,
     speed: 500,
     rows: 1,
     slidesPerRow: 2,
+    centerPadding: "50px",
+    centerMode: false,
+    touchThreshold: 8,
     responsive: [
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 2.5,
           slidesToScroll: 1,
           infinite: false,
-          dots: false
-        }
+          dots: false,
+        },
       },
       {
         breakpoint: 600,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 2.5,
           slidesToScroll: 1,
-          infinite: true
-        }
+          infinite: false,
+        },
       },
       {
         breakpoint: 480,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 2.5,
           slidesToScroll: 1,
-          infinite: true
-        }
-      }
-    ]
+          infinite: false,
+        },
+      },
+    ],
   };
 
   const [index, setIndex1] = React.useState(0);
@@ -126,21 +126,20 @@ const Home = props => {
     active: false,
     subMenu: [], //0: Personal cart, 1: Table cart
     showData: true,
-    imageLink: "",
-    isLoading: true
+    imageLinks: {},
+    isloading: true,
   });
 
   React.useEffect(() => {
-    console.log("home screen");
     dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
     dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
     dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: "" } });
     dispatch({
       type: TYPES.SET_GENERAL_DATA,
-      payload: { searchClicked: false }
+      payload: { searchClicked: false },
     });
     dispatch({ type: TYPES.SET_NAV, payload: "Home" });
-    props.socket.off("order_updates").on("order_updates", msg => {
+    props.socket.off("order_updates").on("order_updates", (msg) => {
       dispatch({ type: TYPES.UPDATE_ORDER_STATUS, payload: JSON.parse(msg) });
     });
     console.log(props.socket);
@@ -179,132 +178,175 @@ const Home = props => {
     }
     const body = {
       user_id: localStorage.getItem("user_id"),
-      restaurant_id: localStorage.getItem("restaurant_id")
+      restaurant_id: localStorage.getItem("restaurant_id"),
     };
 
     props.socket.emit("fetch_rest_customer", JSON.stringify(body));
 
-    props.socket.off("user_details").on("user_details", msg => {
-      console.log("USER DETAILS--->", JSON.parse(msg));
+    props.socket.off("user_details").on("user_details", (msg) => {
       const data = JSON.parse(msg);
       dispatch({
         type: TYPES.SET_DINE_HISTORY,
-        payload: data.dine_in_history || []
+        payload: data.dine_in_history || [],
       });
+      if (data._cls === "User.TempUser"){
+
+        dispatch({ type: TYPES.SET_REGISTERED, payload: false });
+      }
+      else{
+
+        dispatch({ type: TYPES.SET_REGISTERED, payload: true });
+      }
     });
 
-    props.socket.off("table_details").on("table_details", msg => {
+    props.socket.off("table_details").on("table_details", (msg) => {
       const data = JSON.parse(msg);
       dispatch({
         type: TYPES.UPDATE_TABLE_USERS,
-        payload: data.users
+        payload: data.users,
       });
       dispatch({
         type: TYPES.UPDATE_TABLE_NAME,
-        payload: data.name
+        payload: data.name,
       });
       dispatch({
         type: TYPES.REFRESH_ORDER_CLOUD,
-        payload: data.table_orders
+        payload: data.table_orders,
       });
 
       dispatch({
-        type: TYPES.UPDATE_TABLE_ORDER,
-        payload: data.table_cart || []
+        type: TYPES.UPDATE_TABLE_CART,
+        payload: data.table_cart || [],
       });
     });
-    props.socket.off("restaurant_object").on("restaurant_object", msg => {
+    props.socket.off("restaurant_object").on("restaurant_object", (msg) => {
       const resp = JSON.parse(msg);
-      setState({ imageLink: resp.home_page_images[0] });
+      dispatch({ type: TYPES.ADD_REST_IMAGES, payload: resp.home_page_images });
       dispatch({ type: TYPES.ADDONS, payload: resp.add_ons });
       dispatch({ type: TYPES.SET_RESTAURANT_NAME, payload: resp.name });
-      dispatch({ type: TYPES.ADD_REST_ADDRESS, payload: resp.address });
+      dispatch({ type: TYPES.ADD_REST_ADDRESS, payload: resp.abs_address });
+      dispatch({ type: TYPES.ADD_REST_TAXES, payload: resp.taxes});
+      dispatch({ type: TYPES.ADD_REST_LOGO, payload: resp.logo });
+      dispatch({ type: TYPES.OPERATING_CURRENCY, payload: resp.currency });
+      dispatch({
+        type: TYPES.ORDERING_ABILITY,
+        payload: resp.ordering_ability,
+      });
+      dispatch({
+        type: TYPES.DISPLAY_ORDER_BUTTONS,
+        payload: resp.display_order_buttons,
+      });
       dispatch({ type: TYPES.ADD_DATA, payload: resp });
-      dispatch({ type: TYPES.UPDATE_REST_ID, payload: resp._id.$oid });
-      dispatch({ type: TYPES.ADD_SELECT_DATA, payload: resp.food_menu });
+      dispatch({ type: TYPES.UPDATE_REST_ID, payload: resp.restaurant_id });
+      // dispatch({ type: TYPES.UPDATE_REST_ID, payload: resp._id.$oid });
+      // dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: resp.food_menu });
+      var catList = { food: [], bar: [] };
+      resp.food_menu?.forEach((category, catIndex) => {
+        catList["food"].push(category.name);
+      });
+      resp.bar_menu?.forEach((category, catIndex) => {
+        catList["bar"].push(category.name);
+      });
+      // console.log(catList);
+      dispatch({ type: TYPES.BAR_FOOD_MENU_CATS, payload: catList });
+      // console.log(currentMenu);
+      if (currentMenu === undefined) {
+        dispatch({ type: TYPES.CURRENT_MENU, payload: "food" });
+      }
+      dispatch({
+        type: TYPES.THEME_PROPERTIES,
+        payload: resp.theme_properties,
+      });
 
-      let justBarItems = [];
+      /////THEMEING //////
+      // if CAFE_MEDLEY:
+      console.log(resp);
+      if (resp.theme_properties["theme"] === true) {
+        let cssVariables = [
+          "--theme-font",
+          "--first-background-color",
+          "--second-background-color",
+          "--first-menu-background-color",
+          "--second-menu-background-color",
+          "--first-light-color",
+          "--second-light-color",
+          "--first-pattern-light-color",
+          "--second-pattern-light-color",
+          "--food-card-color",
+          "--welcome-card-color",
+          "--welcome-card-text-color",
+          "--food-menu-button-color",
+          "--add-button-color",
+          "--top-bar-color",
+          "--search-background-color",
+          "--burger-menu-background-color",
+          "--first-footer-color",
+          "--second-footer-color",
+          "--categories-button-color",
+          "--categories-list-item-color",
+        ];
+        cssVariables.forEach((item, key) => {
+          // console.log(item,key);
+          document.documentElement.style.setProperty(
+            item,
+            resp.theme_properties["variables"][item]
+          );
+        });
+     } else {
+       document.documentElement.style.setProperty(
+          "--top-bar-color",
+          "#ffb023"
+        );
+        document.documentElement.style.setProperty(
+          "--search-background-color",
+          "#ffc45c"
+        );
+        document.documentElement.style.setProperty(
+          "--burger-menu-background-color",
+          "#c0841d"
+        );
+        //Footer//
+        document.documentElement.style.setProperty(
+          "--first-footer-color",
+          "#ffb023"
+        );
+        document.documentElement.style.setProperty(
+          "--second-footer-color",
+          "#ffb023"
+        );
+        document.documentElement.style.setProperty(
+          "--categories-button-color",
+          "#ffffff"
+        );
+        document.documentElement.style.setProperty(
+          "--categories-list-item-color",
+          "#ffffff"
+        );
+        document.documentElement.style.setProperty(
+          "--categories-list-border-color",
+          "#4f3e2c"
+        );
+      }
+      /////THEMEING //////
+
       let justFoodItems = [];
 
       justFoodItems.push(resp.bar_menu);
       justFoodItems.push(resp.food_menu);
       dispatch({
         type: TYPES.ADD_COLLECTIVE_FOODITEMS,
-        payload: justFoodItems
+        payload: justFoodItems,
       });
     });
 
-    props.socket.off("home_screen_lists").on("home_screen_lists", msg => {
+    props.socket.off("home_screen_lists").on("home_screen_lists", (msg) => {
       dispatch({ type: TYPES.UPDATE_HOME_ITEMS, payload: JSON.parse(msg) });
+      setState({ isloading: false });
     });
   }, [props.socket, dispatch, props.location]);
 
-  const selectOption = (foodItem, item) => {
-    foodItem.food_option = item;
-  };
-  const addItem = (item, index, subsIndex) => {
-    if (item["options"] === undefined) {
-      item["options"] = {};
-    }
-    item["options"] = item.food_option;
-    dispatch({ type: TYPES.ADD_ITEM, payload: item }); //dispatcing the whole item
-
-    activeData.forEach((item2, index3) => {
-      if (index3 === subsIndex) {
-        item2.food_list.forEach((item3, idx2) => {
-          if (idx2 === index) {
-            item3.showPopup = false;
-            item3.showCustomize = false;
-            item3.showOptionsAgain = false;
-          }
-        });
-      }
-    });
-    dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
-  };
-
-  const setIndex = (foodItem, index, subsIndex) => {
-    activeData.forEach((item, index3) => {
-      if (index3 === subsIndex) {
-        item.food_list.forEach((item1, idx2) => {
-          if (idx2 === index) {
-            item1.open = !item1.open;
-          }
-        });
-      }
-    });
-    dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
-  };
-
-  const closePopUp = (foodItem, index, subsIndex) => {
-    activeData.forEach((item, index3) => {
-      if (index3 === subsIndex) {
-        item.food_list.forEach((item1, idx2) => {
-          if (idx2 === index) {
-            item1.showPopup = !item1.showPopup;
-            item1.showCustomize = false;
-          }
-        });
-      }
-    });
-    dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
-  };
-
-  const showOptions = (foodItem, index, subsIndex) => {
-    activeData.forEach((item, index3) => {
-      if (index3 === subsIndex) {
-        item.food_list.forEach((item1, idx2) => {
-          if (idx2 === index) {
-            item1.showOptionsAgain = true;
-          }
-        });
-      }
-    });
-    dispatch({ type: TYPES.ADD_SELECT_DATA, payload: activeData });
-  };
-
   const handleClose = () => setState({ showData: false });
-  const handleShow = () => setState({ showData: true });
+  // const handleShow = () => setState({ showData: true });
 
   return (
     <>
@@ -331,7 +373,7 @@ const Home = props => {
         </Modal>
       ) : searchClicked === true ? (
         <SearchFoodItems />
-      ) : state.isLoading === true ? (
+      ) : state.isloading === true ? (
         <Loader />
       ) : (
         <div
@@ -339,312 +381,160 @@ const Home = props => {
             dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
             dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
           }}
-          className="category home-category"
+          className="home-screen"
         >
-          <div className="responsive-height">
-            <Carousel>
-              <Carousel.Item>
-                <img
-                  className="d-block w-100"
-                  src={state.imageLink}
-                  alt="First slide"
-                />
-              </Carousel.Item>
+          <div className="home-screen-images">
+            <Carousel
+              activeIndex={index}
+              indicators={false}
+              onSelect={handleSelect}
+            >
+              {Object.entries(restImages).map((data, idx) => {
+                return (
+                  <Carousel.Item key={idx}>
+                    <img
+                      className="d-block w-100"
+                      src={data[1]}
+                      alt="First slide"
+                    />
+                    <Carousel.Caption>
+                      {/* <h3>First slide label</h3> */}
+                      {/* <p> */}
+                      {/* Nulla vitae elit libero, a pharetra augue mollis interdum. */}
+                      {/* </p> */}
+                    </Carousel.Caption>
+                  </Carousel.Item>
+                );
+              })}
             </Carousel>
-            <Card className="home-title-card-carousel">
-              <Card.Title className="rest-card-home">
-                {" "}
-                Welcome to {restName}
-              </Card.Title>
-              <Card.Body>{restAddress}</Card.Body>
+            <Card className="welcome-card-carousel">
+              {restLogo == undefined ? (
+                <Card.Title className="welcome-card-home welcome-card-title">
+                  {" "}
+                  Welcome to {restName}
+                </Card.Title>
+              ) : (
+                <Card.Img variant="top" src={restLogo} />
+              )}
+              <Card.Body className="welcome-card-text">{restAddress}</Card.Body>
+              <Link to="/menu" className="styled-link-home">
+                <Card className="full-menu-button-div">
+                  <div>
+                    <Card.Title className="full-menu-text">
+                      Full Menu
+                    </Card.Title>
+                  </div>
+                </Card>
+              </Link>
             </Card>
           </div>
-          <Search />
-          {Object.entries(homeItems).map((data, idx) => {
-            if (idx === 0) {
-              return (
-                <div>
-                  <span className="home-title">{data[0]}</span>
-                  <Slider {...settings2}>
-                    {Object.entries(data[1]).map((item, index) => {
-                      return (
-                        <Card
-                          onClick={() =>
-                            props.history.push("/submenu", {
-                              data: item[1],
-                              sbx: index,
-                              foodMenu: activeData
-                            })
-                          }
-                          className="available-items"
-                          key={`category-cards-${index}`}
-                        >
-                          <div
-                            className="bg-image"
-                            style={{
-                              backgroundImage: `url(${sample})`,
-                              height: "100%"
-                            }}
-                          ></div>
-                          <p className="main-items">{item[0]}</p>
-                        </Card>
-                      );
-                    })}
-                  </Slider>
-                </div>
-              );
-            }
-          })}
-          {Object.entries(homeItems).map((data, idx) => {
-            if (idx !== 0) {
-              return (
-                <Card
-                  className="category-card main-home-card"
-                  key={`category-cards-${idx}`}
-                >
-                  <Card.Title className="home-title">
-                    <span style={{ width: "90%" }}>{data[0]}</span>
-                    <Button
-                      className="add-button-item"
-                      variant="primary"
-                      onClick={() =>
-                        props.history.push("/submenu", {
-                          data: data[1],
-                          sbx: idx,
-                          foodMenu: activeData
-                        })
-                      }
-                    >
-                      View All
-                    </Button>
-                  </Card.Title>
-                  <Slider {...settings}>
-                    {Object.values(data[1]).map((item, index) => {
-                      if (typeof item === "object") {
-                      }
-                      return Object.values(activeData).map((food, idx) => {
-                        return Object.values(food.food_list).map((list, ix) => {
-                          if (list._id.$oid === item) {
-                            return (
-                              <div id="card-home-screen">
-                                <FoodItem
-                                  from="home"
-                                  stateData={activeData}
-                                  foodItem={list}
-                                  subs={food}
-                                  subsIndex={idx}
-                                  index={ix}
-                                  key={`food-item-${ix}`}
-                                />
-                              </div>
-                              // <Card
-                              //   className="category card home-item"
-                              //   key={`category-cards-${ix}`}
-                              // >
-                              //   <div>
-                              //     <div>
-                              //       <img
-                              //         onClick={() =>
-                              //           props.history.push("/menu", {
-                              //             data: list.name
-                              //           })
-                              //         }
-                              //         style={{ float: "left" }}
-                              //         className="card-image card-home-image"
-                              //         src={sampleImage}
-                              //         alt="sample"
-                              //       />
-                              //     </div>
-                              //     <div
-                              //       style={{
-                              //         marginLeft: "35%"
-                              //       }}
-                              //     >
-                              //       <p className="item-name item-home">
-                              //         {list.name}
-                              //       </p>
-                              //       <div className="options-modal options-home">
-                              //         {desc}
-                              //       </div>
-                              //       <div>
-                              //         <p className="item-price">
-                              //           ₹ {list.price}
-                              //         </p>
-                              //         <PlusWithAddRemove
-                              //           item={list}
-                              //           idx={ix}
-                              //           subs={idx}
-                              //         />
-                              //       </div>
-                              //     </div>
-                              //   </div>
-                              //   {list.foodOptions &&
-                              //   list.foodOptions === true ? (
-                              //     <Modal
-                              //       size="lg"
-                              //       aria-labelledby="contained-modal-title-vcenter"
-                              //       centered
-                              //       show={list.showPopup}
-                              //       onHide={handleClose}
-                              //     >
-                              //       <Modal.Header>
-                              //         <Modal.Title className="options-title">
-                              //           {list.name} <br />{" "}
-                              //           <div className="options-modal">
-                              //             {list.description}
-                              //           </div>
-                              //         </Modal.Title>
-                              //       </Modal.Header>
-                              //       <Modal.Body>
-                              //         {cart.length
-                              //           ? cart.map(item => {
-                              //               if (
-                              //                 list._id.$oid === item._id.$oid
-                              //               ) {
-                              //                 return (
-                              //                   <div>
-                              //                     <div>
-                              //                       <p
-                              //                         style={{
-                              //                           width: "69%",
-                              //                           fontSize: ".9rem",
-                              //                           float: "left"
-                              //                         }}
-                              //                       >
-                              //                         Rs{" "}
-                              //                         {
-                              //                           item.options
-                              //                             .option_price
-                              //                         }{" "}
-                              //                         <br />
-                              //                         Option:
-                              //                         {
-                              //                           item.options.option_name
-                              //                         }{" "}
-                              //                         <br />
-                              //                       </p>
-                              //                       <PlusWithAddRemove
-                              //                         item={list}
-                              //                         idx={ix}
-                              //                         subs={idx}
-                              //                       />
-                              //                       <br />
-                              //                     </div>
-                              //                   </div>
-                              //                 );
-                              //               }
-                              //             })
-                              //           : ""}
-                              //         {list.options
-                              //           ? ""
-                              //           : Object.entries(list.food_options).map(
-                              //               (item, index) => {
-                              //                 return Object.values(item[1]).map(
-                              //                   (item1, idx) => {
-                              //                     return (
-                              //                       <div key={idx}>
-                              //                         <Form.Check
-                              //                           onClick={() =>
-                              //                             selectOption(
-                              //                               list,
-                              //                               item1
-                              //                             )
-                              //                           }
-                              //                           type="radio"
-                              //                           label={
-                              //                             item1.option_name
-                              //                           }
-                              //                           name="test"
-                              //                         />
-                              //                       </div>
-                              //                     );
-                              //                   }
-                              //                 );
-                              //               }
-                              //             )}
-                              //         {list.showCustomize ? (
-                              //           <div
-                              //             className="modal-customization"
-                              //             onClick={() =>
-                              //               showOptions(list, ix, idx)
-                              //             }
-                              //           >
-                              //             Add More Customization
-                              //           </div>
-                              //         ) : (
-                              //           ""
-                              //         )}
-                              //         {list.showOptionsAgain
-                              //           ? Object.entries(list.food_options).map(
-                              //               (item, index) => {
-                              //                 return Object.values(item[1]).map(
-                              //                   (item1, idx) => {
-                              //                     return (
-                              //                       <div key={idx}>
-                              //                         <Form.Check
-                              //                           onClick={() =>
-                              //                             selectOption(
-                              //                               list,
-                              //                               item1
-                              //                             )
-                              //                           }
-                              //                           type="radio"
-                              //                           label={
-                              //                             item1.option_name
-                              //                           }
-                              //                           name="test"
-                              //                         />
-                              //                       </div>
-                              //                     );
-                              //                   }
-                              //                 );
-                              //               }
-                              //             )
-                              //           : ""}
-                              //       </Modal.Body>
-
-                              //       <Modal.Footer>
-                              //         <Button
-                              //           variant="secondary"
-                              //           onClick={() =>
-                              //             closePopUp(list, ix, idx)
-                              //           }
-                              //           className="options-button-close"
-                              //         >
-                              //           Close
-                              //         </Button>
-                              //         <Button
-                              //            className="options-button-add"
-                              //           variant="primary"
-                              //           onClick={() => addItem(list, ix, idx)}
-                              //         >
-                              //           Add
-                              //         </Button>
-                              //       </Modal.Footer>
-                              //     </Modal>
-                              //   ) : (
-                              //     ""
-                              //   )}
-                              // </Card>
+          <div className="rest-of-home-screen">
+            {Object.entries(homeItems).map((data, idx) => {
+              if (idx === 0) {
+                return (
+                  <div key={idx}>
+                    <span className="home-screen-headings">{data[0]}</span>
+                    <Slider {...settings2}>
+                      {Object.entries(data[1]).map((item, index) => {
+                        return (
+                          // <div className="card-needs-help">
+                          <Card
+                            onClick={() =>
+                              props.history.push("/submenu", {
+                                data: item[1]["food_list"],
+                                sbx: index,
+                                foodMenu: cartData,
+                                subMenuName: item[0],
+                              })
+                            }
+                            className="need-help-div"
+                            key={`category-cards-${index}`}
+                          >
+                            <Card.Img
+                              className="need-help-images"
+                              src={item[1]["image"]}
+                            />
+                            <Card.Footer className="need-help-names">
+                              {item[0]}
+                            </Card.Footer>
+                          </Card>
+                          // </div>
+                        );
+                      })}
+                    </Slider>
+                  </div>
+                );
+              }
+            })}
+            {Object.entries(homeItems).map((data, idx) => {
+              if (idx !== 0) {
+                return (
+                  <Card
+                    className="home-screen-lists-card"
+                    key={`category-cards-${idx}`}
+                  >
+                    <Card.Title className="home-screen-headings">
+                      <span className="home-screen-headings-text">
+                        {data[0]}
+                      </span>
+                      <Button
+                        className="view-all-home-screen"
+                        variant="primary"
+                        onClick={() =>
+                          props.history.push("/submenu", {
+                            data: data[1]["food_list"],
+                            sbx: idx,
+                            foodMenu: cartData,
+                            subMenuName: data[0],
+                          })
+                        }
+                      >
+                        View All
+                      </Button>
+                    </Card.Title>
+                    <Slider {...getSettings(idx)} className="custom-slider">
+                      {Object.values(data[1]["food_list"]).map(
+                        (foodId, foodIdIndex) => {
+                          return Object.values(food_menu.concat(bar_menu)).map((subCategory, idx) => {
+                            return Object.values(subCategory.food_list).map(
+                              (foodItem, foodItemIndex) => {
+                                if (foodItem._id.$oid === foodId) {
+                                  return (
+                                    <div id="card-home-screen">
+                                      <FoodItem
+                                        stateData={cartData}
+                                        foodItem={foodItem}
+                                        subs={subCategory}
+                                        subsIndex={idx}
+                                        index={foodItemIndex}
+                                        key={`food-item-${foodItemIndex}`}
+                                        restOrderingAbility={orderingAbility}
+                                        fromhome="home"
+                                        menuType="food"
+                                      />
+                                    </div>
+                                  );
+                                }
+                              }
                             );
-                          }
-                        });
-                      });
-                    })}
-                  </Slider>
-                </Card>
-              );
-            }
-          })}
+                          });
+                        }
+                      )}
+                    </Slider>
+                  </Card>
+                );
+              }
+            })}
+          </div>
         </div>
       )}
     </>
   );
 };
 
-const homeWithSocket = props => (
+const homeWithSocket = (props) => (
   <SocketContext.Consumer>
-    {socket => <Home {...props} socket={socket} />}
+    {(socket) => <Home {...props} socket={socket} />}
   </SocketContext.Consumer>
 );
 

@@ -1,12 +1,14 @@
 import React from "react";
-import { Table as RBTable, Button, Collapse, Form } from "react-bootstrap";
-import { StoreContext } from "Store";
+import {  Collapse, Form } from "react-bootstrap";
 
 const CollapseDetails = props => {
-  const {
-    dispatch,
-    state: { activeData }
-  } = React.useContext(StoreContext);
+  //$rest-font 
+  const rest_font = 'Inconsolata';
+
+  // const {
+    // dispatch,
+    // state: { cartData }
+  // } = React.useContext(StoreContext);
 
   function handleChange(event) {
     props.item.instructions = event.target.value;
@@ -17,7 +19,7 @@ const CollapseDetails = props => {
     <div>
       <span
         style={{
-          fontFamily: "Poppins",
+          fontFamily: rest_font,
           fontSize: "12px",
           paddingLeft: "2%"
         }}

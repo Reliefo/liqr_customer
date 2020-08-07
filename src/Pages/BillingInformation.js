@@ -1,30 +1,29 @@
 /* eslint-disable no-unused-expressions */
+/* eslint-disable */
 import React from "react";
 import { StoreContext } from "Store";
-import { Card, Accordion, Button } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import SocketContext from "../socket-context";
 import LoaderButton from "../components/LoaderButton";
 import SearchFoodItems from "components/SearchFoodItems.js";
-import { ReactComponent as FoodSVG } from "assets/food.svg";
-import { ReactComponent as FlatSVG } from "assets/Flat.svg";
-import { ReactComponent as UiSVG } from "assets/ui.svg";
 
 import * as TYPES from "Store/actionTypes.js";
-import { auto, left } from "@popperjs/core";
 
 const BillingInformation = props => {
+
+
   const {
     dispatch,
     state: {
-      rawData: { food_menu = [] },
+      // rawData: { food_menu = [] },
       searchClicked,
-      restName
+      restName,
+      currency,
     }
   } = React.useContext(StoreContext);
 
   let billing = [];
   billing.push(props.location.state.data);
-  localStorage.removeItem("table_id");
 
   React.useEffect(() => {
     dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: "" } });
@@ -51,7 +50,7 @@ const BillingInformation = props => {
             dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
             dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
           }}
-          style={{ backgroundColor: "white" }}
+          className="billing-page default-screen"
         >
           <div className="order-status-styling">
             {billing.map((item, idx) => {
@@ -100,7 +99,7 @@ const BillingInformation = props => {
                             fontWeight: 700
                           }}
                         >
-                          Order Total <br />₹{" "}
+                          Order Total <br />{currency}{" "}
                           {item.bill_structure["Total Amount"]}
                         </p>
                       </div>
@@ -136,10 +135,10 @@ const BillingInformation = props => {
                                       {item3.name} x {item3.quantity}
                                     </span>
                                   </div>
-                                  {item3.food_options ? (
+                                  {/* {item3.food_options ? (
                                     <div
                                       style={{
-                                        fontFamily: "Poppins",
+                                        fontFamily: rest_font,
                                         fontSize: "12px"
                                       }}
                                     >
@@ -154,10 +153,10 @@ const BillingInformation = props => {
                                     </div>
                                   ) : (
                                     ""
-                                  )}
+                                  )} */}
                                   {/* {item3.food_options ? 
                                 <div style={{
-                                  fontFamily: 'Poppins',
+                                  fontFamily: rest_font,
                                   fontSize: '12px'
                                 }}>
                                  {item3.food_options.choices[0].option_name}
@@ -171,36 +170,7 @@ const BillingInformation = props => {
                       })}
                     </div>
                     <hr />
-                    <div
-                      style={{
-                        float: "left",
-                        height: "25px",
-                        paddingLeft: "2%",
-                        width: "100%",
-                        margin: "0 auto"
-                      }}
-                    >
-                      <p
-                        className="table-name-card-billing"
-                        style={{
-                          float: "left",
-                          width: "40%",
-                          textTransform: "capitalize"
-                        }}
-                      >
-                        <b>Order Total</b>
-                      </p>
-                      <p
-                        className="table-name-card-billing"
-                        style={{
-                          float: "right",
-                          paddingRight: "10%",
-                          height: "25px"
-                        }}
-                      >
-                        <b> ₹ {item.bill_structure["Total Amount"]}</b>
-                      </p>
-                    </div>
+                    
                     <div
                       style={{
                         float: "left",
@@ -278,6 +248,36 @@ const BillingInformation = props => {
                         style={{ float: "right", paddingRight: "10%" }}
                       >
                         <b> {item.taxes["Service"]}%</b>
+                      </p>
+                    </div>
+                    <div
+                      style={{
+                        float: "left",
+                        height: "25px",
+                        paddingLeft: "2%",
+                        width: "100%",
+                        margin: "0 auto"
+                      }}
+                    >
+                      <p
+                        className="table-name-card-billing"
+                        style={{
+                          float: "left",
+                          width: "40%",
+                          textTransform: "capitalize"
+                        }}
+                      >
+                        <b>Order Total</b>
+                      </p>
+                      <p
+                        className="table-name-card-billing"
+                        style={{
+                          float: "right",
+                          paddingRight: "10%",
+                          height: "25px"
+                        }}
+                      >
+                        <b> {currency} {item.bill_structure["Total Amount"]}</b>
                       </p>
                     </div>
                   </Card>

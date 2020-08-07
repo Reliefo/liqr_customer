@@ -1,18 +1,15 @@
 import React from "react";
 import { StoreContext } from "Store";
-import Search from "../Pages/Search";
-import * as TYPES from "Store/actionTypes.js";
 import FoodItem from "components/FoodItem";
 
 const SearchFoodItems = () => {
   const {
-    dispatch,
-    state: { searchValue, justMenuItems, activeData }
+    // dispatch,
+    state: { searchValue, justMenuItems, orderingAbility }
   } = React.useContext(StoreContext);
 
   return (
-    <div className="category">
-      <Search />
+    <div className="category default-screen">
       <ul style={{ listStyleType: "none" }}>
         {justMenuItems.map((foodItem1, idx9) => {
           return foodItem1.map((foodItem, idx) => {
@@ -29,6 +26,7 @@ const SearchFoodItems = () => {
                     subsIndex={idx}
                     index={idx3}
                     key={`food-item-${idx3}`}
+                    restOrderingAbility={orderingAbility}
                   />
                 </li>
               );

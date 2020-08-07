@@ -1,12 +1,5 @@
 import React from "react";
-import ReactDOM from "react"
 import reducer from "./reducer.js";
-import axios from "axios";
-import * as TYPES from "./actionTypes";
-import { v4 as uuidv4 } from "uuid";
-import tempData from "json_with_class.json";
-import AppWrapper from "../App";
-import io from "socket.io-client";
 
 const initialState = {
   activeNav: "",
@@ -19,19 +12,22 @@ const initialState = {
   tableId: "",
   menuClick : false,
   fabClick: false,
+  phoneRegistered : false,
   restId: "",
   addons: [],
   placeOrderById: "",
   restAddress: "",
-  tableOrders: [],
+  tableCartOrders: [],
   tableUsers: [],
   justBarItems: [],
   dineHistory: [],
   homeItems: [],
   orderSuccess: [],
   orderStatus: [],
-  activeData: {},
-  rawData: {}
+  cartData: {},
+  rawData: {},
+  themeProperties: {},
+  // barFoodMenuCats: {},
 };
 
 const localState = JSON.parse(sessionStorage.getItem("relief"));
@@ -63,7 +59,7 @@ const Store = props => {
     // getData().then(resp => {
     //   if (!resp.success) {
     //     // dispatch({ type: TYPES.ADD_DATA, payload: resp });
-    //     // dispatch({ type: TYPES.ADD_SELECT_DATA, payload: resp.food_menu });
+    //     // dispatch({ type: TYPES.ADD_TO_CART_DATA, payload: resp.food_menu });
     //     //segregating the food items and storign for search
     //     // console.log({ resp });
 

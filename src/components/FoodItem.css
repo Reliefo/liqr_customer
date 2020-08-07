@@ -1,0 +1,118 @@
+:root {
+  --theme-font: "Poppins";
+  --add-button-color: #4f3e2c;
+}
+.add-button-item-menu {
+  float: right;
+  width: 90px;
+  padding: 0rem;
+  height: 30px;
+  background: var(--add-button-color) 0% 0% no-repeat padding-box;
+  border-radius: 6px;
+  border-color: var(--add-button-color);
+  font-family: var(--theme-font);
+  letter-spacing: 0px;
+  color: #ffffff;
+  opacity: 1;
+}
+
+.add-button-item-menu-disabled {
+  float: right;
+  width: 90px;
+  height: 30px;
+  background: var(--add-button-color) 0% 0% no-repeat padding-box;
+  border-radius: 6px;
+  border-color: var(--add-button-color);
+  font-family: var(--theme-font);
+  letter-spacing: 0px;
+  color: #ffffff;
+  opacity: 1;
+}
+
+.col-5-menu-food-card {
+  padding: 0rem;
+  padding-right: 0rem;
+}
+
+.col-7-menu-food-card {
+  padding-right: 0rem;
+}
+
+.card-image-menu {
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  border-radius: 6px;
+}
+
+.item-name-menu {
+  text-align: left;
+  letter-spacing: 0px;
+  color: #000000;
+  opacity: 1;
+  font-family: var(--theme-font);
+  font-size: 0.9rem;
+  margin-bottom: 0rem;
+}
+
+.food-desc-menu {
+  text-align: left;
+  color: #000000;
+  opacity: 0.6;
+  /* font-family: $rest-font; */
+  font-size: small;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  letter-spacing: 0px;
+  /* padding-top: 0.5rem; */
+  padding-bottom: 0.5rem;
+}
+
+.addon-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.addon-item p {
+  margin-bottom: 0;
+}
+
+.food-options-modal {
+  z-index: 1420;
+  background-color: rgba(0, 0, 0, 0.3);
+  font-weight: 700;
+  height: 90%;
+}
+
+.old-customizations {
+  border-bottom: 1px solid #dee2e6;
+}
+.new-customizations {
+  margin-top: 1rem;
+}
+.modal-customization {
+  width: auto;
+  text-align: center;
+}
+.old-cust-data:last-child {
+  display: flex;
+  border-bottom:  none;
+  margin-bottom: 1rem;
+}
+.old-cust-data {
+  display: flex;
+  border-bottom: 1px solid #dee2e6;
+  margin-bottom: 1rem;
+}
+
+.old-cust-data-rows {
+  padding: 0 0.2rem;
+  color: #666666;
+  font-size: 0.9rem;
+}
+.choosing-instructions {
+  font-size: small;
+  color: #7f8285;
+}

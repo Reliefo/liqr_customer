@@ -10,7 +10,7 @@ export default class Signup extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: false,
+      isloading: false,
       email: "",
       name: "",
       password: "",
@@ -40,7 +40,7 @@ export default class Signup extends Component {
 
   handleSubmit = async event => {
     event.preventDefault();
-    this.setState({ isLoading: true });
+    this.setState({ isloading: true });
     const uniqueId = `${uuidv4().substring(0, 15)}`;
     let parm = window.location.href;
     parm = parm.split("=");
@@ -78,10 +78,13 @@ export default class Signup extends Component {
       ReactDOM.render(<AppWrapper />, document.getElementById("root"));
       this.props.history.push("/");
     });
-    this.setState({ isLoading: false });
+    this.setState({ isloading: false });
   };
 
   renderConfirmationForm() {
+    // $base-font 
+    const base_font = "Poppins";
+
     return (
       <form onSubmit={this.handleConfirmationSubmit}>
         <FormGroup controlId="confirmationCode" bsSize="large">
@@ -89,7 +92,7 @@ export default class Signup extends Component {
           <FormControl
             style={{
               fontSize: "15px",
-              fontFamily: "Poppins"
+              fontFamily: base_font
             }}
             autoFocus
             type="tel"
@@ -105,15 +108,18 @@ export default class Signup extends Component {
           bsSize="large"
           disabled={!this.validateConfirmationForm()}
           type="submit"
-          isLoading={this.state.isLoading}
+          isloading={this.state.isloading}
           text="Verify"
-          loadingText="Verifying…"
+          loadingtext="Verifying…"
         />
       </form>
     );
   }
 
   renderForm() {
+
+    // $base-font 
+    const base_font = "Poppins";
     return (
       <form onSubmit={this.handleSubmit}>
         <div className="sign-in">Sign Up</div>
@@ -122,7 +128,7 @@ export default class Signup extends Component {
           <FormControl
             style={{
               fontSize: "15px",
-              fontFamily: "Poppins"
+              fontFamily: base_font
             }}
             autoFocus
             type="email"
@@ -135,7 +141,7 @@ export default class Signup extends Component {
           <FormControl
             style={{
               fontSize: "15px",
-              fontFamily: "Poppins"
+              fontFamily: base_font
             }}
             value={this.state.password}
             onChange={this.handleChange}
@@ -147,7 +153,7 @@ export default class Signup extends Component {
           <FormControl
             style={{
               fontSize: "15px",
-              fontFamily: "Poppins"
+              fontFamily: base_font
             }}
             value={this.state.confirmPassword}
             onChange={this.handleChange}
@@ -159,7 +165,7 @@ export default class Signup extends Component {
           <FormControl
             style={{
               fontSize: "15px",
-              fontFamily: "Poppins"
+              fontFamily: base_font
             }}
             value={this.state.name}
             onChange={this.handleChange}
@@ -171,10 +177,10 @@ export default class Signup extends Component {
           bsSize="large"
           disabled={!this.validateForm()}
           type="submit"
-          isLoading={this.state.isLoading}
+          isloading={this.state.isloading}
           text="Sign Up"
           className="sign-in-button"
-          loadingText="Logging in…"
+          loadingtext="Logging in…"
         />
       </form>
     );

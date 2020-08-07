@@ -1,24 +1,10 @@
 /* @import url('https://fonts.googleapis.com/css?family=Quicksand:400,500,600,700|Roboto:400,500,700,900&display=swap'); */
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700|Raleway:400,500,600,700|Roboto:400,500,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;500;600;700;800;900&display=swap");
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  color: #2d2d2d;
-  /* background-color: #f8f9fa!important; */
-  background-color: #f4f4f2;
-  font-family: "Poppins";
-  -webkit-font-smoothing: antialiased;
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* Internet Explorer */
-  -khtml-user-select: none; /* KHTML browsers (e.g. Konqueror) */
-  -webkit-user-select: none; /* Chrome, Safari, and Opera */
-  -webkit-touch-callout: none; /* Disable Android and iOS callouts*/
-  -moz-osx-font-smoothing: grayscale;
 }
 
 code {
@@ -46,51 +32,6 @@ code {
   padding: 10%;
   text-align: center;
 }
-
-.main-home-card {
-  margin-right: 2%;
-  margin-left: 2%;
-  background: transparent;
-  border-radius: 8px;
-  opacity: 1;
-}
-
-.home-title {
-  padding: 3%;
-}
-
-.home-title-font {
-  min-height: 76px;
-  font-family: "Poppins";
-  text-align: left;
-  font-size: 16px;
-  letter-spacing: 0.04px;
-  color: #707070;
-  opacity: 1;
-}
-
-.desc-home-body {
-  min-height: 100px;
-  font-family: "Poppins";
-  text-align: left;
-  font-size: 12px;
-  letter-spacing: 0.04px;
-  color: #707070;
-  opacity: 1;
-}
-
-.home-item {
-  border-radius: 8px;
-  text-transform: capitalize;
-  margin-left: 6% !important;
-  width: 85% !important;
-  background: #ffffff 0% 0% no-repeat padding-box;
-  border: 1px solid #efefef;
-  border-radius: 6px;
-  opacity: 1;
-}
-
-.slick-prev:before,
-.slick-next:before {
-  color: black !important;
+html, body, #app, #app>div {
+  height: 100%
 }

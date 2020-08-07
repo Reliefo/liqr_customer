@@ -1,39 +1,42 @@
+/* eslint-disable */
 import React from "react";
 import home from "../assets/home.png";
 import menu from "../assets/menu.png";
+import basket from "../assets/basket.png";
+import status from "../assets/status.png";
+import profile from "../assets/profile.png";
 import { ToastContainer, toast } from "react-toastify";
 import { Button } from "react-bootstrap";
-import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
-import cartImage from "../assets/cart.png";
-import AppWrapper from "../App";
-import ReactDOM from "react-dom";
-import order from "../assets/order.png";
+import assist from "../assets/assist.png";
 import { Badge } from "react-bootstrap";
 import { Link, withRouter } from "react-router-dom";
 import SocketContext from "../socket-context";
 import { StoreContext } from "Store";
-import { ReactComponent as WaterSVG } from "assets/water.svg";
-import { ReactComponent as TissueSVG } from "assets/tissue.svg";
-// import { ReactComponent as HelpSVG } from "assets/help.svg";
-import { ReactComponent as DoubleArrow } from "assets/double-arrow.svg";
 import * as TYPES from "Store/actionTypes.js";
-const FooterNav = props => {
+import AnchorLink from "react-anchor-link-smooth-scroll";
+import "./FooterNav.css";
+const FooterNav = (props) => {
+  //$rest-font
   const {
     state: {
       activeNav,
-      tableId,
       cart,
       fabClick,
       menuClick,
-      activeData,
-      placeOrderById,
-      rawData: { food_menu = [] }
+      cartData,
+      orderingAbility,
+      displayOrderButtons,
+      themeProperties,
+      currentMenu,
+      barFoodMenuCats,
+      currency,
+      // rawData: { food_menu = [] },
     },
-    dispatch
+    dispatch,
   } = React.useContext(StoreContext);
   React.useEffect(() => {
-    props.socket.off("assist").on("assist", ms => {
+    props.socket.off("assist").on("assist", (ms) => {
       const message = JSON.parse(ms);
       const { msg } = message;
 
@@ -44,37 +47,73 @@ const FooterNav = props => {
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
-        progress: undefined
+        progress: undefined,
       });
     });
+
+    /////THEMEING //////
+    if (themeProperties["theme"] === true) {
+      let cssVariables = [
+        "--theme-font",
+        "--first-footer-color",
+        "--second-footer-color",
+        "--categories-button-color",
+        "--categories-list-item-color",
+      ];
+      cssVariables.forEach((item, key) => {
+        // console.log(item,key);
+        document.documentElement.style.setProperty(
+          item,
+          themeProperties["variables"][item]
+        );
+      });
+    }
+    /////THEMEING //////
   }, [props, props.socket, props.location, dispatch]);
 
-  const fillSvg = name =>
+  const divClasses = (name) => disablingOrdering(name) + " " + fillDiv(name);
+
+  const fillDiv = (name) => (activeNav === name ? "active-icon-select" : "");
+
+  const disablingOrdering = (name) => {
+    return orderingAbility === true ? "" : disabledFillSvg(name);
+  };
+
+  const disabledFillSvg = (name) =>
+    displayOrderButtons === true ? "icon-disabled" : "icon-hidden";
+  const fillSvg = (name) =>
     activeNav === name ? "icon-active" : "icon-inactive";
   const [deg, setDeg] = React.useState(0);
   const [state, setState] = React.useState({
     fabClicked: false,
-    menuClick: false
+    menuClick: false,
   });
-
-  const fillDiv = name => (activeNav === name ? "active-icon-select" : "");
 
   let cartCount = 0;
   let sum = 0;
-  cart.forEach(item => {
+
+  cart.forEach((item) => {
     if (item.options) {
-      sum += parseInt(item.options.option_price) * item.quantity;
+      sum += parseFloat(item.options.option_price) * item.quantity;
     } else {
-      sum += parseInt(item.price * item.quantity);
+      sum += parseFloat(item.price * item.quantity);
     }
-    cartCount++;
+    let addonPrice = 0;
+    if (item.hasOwnProperty("addon")) {
+      item.addon.forEach((addon) => {
+        if (typeof addon === "object") {
+          addonPrice += parseFloat(addon.price);
+        }
+      });
+    }
+
+    sum += addonPrice;
+    cartCount += item.quantity;
   });
   const trfm = `rotate(${deg}deg)`;
-  const revtrfm = `rotate(${-deg}deg)`;
+  // const revtrfm = `rotate(${-deg}deg)`;
 
   const FABClick = () => {
-    console.log("clicked...");
-
     dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: !fabClick });
     dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
   };
@@ -86,11 +125,12 @@ const FooterNav = props => {
     dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: !menuClick });
   };
 
-  const sendAssistance = name => {
+  const sendAssistance = (name) => {
     const body = {
       table: localStorage.getItem("table_id"),
       user: localStorage.getItem("user_id"),
-      assistance_type: name
+      assistance_type: name,
+      after_billing: false,
     };
 
     dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: !fabClick });
@@ -104,8 +144,104 @@ const FooterNav = props => {
   };
 
   const footerDiv =
-    activeNav === "Home" ? "footer-nav custom-home-nav" : "footer-nav";
+    activeNav === "Home"
+      ? "footer-nav footer-theme custom-home-nav"
+      : "footer-nav footer-theme";
 
+  const floatingButtons = () => (
+    <>
+      {activeNav === "Menu" && (
+        <div className="floating-container-menu" onClick={MenuClick}>
+          <div className="menu-button-footer">
+            <span>Categories</span>
+          </div>
+        </div>
+      )}
+      <div className="floating-menu-div">
+        {menuClick && (
+          <div className="floating-container-menu-items">
+            <div className="floating-container menu-button">
+              {barFoodMenuCats[currentMenu].map((item, idx) => {
+                return (
+                  <div
+                    className="floating-menu-items"
+                    key={idx}
+                    onClick={() => closeMenu(idx)}
+                  >
+                    {/* <a href={`#menu-${idx}`}> <span>{item.name}</span></a> */}
+                    <AnchorLink
+                      className="anchor-menu"
+                      offset="90"
+                      href={`#menu-${idx}`}
+                    >
+                      {item}
+                    </AnchorLink>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </div>
+      <div
+        className={`floating-container ${fabClick ? "rotate-fab" : ""}`}
+        style={{ transform: trfm }} //this rotation takes care of all other rotations.
+      >
+        <div className="FAB" onClick={FABClick}>
+          <span className="assist-button-text">Assist</span>
+          <img src={assist} alt="Table" className="assist-button-image" />
+        </div>
+        {fabClick && (
+          <div className="floating-container">
+            <div className="floating-menu">
+              <div
+                className="floating-assistance"
+                onClick={() => sendAssistance("water")}
+              >
+                Ask for Water
+              </div>
+              <div
+                className="floating-assistance"
+                onClick={() => sendAssistance("help")}
+              >
+                Call for Assistance
+              </div>
+              <div
+                className="floating-assistance"
+                onClick={() => sendAssistance("cutlery")}
+              >
+                Call for Cutlery
+              </div>
+              <div
+                className="floating-assistance"
+                onClick={() => sendAssistance("tissue")}
+              >
+                Ask for Tissue
+              </div>
+              <div
+                className="floating-assistance"
+                onClick={() => sendAssistance("cleaning")}
+              >
+                Ask for Cleaning
+              </div>
+              <div
+                className="floating-assistance"
+                onClick={() => sendAssistance("menu")}
+              >
+                Ask for Physical Menu
+              </div>
+              <div
+                className="floating-assistance"
+                onClick={() => sendAssistance("ketchup")}
+              >
+                Ask for Ketchup
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </>
+  );
   return (
     <>
       <ToastContainer
@@ -127,28 +263,20 @@ const FooterNav = props => {
         <div>
           {cartCount > 0 && props.location.pathname === "/menu" ? (
             <div
-              style={{
-                fontSize: "16px",
-                fontFamily: "Poppins",
-                background: "white",
-                height: "100px",
-                color: "black",
-                display: "block"
-              }}
-              className={footerDiv}
+              className="footer-nav footer-theme go-to-cart-footer"
             >
-              <div className="footerButton">
-                <span style={{ margin: "10%", fontSize: "20px" }}>
-                  {cartCount} {cartCount < 2 ? "Item" : "Items"} | ₹{sum}{" "}
+              {floatingButtons()}
+              <div className="footerOrderTotal">
+                <span>
+                  {cartCount} {cartCount < 2 ? "Item" : "Items"} | {currency}
+                  {sum}{" "}
                 </span>{" "}
-                <br />
-               
               </div>
               <div className="footerOrder">
                 <Button
-                  className="options-button-add"
+                  className="add-button-item-menu"
                   variant="primary"
-                  onClick={()=> props.history.push('/cart')}
+                  onClick={() => props.history.push("/cart")}
                 >
                   Order
                 </Button>
@@ -156,70 +284,12 @@ const FooterNav = props => {
             </div>
           ) : (
             <div className={footerDiv}>
-              {activeNav === "Menu" && (
-                <div className="floating-container-menu">
-                  <div className="menu-button-footer" onClick={MenuClick}>
-                    <span>Menu</span>
-                  </div>
-                </div>
-              )}
-              {menuClick && (
-                <div className="floating-container-menu">
-                  <div
-                    className="floating-container menu-button"
-                    style={{ marginBottom: "2.5rem" }}
-                  >
-                    {activeData.map((item, idx) => {
-                      return (
-                        <div key={idx} onClick={() => closeMenu()}>
-                          <a href={`#menu-${idx}`}> {item.name}</a>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-              <div
-                className={`floating-container ${fabClick ? "rotate-fab" : ""}`}
-                style={{ transform: trfm }} //this rotation takes care of all other rotations.
-              >
-                <div className="FAB" onClick={FABClick}>
-                  <span>Assist</span>
-                </div>
-                {fabClick && (
-                  <div className="floating-container">
-                    <div className="floating-menu">
-                      <div onClick={() => sendAssistance("water")}>
-                        Ask for Water
-                      </div>
-                      <div onClick={() => sendAssistance("help")}>
-                        Call for Assistance
-                      </div>
-                      <div onClick={() => sendAssistance("cutlery")}>
-                        Call for Cutlery
-                      </div>
-                      <div onClick={() => sendAssistance("tissue")}>
-                        Ask for Tissue
-                      </div>
-                      <div onClick={() => sendAssistance("cleaning")}>
-                        Ask for Cleaning
-                      </div>
-                      <div onClick={() => sendAssistance("menu")}>
-                        Ask for Physical Menu
-                      </div>
-                      <div onClick={() => sendAssistance("ketchup")}>
-                        Ask for Ketchup
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-
+              {floatingButtons()}
               <Link
-                to="/Home"
+                to="/home"
                 className="styled-link"
                 onClick={() =>
-                  setState(state => ({ ...state, menuClick: false }))
+                  setState((state) => ({ ...state, menuClick: false }))
                 }
               >
                 <div
@@ -242,47 +312,63 @@ const FooterNav = props => {
               <Link
                 to="/cart"
                 className="styled-link"
-                onClick={() =>
-                  setState(state => ({ ...state, menuClick: false }))
-                }
+                onClick={(event) => {
+                  setState((state) => ({ ...state, menuClick: false }));
+                  if (!displayOrderButtons) {
+                    event.preventDefault();
+                  }
+                }}
               >
                 <div
-                  className={fillDiv("Cart")}
+                  className={divClasses("Cart")}
                   style={{ marginBottom: "calc(.7rem - 3px)" }}
                 >
-                  { cartCount > 0 ? <Badge variant="danger" style={{ position:'absolute', top: '-7px' }}>{cartCount}</Badge> : null }{" "}
-                  <img src={cartImage} alt="Cart" className={fillSvg("Cart")} />
+                  {/* {cartCount > 0 ? (
+                    <Badge
+                      variant="danger"
+                      style={{ position: "absolute", top: "-7px" }}
+                    >
+                      {cartCount}
+                    </Badge>
+                  ) : null}{" "} */}
+                  <img src={basket} alt="Cart" className={fillSvg("Cart")} />
                   <span className="icon-text">Cart</span>
                 </div>
               </Link>
               <Link
                 to="/order"
                 className="styled-link"
-                onClick={() =>
-                  setState(state => ({ ...state, menuClick: false }))
-                }
+                onClick={(event) => {
+                  setState((state) => ({ ...state, menuClick: false }));
+                  if (!displayOrderButtons) {
+                    event.preventDefault();
+                  }
+                }}
               >
                 <div
-                  className={fillDiv("Order")}
+                  className={divClasses("Order")}
                   style={{ marginBottom: "calc(.7rem - 3px)" }}
                 >
-                  <img src={order} alt="Table" className={fillSvg("Order")} />
-                  <span className="icon-text">Order</span>
+                  <img src={status} alt="Order" className={fillSvg("Order")} />
+                  <span className="icon-text">Status</span>
                 </div>
               </Link>
               {/* <Link
-                to="/order"
+                to="/profile"
                 className="styled-link"
-                onClick={() =>
-                  setState(state => ({ ...state, menuClick: false }))
-                }
+                onClick={(event) => {
+                  setState((state) => ({ ...state, menuClick: false }));
+                  if (!displayOrderButtons) {
+                    event.preventDefault();
+                  }
+                }}
               >
                 <div
-                  className={fillDiv("Order")}
+                  className={divClasses("Profile")}
                   style={{ marginBottom: "calc(.7rem - 3px)" }}
                 >
-                  <img src={order} alt="Table" className={fillSvg("Order")} />
-                  <span className="icon-text">Order</span>
+                  <img src={profile} alt="Profile" className={fillSvg("Profile")} />
+                  <span className="icon-text">Profile</span>
                 </div>
               </Link> */}
             </div>
@@ -311,9 +397,9 @@ const FooterNav = props => {
       </div>
 */
 
-const FooterNavSocket = props => (
+const FooterNavSocket = (props) => (
   <SocketContext.Consumer>
-    {socket => <FooterNav {...props} socket={socket} />}
+    {(socket) => <FooterNav {...props} socket={socket} />}
   </SocketContext.Consumer>
 );
 

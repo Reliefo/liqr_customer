@@ -12,7 +12,7 @@ const AddRemoveItem =  props => {
   const increase = () => {
     dispatch({
       type: TYPES.INC_ITEM,
-      payload: props.id
+      payload: props.foodId
     });
     if (props.incHndlr) {
       props.incHndlr();
@@ -22,13 +22,13 @@ const AddRemoveItem =  props => {
     if (props.count-1 === 0) {
       dispatch({
         type: TYPES.DEL_ITEM,
-        payload: props.id
+        payload: props.foodId
       });
 
     };
     dispatch({
       type: TYPES.DEC_ITEM,
-      payload: props.id
+      payload: props.foodId
     });
 
 

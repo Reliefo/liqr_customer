@@ -1,0 +1,111 @@
+.cart-screen {
+  background: var(--menu-background);
+  position: relative;
+  padding: 0rem;
+  top: 3rem;
+  padding-bottom: 4rem;
+  min-height: calc(100vh - 30vw);
+}
+
+.cart-styling {
+  background: var(--pattern-light);
+  /* background: var(--menu-background); */
+  border-radius: 6px;
+  opacity: 1;
+
+  color: #000000;
+}
+.cart-item-body {
+  font-size: large;
+  font-weight: bold;
+  padding: 0.5rem;
+  padding-left: 1rem;
+}
+
+.menu-btn-cart {
+  /* ul */
+  border-radius: 6px;
+  opacity: 1;
+
+  list-style: none;
+  display: flex;
+  padding: 1rem;
+  position: sticky;
+  margin-top: 6%;
+  z-index: 1;
+  font-size: 1.2rem;
+  font-weight: 500;
+  cursor: pointer;
+  width: 100%;
+
+  cursor: pointer;
+}
+
+.cart-bill {
+  border: none;
+}
+.bill-btn {
+  display: flex;
+  justify-content: space-evenly;
+  border: 2px solid #ffb023;
+  color: #000000;
+  border-radius: 6px;
+  text-transform: uppercase;
+  opacity: 1;
+  /* background-color: rgba(255, 176, 35, 0.3); */
+  padding: 0.6rem;
+  font-family: var(--theme-font);
+  cursor: pointer;
+  font-weight: 600;
+  align-items: center;
+}
+.bill-btn:active {
+  background-color: rgba(0, 0, 0, 0.075);
+  color: black;
+  border: none;
+  /* svg {
+      fill: black;
+    } */
+}
+.bill-btn > p {
+  margin-bottom: 0;
+}
+/* .bill-btn > svg {
+    fill: $brand-clr;
+  } */
+
+.push-to-table-btn {
+  background: #ffb023 0% 0% no-repeat padding-box;
+  border-radius: 6px;
+  opacity: 1;
+  color: #ffffff;
+}
+.personal-order-btn {
+  background: #ffb023 0% 0% no-repeat padding-box;
+  border-radius: 6px;
+  opacity: 1;
+  color: #ffffff;
+}
+.detail-instructions {
+  padding-left: 3%;
+  color: #666666;
+  padding-bottom: 6%;
+  padding-top: 2%;
+}
+.detail-options {
+  padding: 0 1rem;
+  padding-left: 1rem;
+  color: #222222;
+  font-size: 0.9rem;
+}
+
+.table-cart-layout {
+  /* background: transparentize($color: #ffee00, $amount: 0); */
+  background-color: var(--table-cart-color);
+  opacity: 0.7;
+}
+
+.login-modal-div {
+  margin:0rem 0rem;
+  padding: 1.5rem 0.5rem;
+}
