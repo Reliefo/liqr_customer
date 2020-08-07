@@ -73,9 +73,8 @@ const SearchItems = (props) => {
         </>
       ) : (
         <div>
-          <div class="form-group col-lg-4">
-            <Search />
-            <div class="form-group has-feedback" style={{ marginTop: "10%" }}>
+          <Search />
+          {/* <div class="form-group has-feedback" style={{ marginTop: "10%" }}>
               <input
                 type="button"
                 value="<"
@@ -102,28 +101,21 @@ const SearchItems = (props) => {
                 onClick={searchIconClick}
                 className="search-svg"
               />
-            </div>
-          </div>
+            </div> */}
 
           {localStorage.getItem("searchItem") !== null
             ? JSON.parse(localStorage.getItem("searchItem")).map(
                 (item, idx) => {
                   return (
-                    <div
-                      style={{
-                        width: "80%",
-                        borderBottom: "1px solid",
-                        paddingTop: "3%",
-                        paddingBottom: "3%",
-                        margin: "0 auto",
-                      }}
-                    >
-                      <span
-                        className="search-items"
-                        onClick={() => searchHistory(item)}
-                      >
-                        {item}
-                      </span>
+                    <div>
+                      <div className="search-suggestions">
+                        <span
+                          className="search-items"
+                          onClick={() => searchHistory(item)}
+                        >
+                          {item}
+                        </span>
+                      </div>
                     </div>
                   );
                 }

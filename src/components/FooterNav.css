@@ -90,80 +90,6 @@
   align-items: center;
 }
 
-.floating-container-menu {
-  padding: 0 1rem;
-  background-color: var(--categories-button-color);
-  border-radius: 6px;
-  border: 3px solid var(--categories-list-border-color);
-  box-shadow: 0px 3px 6px #00000029;
-  position: absolute;
-  bottom: 100%;
-  margin-bottom: 0.5rem;
-  margin-right: 1rem;
-  font-size: 2rem;
-  transition: transform 0.3s ease;
-   /* overflow-y: scroll; */
-}
-
-.floating-container-menu-items {
-  padding: 5%;
-  position: absolute;
-  bottom: 100%;
-  margin-bottom: 0.5rem;
-  margin-right: 1rem;
-  font-size: 2rem;
-  transition: transform 0.3s ease;
-   /* overflow-y: scroll; */
-}
-
-.floating-menu-div {
-  /* width: 50%; */
-  position: absolute;
-}
-
-.menu-button {
-  overflow-y: scroll;
-  left: -36vw;
-  height: 60vh !important;
-  width: 70vw;
-  margin-bottom: 3rem !important;
-  padding: 5%;
-  line-height: 35px;
-  /* background: #ffffff 0% 0% no-repeat padding-box; */
-  background-color:  var(--categories-list-item-color);
-  box-shadow: 0px 3px 6px #00000029;
-  border-radius: 11px;
-  border: 2px solid var(--categories-list-border-color);
-  font-size: 16px !important;
-  color: #636364;
-  opacity: 1;
-}
-.floating-menu {
-  padding: 5%;
-  line-height: 2rem;
-  width: max-content;
-  height: max-content;
-  background: #ffffff 0% 0% no-repeat padding-box;
-  box-shadow: 0px 3px 6px #00000029;
-  border-radius: 11px;
-  font-size: 16px;
-  color: #636364;
-  opacity: 1;
-  border: 2px solid var(--categories-list-border-color);
-}
-.floating-menu-items {
-  padding-left: 5%;
-  background-color:  var(--categories-list-item-color);
-  border-top: 0.1rem solid var(--categories-list-border-color);
-  /* border-radius: 4px; */
-}
-.floating-menu-items:first-child {
-  padding-left: 5%;
-  background-color:  var(--categories-list-item-color);
-  /* border: 0.1rem solid var(--categories-list-border-color); */
-  border: none;
-  border-radius: 4px;
-}
 .footerOrderTotal {
   float: left;
   width: 50%;
@@ -199,15 +125,6 @@
   border: none;
 }
 
-.anchor-menu {
-  color: var(--categories-list-border-color);
-  font-weight: bold;
-}
-
-.anchor-menu:hover {
-  color: var(--second-footer-color);
-  font-weight: bold;
-}
 
 .assist-button-image {
   height: 3rem;

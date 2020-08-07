@@ -10,6 +10,7 @@ import tableChange from "../assets/tableChange.png";
 import * as TYPES from "Store/actionTypes.js";
 import { StoreContext } from "Store";
 import "./NavBar.css";
+import "./BurgerMenu.css";
 import Search from "../Pages/Search.js";
 import { Container, Row, Col } from "react-bootstrap";
 import Burger from "react-css-burger";
@@ -109,6 +110,7 @@ const Navbar = (props) => {
     <>
       {window.location.pathname === "/jm" ||
       window.location.pathname === "/" ||
+      window.location.pathname === "/searchItems" ||
       window.location.pathname === "/login" ? (
         <div></div>
       ) : (
@@ -131,7 +133,7 @@ const Navbar = (props) => {
                 >
                   <div className="floating-menu-div">
                     {menuClick && (
-                      <div className="floating-container-menu-items">
+                      <div className="floating-container-menu-items-top">
                         <div className="floating-container menu-button">
                           {barFoodMenuCats[currentMenu].map((item, idx) => {
                             return (

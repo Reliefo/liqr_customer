@@ -114,9 +114,86 @@
   width: 100%;
    /* border-radius: 0px 6px 6px 0px; */
 }
+.dropdown-sticky-category{
+  text-align: center;
+  letter-spacing: 0px;
+  color: #000000;
+  opacity: 1;
+  position: sticky;
+  top: 0rem;
+  background-color: var(--top-bar-color);
+  text-shadow: 3px solid var(--top-bar-color);
+  font-size: 1.1rem;
+  font-weight: 500;
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+  margin-right: 0rem;
+  margin-left: 0rem;
+  margin-bottom: 0.5rem;
+  width: 100%;
+  border-radius: 0rem;
+  border: none;
+}
+.dropdown-sticky-category:hover{
+  background-color: var(--top-bar-color) !important;
+  border-color: var(--top-bar-color) !important;
+  color: white !important;
+  box-shadow: 0 0 0 0rem white !important;
+}
+.dropdown-sticky-category:focus{
+  background-color: var(--top-bar-color) !important;
+  border-color: var(--top-bar-color) !important;
+  color: black !important;
+  box-shadow: 0 0 0 0rem white !important;
+}
+.dropdown-sticky-category:active{
+  background-color: white !important;
+  border-color: white !important;
+  color: black !important;
+  box-shadow: 0 0 0 0rem white !important;
+}
+.dropdown-sticky-category:not(:disabled):not(.disabled).active, .dropdown-sticky-category:not(:disabled):not(.disabled):active, .show > .dropdown-sticky-category.dropdown-toggle {
+
+  background-color: var(--top-bar-color) !important;
+  border-color: var(--top-bar-color) !important;
+  color: black !important;
+  box-shadow: 0 0 0 0rem white !important;
+}
+.anchor-menu {
+  color: black;
+  font-weight: bold;
+}
+.anchor-menu:active {
+  color: black;
+}
+.anchor-menu:focus {
+  color: black;
+}
+.anchor-menu:hover {
+  color: var(--second-footer-color);
+  font-weight: bold;
+}
+.dropdown-menu-list {
+  padding: 0rem 1%;
+  width: 100%;
+}
+.dropdown-item-menu {
+  padding-left: 5%;
+  padding-right: 5%;
+  background-color: var(--top-bar-color);
+  border-top: 0.1rem solid var(--categories-list-border-color);
+  text-align: center;
+}
+.dropdown-item-menu:first-child {
+  border: none;
+}
+.dropdown-item-menu:active {
+  background-color: white;
+  color: black;
+}
 
 .category {
-  margin-bottom: 10rem;
+  margin-bottom: 5rem;
   position: relative;
   padding: 0rem;
 }

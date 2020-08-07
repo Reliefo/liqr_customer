@@ -5,11 +5,12 @@ import smoothScroll from "smoothscroll";
 import * as TYPES from "Store/actionTypes.js";
 import SocketContext from "../socket-context";
 import FoodItem from "components/FoodItem";
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button, Dropdown } from "react-bootstrap";
 import SearchFoodItems from "components/SearchFoodItems.js";
 import classnames from "classnames";
 import "../components/NavBar.css";
 import "./Menu.css";
+import AnchorLink from "react-anchor-link-smooth-scroll";
 
 const Menu = (props) => {
   const [prevScrollpos, setPrevScrollpos] = React.useState(window.pageYOffset);
@@ -20,9 +21,10 @@ const Menu = (props) => {
       rawData: { food_menu = [], bar_menu = [] },
       searchClicked,
       orderingAbility,
-      restId,
+      menuClick,
       themeProperties,
       currentMenu,
+      barFoodMenuCats,
     },
   } = React.useContext(StoreContext);
 
@@ -111,6 +113,14 @@ const Menu = (props) => {
   //   dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
   //   dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
   // };
+  const MenuClick = () => {
+    dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
+    dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: !menuClick });
+  };
+  const closeMenu = () => {
+    dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
+    dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
+  };
 
   return (
     <>
@@ -182,9 +192,42 @@ const Menu = (props) => {
               {currentMenu === "food"
                 ? food_menu.map((item, idx) => (
                     <React.Fragment key={`Category-${idx}`}>
-                      <p className="category-subs" style={{ zIndex: idx + 1 }}>
+                      <p
+                        className="category-subs"
+                        style={{ zIndex: idx + 1, display: "none" }}
+                      >
                         {item.name}
                       </p>
+                      <Dropdown
+                        style={{
+                          position: "sticky",
+                          top: "0rem",
+                          zIndex: "100",
+                        }}
+                      >
+                        <Dropdown.Toggle className="dropdown-sticky-category">
+                          {item.name}
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu className="dropdown-menu-list">
+                          {barFoodMenuCats[currentMenu].map((item, idx) => {
+                            return (
+                              <Dropdown.Item
+                                className="dropdown-item-menu"
+                                onClick={() => closeMenu(idx)}
+                                href={`#menu-${idx}`}
+                              >
+                                <AnchorLink
+                                  className="anchor-menu"
+                                  offset="40"
+                                  href={`#menu-${idx}`}
+                                >
+                                  {item}
+                                </AnchorLink>
+                              </Dropdown.Item>
+                            );
+                          })}
+                        </Dropdown.Menu>
+                      </Dropdown>
                       <>
                         {/* <Dropdown>
                       <Dropdown.Toggle variant="success" id="dropdown-basic">
@@ -213,7 +256,11 @@ const Menu = (props) => {
                   ))
                 : bar_menu.map((item, idx) => (
                     <React.Fragment key={`Category-${idx}`}>
-                      <p className="category-subs" style={{ zIndex: idx + 1 }}>
+                      <p
+                        className="category-subs"
+                        style={{ zIndex: idx + 1 }}
+                        onClick={MenuClick}
+                      >
                         {item.name}
                       </p>
                       <>

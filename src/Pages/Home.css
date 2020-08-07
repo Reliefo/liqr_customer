@@ -76,9 +76,9 @@
   background: var(--menu-background);  
   position: relative;
   padding: 0rem;
-  top: 3rem;
+  top: 0rem;
   padding-bottom: 4rem;
-  min-height: calc(100vh - 30vw);
+  /* min-height: calc(100vh - 30vw); */
 }
 .coupons-screen {
   background: var(--menu-background);
@@ -177,7 +177,7 @@
 }
 
 .rest-of-home-screen {
-  margin-bottom: 10rem;
+  margin-bottom: 5rem;
   position: relative;
   padding: 1rem;
 }

@@ -150,7 +150,7 @@ const FooterNav = (props) => {
 
   const floatingButtons = () => (
     <>
-      {activeNav === "Menu" && (
+      {false && activeNav === "Menu" && (
         <div className="floating-container-menu" onClick={MenuClick}>
           <div className="menu-button-footer">
             <span>Categories</span>
@@ -158,7 +158,7 @@ const FooterNav = (props) => {
         </div>
       )}
       <div className="floating-menu-div">
-        {menuClick && (
+        {false && menuClick && (
           <div className="floating-container-menu-items">
             <div className="floating-container menu-button">
               {barFoodMenuCats[currentMenu].map((item, idx) => {
