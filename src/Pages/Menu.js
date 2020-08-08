@@ -215,6 +215,7 @@ const Menu = (props) => {
                                 className="dropdown-item-menu"
                                 onClick={() => closeMenu(idx)}
                                 href={`#menu-${idx}`}
+                                key={`dropdown-menu-${idx}`}
                               >
                                 <AnchorLink
                                   className="anchor-menu"

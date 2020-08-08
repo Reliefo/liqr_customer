@@ -10,7 +10,6 @@ import {
   Row,
   Col,
 } from "react-bootstrap";
-import { InputGroupAppend } from "react-bootstrap/InputGroup";
 const Search = (props) => {
   const {
     dispatch,
@@ -48,27 +47,27 @@ const Search = (props) => {
     dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: value } });
   };
 
-  const searchIconClick = () => {
-    if (localStorage.getItem("searchItem") !== null) {
-      let sitems = JSON.parse(localStorage.getItem("searchItem"));
-      if (state.item !== "") {
-        sitems.push(state.item);
-        localStorage.setItem("searchItem", JSON.stringify(sitems));
-      }
-    } else {
-      let sitems = [];
-      if (state.item !== "") {
-        sitems.push(state.item);
+  // const searchIconClick = () => {
+  //   if (localStorage.getItem("searchItem") !== null) {
+  //     let sitems = JSON.parse(localStorage.getItem("searchItem"));
+  //     if (state.item !== "") {
+  //       sitems.push(state.item);
+  //       localStorage.setItem("searchItem", JSON.stringify(sitems));
+  //     }
+  //   } else {
+  //     let sitems = [];
+  //     if (state.item !== "") {
+  //       sitems.push(state.item);
 
-        localStorage.setItem("searchItem", JSON.stringify(sitems));
-      }
-    }
-    inputNode.current.focus();
-    dispatch({
-      type: TYPES.SET_GENERAL_DATA,
-      payload: { searchClicked: true },
-    });
-  };
+  //       localStorage.setItem("searchItem", JSON.stringify(sitems));
+  //     }
+  //   }
+  //   inputNode.current.focus();
+  //   dispatch({
+  //     type: TYPES.SET_GENERAL_DATA,
+  //     payload: { searchClicked: true },
+  //   });
+  // };
 
   const closeButtonClick = () => {
     console.log(currentLocation);

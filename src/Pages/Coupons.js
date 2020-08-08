@@ -131,7 +131,6 @@ const Coupons = props => {
           </FormGroup>
           <LoaderButton
             block
-            bsSize="large"
             onClick={() => {
               props.history.push("/paymentOptions");
             }}
@@ -145,7 +144,6 @@ const Coupons = props => {
           />
           <LoaderButton
             block
-            bsSize="large"
             onClick={() => {
               props.history.push("/paymentOptions");
             }}

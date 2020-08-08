@@ -9,11 +9,12 @@ export default ({
   className = "",
   disabled = false,
   ...props
-}) =>
+}) => (
   <Button
     className={`LoaderButton ${className}`}
     disabled={disabled || isloading}
     {...props}
   >
     {!isloading ? text : loadingtext}
-  </Button>;
+  </Button>
+);

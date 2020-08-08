@@ -382,7 +382,7 @@ const Cart = (props) => {
                       </thead>
                       {order_list.food_list.map((food, ix) => {
                         return (
-                          <tbody>
+                          <tbody key={"cart"+ix}>
                             <tr>
                               <td>{food.name}</td>
                               <td>{food.quantity}</td>

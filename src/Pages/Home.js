@@ -329,15 +329,6 @@ const Home = (props) => {
         );
       }
       /////THEMEING //////
-
-      let justFoodItems = [];
-
-      justFoodItems.push(resp.bar_menu);
-      justFoodItems.push(resp.food_menu);
-      dispatch({
-        type: TYPES.ADD_COLLECTIVE_FOODITEMS,
-        payload: justFoodItems,
-      });
     });
 
     props.socket.off("home_screen_lists").on("home_screen_lists", (msg) => {

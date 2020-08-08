@@ -1,0 +1,15 @@
+.payments-card {
+    margin-top: 5%;
+    border-radius: 8px;
+}
+
+.payments-card-title {
+    padding: .5rem;
+    font-size: 1rem;
+    margin: 0rem;
+}
+.payments-card-body {
+    font-size: 0.7rem;
+    padding: .5rem;
+    padding-top: 0rem;
+}

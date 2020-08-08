@@ -1,10 +1,10 @@
 import React from "react";
 import "./App.scss";
 import { BrowserRouter, Route } from "react-router-dom";
-import axios from "axios";
+// import axios from "axios";
 import Home from "./Pages/Home";
 import Coupons from "./Pages/Coupons";
-import PaymentOptions from "./Pages/PaymentOptions";
+import PaymentOptions from "./Payments/PaymentOptions";
 import SubMenu from "./Pages/SubMenu";
 import Menu from "./Pages/Menu";
 import Status from "./Pages/Status";

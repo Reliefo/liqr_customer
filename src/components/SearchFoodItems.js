@@ -7,7 +7,6 @@ const SearchFoodItems = () => {
     // dispatch,
     state: {
       searchValue,
-      justMenuItems,
       orderingAbility,
       rawData: { food_menu = [], bar_menu = [] },
     },

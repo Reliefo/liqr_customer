@@ -169,9 +169,6 @@ function reducer(state, action) {
     case TYPES.SET_NAV:
       st.activeNav = payload;
       return st;
-    case TYPES.ADD_COLLECTIVE_FOODITEMS:
-      st.justMenuItems = payload;
-      return st;
     case TYPES.ADD_COLLECTIVE_BARITEMS:
       st.justBarItems = payload;
       return st;

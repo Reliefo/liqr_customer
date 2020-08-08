@@ -83,11 +83,11 @@
 .coupons-screen {
   background: var(--menu-background);
   position: relative;
-  padding: 1.5rem;
-  top: 3rem;
+  padding: .5rem;
+  top: 0rem;
   padding-bottom: 4rem;
+  padding-top: 2rem;
   min-height: 90vh;
-
 }
 .home-screen {
   background: var(--home-background);

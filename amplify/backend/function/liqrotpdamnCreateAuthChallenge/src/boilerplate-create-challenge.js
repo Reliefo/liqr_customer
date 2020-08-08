@@ -11,7 +11,7 @@ exports.handler = (event, context, callback) => {
   const sns = new AWS.SNS({ region: "ap-south-1" });
   sns.publish(
     {
-      Message: "Your OTP is :" + challengeAnswer + " for logging in to the LiQR associated restaurant.",
+      Message: "Your OTP is : " + challengeAnswer + " for logging in to the LiQR associated restaurant.",
       PhoneNumber: phoneNumber,
       MessageStructure: "string",
       MessageAttributes: {

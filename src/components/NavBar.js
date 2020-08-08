@@ -25,9 +25,6 @@ const Navbar = (props) => {
       tableName,
       restId,
       themeProperties,
-      menuClick,
-      currentMenu,
-      barFoodMenuCats,
     },
   } = React.useContext(StoreContext);
 
@@ -50,7 +47,7 @@ const Navbar = (props) => {
       });
     }
   }, [dispatch, restId, themeProperties]);
-  const [visible, setVisible] = React.useState(true);
+  const [visible, setVisible] = React.useState(false);
 
   const logoutUser = () => {
     localStorage.removeItem("table_id");
@@ -65,7 +62,6 @@ const Navbar = (props) => {
   };
 
   const isMenuOpen = function(state) {
-    console.log(state);
     setVisible(state.isOpen);
     return state.isOpen;
   };

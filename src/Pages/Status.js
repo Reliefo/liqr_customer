@@ -180,7 +180,6 @@ const Table = props => {
             <div>
               <LoaderButton
                 block
-                bsSize="large"
                 onClick={() => {
                   props.history.push("/home");
                 }}
@@ -198,7 +197,6 @@ const Table = props => {
                 onClick={() => {
                   props.history.push("/menu");
                 }}
-                bsSize="large"
                 type="button"
                 style={{
                   width: "45%"
@@ -222,7 +220,6 @@ const Table = props => {
             <div style={{ paddingBottom: "10%" }}>
               {/* <LoaderButton
                 block
-                bsSize="large"
                 onClick={() => {
                   if (
                     window.confirm(
@@ -252,7 +249,6 @@ const Table = props => {
                     fetchSocketBill(true);
                   }
                 }}
-                bsSize="large"
                 type="button"
                 style={{
                   width: "54%",
@@ -268,9 +264,9 @@ const Table = props => {
               orderTime = orderTime[1].split(".");
 
               return (
-                <div style={{ paddingBottom: "3%" }}>
+                <div style={{ paddingBottom: "3%" }} key={"table"+idx}>
                   <Card className="cart-card cart-styling margin-styling">
-                    <div>
+                    <div key={"wtf"+idx}>
                       <div
                         style={{
                           width: "100%",
@@ -306,7 +302,7 @@ const Table = props => {
                             flag = false;
                           }
                           return (
-                            <div>
+                            <div key={"wtf2_"+index}>
                               {flag === true ? (
                                 <Card.Title
                                   style={{

@@ -55,9 +55,9 @@ const BillingInformation = props => {
           <div className="order-status-styling">
             {billing.map((item, idx) => {
               return (
-                <div style={{ paddingBottom: "3%" }}>
+                <div style={{ paddingBottom: "3%" }} key={"billing_"+idx}>
                   <Card className="cart-card cart-styling margin-styling">
-                    <div>
+                    <div key={"billing_"+idx}>
                       <div
                         style={{
                           width: "100%",
@@ -115,7 +115,7 @@ const BillingInformation = props => {
                               flag = false;
                             }
                             return (
-                              <div>
+                              <div key={"billing2_"+index}>
                                 {flag === true ? (
                                   <Card.Title
                                     style={{
@@ -286,7 +286,6 @@ const BillingInformation = props => {
             })}
             <LoaderButton
               block
-              bsSize="large"
               onClick={() => {
                 handleDoc(billing[0].pdf);
               }}
@@ -301,9 +300,8 @@ const BillingInformation = props => {
             />
             <LoaderButton
               block
-              bsSize="large"
               onClick={() => {
-                props.history.push("/coupons");
+                props.history.push("/paymentOptions");
               }}
               type="button"
               text="Pay Now"
