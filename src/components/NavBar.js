@@ -11,17 +11,13 @@ import * as TYPES from "Store/actionTypes.js";
 import { StoreContext } from "Store";
 import "./NavBar.css";
 import "./BurgerMenu.css";
-import Search from "../Pages/Search.js";
 import { Container, Row, Col } from "react-bootstrap";
 import Burger from "react-css-burger";
-import { HamburgerButton } from "react-hamburger-button";
 import { ReactComponent as SearchSVG } from "assets/searchIcon3.svg";
-import AnchorLink from "react-anchor-link-smooth-scroll";
 import { withRouter } from "react-router-dom";
 
 const Navbar = (props) => {
   // const [prevScrollpos, setPrevScrollpos] = React.useState(window.pageYOffset);
-  const [visible, setVisible] = React.useState(false);
   const {
     dispatch,
     state: {
@@ -34,10 +30,6 @@ const Navbar = (props) => {
       barFoodMenuCats,
     },
   } = React.useContext(StoreContext);
-
-  // const searchValueChange = ({ target: { value } }) => {
-  //   dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: value } });
-  // };
 
   React.useEffect(() => {
     dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
@@ -58,20 +50,7 @@ const Navbar = (props) => {
       });
     }
   }, [dispatch, restId, themeProperties]);
-
-  // const searchIconClick = () => {
-  //   inputNode.current.focus();
-  //   dispatch({
-  //     type: TYPES.SET_GENERAL_DATA,
-  //     payload: { searchClicked: true },
-  //   });
-  // };
-  // const closeSearchHndlr = () => {
-  //   dispatch({
-  //     type: TYPES.SET_GENERAL_DATA,
-  //     payload: { searchClicked: false },
-  //   });
-  // };
+  const [visible, setVisible] = React.useState(true);
 
   const logoutUser = () => {
     localStorage.removeItem("table_id");
@@ -90,9 +69,7 @@ const Navbar = (props) => {
     setVisible(state.isOpen);
     return state.isOpen;
   };
-  const searchIconClick = () => {
-    props.history.push("/searchItems");
-  };
+
   const burgerMenu = {
     position: "absolute",
     margin: "0px",
@@ -132,7 +109,7 @@ const Navbar = (props) => {
                   {/* <p>Random</p> */}
                 </Col>
                 <Col xs={1} md={1} style={{ padding: "0.5rem 0px" }}>
-                  <SearchSVG onClick={searchIconClick} className="search-svg" />
+                  <SearchSVG onClick={() => {props.history.push("/searchItems");}} className="search-svg" />
                 </Col>
               </Row>
             </Container>
@@ -166,7 +143,8 @@ const Navbar = (props) => {
               style={{
                 ...burgerMenu,
                 position: "absolute",
-                left: "72%",
+                left: "initial",
+                right: "0rem",
               }}
             />
             {localStorage.getItem("registeredUser") === "false" ? (
