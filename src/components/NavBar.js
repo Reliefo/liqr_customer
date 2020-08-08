@@ -86,12 +86,9 @@ const Navbar = (props) => {
   };
 
   const isMenuOpen = function(state) {
+    console.log(state);
     setVisible(state.isOpen);
     return state.isOpen;
-  };
-  const closeMenu = () => {
-    dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
-    dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
   };
   const searchIconClick = () => {
     props.history.push("/searchItems");
@@ -131,32 +128,6 @@ const Navbar = (props) => {
                   md={10}
                   // style={{ padding: "0px" }}
                 >
-                  <div className="floating-menu-div">
-                    {menuClick && (
-                      <div className="floating-container-menu-items-top">
-                        <div className="floating-container menu-button">
-                          {barFoodMenuCats[currentMenu].map((item, idx) => {
-                            return (
-                              <div
-                                className="floating-menu-items"
-                                key={idx}
-                                onClick={() => closeMenu(idx)}
-                              >
-                                {/* <a href={`#menu-${idx}`}> <span>{item.name}</span></a> */}
-                                <AnchorLink
-                                  className="anchor-menu"
-                                  offset="90"
-                                  href={`#menu-${idx}`}
-                                >
-                                  {item}
-                                </AnchorLink>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    )}
-                  </div>
                   {/* <Search /> */}
                   {/* <p>Random</p> */}
                 </Col>
@@ -166,29 +137,6 @@ const Navbar = (props) => {
               </Row>
             </Container>
             <div style={{ zIndex: 422 }}>
-              <div>
-                {/* <span className="restaurant-header">
-          {name}
-          </span>
-          <span className="username">
-          ${localStorage.getItem('name')}
-          </span>
-          <SearchSVG onClick={searchIconClick} className="search-svg" />
-          <div
-            className="nav-search-bar"
-            style={{ opacity: searchClicked ? 1 : 0 }}
-          >
-            <input
-              ref={inputNode}
-              value={searchValue}
-              onChange={searchValueChange}
-              type="text"
-            />
-            <span className="ml-3" onClick={closeSearchHndlr}>
-              X
-            </span>
-          </div> */}
-              </div>
               <div style={{ float: "right", marginRight: "2%" }}>
                 {props.socket.connected === true ? (
                   <span className="socket-indicator socket-indicator-green"></span>
