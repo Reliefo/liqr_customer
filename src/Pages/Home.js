@@ -131,6 +131,7 @@ const Home = (props) => {
   });
 
   React.useEffect(() => {
+    window.scrollTo(0, 0);
     let isMounted = true;
     dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
     dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
@@ -261,7 +262,6 @@ const Home = (props) => {
 
       /////THEMEING //////
       // if CAFE_MEDLEY:
-      console.log(resp);
       if (resp.theme_properties["theme"] === true) {
         let cssVariables = [
           "--theme-font",

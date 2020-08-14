@@ -4,7 +4,7 @@ import { Button } from "react-bootstrap";
 
 import CardSection from './StripeAcceptCard';
 
-export default function CheckoutForm() {
+export default function CheckoutForm(props) {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -13,20 +13,23 @@ export default function CheckoutForm() {
     // which would refresh the page.
     event.preventDefault();
 
+    console.log(props['clientSecret']);
     if (!stripe || !elements) {
+      console.log("Not ready yet");
       // Stripe.js has not yet loaded.
       // Make sure to disable form submission until Stripe.js has loaded.
       return;
     }
 
-    const result = await stripe.confirmCardPayment('{CLIENT_SECRET}', {
+    const result = await stripe.confirmCardPayment(props['clientSecret'], {
       payment_method: {
         card: elements.getElement(CardElement),
         billing_details: {
-          name: 'Jenny Rosen',
+          name: 'Johnny Rose',
         },
       }
     });
+    console.log(result);
 
     if (result.error) {
       // Show error to your customer (e.g., insufficient funds)
@@ -46,7 +49,7 @@ export default function CheckoutForm() {
   return (
     <form onSubmit={handleSubmit}>
       <CardSection />
-      <Button style={{marginTop:".5rem", width:"100%"}} disabled={!stripe}>Confirm and Pay</Button>
+      <Button type="submit" style={{marginTop:".5rem", width:"100%"}} disabled={!stripe}>Confirm and Pay</Button>
     </form>
   );
 }

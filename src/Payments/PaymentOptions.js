@@ -11,6 +11,7 @@ import VisaMaster from "assets/visa2x.png";
 import "react-toastify/dist/ReactToastify.css";
 import CheckoutForm from "./StripeCheckoutForm";
 import "./PaymentOptions.css";
+import axios from "axios";
 
 import * as TYPES from "Store/actionTypes.js";
 
@@ -19,6 +20,7 @@ const PaymentOptions = (props) => {
   const rest_font = "Inconsolata";
 
   const SVGLogoClass = "SVG-Logo-Class";
+  const  [ clientSecret, setClientSecret ] = React.useState("");
 
   const {
     dispatch,
@@ -28,6 +30,25 @@ const PaymentOptions = (props) => {
     },
   } = React.useContext(StoreContext);
   React.useEffect(() => {
+
+    let bodyFormData = new FormData();
+    bodyFormData.set("table_id", localStorage.getItem("table_id"));
+    bodyFormData.set("unique_id", localStorage.getItem("unique_id"));
+
+    axios({
+      method: "post",
+      // headers: {
+      //   Authorization: `Bearer ${localStorage.getItem("refreshToken")}`,
+      // },
+      url: "http://localhost:5050/secret",
+      data: bodyFormData,
+    }).then((response) => {
+      const { data } = response;
+      setClientSecret(data['client_secret']);
+      console.log(data);
+      // localStorage.setItem("restaurant_id", data.restaurant_id);
+    });
+
     dispatch({ type: TYPES.SET_GENERAL_DATA, payload: { searchValue: "" } });
     dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
     dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
@@ -138,7 +159,7 @@ const PaymentOptions = (props) => {
             <Card.Text style={{ marginBottom: "0.2rem" }}>
               Powered by Stripe
             </Card.Text>
-            <CheckoutForm />
+            <CheckoutForm clientSecret={clientSecret}/>
           </Card.Body>
         </Card>
         {false && (

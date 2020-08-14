@@ -4,22 +4,25 @@ import "slick-carousel/slick/slick-theme.css";
 import AppWrapper from "./App";
 import * as serviceWorker from "./serviceWorker";
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {Elements} from '@stripe/react-stripe-js';
-import {loadStripe} from '@stripe/stripe-js';
+import React from "react";
+import ReactDOM from "react-dom";
+import { BrowserRouter, Route } from "react-router-dom";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
-const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
+const stripePromise = loadStripe(
+  "pk_test_51H4JNtEjtenrp5aUxpEp2MSpjBkEV2kShuErrlJ8ditbLDiio1158ezK2DL1oIXS69LQLjhgfA3Saehn1KPqqEsP003ZLdFsZ7"
+);
 
 function App() {
   return (
     <Elements stripe={stripePromise}>
-      <AppWrapper />
+        <AppWrapper />
     </Elements>
   );
-};
+}
 
 ReactDOM.render(<App />, document.getElementById("root"));
 // If you want your app to work offline and load faster, you can change

@@ -40,6 +40,8 @@ const Menu = (props) => {
     // setVisible(visible);
   };
   React.useEffect(() => {
+    window.scrollTo(0, 0);
+
     // if (props.socket.connected === false) {
     //   axios({
     //     method: "post",

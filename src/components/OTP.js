@@ -133,6 +133,7 @@ const OTPComponent = ({ props, fromLogin, skipSignIn }) => {
     }
   };
   const connectLiQR = () => {
+    console.log("WHy again");
     let query_parameters = window.location.href;
     query_parameters = query_parameters.split("=");
     let table_id =
@@ -180,6 +181,7 @@ const OTPComponent = ({ props, fromLogin, skipSignIn }) => {
           props.history.push("/home", {
             login: true,
           });
+          console.log("Aftewr everything");
         }
       })
       .catch(function(response) {
@@ -287,9 +289,9 @@ const OTPComponent = ({ props, fromLogin, skipSignIn }) => {
               ) : (
                 ""
               )}
-              <Button className="refresh-sign-in" onClick={verifyAuth}>
+              {/* <Button className="refresh-sign-in" onClick={verifyAuth}>
                 Refresh Login
-              </Button>
+              </Button> */}
               <Button className="continue-with-otp" onClick={connectLiQR}>
                 {"Continue as " + localStorage.getItem("name")}
               </Button>

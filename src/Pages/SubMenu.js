@@ -18,6 +18,7 @@ const SubMenu = (props) => {
   } = React.useContext(StoreContext);
 
   React.useEffect(() => {
+    window.scrollTo(0, 0);
     dispatch({ type: TYPES.SET_NAV, payload: "Home" });
     /////THEMEING //////
     if (themeProperties["theme"] === true) {
