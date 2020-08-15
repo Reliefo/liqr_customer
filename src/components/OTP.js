@@ -133,7 +133,6 @@ const OTPComponent = ({ props, fromLogin, skipSignIn }) => {
     }
   };
   const connectLiQR = () => {
-    console.log("WHy again");
     let query_parameters = window.location.href;
     query_parameters = query_parameters.split("=");
     let table_id =
@@ -158,8 +157,8 @@ const OTPComponent = ({ props, fromLogin, skipSignIn }) => {
     bodyFormData.set("from_login", fromLogin);
     axios({
       method: "post",
-      url: "https://liqr.cc/phone_login",
-      // url: "http://localhost:5050/phone_login",
+      // url: "https://liqr.cc/phone_login",
+      url: "http://localhost:5050/phone_login",
       data: bodyFormData,
       headers: {
         "X-LiQR-Authorization": accessToken,
@@ -181,7 +180,6 @@ const OTPComponent = ({ props, fromLogin, skipSignIn }) => {
           props.history.push("/home", {
             login: true,
           });
-          console.log("Aftewr everything");
         }
       })
       .catch(function(response) {
