@@ -9,6 +9,7 @@
 .OTP-Component {
   top: 1rem;
   position: relative;
+  padding: 0 1rem;
 }
 .sign-in {
   text-align: center;
@@ -58,6 +59,7 @@
 }
 .get-otp-button {
     background-color: rgb(26, 160, 223);
+    font-size: smaller;
 }
 .get-otp-button-sign-up {
     background-color: rgb(26, 160, 223);
@@ -66,4 +68,15 @@
 }
 .confirm-otp {
     background-color: seagreen;
+}
+#input-group-dropdown-1 {
+    padding-right: 0.2rem;
+    font-size: smaller;
+}
+.dropdown-item {
+    font-size: smaller;
+    padding: 0.25rem 0.5rem;
+}
+.dropdown-menu {
+    min-width: 0;
 }

@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { FormControl, Button, InputGroup, ButtonGroup } from "react-bootstrap";
+import {
+  FormControl,
+  Button,
+  InputGroup,
+  ButtonGroup,
+  Form,
+  Dropdown,
+  DropdownButton,
+} from "react-bootstrap";
 import axios from "axios";
 import ReactDOM from "react-dom";
 import AppWrapper from "../App";
@@ -35,6 +43,7 @@ const OTPComponent = ({ props, fromLogin, skipSignIn }) => {
   const [givenName, setGivenName] = useState("");
   const [session, setSession] = useState(null);
   const [otp, setOtp] = useState("");
+  const [selectedCountryCode, setSelectedCountryCode] = useState("+1");
   const [verifyOTP, setVerifyOTP] = useState(false);
   const [number, setNumber] = useState("");
   const password = Math.random().toString(10) + "Abc#";
@@ -52,10 +61,10 @@ const OTPComponent = ({ props, fromLogin, skipSignIn }) => {
 
   const signUp = async () => {
     const result = await Auth.signUp({
-      username: number,
+      username: selectedCountryCode+number,
       password,
       attributes: {
-        phone_number: number,
+        phone_number: selectedCountryCode+number,
         name: name,
       },
     }).then(() => signIn()); // After signUp, we are going to signIn()
@@ -63,7 +72,7 @@ const OTPComponent = ({ props, fromLogin, skipSignIn }) => {
   };
   const signIn = () => {
     setMessage(FETCHINGDATA);
-    Auth.signIn(number)
+    Auth.signIn(selectedCountryCode+number)
       .then((result) => {
         setSession(result); // Note that this is a new variable
         setMessage(WAITINGFOROTP);
@@ -157,8 +166,8 @@ const OTPComponent = ({ props, fromLogin, skipSignIn }) => {
     bodyFormData.set("from_login", fromLogin);
     axios({
       method: "post",
-      // url: "https://liqr.cc/phone_login",
-      url: "http://localhost:5050/phone_login",
+      url: "https://liqr.cc/phone_login",
+      // url: "http://localhost:5050/phone_login",
       data: bodyFormData,
       headers: {
         "X-LiQR-Authorization": accessToken,
@@ -176,7 +185,7 @@ const OTPComponent = ({ props, fromLogin, skipSignIn }) => {
         localStorage.setItem("user_id", data.user_id);
         localStorage.setItem("name", data.name);
         ReactDOM.render(<AppWrapper />, document.getElementById("root"));
-        if (fromLogin){
+        if (fromLogin) {
           props.history.push("/home", {
             login: true,
           });
@@ -190,13 +199,15 @@ const OTPComponent = ({ props, fromLogin, skipSignIn }) => {
 
   return (
     <div>
-      { logged && <Button
-        className="sign-out-button"
-        variant="outline-danger"
-        onClick={signOut}
-      > 
-        Sign Out
-      </Button>}
+      {logged && (
+        <Button
+          className="sign-out-button"
+          variant="outline-danger"
+          onClick={signOut}
+        >
+          Sign Out
+        </Button>
+      )}
       <div className="OTP-Component">
         <div className="sign-in">LiQR Login Page</div>
         <p className="status-message-login">
@@ -209,20 +220,23 @@ const OTPComponent = ({ props, fromLogin, skipSignIn }) => {
         </p>
         {!logged && (
           <div>
-            <p className="country-code-desc">(With your country code +XX)</p>
+            {/* <p className="country-code-desc">(With your country code +XX)</p> */}
             {!newUser ? (
               <InputGroup className="mb-3">
-                {newUser ? (
-                  <FormControl
-                    className="name-placeholder"
-                    placeholder="Your Name"
-                    onChange={(event) => setName(event.target.value)}
-                  />
-                ) : (
-                  ""
-                )}
+                <DropdownButton
+                  as={InputGroup.Prepend}
+                  variant="outline-secondary"
+                  title={selectedCountryCode}
+                  id="input-group-dropdown-1"
+                  onSelect={(event)=> {setSelectedCountryCode(event)}}
+                  // style={{paddingRight:"0.2rem"}}
+                >
+                  <Dropdown.Item href="#" className="dropdown-items" eventKey="+1">+1</Dropdown.Item>
+                  <Dropdown.Item href="#" className="dropdown-items" eventKey="+49">+49</Dropdown.Item>
+                  <Dropdown.Item href="#" className="dropdown-items" eventKey="+91">+91</Dropdown.Item>
+                </DropdownButton>
                 <FormControl
-                  placeholder="(+XX) Phone Number"
+                  placeholder="Phone Number"
                   value={number}
                   onChange={(event) => setNumber(event.target.value)}
                 />
@@ -242,8 +256,20 @@ const OTPComponent = ({ props, fromLogin, skipSignIn }) => {
                   />
                 </InputGroup>
                 <InputGroup className="mb-3">
+                <DropdownButton
+                  as={InputGroup.Prepend}
+                  variant="outline-secondary"
+                  title={selectedCountryCode}
+                  id="input-group-dropdown-1"
+                  onSelect={(event)=> {setSelectedCountryCode(event)}}
+                  // style={{paddingRight:"0.2rem"}}
+                >
+                  <Dropdown.Item href="#" className="dropdown-items" eventKey="+1">+1</Dropdown.Item>
+                  <Dropdown.Item href="#" className="dropdown-items" eventKey="+49">+49</Dropdown.Item>
+                  <Dropdown.Item href="#" className="dropdown-items" eventKey="+91">+91</Dropdown.Item>
+                </DropdownButton>
                   <FormControl
-                    placeholder="(+XX) Phone Number"
+                    placeholder="Phone Number"
                     value={number}
                     onChange={(event) => setNumber(event.target.value)}
                   />
@@ -308,11 +334,12 @@ const OTPComponent = ({ props, fromLogin, skipSignIn }) => {
               className="sign-in-button"
             >
               {" "}
-              {
-                "Skip Sign In for Now"
-              }
+              {"Skip Sign In for Now"}
             </Button>
-            <p className="country-code-desc">(You need to authenticate with your number before placing an order)</p>
+            <p className="country-code-desc">
+              (You need to authenticate with your number before placing an
+              order)
+            </p>
           </div>
         )}
       </div>

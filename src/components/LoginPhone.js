@@ -145,7 +145,7 @@ export default class Login extends Component {
   render() {
     //$base-font
     return (
-      <div className="Login">
+      <div >
         <OTPComponent props={this.props} fromLogin={true} skipSignIn={this.skipSignIn} />
       </div>
     );
