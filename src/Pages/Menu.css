@@ -19,6 +19,7 @@
   top: 0rem;
   padding-bottom: 1rem;
   min-height: 90vh;
+  opacity: 0.99;
 }
 
 .food-bar-menu {
@@ -26,7 +27,7 @@
   position: relative;
   top: 0;
   transition: top 0.1s;
-  z-index: 7;
+  /* z-index: 7; */
   padding-right: 0rem;
   padding-left: 0rem;
 }
@@ -133,6 +134,7 @@
   width: 100%;
   border-radius: 0rem;
   border: none;
+  /* z-index: 100; */
 }
 .dropdown-sticky-category:hover{
   background-color: var(--top-bar-color) !important;
@@ -175,6 +177,9 @@
 .dropdown-menu-list {
   padding: 0rem 1%;
   width: 100%;
+  overflow-y: scroll;
+  max-height: 60vh;
+  z-index: 101;
 }
 .dropdown-item-menu {
   padding-left: 5%;
@@ -193,7 +198,7 @@
 
 .category {
   margin-bottom: 5rem;
-  position: relative;
+  /* position: relative; */
   padding: 0rem;
 }
 .category-card {
@@ -238,4 +243,10 @@ p.category-card.Menu-body {
 span.category-card.Menu-body {
   font-size: 2rem;
   line-height: 2rem;
+}
+
+.dropdown-sticky-category-list {
+  position: sticky;
+  top: 0rem;
+  z-index: 1;
 }

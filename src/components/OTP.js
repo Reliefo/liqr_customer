@@ -198,7 +198,7 @@ const OTPComponent = ({ props, fromLogin, skipSignIn }) => {
   };
 
   return (
-    <div>
+    <div className="OTP-Component">
       {logged && (
         <Button
           className="sign-out-button"
@@ -208,7 +208,7 @@ const OTPComponent = ({ props, fromLogin, skipSignIn }) => {
           Sign Out
         </Button>
       )}
-      <div className="OTP-Component">
+      <div style={{position:"relative", top:"3rem"}}>
         <div className="sign-in">LiQR Login Page</div>
         <p className="status-message-login">
           {message}

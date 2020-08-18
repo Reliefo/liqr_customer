@@ -201,11 +201,8 @@ const Menu = (props) => {
                         {item.name}
                       </p>
                       <Dropdown
-                        style={{
-                          position: "sticky",
-                          top: "0rem",
-                          zIndex: "100",
-                        }}
+                        className="dropdown-sticky-category-list"
+                        // style={{zIndex:idx+1}}
                       >
                         <Dropdown.Toggle className="dropdown-sticky-category">
                           {item.name}
@@ -307,6 +304,7 @@ const SubCategory = ({ subs, categories, subOrderingAbility, menuType }) => (
       }}
     ></p>
     {subs.food_list.map((foodItem, idx3) => (
+      // <div key={idx3} style={{zIndex:"-1", position:"relative"}}>
       <div key={idx3}>
         {foodItem.visibility ? (
           <FoodItem
