@@ -1,0 +1,157 @@
+{
+	"providers": {
+		"awscloudformation": {
+			"AuthRoleName": "amplify-liqrotp-dev-193522-authRole",
+			"UnauthRoleArn": "arn:aws:iam::020452232211:role/amplify-liqrotp-dev-193522-unauthRole",
+			"AuthRoleArn": "arn:aws:iam::020452232211:role/amplify-liqrotp-dev-193522-authRole",
+			"Region": "ap-south-1",
+			"DeploymentBucketName": "amplify-liqrotp-dev-193522-deployment",
+			"UnauthRoleName": "amplify-liqrotp-dev-193522-unauthRole",
+			"StackName": "amplify-liqrotp-dev-193522",
+			"StackId": "arn:aws:cloudformation:ap-south-1:020452232211:stack/amplify-liqrotp-dev-193522/91f2def0-cced-11ea-acf2-0a57edc12e34",
+			"AmplifyAppId": "d28nvscskjf16n"
+		},
+		"categories": {
+			"function": {
+				"liqrotpdamnCreateAuthChallenge": {
+					"CHALLENGEANSWER": "asdf"
+				},
+				"liqrotpdamnDefineAuthChallenge": {},
+				"liqrotpdamnVerifyAuthChallengeResponse": {},
+				"liqrotpdamnPreSignup": {}
+			},
+			"auth": {
+				"liqrotpdamn": {}
+			}
+		}
+	},
+	"function": {
+		"liqrotpdamnCreateAuthChallenge": {
+			"build": true,
+			"providerPlugin": "awscloudformation",
+			"service": "Lambda",
+			"output": {
+				"Region": "ap-south-1",
+				"Arn": "arn:aws:lambda:ap-south-1:020452232211:function:liqrotpdamnCreateAuthChallenge-dev",
+				"Name": "liqrotpdamnCreateAuthChallenge-dev",
+				"LambdaExecutionRole": "liqrotpdamnCreateAuthChallenge-dev"
+			},
+			"lastPushTimeStamp": "2020-08-08T16:08:50.201Z",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-liqrotp-dev-193522-deployment/amplify-cfn-templates/function/liqrotpdamnCreateAuthChallenge-cloudformation-template.json",
+				"logicalId": "functionliqrotpdamnCreateAuthChallenge"
+			},
+			"lastBuildTimeStamp": "2020-08-08T16:07:47.520Z",
+			"lastPackageTimeStamp": "2020-08-08T16:07:47.588Z",
+			"distZipFilename": "liqrotpdamnCreateAuthChallenge-61467248624461374769-build.zip",
+			"lastPushDirHash": "YWQuTDrPpC85p0xKNr4Erx0Meec="
+		},
+		"liqrotpdamnDefineAuthChallenge": {
+			"build": true,
+			"providerPlugin": "awscloudformation",
+			"service": "Lambda",
+			"output": {
+				"Region": "ap-south-1",
+				"Arn": "arn:aws:lambda:ap-south-1:020452232211:function:liqrotpdamnDefineAuthChallenge-dev",
+				"Name": "liqrotpdamnDefineAuthChallenge-dev",
+				"LambdaExecutionRole": "liqrotpdamnDefineAuthChallenge-dev"
+			},
+			"lastPushTimeStamp": "2020-08-08T16:08:50.195Z",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-liqrotp-dev-193522-deployment/amplify-cfn-templates/function/liqrotpdamnDefineAuthChallenge-cloudformation-template.json",
+				"logicalId": "functionliqrotpdamnDefineAuthChallenge"
+			}
+		},
+		"liqrotpdamnVerifyAuthChallengeResponse": {
+			"build": true,
+			"providerPlugin": "awscloudformation",
+			"service": "Lambda",
+			"output": {
+				"Region": "ap-south-1",
+				"Arn": "arn:aws:lambda:ap-south-1:020452232211:function:liqrotpdamnVerifyAuthChallengeResponse-dev",
+				"Name": "liqrotpdamnVerifyAuthChallengeResponse-dev",
+				"LambdaExecutionRole": "liqrotpdamnVerifyAuthChallengeResponse-dev"
+			},
+			"lastPushTimeStamp": "2020-08-08T16:08:50.196Z",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-liqrotp-dev-193522-deployment/amplify-cfn-templates/function/liqrotpdamnVerifyAuthChallengeResponse-cloudformation-template.json",
+				"logicalId": "functionliqrotpdamnVerifyAuthChallengeResponse"
+			}
+		},
+		"liqrotpdamnPreSignup": {
+			"build": true,
+			"providerPlugin": "awscloudformation",
+			"service": "Lambda",
+			"output": {
+				"Region": "ap-south-1",
+				"Arn": "arn:aws:lambda:ap-south-1:020452232211:function:liqrotpdamnPreSignup-dev",
+				"Name": "liqrotpdamnPreSignup-dev",
+				"LambdaExecutionRole": "liqrotpdamnPreSignup-dev"
+			},
+			"lastPushTimeStamp": "2020-08-08T16:08:50.197Z",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-liqrotp-dev-193522-deployment/amplify-cfn-templates/function/liqrotpdamnPreSignup-cloudformation-template.json",
+				"logicalId": "functionliqrotpdamnPreSignup"
+			}
+		}
+	},
+	"auth": {
+		"liqrotpdamn": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [
+				{
+					"category": "function",
+					"resourceName": "liqrotpdamnCreateAuthChallenge",
+					"triggerProvider": "Cognito",
+					"attributes": [
+						"Arn",
+						"Name"
+					]
+				},
+				{
+					"category": "function",
+					"resourceName": "liqrotpdamnDefineAuthChallenge",
+					"triggerProvider": "Cognito",
+					"attributes": [
+						"Arn",
+						"Name"
+					]
+				},
+				{
+					"category": "function",
+					"resourceName": "liqrotpdamnVerifyAuthChallengeResponse",
+					"triggerProvider": "Cognito",
+					"attributes": [
+						"Arn",
+						"Name"
+					]
+				},
+				{
+					"category": "function",
+					"resourceName": "liqrotpdamnPreSignup",
+					"triggerProvider": "Cognito",
+					"attributes": [
+						"Arn",
+						"Name"
+					]
+				}
+			],
+			"customAuth": true,
+			"output": {
+				"AppClientSecret": "1pclg15fcsbr34ajfult6n95t2c5kvhj73p30l24cl6s2pkr2r3v",
+				"UserPoolId": "ap-south-1_v9uz3gNH6",
+				"AppClientIDWeb": "2oauo7q0odvn3c99dsevmstk54",
+				"AppClientID": "7f08bvmodtgvuq0j30jpo5cl7l",
+				"IdentityPoolId": "ap-south-1:666dc762-83d2-44e7-bd5f-f7fd945064b8",
+				"IdentityPoolName": "liqrotpip__dev",
+				"UserPoolName": "liqrotpup"
+			},
+			"lastPushTimeStamp": "2020-08-08T16:08:50.198Z",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-liqrotp-dev-193522-deployment/amplify-cfn-templates/auth/liqrotpdamn-cloudformation-template.yml",
+				"logicalId": "authliqrotpdamn"
+			}
+		}
+	}
+}

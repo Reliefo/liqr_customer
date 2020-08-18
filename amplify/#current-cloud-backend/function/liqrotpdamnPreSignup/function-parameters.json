@@ -1,0 +1,16 @@
+{
+  "trigger": true,
+  "modules": [
+    "custom"
+  ],
+  "parentResource": "liqrotpdamn",
+  "functionName": "liqrotpdamnPreSignup",
+  "resourceName": "liqrotpdamnPreSignup",
+  "parentStack": "auth",
+  "triggerEnvs": "[]",
+  "triggerDir": "/home/alexis/.nvm/versions/node/v12.18.2/lib/node_modules/@aws-amplify/cli/node_modules/amplify-category-auth/provider-utils/awscloudformation/utils/../triggers/PreSignup",
+  "triggerTemplate": "PreSignup.json.ejs",
+  "roleName": "liqrotpdamnPreSignup",
+  "skipEdit": true,
+  "triggerEventPath": "PreSignup.event.json"
+}

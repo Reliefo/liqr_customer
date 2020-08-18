@@ -10,6 +10,7 @@ import SearchFoodItems from "components/SearchFoodItems.js";
 import classnames from "classnames";
 import "../components/NavBar.css";
 import "./Menu.css";
+import "./StickyDropdown.css";
 import AnchorLink from "react-anchor-link-smooth-scroll";
 
 const Menu = (props) => {
@@ -32,6 +33,8 @@ const Menu = (props) => {
     activeMenu: "food",
     showData: true,
   });
+  const [foodSticky, setFoodSticky] =React.useState([]);
+  const [barSticky, setBarSticky] =React.useState([]);
 
   const handleScroll = () => {
     const currentScrollPos = window.pageYOffset;
@@ -80,6 +83,16 @@ const Menu = (props) => {
         );
       });
     }
+    let foodStickyList = [];
+    food_menu.forEach((subCat, subsIndex) => {
+      foodStickyList.push(true);
+    });
+    setFoodSticky(foodStickyList);
+    let barStickyList = [];
+    bar_menu.forEach((subCat, subsIndex) => {
+      barStickyList.push(true);
+    });
+    setBarSticky(barStickyList);
     /////THEMEING //////
 
     window.addEventListener("scroll", handleScroll);
@@ -123,6 +136,24 @@ const Menu = (props) => {
     dispatch({ type: TYPES.UPDATE_FAB_CLICK, payload: false });
     dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
   };
+  const onTaggle = (idx, menuType, event) => {
+    let stickyList = menuType==="food" ? foodSticky :barSticky;
+    let newStickyList = [];
+    stickyList.forEach((item, stickyIdx)=>{
+      if (idx !== stickyIdx) {
+        newStickyList.push(event? false : true);
+      }
+      else {
+        newStickyList.push(true);
+      }
+    });
+    if (menuType==='food') {
+      setFoodSticky(newStickyList);
+    }
+    else {
+      setBarSticky(newStickyList);
+    }
+  }
 
   return (
     <>
@@ -196,13 +227,14 @@ const Menu = (props) => {
                     <React.Fragment key={`Category-${idx}`}>
                       <p
                         className="category-subs"
-                        style={{ zIndex: idx + 1, display: "none" }}
+                        style={{ display: "none" }}
                       >
                         {item.name}
                       </p>
-                      <Dropdown
+                      { foodSticky[idx] ? <Dropdown
                         className="dropdown-sticky-category-list"
                         // style={{zIndex:idx+1}}
+                        onToggle={(e) => onTaggle(idx,'food',e)}
                       >
                         <Dropdown.Toggle className="dropdown-sticky-category">
                           {item.name}
@@ -227,7 +259,8 @@ const Menu = (props) => {
                             );
                           })}
                         </Dropdown.Menu>
-                      </Dropdown>
+                      </Dropdown> : 
+                      <button type="button" class="dropdown-sticky-category dropdown-toggle btn btn-primary" style={{zIndex:'-1'}}> {item.name}</button>}
                       <SubCategory
                         subs={item}
                         categories={idx}
@@ -241,7 +274,7 @@ const Menu = (props) => {
                     <React.Fragment key={`Category-${idx}`}>
                       <p
                         className="category-subs"
-                        style={{ zIndex: idx + 1, display: "none" }}
+                        style={{ display: "none" }}
                       >
                         {item.name}
                       </p>
