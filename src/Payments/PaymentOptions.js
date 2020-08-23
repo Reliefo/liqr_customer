@@ -40,7 +40,8 @@ const PaymentOptions = (props) => {
       // headers: {
       //   Authorization: `Bearer ${localStorage.getItem("refreshToken")}`,
       // },
-      url: "http://localhost:5050/secret",
+      // url: "http://localhost:5050/secret",
+      url: "https://liqr.cc/secret",
       data: bodyFormData,
     }).then((response) => {
       const { data } = response;

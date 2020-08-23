@@ -110,15 +110,19 @@ const Cart = (props) => {
     const data = JSON.parse(msg);
     console.log(data);
     if (data.personal_order === undefined) {
+      console.log("FUck inside it");
       dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
       dispatch({
         type: TYPES.UPDATE_TABLE_CART,
         payload: [],
       });
       props.history.push("/table");
-    } else {
-      dispatch({ type: TYPES.RESET_CART });
-      props.history.push("/table");
+    }
+    if (data.personal_order === true) {
+      if (data.orders[0].placed_by["id"] === localStorage.getItem("user_id")) {
+        dispatch({ type: TYPES.RESET_CART });
+        props.history.push("/table");
+      }
     }
   });
 
@@ -380,17 +384,99 @@ const Cart = (props) => {
                           <th></th>
                         </tr>
                       </thead>
-                      {order_list.food_list.map((food, ix) => {
+                      {order_list.food_list.map((cartItem, ix) => {
+                        console.log(cartItem);
                         return (
-                          <tbody key={"cart"+ix}>
+                          <tbody key={"cart" + ix}>
                             <tr>
-                              <td>{food.name}</td>
-                              <td>{food.quantity}</td>
-                              <td>{food.price}</td>
+                              <td style={{ padding: "0.2rem" }}>
+                                <strong>{cartItem.name}</strong>
+                                <br />
+                                {cartItem.customization &&
+                                  cartItem.customization.map((cust) => {
+                                    if (cust.customization_type === "add_ons") {
+                                      return (
+                                        <span className="table-cart-detail-options">
+                                          {cust.list_of_options.map(
+                                            (option, optionIndex) => {
+                                              return (
+                                                <span>
+                                                  {
+                                                    cust.list_of_options[
+                                                      optionIndex
+                                                    ].name
+                                                  }{" "}
+                                                  {currency}
+                                                  {
+                                                    cust.list_of_options[
+                                                      optionIndex
+                                                    ].price
+                                                  }
+                                                  {", "}
+                                                </span>
+                                              );
+                                            }
+                                          )}
+                                        </span>
+                                      );
+                                    } else {
+                                      return (
+                                        <span className="table-cart-detail-options">
+                                          {/* {cust.name + ":  "} */}
+                                          {cust.list_of_options.map(
+                                            (option, optionIndex) => {
+                                              if (
+                                                cust.customization_type ===
+                                                "options"
+                                              ) {
+                                                return (
+                                                  <span>
+                                                    {
+                                                      cust.list_of_options[
+                                                        optionIndex
+                                                      ].option_name
+                                                    }
+                                                    {": "}
+                                                    {currency}
+                                                    {
+                                                      cust.list_of_options[
+                                                        optionIndex
+                                                      ].option_price
+                                                    }
+                                                    {", "}
+                                                  </span>
+                                                );
+                                              } else if (
+                                                cust.customization_type ===
+                                                "choices"
+                                              ) {
+                                                return (
+                                                  <span>
+                                                    {
+                                                      cust.list_of_options[
+                                                        optionIndex
+                                                      ]
+                                                    }
+                                                    {", \n"}
+                                                  </span>
+                                                );
+                                              } else {
+                                                return "";
+                                              }
+                                            }
+                                          )}
+                                          <br />
+                                        </span>
+                                      );
+                                    }
+                                  })}
+                              </td>
+                              <td>{cartItem.quantity}</td>
+                              <td>{cartItem.price}</td>
                               <td
                                 onClick={deleteItemHndlrTableCart.bind(
                                   this,
-                                  food,
+                                  cartItem,
                                   order_list
                                 )}
                               >

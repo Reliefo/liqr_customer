@@ -33,8 +33,8 @@ const Menu = (props) => {
     activeMenu: "food",
     showData: true,
   });
-  const [foodSticky, setFoodSticky] =React.useState([]);
-  const [barSticky, setBarSticky] =React.useState([]);
+  const [foodSticky, setFoodSticky] = React.useState([]);
+  const [barSticky, setBarSticky] = React.useState([]);
 
   const handleScroll = () => {
     const currentScrollPos = window.pageYOffset;
@@ -137,23 +137,21 @@ const Menu = (props) => {
     dispatch({ type: TYPES.UPDATE_MENU_CLICK, payload: false });
   };
   const onTaggle = (idx, menuType, event) => {
-    let stickyList = menuType==="food" ? foodSticky :barSticky;
+    let stickyList = menuType === "food" ? foodSticky : barSticky;
     let newStickyList = [];
-    stickyList.forEach((item, stickyIdx)=>{
+    stickyList.forEach((item, stickyIdx) => {
       if (idx !== stickyIdx) {
-        newStickyList.push(event? false : true);
-      }
-      else {
+        newStickyList.push(event ? false : true);
+      } else {
         newStickyList.push(true);
       }
     });
-    if (menuType==='food') {
+    if (menuType === "food") {
       setFoodSticky(newStickyList);
-    }
-    else {
+    } else {
       setBarSticky(newStickyList);
     }
-  }
+  };
 
   return (
     <>
@@ -225,42 +223,49 @@ const Menu = (props) => {
               {currentMenu === "food"
                 ? food_menu.map((item, idx) => (
                     <React.Fragment key={`Category-${idx}`}>
-                      <p
-                        className="category-subs"
-                        style={{ display: "none" }}
-                      >
+                      <p className="category-subs" style={{ display: "none" }}>
                         {item.name}
                       </p>
-                      { foodSticky[idx] ? <Dropdown
-                        className="dropdown-sticky-category-list"
-                        // style={{zIndex:idx+1}}
-                        onToggle={(e) => onTaggle(idx,'food',e)}
-                      >
-                        <Dropdown.Toggle className="dropdown-sticky-category">
-                          {item.name}
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu className="dropdown-menu-list">
-                          {barFoodMenuCats[currentMenu].map((item, idx) => {
-                            return (
-                              <Dropdown.Item
-                                className="dropdown-item-menu"
-                                onClick={() => closeMenu(idx)}
-                                href={`#menu-${idx}`}
-                                key={`dropdown-menu-${idx}`}
-                              >
-                                <AnchorLink
-                                  className="anchor-menu"
-                                  offset="40"
+                      {foodSticky[idx] ? (
+                        <Dropdown
+                          className="dropdown-sticky-category-list"
+                          // style={{zIndex:idx+1}}
+                          onToggle={(e) => onTaggle(idx, "food", e)}
+                        >
+                          <Dropdown.Toggle className="dropdown-sticky-category">
+                            {item.name}
+                          </Dropdown.Toggle>
+                          <Dropdown.Menu className="dropdown-menu-list">
+                            {barFoodMenuCats[currentMenu].map((item, idx) => {
+                              return (
+                                <Dropdown.Item
+                                  className="dropdown-item-menu"
+                                  onClick={() => closeMenu(idx)}
                                   href={`#menu-${idx}`}
+                                  key={`dropdown-menu-${idx}`}
                                 >
-                                  {item}
-                                </AnchorLink>
-                              </Dropdown.Item>
-                            );
-                          })}
-                        </Dropdown.Menu>
-                      </Dropdown> : 
-                      <button type="button" class="dropdown-sticky-category dropdown-toggle btn btn-primary" style={{zIndex:'-1'}}> {item.name}</button>}
+                                  <AnchorLink
+                                    className="anchor-menu"
+                                    offset="40"
+                                    href={`#menu-${idx}`}
+                                  >
+                                    {item}
+                                  </AnchorLink>
+                                </Dropdown.Item>
+                              );
+                            })}
+                          </Dropdown.Menu>
+                        </Dropdown>
+                      ) : (
+                        <button
+                          type="button"
+                          className="dropdown-sticky-category dropdown-toggle btn btn-primary"
+                          style={{ zIndex: "1" }}
+                        >
+                          {" "}
+                          {item.name}
+                        </button>
+                      )}
                       <SubCategory
                         subs={item}
                         categories={idx}
@@ -272,10 +277,7 @@ const Menu = (props) => {
                   ))
                 : bar_menu.map((item, idx) => (
                     <React.Fragment key={`Category-${idx}`}>
-                      <p
-                        className="category-subs"
-                        style={{ display: "none" }}
-                      >
+                      <p className="category-subs" style={{ display: "none" }}>
                         {item.name}
                       </p>
                       <Dropdown

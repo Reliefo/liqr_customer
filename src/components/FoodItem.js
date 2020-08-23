@@ -404,6 +404,9 @@ const FoodItem = ({
               {foodItem.showCustomize ? (
                 Object.values(currentCustomization[menuType]).map(
                   (cust, custIndex) => {
+                    if (cust.list_of_options.length === 0){
+                      return null
+                    }
                     if (cust.customization_type === "options") {
                       return (
                         <div key={custIndex + "_div"}>
@@ -454,7 +457,7 @@ const FoodItem = ({
                         </div>
                       );
                     }
-                    if (cust.customization_type === "choices") {
+                    else if (cust.customization_type === "choices") {
                       return (
                         <div key={custIndex + "_div"}>
                           {cust.name}
@@ -504,7 +507,7 @@ const FoodItem = ({
                         </div>
                       );
                     }
-                    if (cust.customization_type === "add_ons") {
+                    else if (cust.customization_type === "add_ons") {
                       return (
                         <div key={custIndex + "_div"}>
                           {cust.name}

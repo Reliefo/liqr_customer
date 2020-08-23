@@ -104,7 +104,14 @@
   color: #222222;
   font-size: 0.9rem;
 }
-
+.table-cart-detail-options{
+  padding: 0 0;
+  color: #222222;
+  font-size: 0.6rem;
+  display: block;
+  line-height: 0.8rem;
+  padding-bottom: 0.3rem;
+}
 .table-cart-layout {
   /* background: transparentize($color: #ffee00, $amount: 0); */
   background-color: var(--table-cart-color);
