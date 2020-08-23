@@ -13,3 +13,10 @@
     padding: .5rem;
     padding-top: 0rem;
 }
+.payment-status {
+    text-align: center;
+    padding-top: 2rem;
+}
+.payment-status > strong {
+    font-size: larger;
+}

@@ -1,8 +1,9 @@
-import React from 'react';
-import {useStripe, useElements, CardElement} from '@stripe/react-stripe-js';
+import React from "react";
+import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import { Button } from "react-bootstrap";
+import axios from "axios";
 
-import CardSection from './StripeAcceptCard';
+import CardSection from "./StripeAcceptCard";
 
 export default function CheckoutForm(props) {
   const stripe = useStripe();
@@ -13,7 +14,7 @@ export default function CheckoutForm(props) {
     // which would refresh the page.
     event.preventDefault();
 
-    console.log(props['clientSecret']);
+    console.log(props["clientSecret"]);
     if (!stripe || !elements) {
       console.log("Not ready yet");
       // Stripe.js has not yet loaded.
@@ -21,13 +22,13 @@ export default function CheckoutForm(props) {
       return;
     }
 
-    const result = await stripe.confirmCardPayment(props['clientSecret'], {
+    const result = await stripe.confirmCardPayment(props["clientSecret"], {
       payment_method: {
         card: elements.getElement(CardElement),
         billing_details: {
-          name: 'Johnny Rose',
+          name: localStorage.getItem("name"),
         },
-      }
+      },
     });
     console.log(result);
 
@@ -36,7 +37,31 @@ export default function CheckoutForm(props) {
       console.log(result.error.message);
     } else {
       // The payment has been processed!
-      if (result.paymentIntent.status === 'succeeded') {
+      if (result.paymentIntent.status === "succeeded") {
+        props.setPaymentStatus("processing");
+
+        let bodyFormData = new FormData();
+        bodyFormData.set("table_id", localStorage.getItem("table_id"));
+        bodyFormData.set("unique_id", localStorage.getItem("unique_id"));
+        axios({
+          method: "post",
+          // headers: {
+          //   Authorization: `Bearer ${localStorage.getItem("refreshToken")}`,
+          // },
+          // url: "http://localhost:5050/secret_check",
+          url: "https://liqr.cc/secret_check",
+          data: bodyFormData,
+        }).then((response) => {
+          const { data } = response;
+          console.log(data);
+          if (data === "succeeded") {
+            props.setPaymentStatus("success");
+          } else {
+            props.setPaymentStatus("failed");
+          }
+          // localStorage.setItem("restaurant_id", data.restaurant_id);
+        });
+
         // Show a success message to your customer
         // There's a risk of the customer closing the window before callback
         // execution. Set up a webhook or plugin to listen for the
@@ -49,7 +74,13 @@ export default function CheckoutForm(props) {
   return (
     <form onSubmit={handleSubmit}>
       <CardSection />
-      <Button type="submit" style={{marginTop:".5rem", width:"100%"}} disabled={!stripe}>Confirm and Pay</Button>
+      <Button
+        type="submit"
+        style={{ marginTop: ".5rem", width: "100%" }}
+        disabled={!stripe}
+      >
+        Confirm and Pay
+      </Button>
     </form>
   );
 }

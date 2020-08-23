@@ -12,6 +12,11 @@ import "react-toastify/dist/ReactToastify.css";
 import CheckoutForm from "./StripeCheckoutForm";
 import "./PaymentOptions.css";
 import axios from "axios";
+import { Checkmark } from "react-checkmark";
+import Lottie from "react-lottie";
+import paymentSuccessData from "assets/success-animation.json";
+import paymentFailedData from "assets/failed-animation.json";
+import paymentProcessingData from "assets/processing-animation.json";
 
 import * as TYPES from "Store/actionTypes.js";
 
@@ -20,7 +25,9 @@ const PaymentOptions = (props) => {
   const rest_font = "Inconsolata";
 
   const SVGLogoClass = "SVG-Logo-Class";
-  const  [ clientSecret, setClientSecret ] = React.useState("");
+  const [clientSecret, setClientSecret] = React.useState("");
+  const [totalAmount, setTotalAmount] = React.useState("");
+  const [paymentStatus, setPaymentStatus] = React.useState("");
 
   const {
     dispatch,
@@ -30,7 +37,6 @@ const PaymentOptions = (props) => {
     },
   } = React.useContext(StoreContext);
   React.useEffect(() => {
-
     let bodyFormData = new FormData();
     bodyFormData.set("table_id", localStorage.getItem("table_id"));
     bodyFormData.set("unique_id", localStorage.getItem("unique_id"));
@@ -45,8 +51,8 @@ const PaymentOptions = (props) => {
       data: bodyFormData,
     }).then((response) => {
       const { data } = response;
-      setClientSecret(data['client_secret']);
-      console.log(data);
+      setClientSecret(data["client_secret"]);
+      setTotalAmount(data["total_amount"]);
       // localStorage.setItem("restaurant_id", data.restaurant_id);
     });
 
@@ -61,25 +67,6 @@ const PaymentOptions = (props) => {
     });
     dispatch({ type: TYPES.SET_NAV, payload: "Order" });
 
-    props.socket.off("new_orders").on("new_orders", (msg) => {
-      dispatch({ type: TYPES.UPDATE_SUCCESS_ORDER, payload: JSON.parse(msg) });
-    });
-
-    const body = {
-      user_id: localStorage.getItem("user_id"),
-      restaurant_id: localStorage.getItem("restaurant_id"),
-    };
-
-    props.socket.emit("fetch_rest_customer", JSON.stringify(body));
-
-    props.socket.off("table_details").on("table_details", (msg) => {
-      const data = JSON.parse(msg);
-      dispatch({ type: TYPES.REFRESH_ORDER_CLOUD, payload: data.table_orders });
-    });
-
-    props.socket.off("order_updates").on("order_updates", (msg) => {
-      dispatch({ type: TYPES.UPDATE_ORDER_STATUS, payload: JSON.parse(msg) });
-    });
     /////THEMEING //////
     if (themeProperties["theme"] === true) {
       let cssVariables = [
@@ -140,12 +127,38 @@ const PaymentOptions = (props) => {
     sendAssistance(need);
     localStorage.removeItem("table_id");
   };
+  const paymentSuccessAnimation = {
+    loop: false,
+    autoplay: true,
+    animationData: paymentSuccessData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice"
+    }
+  };
+
+  const paymentFailedAnimation = {
+    loop: false,
+    autoplay: true,
+    animationData: paymentFailedData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice"
+    }
+  };
+
+  const paymentProcessingAnimation = {
+    loop: true,
+    autoplay: true,
+    animationData: paymentProcessingData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice"
+    }
+  };
 
   return (
     <>
       <div className="coupons-screen">
-        <div>
-          <b>Total: $25</b>
+        <div style={{ padding: "2rem 1rem 1rem 1rem" }}>
+          <b>Total Amount to be Paid: ${totalAmount}</b>
         </div>
         <Card className="cart-card cart-styling payments-card">
           <Card.Title className="payments-card-title">
@@ -160,9 +173,31 @@ const PaymentOptions = (props) => {
             <Card.Text style={{ marginBottom: "0.2rem" }}>
               Powered by Stripe
             </Card.Text>
-            <CheckoutForm clientSecret={clientSecret}/>
+            <CheckoutForm
+              clientSecret={clientSecret}
+              setPaymentStatus={setPaymentStatus}
+            />
           </Card.Body>
         </Card>
+        {paymentStatus === "success" ? (
+          <div className="payment-status">
+            <Lottie options={paymentSuccessAnimation} width="33%"/>
+            <strong>Payment Successful</strong>
+          </div>
+        ) : paymentStatus === "failed" ? (
+          <div className="payment-status">
+            <Lottie options={paymentFailedAnimation} width="33%"/>
+            <strong>Payment Failed</strong>
+          </div>
+        ) : paymentStatus === "processing" ? (
+        // ) : true ? (
+          <div className="payment-status">
+            <Lottie options={paymentProcessingAnimation} width="33%"/>
+            <strong>Processing your payment</strong>
+          </div>
+        ) : (
+          ""
+        )}
         {false && (
           <div>
             <div className="coupon-div cart-styling">
