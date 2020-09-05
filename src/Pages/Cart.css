@@ -5,6 +5,8 @@
   top: 0rem;
   padding-bottom: 4rem;
   min-height: calc(100vh - 30vw);
+  /* max-height: 100vh; */
+  overflow: auto;
 }
 
 .cart-styling {

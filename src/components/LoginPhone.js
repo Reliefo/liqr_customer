@@ -18,7 +18,7 @@ export default class Login extends Component {
     };
   }
 
-  componentDidMount() {
+  UNSAFE_componentDidMount() {
     let parm = window.location.href;
     parm = parm.split("=");
 

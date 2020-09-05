@@ -297,15 +297,15 @@ const Cart = (props) => {
             </div> */}
           </Card.Body>
           {cartItem.currentCustomization &&
-            cartItem.currentCustomization.map((cust) => {
+            cartItem.currentCustomization.map((cust, custIndex) => {
               if (cust.customization_type === "add_ons") {
                 return (
-                  <span className="detail-options">
+                  <span className="detail-options" key={"cust-table-cart-"+custIndex}>
                     {cust.checked.includes(true) ? cust.name + ":  " : ""}
                     {cust.list_of_options.map((option, optionIndex) => {
                       if (cust.checked[optionIndex]) {
                         return (
-                          <strong>
+                          <strong key={"detail-ops-" + optionIndex}>
                             {cust.list_of_options[optionIndex].name} {currency}
                             {cust.list_of_options[optionIndex].price}
                             {", "}
@@ -319,13 +319,13 @@ const Cart = (props) => {
                 );
               } else {
                 return (
-                  <span className="detail-options">
+                  <span className="detail-options" key={"cust-table-cart-"+custIndex}>
                     {cust.name + ":  "}
                     {cust.list_of_options.map((option, optionIndex) => {
                       if (cust.checked[optionIndex]) {
                         if (cust.customization_type === "options") {
                           return (
-                            <strong>
+                            <strong key={"detail-ops-" + optionIndex}>
                               {cust.list_of_options[optionIndex].option_name}{" "}
                               {currency}
                               {cust.list_of_options[optionIndex].option_price}
@@ -334,7 +334,7 @@ const Cart = (props) => {
                           );
                         } else if (cust.customization_type === "choices") {
                           return (
-                            <strong>
+                            <strong key={"detail-ops-" + optionIndex}>
                               {cust.list_of_options[optionIndex]}
                               {", "}
                             </strong>

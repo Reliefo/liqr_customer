@@ -56,6 +56,7 @@ export default function CheckoutForm(props) {
           console.log(data);
           if (data === "succeeded") {
             props.setPaymentStatus("success");
+            props.afterBilling();
           } else {
             props.setPaymentStatus("failed");
           }

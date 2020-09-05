@@ -15,7 +15,7 @@ import Login from "./components/LoginPhone";
 import SignUp from "./components/SignUp";
 import Cart from "./Pages/Cart";
 import Visits from "./Pages/Visits";
-import BillingInformation from "./Pages/BillingInformation";
+import BillingInformation from "./Pages/BillingInfo";
 import SearchItems from "./Pages/searchItems";
 import DineHistory from "./Pages/dineHistory";
 import PreviousVisits from "./Pages/PreviousVisits";

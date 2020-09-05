@@ -342,7 +342,7 @@ const FoodItem = ({
                                           "options"
                                         ) {
                                           return (
-                                            <strong>
+                                            <strong key={"old-cust-"+optionIndex}>
                                               {
                                                 cartCust.list_of_options[
                                                   optionIndex

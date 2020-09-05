@@ -5,6 +5,7 @@
   top: 0rem;
   padding-bottom: 4rem;
   min-height: calc(100vh - 30vw);
+  overflow: auto;
 }
 .order-status-styling {
   padding-bottom: 10%;
@@ -12,4 +13,12 @@
   padding-left: 5%;
   padding-right: 5%;
   margin: 0 auto;
+}
+.status-styling {
+  background: white;
+  /* background: var(--menu-background); */
+  border-radius: 6px;
+  opacity: 1;
+
+  color: #000000;
 }

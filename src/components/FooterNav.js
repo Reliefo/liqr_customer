@@ -109,6 +109,7 @@ const FooterNav = (props) => {
 
     sum += addonPrice;
     cartCount += item.quantity;
+    sum = Number((sum).toFixed(2));
   });
   const trfm = `rotate(${deg}deg)`;
   // const revtrfm = `rotate(${-deg}deg)`;

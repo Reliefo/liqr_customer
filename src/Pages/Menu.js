@@ -193,7 +193,8 @@ const Menu = (props) => {
               })}
             >
               <ul className="menu-btn">
-                {food_menu.length > 0 ? (
+                
+                {bar_menu.length > 0 && food_menu.length > 0 ? (
                   <li
                     className={
                       currentMenu === "food"
@@ -205,7 +206,7 @@ const Menu = (props) => {
                     <div className="menu-item-names">Food Menu</div>
                   </li>
                 ) : null}
-                {bar_menu.length > 0 ? (
+                { food_menu.length > 0 && bar_menu.length > 0 ? (
                   <li
                     className={
                       currentMenu === "bar"

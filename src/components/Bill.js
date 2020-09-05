@@ -40,7 +40,7 @@ const Bill = ({ orderTotal, taxes, currency }) => {
               fontWeight: 600,
             }}
           >
-            {currency} {orderTotal}
+            {currency} {Number((orderTotal).toFixed(2))}
           </p>
         </div>
         <div className="d-flex justify-content-between">
@@ -84,7 +84,7 @@ const Bill = ({ orderTotal, taxes, currency }) => {
               fontWeight: 600,
             }}
           >
-            {currency} {orderTotal + tax}
+            {currency} {Number((orderTotal + tax).toFixed(2))}
           </p>
         </div>
       </Card.Body>

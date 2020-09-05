@@ -231,8 +231,16 @@ const OTPComponent = ({ props, fromLogin, skipSignIn }) => {
                   // style={{paddingRight:"0.2rem"}}
                 >
                   <Dropdown.Item href="#" className="dropdown-items" eventKey="+1">+1</Dropdown.Item>
+                  <Dropdown.Item href="#" className="dropdown-items" eventKey="+31">+31</Dropdown.Item>
+                  <Dropdown.Item href="#" className="dropdown-items" eventKey="+32">+32</Dropdown.Item>
+                  <Dropdown.Item href="#" className="dropdown-items" eventKey="+33">+33</Dropdown.Item>
+                  <Dropdown.Item href="#" className="dropdown-items" eventKey="+34">+34</Dropdown.Item>
+                  <Dropdown.Item href="#" className="dropdown-items" eventKey="+44">+44</Dropdown.Item>
                   <Dropdown.Item href="#" className="dropdown-items" eventKey="+49">+49</Dropdown.Item>
+                  <Dropdown.Item href="#" className="dropdown-items" eventKey="+62">+62</Dropdown.Item>
                   <Dropdown.Item href="#" className="dropdown-items" eventKey="+91">+91</Dropdown.Item>
+                  <Dropdown.Item href="#" className="dropdown-items" eventKey="+351">+351</Dropdown.Item>
+                  <Dropdown.Item href="#" className="dropdown-items" eventKey="+385">+385</Dropdown.Item>
                 </DropdownButton>
                 <FormControl
                   placeholder="Phone Number"

@@ -12,7 +12,6 @@ import "react-toastify/dist/ReactToastify.css";
 import CheckoutForm from "./StripeCheckoutForm";
 import "./PaymentOptions.css";
 import axios from "axios";
-import { Checkmark } from "react-checkmark";
 import Lottie from "react-lottie";
 import paymentSuccessData from "assets/success-animation.json";
 import paymentFailedData from "assets/failed-animation.json";
@@ -153,11 +152,14 @@ const PaymentOptions = (props) => {
       preserveAspectRatio: "xMidYMid slice"
     }
   };
-
+  const afterBilling = () => {
+    localStorage.removeItem("table_id");
+    localStorage.removeItem("restaurant_id");
+  };
   return (
     <>
       <div className="coupons-screen">
-        <div style={{ padding: "2rem 1rem 1rem 1rem" }}>
+        <div style={{ padding: "2rem 1rem 0rem 1rem" }}>
           <b>Total Amount to be Paid: ${totalAmount}</b>
         </div>
         <Card className="cart-card cart-styling payments-card">
@@ -176,6 +178,7 @@ const PaymentOptions = (props) => {
             <CheckoutForm
               clientSecret={clientSecret}
               setPaymentStatus={setPaymentStatus}
+              afterBilling={afterBilling}
             />
           </Card.Body>
         </Card>

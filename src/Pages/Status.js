@@ -101,6 +101,7 @@ const Table = props => {
     });
 
     props.socket.off("order_updates").on("order_updates", msg => {
+      console.log(msg);
       dispatch({ type: TYPES.UPDATE_ORDER_STATUS, payload: JSON.parse(msg) });
     });
   }, []);
@@ -250,9 +251,6 @@ const Table = props => {
                   }
                 }}
                 type="button"
-                style={{
-                  width: "54%",
-                }}
                 text="Fetch Table Bill"
                 className="empty-orders"
               />
@@ -265,7 +263,7 @@ const Table = props => {
 
               return (
                 <div style={{ paddingBottom: "3%" }} key={"table"+idx}>
-                  <Card className="cart-card cart-styling margin-styling">
+                  <Card className="cart-card status-styling margin-styling">
                     <div key={"wtf"+idx}>
                       <div
                         style={{
@@ -278,7 +276,7 @@ const Table = props => {
                           className="table-name-card"
                           style={{ float: "left", textTransform: "capitalize" }}
                         >
-                          Table Order {idx + 1}
+                          Order No {idx + 1}
                         </p>
                         <p
                           className="table-name-card"
@@ -305,10 +303,6 @@ const Table = props => {
                             <div key={"wtf2_"+index}>
                               {flag === true ? (
                                 <Card.Title
-                                  style={{
-                                    padding: "1.25rem",
-                                    fontSize: "14px"
-                                  }}
                                   className="card-title-name"
                                 >
                                   {item2.placed_by.name}
@@ -328,7 +322,7 @@ const Table = props => {
                                     ) : item3.status === "queued" ? (
                                       <span>
                                         <UiSVG />
-                                        <span
+                                        {/* <span
                                           style={{ fontWeight: "bold" }}
                                           onClick={() =>
                                             deleteItem(item3, item, item2)
@@ -336,7 +330,7 @@ const Table = props => {
                                         >
                                           {" "}
                                           X{" "}
-                                        </span>
+                                        </span> */}
                                       </span>
                                     ) : (
                                       <FlatSVG />

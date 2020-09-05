@@ -37,7 +37,8 @@
   color: #000000;
   opacity: 1;
   /* font-family: $rest-font; */
-  font-size: large;
+  /* font-size: large; */
+  font-size: medium;
   height: 5rem;
   font-weight: bold;
 }
